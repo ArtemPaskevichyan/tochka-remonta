@@ -1,0 +1,33 @@
+@-webkit-keyframes skeletalLoading {
+  0% {
+    opacity: 20%;
+  }
+  50% {
+    opacity: 40%;
+  }
+  100% {
+    opacity: 20%;
+  }
+}@keyframes skeletalLoading {
+  0% {
+    opacity: 20%;
+  }
+  50% {
+    opacity: 40%;
+  }
+  100% {
+    opacity: 20%;
+  }
+}
+.skeleton {
+  opacity: 20%;
+  -webkit-animation: skeletalLoading 2s infinite;
+          animation: skeletalLoading 2s infinite;
+}
+.skeleton.loading {
+  background-color: black;
+  min-width: 200px;
+  max-width: 200px;
+  color: none;
+  border-radius: 4px;
+}
