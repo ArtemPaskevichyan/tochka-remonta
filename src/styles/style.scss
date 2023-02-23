@@ -1,0 +1,227 @@
+@import './stylePreferences.scss';
+
+body {
+    font-family: $default-font-family;
+    margin: 0;
+    padding: 0;
+    background-color: $background-fill;
+}
+
+.titleText {
+    font: {
+        size: 51px;
+        weight: $font-medium;
+    }
+}
+
+.largeText {
+    font: {
+        size: 32px;
+        weight: $font-medium;
+    }
+}
+
+.authorizationHolder {
+    width: 60%;
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: {
+        top: 50px;
+        left: 30px;
+        right: 30px;
+        bottom: 10px;
+    }
+
+    &__content {
+        width: 40%;
+        min-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+.registration, .login {
+    &__titleBlock {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__switchHolder {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 60px;
+    }
+
+    &__formBlock {
+        .input {
+            margin-bottom: 23px;
+        }
+        .input.lastInput {
+            margin-bottom: 8px;
+        }
+    }
+
+    &__links {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    &__buttonBlock {
+        margin-top: 48px;
+        margin-bottom: 20px;
+
+        .checkbox {
+            margin-bottom: 15px;
+        }
+    }
+
+    &__loginBlock {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 15px;
+
+        .link {
+            font-size: 15px;
+        }
+    }
+}
+
+.button {
+    border-radius: 8px;
+    height: 44px;
+    padding: 0 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: { 
+        size: 20px;
+        family: $default-font-family;
+        weight: $font-medium;
+    }
+
+    &.primary {
+        width: 100%;
+        color: $secondary-theme-color;
+        background-color: $primary-theme-background;
+    }
+
+    &:active {
+        filter: brightness(0.98);
+    }
+}
+
+.input {
+    &__title {
+        color: $primary-text-color;
+        font: {
+            size: 20px;
+            family: $default-font-family;
+            weight: $font-regular;
+        }
+    }
+
+    &__holder {
+        background: $element-background;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        margin-top: 4px;
+
+        input {
+            height: 100%;
+            width: 100%;
+            background: none;
+            border: none;    
+            color: $primary-text-color;
+            font: {
+                size: 20px;
+                family: $default-font-family;
+                weight: $font-regular;
+            }
+            padding: {
+                left: 14px;
+            }
+
+            &::placeholder {
+                color: $secondary-text-color;
+            }
+                
+            &:-ms-input-placeholder {
+                color: $secondary-text-color;
+            }
+            
+            &::-ms-input-placeholder {
+                color: $secondary-text-color;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    &__passwordShowHideButton {
+        width: 44px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+}
+
+.link {
+    color: $primary-theme-color;
+    text-decoration: underline;
+    font: {
+        size: 20px;
+        weight: $font-medium;
+    }
+
+    &.small {
+        font: {
+            size: 15px;
+        }
+    }
+}
+
+.checkbox {
+    &__title {
+        font-size: 13px !important;
+
+        .link {
+            font-size: 13px !important;
+        }
+    }
+}
+
+.switch {
+    height: 30px;
+    box-sizing: border-box;
+    padding: 2px;
+    border-radius: 8px;
+    background-color: $element-background;
+    display: inline-block;
+
+    &__option {
+        width: 140px;
+        height: 26px;
+        color: $placeholder-text-color;
+        border: none;
+        background: none;
+        border-radius: 6px;
+        font: {
+            size: 15px;
+        }
+
+        &.active {
+            background-color: $primary-theme-background;
+            color: $secondary-theme-color; 
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+        }
+    }
+}

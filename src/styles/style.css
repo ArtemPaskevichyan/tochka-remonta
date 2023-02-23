@@ -1,0 +1,220 @@
+body {
+  font-family: "Fira Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #FAFAFA;
+}
+
+.titleText {
+  font-size: 51px;
+  font-weight: 400;
+}
+
+.largeText {
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.authorizationHolder {
+  width: 60%;
+  background-color: white;
+  -webkit-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  margin: 0 auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-top: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 10px;
+}
+.authorizationHolder__content {
+  width: 40%;
+  min-width: 300px;
+  margin: 0 auto;
+}
+
+.registration__titleBlock, .login__titleBlock {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.registration__switchHolder, .login__switchHolder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+.registration__formBlock .input, .login__formBlock .input {
+  margin-bottom: 23px;
+}
+.registration__formBlock .input.lastInput, .login__formBlock .input.lastInput {
+  margin-bottom: 8px;
+}
+.registration__links, .login__links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.registration__buttonBlock, .login__buttonBlock {
+  margin-top: 48px;
+  margin-bottom: 20px;
+}
+.registration__buttonBlock .checkbox, .login__buttonBlock .checkbox {
+  margin-bottom: 15px;
+}
+.registration__loginBlock, .login__loginBlock {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  font-size: 15px;
+}
+.registration__loginBlock .link, .login__loginBlock .link {
+  font-size: 15px;
+}
+
+.button {
+  border-radius: 8px;
+  height: 44px;
+  padding: 0 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 400;
+}
+.button.primary {
+  width: 100%;
+  color: #401F00;
+  background-color: #FFE7C3;
+}
+.button:active {
+  -webkit-filter: brightness(0.98);
+          filter: brightness(0.98);
+}
+
+.input__title {
+  color: #262626;
+  font-size: 20px;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 300;
+}
+.input__holder {
+  background: #F2F2F2;
+  height: 44px;
+  border-radius: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 4px;
+}
+.input__holder input {
+  height: 100%;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #262626;
+  font-size: 20px;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 300;
+  padding-left: 14px;
+}
+.input__holder input::-webkit-input-placeholder {
+  color: #676767;
+}
+.input__holder input::-moz-placeholder {
+  color: #676767;
+}
+.input__holder input:-ms-input-placeholder {
+  color: #676767;
+}
+.input__holder input::-ms-input-placeholder {
+  color: #676767;
+}
+.input__holder input::placeholder {
+  color: #676767;
+}
+.input__holder input:-ms-input-placeholder {
+  color: #676767;
+}
+.input__holder input::-ms-input-placeholder {
+  color: #676767;
+}
+.input__holder input:focus {
+  outline: none;
+}
+.input__passwordShowHideButton {
+  width: 44px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.link {
+  color: #CC8C52;
+  text-decoration: underline;
+  font-size: 20px;
+  font-weight: 400;
+}
+.link.small {
+  font-size: 15px;
+}
+
+.checkbox__title {
+  font-size: 13px !important;
+}
+.checkbox__title .link {
+  font-size: 13px !important;
+}
+
+.switch {
+  height: 30px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 2px;
+  border-radius: 8px;
+  background-color: #F2F2F2;
+  display: inline-block;
+}
+.switch__option {
+  width: 140px;
+  height: 26px;
+  color: #808080;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  font-size: 15px;
+}
+.switch__option.active {
+  background-color: #FFE7C3;
+  color: #401F00;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+}
