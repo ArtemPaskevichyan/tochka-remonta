@@ -20,7 +20,49 @@
   }
 }
 .skeleton {
+  color: none;
   opacity: 20%;
   -webkit-animation: skeletalLoading 2s infinite;
           animation: skeletalLoading 2s infinite;
+  border-radius: 4px;
+}
+
+.skeleton.header__location {
+  background-color: #401F00;
+  min-width: 80px;
+}
+.skeleton.header__profileLabel {
+  background-color: #401F00;
+  min-width: 80px;
+}
+.skeleton.header__dropdownTitle {
+  background-color: #262626;
+  min-width: 200px;
+}
+.skeleton.header__dropdownRole {
+  background-color: #C5C5C5;
+  min-width: 100px;
+}
+
+.skeleton.infoCard__image {
+  background-color: #808080;
+}
+
+.settingsPage .skeleton.baseText__value {
+  color: none;
+  display: inline-block;
+  background-color: #676767;
+  min-width: 100px;
+  margin-top: 1px;
+}
+
+.skeleton.settingsPage__number {
+  color: transparent !important;
+  background-color: #676767;
+  min-width: 200px;
+}
+
+.skeleton.settingsPage__nameHolder .input__holder {
+  color: none;
+  background-color: #808080;
 }

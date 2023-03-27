@@ -1,6 +1,6 @@
 <template>
 <div class="input">
-    <div class="input__title">
+    <div class="input__title" :class="{small: style == 'small'}">
         {{ title }}
     </div>
     <div class="input__holder">
@@ -31,6 +31,10 @@ export default {
             default: "text"
         },
         placeholder: String,
+        style: {
+            type: String,
+            default: "text"
+        }
     },
     methods: {
         showHidePassword() {

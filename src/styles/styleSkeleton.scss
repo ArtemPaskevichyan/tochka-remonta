@@ -1,3 +1,5 @@
+@import './stylePreferences.scss';
+
 @keyframes skeletalLoading {
     0% {opacity: 20%;}
     50% {opacity: 40%;}
@@ -5,8 +7,60 @@
 }
 
 .skeleton {
+    color: none;
     opacity: 20%;
     animation: skeletalLoading 2s infinite;
+    border-radius: 4px;
+}
 
-    
+.skeleton.header {
+    &__location {
+        background-color: $secondary-theme-color;
+        min-width: 80px;
+    }
+
+    &__profileLabel {
+        background-color: $secondary-theme-color;
+        min-width: 80px;
+    }
+
+    &__dropdown {
+        &Title {
+            background-color: $primary-text-color;
+            min-width: 200px;
+        }
+
+        &Role {
+            background-color: $light-text-color;
+            min-width: 100px;
+        }
+    }
+}
+
+.skeleton.infoCard {
+    &__image {
+        background-color: $placeholder-text-color;
+    }
+}
+
+.settingsPage {
+    .skeleton.baseText__value {
+        color: none;
+        display: inline-block;
+        background-color: $secondary-text-color;
+        min-width: 100px;
+        margin-top: 1px;
+    }
+}
+.skeleton.settingsPage__number {
+    color: transparent !important;
+    background-color: $secondary-text-color;
+    min-width: 200px;
+}
+
+.skeleton.settingsPage__nameHolder {
+    .input__holder {
+        color: none;
+        background-color: $placeholder-text-color;
+    }
 }

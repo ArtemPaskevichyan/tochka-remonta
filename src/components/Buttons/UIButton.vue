@@ -1,5 +1,5 @@
 <template>
-    <button class="button" :class="style" ><slot></slot></button>
+    <button class="button" :class="style"><slot></slot></button>
 </template>
 
 <script>
@@ -11,7 +11,7 @@
             style: {
                 type: String,
                 required: false,
-                dafault: "default",
+                default: "default",
             }
         },
     }

@@ -1,0 +1,94 @@
+import axios from "axios"
+import {serverURL} from "@/preferenses.js"
+import { TokenHandler } from "./TokenHandler"
+import { createError, ERROR_CODES } from "@/helpers/ErrorMaker.js"
+
+
+class UserDataController {
+    static shared = new UserDataController()
+    static sessionStorageKey = "userData"
+    
+    async getData() {
+        if (this.dataExists) { return JSON.parse(sessionStorage.getItem(UserDataController.sessionStorageKey)) }
+
+        var token = await TokenHandler.shared.getToken()
+
+        const url = `${serverURL}/api/v1/auth/user_data`
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        var response = await axios.get(url, config)
+        console.log("RESP_USER_DATA", response)
+        var user = response?.data?.user
+        var profileFullness = response?.data?.profile_fullness
+        user.profileFullness = profileFullness ? profileFullness : 0
+
+        if (user) {
+            sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
+        } else {
+            throw createError("Server data error", ERROR_CODES.serverDataFail)
+        }
+
+        const uuid = user.uuid
+        const pUrl = `${serverURL}/api/v1/projects/get_project_count?user_uuid=${uuid}` 
+        await axios.get(pUrl)
+            .then((response) => {
+                user.projectsCount = response?.data?.p_count
+                sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+                throw createError("Server data error", ERROR_CODES.serverDataFail)
+            })
+        
+        // Notification parsing
+        
+        return user
+    }
+
+    get dataExists() {
+        return Boolean(sessionStorage.getItem(UserDataController.sessionStorageKey))
+    }
+
+    getUserParameter(parameter) {
+        var userData = sessionStorage.getItem(UserDataController.sessionStorageKey)
+        if (userData) {
+            try {
+                userData = JSON.parse(userData)
+                return userData[parameter]
+            } catch(e) {
+                return undefined
+            }
+        } else {
+            return undefined
+        }
+    }
+
+    async updateData() {
+        this.clearData()
+        await this.getData()
+    }
+
+    clearData() {
+        sessionStorage.removeItem(UserDataController.sessionStorageKey)
+    }
+    
+    exit() {
+        var submition = confirm('Вы точно хотите выйти из аккаунта?')
+        if (!submition) { return }
+
+        TokenHandler.shared.clearData()
+        this.clearData()
+
+        window.location.href = "/login"
+    }
+
+    constructor() {
+
+    }
+}
+
+export {UserDataController}
