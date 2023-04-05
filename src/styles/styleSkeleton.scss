@@ -7,7 +7,7 @@
 }
 
 .skeleton {
-    color: none;
+    color: transparent;
     opacity: 20%;
     animation: skeletalLoading 2s infinite;
     border-radius: 4px;
@@ -63,4 +63,40 @@
         color: none;
         background-color: $placeholder-text-color;
     }
+}
+
+.skeleton.settingsPage__socialItem {
+    .settingsPage__socialInfo {
+        background-color: $placeholder-text-color;
+        border-radius: 4px;
+
+        span {
+            color: transparent !important;
+        }
+    }
+    
+    .settingsPage__socialControls {
+        background-color: $placeholder-text-color;
+        border-radius: 4px;
+
+        .button {
+            opacity: 0 !important;
+        }
+    }
+}
+
+.skeleton.pageTitle {
+    background-color: $primary-text-color;
+}
+
+.skeleton.projectSearchingPage__parameterValue {
+    background-color: $placeholder-text-color;
+}
+
+.skeleton.projectSearchingPage__description {
+    background-color: $placeholder-text-color;
+}
+
+.skeleton.link {
+    background-color: $primary-theme-color;
 }

@@ -20,7 +20,7 @@
   }
 }
 .skeleton {
-  color: none;
+  color: transparent;
   opacity: 20%;
   -webkit-animation: skeletalLoading 2s infinite;
           animation: skeletalLoading 2s infinite;
@@ -65,4 +65,35 @@
 .skeleton.settingsPage__nameHolder .input__holder {
   color: none;
   background-color: #808080;
+}
+
+.skeleton.settingsPage__socialItem .settingsPage__socialInfo {
+  background-color: #808080;
+  border-radius: 4px;
+}
+.skeleton.settingsPage__socialItem .settingsPage__socialInfo span {
+  color: transparent !important;
+}
+.skeleton.settingsPage__socialItem .settingsPage__socialControls {
+  background-color: #808080;
+  border-radius: 4px;
+}
+.skeleton.settingsPage__socialItem .settingsPage__socialControls .button {
+  opacity: 0 !important;
+}
+
+.skeleton.pageTitle {
+  background-color: #262626;
+}
+
+.skeleton.projectSearchingPage__parameterValue {
+  background-color: #808080;
+}
+
+.skeleton.projectSearchingPage__description {
+  background-color: #808080;
+}
+
+.skeleton.link {
+  background-color: #CC8C52;
 }

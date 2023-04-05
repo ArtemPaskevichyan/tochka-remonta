@@ -8,8 +8,8 @@
                 <img :src="baseSrc" alt="">
             </div>
             <div class="galery__images">
-                <!-- <GaleryImage :src="srcBase+imgName" :key="index" v-for="(imgName, index) in imageNames"/> -->
-                <GaleryImage :src="'/src/assets/images/JVS_0526 2.jpg'" :key="index" v-for="(imgName, index) in imageNames"/>
+                <GaleryImage :src="imgName ? srcBase+imgName : ''" :key="index" v-for="(imgName, index) in imageNames" @click="chose(index)"/>
+                <!-- <GaleryImage :src="'/src/assets/images/JVS_0526 2.jpg'" :key="index" v-for="(imgName, index) in imageNames"/> -->
             </div>
         </div>
     </div>
@@ -26,20 +26,24 @@ export default {
     data() {
         return {
             srcBase: serverURL + '/api/v1/projects/get_event_photo?filename=',
-            baseSrc: '',
             pickedImage: 0,
         }
     },
     computed: {
         baseSrc: function() {
             try {
-                // return this.srcBase+this.imageNames[this.pickedImage]
+                return this.srcBase+this.imageNames[this.pickedImage]
                 throw new Error()
             } catch(e) {
                 return "/src/assets/images/JVS_0526 2.jpg"
             }
                 
         }
+    },
+    methods: {
+        chose(index) {
+            this.pickedImage = index
+        },
     },
     props: {
         orientation: {
@@ -49,7 +53,8 @@ export default {
         imageNames: {
             type: Array,
             required: false,
-            default: ["/src/assets/images/JVS_0526 2.jpg"]
+            default: [undefined, undefined, undefined,
+                      undefined, undefined, undefined]
         },
         title: String,
         titleSize: {

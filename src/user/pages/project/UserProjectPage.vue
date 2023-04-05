@@ -38,8 +38,8 @@ export default {
         async getProjectData() {
             try {
                 this.isLoading = true
-                // this.project = await this.viewModel.getProjectId(this.projectId)
-                // this.eventList = await this.viewModel.getEventList(this.projectId)
+                this.project = await this.viewModel.getProjectId(this.projectId)
+                this.eventList = await this.viewModel.getEventList(this.projectId)
             } catch(e) {
                 console.log("ERROR", e)
                 alert(e)

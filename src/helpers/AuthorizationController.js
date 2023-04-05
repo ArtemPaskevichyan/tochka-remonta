@@ -102,10 +102,12 @@ class AuthorizationController {
                     TokenHandler.shared.refreshToken = responseData.tokens.refresh_token
                     TokenHandler.shared.token = responseData.tokens.token
                 } catch(e) {
+                    console.log(e)
                     throw createError(e, ERROR_CODES.serverDataFail)
                 }
             })
             .catch((error) => {
+                console.log(error)
                 throw error
             })
     }
@@ -122,6 +124,7 @@ class AuthorizationController {
                 console.log(response)
             })
             .catch((error) => {
+                console.log(error)
                 var msg = error.response?.data["msg"]
                 throw msg ? createError() : error 
             })

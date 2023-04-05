@@ -4,7 +4,7 @@
         {{ title }}
     </div>
     <div class="input__holder">
-        <input :type="inputType" v-model="innerValue" :placeholder="placeholder">
+        <input :type="inputType" v-model="innerValue" :placeholder="placeholder" :id="idOfInput">
         <button v-if="role == 'password'" class="input__passwordShowHideButton" @click="showHidePassword">
             Show
         </button>
@@ -22,6 +22,10 @@ export default {
     },
     props: {
         title: String,
+        idOfInput: {
+            type: String,
+            default: ""
+        },
         value: {
             type: String,
             required: true,

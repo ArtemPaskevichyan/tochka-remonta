@@ -21,7 +21,7 @@
                     <UIInput :placeholder="'Город'" :title="'Город'" v-model:value="city" :class="{error: cityError}"></UIInput>
                 </div>
                 <div class="createProject__item">
-                    <UIInput :placeholder="'Адрес объекта'" :title="'Область, город, улица, дом'" v-model:value="adress" :class="{error: adressError}"></UIInput>
+                    <UIInput class="adressHolder" :placeholder="'Адрес объекта'" :title="'Область, город, улица, дом'" v-model:value="adress" :class="{error: adressError}" :idOfInput="adressId"></UIInput>
                 </div>
                 <div class="createProject__item">
                     <UISelect :title="'Когда хотите начать'" v-model:value="typeOfStart" :selectArray="typesOfStart" :class="{error: typeOfStartError}"></UISelect>
@@ -71,6 +71,7 @@ import UIButton from '@/components/Buttons/UIButton.vue';
 
 import UIHeader from '@/components/Header/UIHeader.vue'
 import UILoadingWall from '@/components/UILoadingWall.vue'
+import { AdressHelper } from '@/helpers/AdressHelper';
 import {ProjectListController} from "@/helpers/projectListController.js"
 
 
@@ -86,6 +87,7 @@ export default {
             city: "",
             title: "",
             adress: "",
+            adressId: "user_createProject_Adress",
             typeOfHouse: 0,
             square: '',
             typeOfNew: 0,
@@ -97,7 +99,6 @@ export default {
             designProject: undefined,
             imageList: [],
             description: '',
-
             typesOfNew: [
                 {id: 0, label: "Вторичка"},
                 {id: 1, label: "Новостройка"}
@@ -246,7 +247,10 @@ export default {
         descriptionError() {
             this.descriptionError = false
         }
-    }
+    },
+    mounted() {
+        AdressHelper.shared.addToYMAP(this.adressId)
+    },
 }
 </script>
 

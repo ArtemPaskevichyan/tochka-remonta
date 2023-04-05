@@ -8,7 +8,7 @@
                     <UIImageLoader :class="{skeleton: isLoading}" v-model:imageSrc="imageSrc"/>
                 </div>
                 <UIButton :style="'default'" class="settingsPage__imageButton" @click="clearAvatar" v-if="imageSrc">Очистить</UIButton>
-                <UIButton :style="'default'" class="settingsPage__imageButton" v-if="imageNew">Сохранить</UIButton>
+                <UIButton :style="'default'" class="settingsPage__imageButton" @click="setAvatar" v-if="imageNew">Сохранить</UIButton>
             </div>
             <div class="settingsPage__infoSide">
                 <div class="settingsPage__nameHolder" :class="{skeleton: isLoading}">
@@ -40,6 +40,7 @@ import UIButton from '@/components/Buttons/UIButton.vue';
 import UIInput from '@/components/FormComponents/UIInput.vue';
 import UIImageLoader from '@/components/FormComponents/ImageLoaders/UIImageLoader.vue'
 
+import {SettingsPageController} from '@/user/pages/settingsPage/helpers/settingsPageController.js'
 import {UserDataController} from '@/helpers/UserDataController.js'
 
 export default {
@@ -60,6 +61,7 @@ export default {
             email: "n",
             isLoading: false,
             buttonStyle: 'disabled',
+            viewModel: new SettingsPageController(),
         }
     },
     methods: {
@@ -84,7 +86,19 @@ export default {
             this.isLoading = false
         },
         clearAvatar() {
-            this.imageSrc = undefined
+            try {
+                this.imageSrc = undefined
+                this.viewModel.clearAvatar()
+            } catch(e) {
+                //
+            }
+        },
+        setAvatar() {
+            try {
+                this.viewModel.setAvatar(this.imageSrc)
+            } catch(e) {
+                //
+            }
         }
     },
     watch: {

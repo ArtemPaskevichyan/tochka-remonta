@@ -1,7 +1,7 @@
 <template>
     <div class="infoCard">
         <div class="infoCard__image" :class="{skeleton: !imageSrc}">
-            <img v-if="imageSrc" :src="imageSrc" alt="">
+            <img v-if="imageSrc" :src="imageSrc" alt="" loading="lazy">
         </div>
         <div class="infoCard__container">
             <div class="infoCard__title largeText">

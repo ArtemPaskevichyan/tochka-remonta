@@ -44,12 +44,14 @@ export default {
             const files = event?.dataTransfer?.files
             const file = files[0]
             this.$emit('update:imageSrc', window.URL.createObjectURL(file))
+            this.$emit('fileLoaded', file)
             this.isBeingDraggedOver = true
         },
         inputImagePick(event) {
             const files = event?.target?.files
             const file = files[0]
             this.$emit('update:imageSrc', window.URL.createObjectURL(file))
+            this.$emit('fileLoaded', file)
         }
     },
 }
