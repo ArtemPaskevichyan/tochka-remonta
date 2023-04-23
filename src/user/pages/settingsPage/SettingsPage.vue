@@ -5,15 +5,15 @@
         <div class="backgroundCard settingsPage">
             <div class="settingsPage__imageSide">
                 <div class="settingsPage__imageHolder">
-                    <UIImageLoader :class="{skeleton: isLoading}" v-model:imageSrc="imageSrc"/>
+                    <UIImageLoader :class="{skeleton: isLoading}" v-model:imageSrc="imageSrc" @fileLoaded="setAvatar"/>
                 </div>
-                <UIButton :style="'default'" class="settingsPage__imageButton" @click="clearAvatar" v-if="imageSrc">Очистить</UIButton>
-                <UIButton :style="'default'" class="settingsPage__imageButton" @click="setAvatar" v-if="imageNew">Сохранить</UIButton>
+                <!-- <UIButton :style="'default'" class="settingsPage__imageButton" @click="clearAvatar" v-if="imageSrc">Очистить</UIButton>
+                <UIButton :style="'default'" class="settingsPage__imageButton" @click="setAvatar" v-if="imageNew">Сохранить</UIButton> -->
             </div>
             <div class="settingsPage__infoSide">
                 <div class="settingsPage__nameHolder" :class="{skeleton: isLoading}">
                     <UIInput :title="'Ваше имя'" :placeholder="'Имя'" v-model:value="name"/>
-                    <UIButton :style="buttonStyle">Сохранить</UIButton>
+                    <UIButton :style="buttonStyle" @click="setName">Сохранить</UIButton>
                 </div>
                 <div class="settingsPage__stats baseText">
                     UUID пользователя: <span class="baseText__value" :class="{skeleton: isLoading}">{{uuid}}</span><br/>
@@ -32,6 +32,7 @@
         </div>
         <UIButton :style="'destructive'" @click="exit()">Выйти</UIButton>
     </div>
+    <UILoadingWall v-if="totalLoading"/>
 </template>
 
 <script>
@@ -39,13 +40,14 @@ import UIHeader from '@/components/Header/UIHeader.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIInput from '@/components/FormComponents/UIInput.vue';
 import UIImageLoader from '@/components/FormComponents/ImageLoaders/UIImageLoader.vue'
+import UILoadingWall from '@/components/UILoadingWall.vue';
 
 import {SettingsPageController} from '@/user/pages/settingsPage/helpers/settingsPageController.js'
 import {UserDataController} from '@/helpers/UserDataController.js'
 
 export default {
     components: {
-        UIHeader, UIButton, UIInput, UIImageLoader
+        UIHeader, UIButton, UIInput, UIImageLoader, UILoadingWall,
     },
     data() {
         return {
@@ -62,6 +64,7 @@ export default {
             isLoading: false,
             buttonStyle: 'disabled',
             viewModel: new SettingsPageController(),
+            totalLoading: false,
         }
     },
     methods: {
@@ -70,9 +73,10 @@ export default {
         },
         async fetchData() {
             this.isLoading = true
-            var data = await UserDataController.shared.getData()
+            this.getAvatar()
 
-            this.name = data?.name
+            var data = await UserDataController.shared.getData()
+            this.name = data?.firstname
             this.uuid = data?.uuid
             this.role = data?.role == "customer" ? "Заказчик" : "Исполнитель"
             this.projectsCount = data?.projectsCount
@@ -85,6 +89,7 @@ export default {
 
             this.isLoading = false
         },
+
         clearAvatar() {
             try {
                 this.imageSrc = undefined
@@ -93,26 +98,50 @@ export default {
                 //
             }
         },
-        setAvatar() {
+
+        async setAvatar(file) {
             try {
-                this.viewModel.setAvatar(this.imageSrc)
+                this.totalLoading = true
+                await this.viewModel.setAvatar(file)
+                UserDataController.shared.updateData()
             } catch(e) {
                 //
+            } finally {
+                this.totalLoading = false
             }
-        }
+        },
+
+        async getAvatar() {
+            try {
+                this.imageSrc = await this.viewModel.getAvatarURL()
+            } catch(e) {
+                this.imageSrc = undefined
+            }
+        },
+
+        async setName() {
+            try {
+                await this.viewModel.setName(this.name)
+                UserDataController.shared.updateData()
+            
+                this.buttonStyle = 'disabled'
+            } catch(e) {
+                console.log(e)
+                //
+            }
+        },
     },
     watch: {
         name: function() {
-            if (this.name || this.name?.length > 0) {
-                this.buttonStyle = 'default'
-            } else {
-                this.buttonStyle = 'disabled'
-            }
-            
+            this.buttonStyle = 'default'     
         }
     },
     mounted() {
         this.fetchData()
+            .then(() => {
+                this.buttonStyle = 'disabled'
+            })
+        
     }
 }
 </script>

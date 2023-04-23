@@ -6,9 +6,10 @@
                 <UILoadingSpinner v-if="isLoading"></UILoadingSpinner>
             </div>
 
-            <div class="myProjectsPage__block" v-if="completedList.length > 0 && !isLoading">
+            <div class="myProjectsPage__block" v-if="activeList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Активные проекты</div>
-                <SearchingProjectCard v-for="proj in dataArray" :title="proj.title" :key="proj.id" :status="'Поиск исполнителя'" :responses="0"></SearchingProjectCard>
+                <ActiveProjectCard v-for="proj in activeList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'" :imageName="proj.main_picture"
+                :progress="0" @action="$router.push('/user/project/' + String(proj.id))"/>
 
                 <div class="myProjectsPage__blockFooter">
                     <UIButton :style="'primary'" @click="$router.push('/user/createProject')">Создать проект XD</UIButton>
@@ -17,7 +18,8 @@
 
             <div class="myProjectsPage__block" v-if="searchList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Поиск исполнителя</div>
-                <SearchingProjectCard v-for="proj in dataArray" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'" :responses="0" :imageName="proj.main_picture"></SearchingProjectCard>
+                <SearchingProjectCard v-for="proj in searchList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'" :responses="0"
+                :imageName="proj.main_picture" @action="$router.push('/user/project/' + String(proj.id))"/>
 
                 <div class="myProjectsPage__blockFooter">
                     <UIButton @click="$router.push('/user/search')" :style="'primary'">Искать исполнителя</UIButton>
@@ -25,10 +27,10 @@
                 </div>
             </div>
 
-            <div class="myProjectsPage__block" v-if="activeList.length > 0 && !isLoading">
+            <div class="myProjectsPage__block" v-if="completedList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Завершенные проекты</div>
-
-                <SearchingProjectCard></SearchingProjectCard>
+                <ArchiveProjectCard v-for="proj in completedList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'"
+                :imageName="proj.main_picture" :description="proj.description" @action="$router.push('/user/project/' + String(proj.id))"/>
             </div>
 
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
@@ -48,10 +50,13 @@ import UIButton from '@/components/Buttons/UIButton.vue';
 import UILink from '@/components/FormComponents/UILink.vue';
 
 import SearchingProjectCard from  '@/components/ProjectCards/SearchingProjectCard.vue'
+import ActiveProjectCard from '@/components/ProjectCards/ActiveProjectCard.vue';
+import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue';
 
 export default {
     components: {
-        UIHeader, UIInformationCard, UILoadingSpinner, SearchingProjectCard, UIButton, UILink,
+        UIHeader, UIInformationCard, UILoadingSpinner, UIButton, UILink,
+        SearchingProjectCard, ActiveProjectCard, ArchiveProjectCard,
     },
     data() {
         return {

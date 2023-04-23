@@ -12,9 +12,9 @@
             Мои проекты<span v-if="countOfProjects > 0" style="margin-left: 0.3em;">({{countOfProjects}})</span>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/search')">
-            Поиск исполнителей
+            {{searchText}}
         </button>
-        <button class="header__dropdownMenuItem">
+        <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
             Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="countOfNotifications" v-if="countOfNotifications > 0"></UINotificationCounter>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/settingsPage')">
@@ -38,7 +38,11 @@
                     Профиль
                 </span>
             </UINotificationIndicatorHolder>
-            <UIProfileProgress></UIProfileProgress>
+            <div class="header__profileAvatar">
+                <img :src="avatarSrc" alt="">
+            </div>
+            <!-- <UIProfileProgress>
+            </UIProfileProgress> -->
         </div>
     </div>
 </template>
@@ -49,6 +53,7 @@ import UIProfileProgress from './UIProfileProgress.vue'
 import UINotificationCounter from "../NotificationIndicator/UINotificationCounter.vue"
 import UIProgressBar from "../UIProgressBar.vue"
 import {UserDataController} from "../../helpers/UserDataController.js"
+import { serverURL } from "@/preferenses"
 
 export default {
     components: {
@@ -65,6 +70,19 @@ export default {
             isDataLoaded: false,
             notificationCount: 0,
             profileFillProgress: 0,
+            avatarSrc: "",
+            baseAvatarSrc: serverURL + "/api/v1/auth/get_avatar?filename="
+        }
+    },
+    computed: {
+        searchText: function() {
+            if (this.role == "Не определена") {
+                return "Поиск"
+            } else if (this.role == "Исполнитель") {
+                return "Поиск проектов"
+            } else if (this.role == "Заказчик") {
+                return "Поиск исполнителей"
+            }
         }
     },
     methods: {
@@ -84,6 +102,7 @@ export default {
             } else if (data.role == "contractor") {
                 this.role = "Исполнитель"
             }
+            this.avatarSrc = this.baseAvatarSrc + data.avatar
             this.isDataLoaded = true
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness

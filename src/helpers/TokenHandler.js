@@ -17,7 +17,6 @@ class TokenHandler {
         var refreshToken = CookieHandler.shared.getCookie(TokenHandler.refreshTokenCookieKey)
         console.log("Refresh token", refreshToken)
         if (!refreshToken) {
-            alert("a")
             this.resetTokens()
             return
         }
@@ -31,9 +30,6 @@ class TokenHandler {
         var token = CookieHandler.shared.getCookie(TokenHandler.tokenCookieKey)
         if (!token) {
             await TokenHandler.shared.updateToken()
-            // if (token) {
-            //     await this.updateToken()
-            // }
             return
         }
     }

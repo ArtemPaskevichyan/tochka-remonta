@@ -16,8 +16,10 @@ const ERROR_CODES = {
     CPVStartDateFailed: 445,
     CPVTitleFailed: 446,
     CPVImageListFailed: 447,
+    CPVRTextFailed: 448,
+    CPVRRatingFailed: 449,
 
-    PSVNumberFailed: 448,
+    PSVNumberFailed: 450,
 
     jsonParsingFailed: 540,
     privacyPolicyError: 541,

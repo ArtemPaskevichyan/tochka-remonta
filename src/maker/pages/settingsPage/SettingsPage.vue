@@ -32,7 +32,7 @@
                         UUID пользователя: <span class="baseText__value" :class="{skeleton: isLoading}">{{uuid}}</span><br/>
                         Email: <span class="baseText__value" :class="{skeleton: isLoading}">{{email}}</span><br/>
                         Роль: <span class="baseText__value" :class="{skeleton: isLoading}">{{role}}</span><br/>
-                        На платформе: <span class="baseText__value" :class="{skeleton: isLoading}">{{time}}</span><br/>
+                        Дней на платформе: <span class="baseText__value" :class="{skeleton: isLoading}">{{time}}</span><br/>
                         Количество проектов (за все время): <span class="baseText__value" :class="{skeleton: isLoading}">{{projectsCount}}</span><br/>
                     </div>
                     <div class="settingsPage__numberBlock" :class="{needsToApprove: !isNumberApproved}">
@@ -60,6 +60,12 @@
                     <div class="settingsPage__socialCaption" v-if="socialsList.length == 0">Вы пока не добавили ни одного канала связи с вами</div>
                     <UIButton @click="isAddSocialModalOpened = true" class="settingsPage__socialButton" :style="'primary'">Добавить +</UIButton>
                 </div>
+            </div>
+
+            <div class="settingsPage__title">Описание</div>
+            <div class="settingsPage__block settingsPage__descriptionBlock">
+                <UITextInput :placeholder="'Расскажите о компани...'" v-model:value="description"/>
+                <UIButton :style="descriptionButtonStyle" @click="setDescription">Сохранить</UIButton>
             </div>
 
             <div class="settingsPage__title">Достижения</div>
@@ -91,6 +97,7 @@ import UIInput from '@/components/FormComponents/UIInput.vue';
 import UIImageLoader from '@/components/FormComponents/ImageLoaders/UIImageLoader.vue'
 import UIModal from '@/components/UIModal.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
+import UITextInput from '@/components/FormComponents/UITextInput.vue';
 
 import { AdressHelper } from '@/helpers/AdressHelper.js'
 import {UserDataController} from '@/helpers/UserDataController.js'
@@ -99,7 +106,7 @@ import {SettingsPageController} from '@/maker/pages/settingsPage/helpers/setting
 
 export default {
     components: {
-        UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall,
+        UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall, UITextInput,
     },
 
     data() {
@@ -110,6 +117,8 @@ export default {
             uuid: "n",
             role: "n",
             time: "n",
+            description: '',
+            descriptionButtonStyle: 'disabled',
             projectsCount: 0,
             isNumberApproved: false,
             number: "n",
@@ -144,6 +153,7 @@ export default {
 
             var data = await UserDataController.shared.getData()
             this.name = data?.firstname
+            this.description = data?.description
             this.uuid = data?.uuid
             this.role = data?.role == "customer" ? "Заказчик" : "Исполнитель"
             this.projectsCount = data?.projectsCount
@@ -222,6 +232,7 @@ export default {
             try {
                 this.totalLoading = true
                 await this.viewModel.setAvatar(file)
+                UserDataController.shared.updateData()
             } catch(e) {
                 //
             } finally {
@@ -244,6 +255,19 @@ export default {
             
                 this.buttonStyle = 'disabled'
             } catch(e) {
+                console.log(e)
+                //
+            }
+        },
+
+        async setDescription() {
+            try {
+                await this.viewModel.setDescription(this.description)
+                UserDataController.shared.updateData()
+
+                this.descriptionButtonStyle = 'disabled'
+            } catch(e) {
+                console.log(e)
                 //
             }
         },
@@ -265,6 +289,8 @@ export default {
         this.fetchData()
             .then(() => {
                 this.buttonStyle = 'disabled'
+                this.descriptionButtonStyle = 'disabled'
+                this.adressButtonStyle = 'disabled'
             })
         this.getSocials()
         AdressHelper.shared.addToYMAP(this.adressId)
@@ -275,6 +301,9 @@ export default {
         },
         adress: function() {
             this.adressButtonStyle = 'default'
+        },
+        description: function() {
+            this.descriptionButtonStyle = 'default'
         },
     }
 }

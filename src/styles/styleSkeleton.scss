@@ -41,6 +41,14 @@
     &__image {
         background-color: $placeholder-text-color;
     }
+
+    &__title {
+        background-color: $primary-text-color;
+    }
+
+    &__body {
+        background-color: $placeholder-text-color;
+    }
 }
 
 .settingsPage {
@@ -100,3 +108,72 @@
 .skeleton.link {
     background-color: $primary-theme-color;
 }
+
+.skeleton.makerProfileCard {
+    &__projectsCount {
+        background-color: $primary-text-color;
+    }
+
+    &__projectDescription {
+        background-color: $secondary-text-color;
+    }
+
+    &__title {
+        background-color: $primary-text-color;
+    }
+
+    &__text {
+        background-color: $secondary-text-color;
+    }
+}
+
+.skeleton.notification {
+    &__title {
+        background-color: $primary-text-color;
+    }
+
+    &__body {
+        background-color: $secondary-text-color;
+    }
+}
+
+.skeleton.makerPage {
+    &__achivement {
+        border-radius: 50%;
+        background: $light-text-color;
+    }
+
+    &__makerLogoHolder {
+        border-radius: 50%;
+        background-color: $light-text-color;
+    }
+
+    &__makerTitle {
+        background-color: $primary-text-color;
+    }
+
+    &__description {
+        background-color: $secondary-text-color;
+    }
+
+    &__contact {
+        background-color: $secondary-text-color;
+    }
+}
+
+.skeleton.review {
+    &__avatar {
+        border-radius: 50%;
+        background-color: $light-text-color;
+    }
+
+    &__username {
+        background-color: $primary-text-color;
+    }
+
+    &__body {
+        background-color: $secondary-text-color;
+    }
+}
+
+

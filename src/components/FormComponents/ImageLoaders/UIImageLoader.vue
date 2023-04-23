@@ -45,7 +45,7 @@ export default {
             const file = files[0]
             this.$emit('update:imageSrc', window.URL.createObjectURL(file))
             this.$emit('fileLoaded', file)
-            this.isBeingDraggedOver = true
+            this.isBeingDraggedOver = false
         },
         inputImagePick(event) {
             const files = event?.target?.files

@@ -47,6 +47,12 @@
 .skeleton.infoCard__image {
   background-color: #808080;
 }
+.skeleton.infoCard__title {
+  background-color: #262626;
+}
+.skeleton.infoCard__body {
+  background-color: #808080;
+}
 
 .settingsPage .skeleton.baseText__value {
   color: none;
@@ -96,4 +102,53 @@
 
 .skeleton.link {
   background-color: #CC8C52;
+}
+
+.skeleton.makerProfileCard__projectsCount {
+  background-color: #262626;
+}
+.skeleton.makerProfileCard__projectDescription {
+  background-color: #676767;
+}
+.skeleton.makerProfileCard__title {
+  background-color: #262626;
+}
+.skeleton.makerProfileCard__text {
+  background-color: #676767;
+}
+
+.skeleton.notification__title {
+  background-color: #262626;
+}
+.skeleton.notification__body {
+  background-color: #676767;
+}
+
+.skeleton.makerPage__achivement {
+  border-radius: 50%;
+  background: #C5C5C5;
+}
+.skeleton.makerPage__makerLogoHolder {
+  border-radius: 50%;
+  background-color: #C5C5C5;
+}
+.skeleton.makerPage__makerTitle {
+  background-color: #262626;
+}
+.skeleton.makerPage__description {
+  background-color: #676767;
+}
+.skeleton.makerPage__contact {
+  background-color: #676767;
+}
+
+.skeleton.review__avatar {
+  border-radius: 50%;
+  background-color: #C5C5C5;
+}
+.skeleton.review__username {
+  background-color: #262626;
+}
+.skeleton.review__body {
+  background-color: #676767;
 }

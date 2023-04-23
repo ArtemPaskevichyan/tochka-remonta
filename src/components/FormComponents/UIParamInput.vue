@@ -37,6 +37,9 @@ export default {
         value: function() {
             this.innerValue = this.value
         }
+    },
+    mounted() {
+        this.innerValue = this.value
     }
 }
 </script>

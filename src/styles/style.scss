@@ -669,6 +669,18 @@ img {
                 size: 20px;
                 weight: $font-regular;
             }
+
+            &::placeholder {
+                color: $light-text-color;
+            }
+                
+            &:-ms-input-placeholder {
+                color: $light-text-color;
+            }
+            
+            &::-ms-input-placeholder {
+                color: $light-text-color;
+            }
         }
     }
 
@@ -886,7 +898,7 @@ img {
     &__progressHolder {
         height: 8px;
         border-radius: 4px;
-        background-color: $light-text-color;
+        background-color: $element-background;
         width: 100%;
     }
 
@@ -950,7 +962,6 @@ img {
 
     &__baseImage {
         width: 100%;
-        min-height: 100%;
         border-radius: 12px;
         overflow: hidden;
 
@@ -968,12 +979,14 @@ img {
         gap: 14px;
         white-space: nowrap;
         overflow: auto;
-        display: flex
+        display: flex;
+        flex-shrink: 0;
     }
 
     .galeryImage {
         width: 178px;
         height: 100px;
+        flex-shrink: 0;
         border-radius: 12px;
     }
 }
@@ -993,6 +1006,20 @@ img {
     }
 }
 
+.rating {
+    display: flex;
+    flex-direction: row;
+    
+    img {
+        flex-shrink: none;
+        background: none;
+    }
+
+    img.mutating {
+        cursor: pointer;
+    }
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -1002,6 +1029,7 @@ img {
     background: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
+    z-index: 11;
     align-items: center;
 
 
@@ -1012,6 +1040,8 @@ img {
         background-color: white;
         position: relative;
         box-sizing: border-box;
+        max-height: 90vh;
+        overflow: auto;
     }
 
     &__button {
@@ -1020,6 +1050,14 @@ img {
         position: absolute;
         background: green;
         color: red;
+    }
+
+    &__defaultTitle {
+        color: $primary-text-color;
+        font: {
+            size: 51px;
+            weight: $font-bold;
+        }
     }
 }
 
@@ -1214,6 +1252,155 @@ img {
         font-weight: $font-medium;
         color: $secondary-theme-color;
     }
+
+    &__profileAvatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: $element-background;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+.searchBar {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    position: relative;
+
+    &__inputHolder {
+        background-color: $element-background;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        border-radius: 12px;
+        width: 100%;
+        position: relative;
+
+        input {
+            height: 100%;
+            width: 100%;
+            background: none;
+            border: none;    
+            color: $primary-text-color;
+            font: {
+                size: 20px;
+                family: $default-font-family;
+                weight: $font-regular;
+            }
+            padding: {
+                left: 14px;
+            }
+
+            &::placeholder {
+                color: $light-text-color;
+            }
+                
+            &:-ms-input-placeholder {
+                color: $light-text-color;
+            }
+            
+            &::-ms-input-placeholder {
+                color: $light-text-color;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    &__dropdown {
+        position: absolute;
+        display: flex;
+        top: 44px;
+        left: 0px;
+        right: 0px;
+        flex-direction: column;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+    }
+
+    &__dropdownItem {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        height: 44px;
+        text-align: left;
+        padding: 0 20px;
+        box-sizing: border-box;
+        color: $primary-text-color;
+        font: {
+            family: $default-font-family;
+            size: 20px;
+            weight: $font-medium;
+        }
+        cursor: pointer;
+        &:hover {
+            background-color: $element-background;
+        }
+    }
+
+    &__dropdownItem:not(:first-child) {
+        border-top: 1px solid #f5f5f5;
+    }
+
+    &__dropdownItem:first-child {
+        border-radius: 12px 12px 0 0;
+    }
+
+    &__dropdownItem:last-child {
+        border-radius: 0 0 12px 12px;
+    }
+
+    &__inlineSearchButton {
+        flex-shrink: 0;
+        visibility: hidden;
+    }
+
+    &__searchButton {
+        flex-shrink: 0;
+        border-radius: 12px;
+    }
+
+    &__filterButton {
+        flex-shrink: 0;
+        border: 1px solid $element-background;
+        background-color: #fff;
+        border-radius: 12px !important;
+    }
+
+    &__filter {
+        background-color: white;
+        border-radius: 12px;
+        position: absolute;
+        z-index: 2;
+        top: 50px;
+        right: 0;
+        width: 250px;
+        box-sizing: border-box;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        .input__title {
+            font-weight: $font-medium;
+        }
+    }
 }
 
 .profile {
@@ -1257,13 +1444,17 @@ img {
         bottom: 22px;
     }
 
-    .select, .input, .rangeCheck, .checkbox, .fileLoader, .textArea, .galeryLoader {
+    .select, .input, .rangeCheck, .checkbox, .fileLoader, .textArea, .galeryLoader, .setReview {
         &__title {
             font: {
                 size: 20px;
                 weight: $font-medium;
             }
         }
+    }
+
+    .setReview__title {
+        margin-bottom: 4px;
     }
 
     &__content {
@@ -1338,10 +1529,11 @@ img {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-
+        flex-grow: 1;
     }
 
     &__button {
+        margin-left: auto;
         width: 215px;
     }
 }
@@ -1358,6 +1550,10 @@ img {
         justify-content: center;
         align-items: center;
         gap: 14px;
+        font: { 
+            size: 15px;
+            weight: $font-regular;
+        };
     }
 
     &__block {
@@ -1388,10 +1584,11 @@ img {
     }
 }
 
+
+
 .searchingProject{
     &__body {
         margin-top: 14px;
-
     }
 
     &__resp {
@@ -1400,14 +1597,40 @@ img {
     }
 }
 
+.activeProject {
+    &__body {
+        box-sizing: border-box;
+        padding-right: 14px;
+    }
+
+    &__progress {
+        color: $secondary-text-color;
+        margin-bottom: 14px;
+    }
+}
+
 .infoCard {
     margin-bottom: 25px;
 
     &__body {
-        margin-top: 14px;
+        margin: 14px 0;
+        font-size: 20px;
         color: $secondary-text-color;
     }
 }
+
+.forMakerProject {
+    &__body {
+        margin-top: 14px;
+        margin-bottom: 14px;
+    }
+
+    &__footer {
+        color: $secondary-text-color;
+    }
+}
+
+
 
 .settingsPage {
     padding: 25px 35px;
@@ -1622,6 +1845,14 @@ img {
         min-height: 300px;
         width: 100%;
     }
+
+    &__descriptionBlock {
+        display: block;
+
+        .button {
+            margin-top: 14px;
+        }
+    }
 }
 
 .submitPhonePage {
@@ -1694,6 +1925,10 @@ img {
             size: 32px;
             weight: $font-bold;
         }
+
+        .button {
+            margin-left: 10px;
+        }
     }
 
     &__parameterTitle, &__parameterValue {
@@ -1718,7 +1953,747 @@ img {
             weight: $font-regular;
         }
     }
+
+    &__caption {
+        color: $placeholder-text-color;
+        font: {
+           size: 15px; 
+           weight: $font-regular;
+        }
+
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        gap: 14px;
+    }
+
+    &__gantDiagram {
+        background-color: $element-background;
+        width: 100%;
+        height: 400px;
+    }
+    
+    &__photosButton {
+        margin-top: 30px;
+    }
+
+    &__controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 14px;
+    }
+
+    &__maker {
+        &Card {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-sizing: border-box;
+            padding: 14px;
+        }
+
+        &Info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        &Title {
+            color: $primary-text-color;
+            font-weight: $font-medium;
+        }
+
+        &LogoHolder {
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+            border-radius: 50%;
+            flex-shrink: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                min-width: 100%;
+                min-height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &__photos {
+        display: flex;
+        flex-direction: row;
+        gap: 18px;
+        overflow: auto;
+    }
+
+    &__caption {
+        font-size: 20px;
+        font-weight: $font-regular;
+        color: $placeholder-text-color;
+    }
 }
 
+.searchPage {
+    &__searchBar {
+        width: 60%;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+
+    &__project {
+        width: 70%;
+        margin: 0 auto;
+        margin-bottom: 25px;
+    }
+
+    &__caption {
+        color: $placeholder-text-color;
+        text-align: center;
+    }
+
+    &__card {
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+}
+
+.makerResponse {
+    background-color: #fff;
+    width: 100%;
+    height: 190px;
+    border-radius: 14px;
+    box-sizing: border-box;
+    padding: 14px 8px 8px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    &__header {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+        color: $primary-text-color;
+        font: {
+            size: 20px;
+            weight: $font-bold;
+        }
+
+        img {
+            height: 36px;
+            width: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+    }
+
+    &__text {
+        flex-grow: 1;
+        color: $secondary-text-color;
+        font: {
+            size: 20px;
+            weight: $font-regular;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        gap: 14px;
+    }
+}
+
+.negotiation {
+    margin-top: 10px;
+    height: 60px;
+    width: 100%;
+    border-radius: 14px;
+    box-sizing: border-box;
+    padding: 8px;
+    padding-left: 20px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    &__content {
+        color: $secondary-text-color;
+        font: {
+            size: 20px;
+            weight: $font-regular;
+        }
+    }
+
+    &__date {
+        color: $light-text-color;
+        margin-left: 10px;
+        font: {
+            size: 15px;
+            weight: $font-regular;
+        };
+    }
+}
+
+.event {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $element-background;
+
+    &__content {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        color: $secondary-text-color;
+        font: {
+            size: 20px;
+            weight: $font-regular;
+        }
+    }
+
+    &__date {
+        color: $light-text-color;
+        font: {
+            size: 15px;
+            weight: $font-regular;
+        }
+    }
+}
+
+.negotiationView {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 17px 14px 14px 30px;
+
+    &__subtitle {
+        color: $primary-text-color;
+        font-weight: $font-medium;
+        margin-top: 4px;
+        margin-bottom: 35px;
+    }
+
+    &__description {
+        line-height: 1.3em;
+        color: $secondary-text-color;
+        font-weight: $font-regular;
+        flex-grow: 1;
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+}
+
+.projectPhotos {
+    box-sizing: border-box;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+
+    &__galery {
+        height: 60vh;
+        margin-top: 25px;
+    }
+}
+
+.setReview {
+    &__title {
+        color: $primary-text-color;
+        font-weight: $font-bold;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .textArea {
+        width: 60%;
+        min-width: 400px;
+    }
+}
+
+.completeProject {
+    box-sizing: border-box;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+        text-align: left;
+        font-weight: $font-bold;
+    }
+
+    &__text {
+        color: $secondary-text-color;
+        line-height: 1.3em;
+        flex-grow: 1;
+        width: 60%;
+        min-width: 400px;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+
+.makerProfileCard {
+    background-color: white;
+    height: 540px;
+    border-radius: 22px;
+    display: flex;
+    width: fit-content;
+    flex-direction: row;
+    gap: 16px;
+    box-sizing: border-box;
+    padding: 10px;
 
 
+    &__info {
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        box-sizing: border-box;
+        padding: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        aspect-ratio: 1/1;
+    }
+
+    &__content {
+        flex-grow: 1;
+        display: flex;
+        gap: 10px;
+        justify-content: row;
+    }
+
+    &__infoLeftPart {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    &__title {
+        font-weight: $font-bold;
+        color: $primary-text-color;
+    }
+
+    &__text {
+        margin: 14px 0;
+        color: $secondary-text-color;
+    }
+
+    &__infoRightPart {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        gap: 10px;
+    }
+
+    &__logoHolder {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background-color: $element-background;
+        overflow: hidden;
+
+        img {
+            min-height: 100%;
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__achivements {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__projects {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 255px 255px;
+        gap: 10px;
+    }
+
+    &__tile {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        height: 255px;
+        aspect-ratio: 1/1;
+    }
+
+    &__project {
+        overflow: hidden;
+        background-color: $element-background;
+
+        img {
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__additionalInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        box-sizing: border-box;
+        padding: 10px 16px;
+    }
+
+    &__projectsCount {
+        font: {
+            size: 20px;
+            weight: $font-bold;
+        }
+        color: $primary-text-color;
+        margin-bottom: 10px;
+    }
+
+    &__projectDescription {
+        font: {
+            size: 15px;
+            weight: $font-regular;
+        }
+        line-height: 1.5em;
+        color: $secondary-text-color;
+        margin-bottom: 16px;
+    }
+
+    &__projectButton {
+        width: 100%;
+    }
+}
+
+.suggestProject {
+    box-sizing: border-box;
+    padding: 40px;
+    overflow: auto;
+
+    &__maker {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+
+        &Logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                min-width: 100%;
+                min-height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &__notation {
+        color: $secondary-text-color;
+        margin-top: 20px;
+        margin-bottom: 14px;
+    }
+
+    &__projects {
+        &Title {
+            font-weight: $font-medium;
+        }
+
+        &Card {
+            margin-bottom: 0;
+            margin-top: 14px;
+        }
+
+        &Caption {
+            text-align: center;
+            color: $placeholder-text-color;
+            margin: 20px 0;
+            font: {
+                size: 20px;
+                weight: $font-regular;
+            };
+        }
+    }
+}
+
+.makerPage {
+    box-sizing: border-box;
+    padding: 20px 40px;
+
+    &__block {
+        margin-top: 50px;
+    }
+
+    &__blockTitle {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font: {
+            size: 32px;
+            weight: $font-bold;
+        }
+        margin-bottom: 14px;
+    }
+
+    &__makerCard {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
+    &__makerLogoHolder {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: $element-background;
+
+        img {
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__makerInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__makerTitle {
+        color: $primary-text-color;
+        font-weight: $font-bold;  
+    }
+
+    &__controls {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+    }
+
+    &__achivementHolder {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        overflow: auto;
+    }
+
+    &__achivement {
+        width: 112px;
+        height: 112px;
+        background-color: $element-background;
+        border-radius: 50%;
+    }
+
+    &__review {
+        margin-bottom: 25px;
+    }
+
+    &__description {
+        color: $secondary-text-color;
+    }
+
+    &__contactsBlock {
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+    }
+
+    &__contacts {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 50%;
+    }
+
+    &__contact {
+        color: $secondary-text-color;
+    }
+
+    &__map {
+        background-color: $element-background;
+        min-height: 180px;
+        height: 100%;
+        width: 100%;
+        flex: 50%;
+    }
+
+    &__footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+    
+    &__caption {
+        color: $placeholder-text-color;
+        font-size: 20px;
+    }
+}
+
+.review {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    box-sizing: border-box;
+    padding: 16px 22px;
+
+    &__header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: $element-background;
+        margin-right: 4px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        font: {
+            size: 20px;
+            weight: $font-medium;
+        }
+    }
+
+    &__body {
+        margin-top: 16px;
+        color: $secondary-text-color;
+    }
+}
+
+.eventCreation {
+    box-sizing: border-box;
+    padding: 20px 30px;
+
+    .textArea {
+        margin-top: 20px;
+        width: 70%;
+    }
+
+    .imageLoader {
+        margin-top: 20px;
+
+        &__dropzone {
+            width: 356px;
+            height: 200px;
+            background-color: $element-background;
+            border-radius: 12px;
+        }
+    }
+
+    &__footer {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+
+.negotiationCreation {
+    box-sizing: border-box;
+    padding: 20px 30px;
+
+    .textArea {
+        margin-top: 20px;
+        width: 70%;
+    }
+
+    .input {
+        margin-top: 20px;
+        width: 70%;
+    }
+
+    &__footer {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+
+.notification {
+    background-color: white;
+    border-radius: 14px;
+    box-sizing: border-box;
+    padding: 20px 6px 6px 20px;
+    min-height: 160px;
+    max-height: 200px;
+
+    &__title {
+        color: $primary-text-color;
+        font-weight: $font-bold;
+    }
+
+    &__body {
+        color: $secondary-text-color;
+        margin: 14px 0;
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+
+.notificationPage {
+    .notification {
+        width: 60%;
+        margin: 0 auto;
+        margin-bottom: 25px;
+    }
+}

@@ -71,13 +71,21 @@ export default {
             try {
                 this.isLoading = true
                 await this.loginViewModel.sendLogin(this.email, this.password, this.role)
-                this.$router.push("/user/search")
+                this.$router.push(await this.loginViewModel.getAfterLoginURL())
             } catch(error) {
                 alert(error)
             } finally {
                 this.isLoading = false
             }
         },
+        async checkForAuthorization() {
+            try {
+                let a = await this.loginViewModel.getAfterLoginURL()
+                this.$router.push(a)
+            } catch(e) {
+                console.log(e)
+            }
+        }
     },
     computed: {
         role: function() {
@@ -93,7 +101,10 @@ export default {
         buttonStyle: function() {
             return (this.email == '' || this.password == '') ? 'disabled' : 'primary'
         },
-    }
+    },
+    mounted() {
+        this.checkForAuthorization()
+    },
 }
 </script>
 

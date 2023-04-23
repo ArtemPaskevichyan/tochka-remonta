@@ -52,7 +52,7 @@ export default {
         },
         imageNames: {
             type: Array,
-            required: false,
+            required: true,
             default: [undefined, undefined, undefined,
                       undefined, undefined, undefined]
         },

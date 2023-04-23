@@ -4,29 +4,29 @@
         <div class="titleText pageTitle">Создание проекта</div>
         <div class="createProject backgroundCard">
             <div class="createProject__content">
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPTitle">
                     <UIInput :placeholder="'Название'" :title="'Название проекта'" v-model:value="title" :class="{error: titleError}"></UIInput>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPSquare">
                     <UIParamInput :placeholder="'60'" :title="'Квадратура'" v-model:value="square"
                     :suffix="'М²'" :size="'short'" :class="{error: squareError}"></UIParamInput>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPTypeOfNew">
                     <UISelect :title="'Возраст дома'" v-model:value="typeOfNew" :selectArray="typesOfNew" :class="{error: typeOfNewError}"></UISelect>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPTypeOfHouse">
                     <UISelect :title="'Тип дома'" v-model:value="typeOfHouse" :selectArray="typesOfHouse" :class="{error: typeOfHouseError}"></UISelect>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPCity">
                     <UIInput :placeholder="'Город'" :title="'Город'" v-model:value="city" :class="{error: cityError}"></UIInput>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPAdress">
                     <UIInput class="adressHolder" :placeholder="'Адрес объекта'" :title="'Область, город, улица, дом'" v-model:value="adress" :class="{error: adressError}" :idOfInput="adressId"></UIInput>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPStartDate">
                     <UISelect :title="'Когда хотите начать'" v-model:value="typeOfStart" :selectArray="typesOfStart" :class="{error: typeOfStartError}"></UISelect>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPParamInput">
                     <UIRangeInput
                     v-model:startValue="costStartValue"
                     v-model:endValue="costEndValue"
@@ -36,17 +36,17 @@
                     :class="{error: costStartValueError || costEndValueError}">
                     </UIRangeInput>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPHasDesign">
                     <UICheckbox v-model:value="hasDesignProject" :class="{error: hasDesignProjectError}">Есть дизайн проект</UICheckbox>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPHostDocs">
                     <UIFileLoader :title="'Загрузка документов о правах собственности'" @fileLoaded="hostDocsLoaded" @cleared="hostDocsDeleted" :class="{error: hostDocsError}"></UIFileLoader>
                 </div>
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPDescription">
                     <UITextInput :title="'Описание'" :placeholder="'Описание проекта'" v-model:value="description" :class="{error: descriptionError}"></UITextInput>
                 </div>
             </div>
-            <div class="createProject__item">
+            <div class="createProject__item" id="CPPhotos">
                 <UIGaleryLoader :title="'Фото объекта'" :limit="10" :class="{error: imageListError}" @loadedImage="galeryImageLoaded" @remove="galeryImageRemoved"></UIGaleryLoader>                    
             </div>
             <div class="createProject__submitButton">
@@ -73,6 +73,7 @@ import UIHeader from '@/components/Header/UIHeader.vue'
 import UILoadingWall from '@/components/UILoadingWall.vue'
 import { AdressHelper } from '@/helpers/AdressHelper';
 import {ProjectListController} from "@/helpers/projectListController.js"
+import { ERROR_CODES } from '@/helpers/ErrorMaker';
 
 
 export default {
@@ -149,6 +150,14 @@ export default {
             this.imageList = this.imageList.filter(i => i.id != id)
         },
 
+        smoothScrollTo(selector) {
+            // document.querySelector(selector).scrollIntoView({behavior: 'smooth', block: 'center', duration: 200,})
+
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $(selector).offset().top - 200
+            }, 350);
+        },
+
         async sendData() {
             try {
                 this.isLoading = true
@@ -175,40 +184,56 @@ export default {
             } catch(e) {
                 console.log(e.message, e.code)
                 switch (e.code) {
-                    case 435:
+                    case ERROR_CODES.CPVAddressFailed:
                         this.adressError = true
+                        this.smoothScrollTo("#CPAdress")
                         break;
-                    case 436:
+                    case ERROR_CODES.CPVCityFailed:
                         this.cityError = true
+                        this.smoothScrollTo("#CPCity")
                         break;
-                    case 437:
+                    case ERROR_CODES.CPVDescriptionFailed:
                         this.descriptionError = true
+                        this.smoothScrollTo("#CPDescription")
                         break;
-                    case 438:
+                    case ERROR_CODES.CPVDesignProjectFailed:
                         this.hasDesignProjectError = true
+                        this.smoothScrollTo("#CPHasDesign")
                         break;
-                    case 439:
+                    case ERROR_CODES.CPVHouseTypeFailed:
                         this.typeOfHouseError = true
+                        this.smoothScrollTo("#CPTypeOfHouse")
                         break;
-                    case 440:
+                    case ERROR_CODES.CPVNewBuildingFailed:
                         this.typeOfNewError = true
+                        this.smoothScrollTo("#CPTypeOfNew")
                         break;
-                    case 441:
+                    case ERROR_CODES.CPVPlanedBudgetDownFailed:
                         this.costStartValueError = true
+                        this.smoothScrollTo("#CPParamInput")
                         break;
-                    case 442:
+                    case ERROR_CODES.CPVPlanedBudgetUpFailed:
                         this.costEndValueError = true
+                        this.smoothScrollTo("#CPParamInput")
                         break;
-                    case 443:
+                    case ERROR_CODES.CPVRepairTypeFailed:
+                        this.smoothScrollTo("#CPParamInput")
                         break;
-                    case 444:
+                    case ERROR_CODES.CPVSquareFailed:
                         this.squareError = true
+                        this.smoothScrollTo("#CPSquare")
                         break;
-                    case 445:
+                    case ERROR_CODES.CPVStartDateFailed:
                         this.typeOfStartError = true
+                        this.smoothScrollTo("#CPStartDate")
                         break;
-                    case 446:
+                    case ERROR_CODES.CPVTitleFailed:
                         this.titleError = true
+                        this.smoothScrollTo("#CPTitle")
+                        break;
+                    case ERROR_CODES.CPVImageListFailed:
+                        this.imageListError = true
+                        this.smoothScrollTo("#CPPhotos")
                         break;
                     default:
                         alert(e.message)
@@ -244,7 +269,7 @@ export default {
         imageList() {
             this.imageListError = false
         },
-        descriptionError() {
+        description() {
             this.descriptionError = false
         }
     },

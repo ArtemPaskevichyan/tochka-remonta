@@ -1,15 +1,10 @@
 <template>
-    <UIInformationCard :title="title" :imageName="imageName">
-        <template v-slot:body class="searchingProject__body">
-            Текущий статус: {{ status }}
+    <UIInformationCard :title="title" :imageName="imageName" @action="$emit('action')" :isLoading="isLoading">
+        <template v-slot:body>
+            {{ description }}
         </template>
         <template v-slot:footer>
-            <span v-if="responses <= 0" class="searchingProject__resp">
-                Откликов нет
-            </span>
-            <span v-else class="searchingProject__resp">
-                <UILink :link="'/responses'">{{responses}} откликов</UILink>
-            </span>
+            <UIRating :rating="rating"/>
         </template>
         <template v-slot:button>
             Посмотреть
@@ -20,13 +15,11 @@
 <script>
 import UIInformationCard from '@/components/UIInformationCard.vue'
 import UILink from '@/components/FormComponents/UILink.vue'
-import { TokenHandler } from '@/helpers/TokenHandler'
-import { serverURL } from '@/preferenses'
-import axios from 'axios'
+import UIRating from '@/components/FormComponents/UIRating.vue'
 
 export default {
     components: {
-        UIInformationCard, UILink,
+        UIInformationCard, UILink, UIRating,
     },
     data() {
         return {
@@ -35,16 +28,21 @@ export default {
         }
     },
     props: {
+        projectId: {
+            required: true,
+            type: Number,
+        },
         imageName: {
             required: true,
             type: String,
             default: ''
         },
         title: String,
-        status: String,
-        responses: {
-            type: Number,
-            default: 0,
+        description: String,
+        rating: Number,
+        isLoading: {
+            type: Boolean,
+            default: false,
         }
     },
     mounted() {

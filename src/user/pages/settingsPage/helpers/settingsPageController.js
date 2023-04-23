@@ -65,6 +65,58 @@ class SettingsPageController {
         //
     }
 
+    async setAvatar(image) {
+        var formData = new FormData()
+        formData.append('new_avatar', image)
+
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
+        const URL = `${serverURL}/api/v1/auth/update_avatar`
+        await axios.post(URL, formData, config)
+            .then((response) => {
+                console.log("RESP", response)
+                UserDataController.shared.updateData()
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+            })
+    }
+
+    async getAvatarURL() {
+        var avatar = (await UserDataController.shared.getData()).avatar
+        try {
+            if (!avatar || avatar.length == 0) { return }
+        } catch(e) {
+            throw e
+        }
+        return `${serverURL}/api/v1/auth/get_avatar?filename=${avatar}`
+    }
+
+    async setName(name) {
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
+        const URL = `${serverURL}/api/v1/auth/update_user_data`
+        var model = {
+            firstname: name,
+        }
+
+        await axios.post(URL, model, config)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+            })
+    }
+
 }
 
 export { SettingsPageController }

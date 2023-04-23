@@ -13,8 +13,16 @@ import SettingsPage from "@/user/pages/settingsPage/SettingsPage.vue"
 import SubmitPhonePage from "@/user/pages/settingsPage/SubmitPhonePage.vue"
 import SuccessNumberSubmition from '@/user/pages/settingsPage/SuccessNumberSubmition.vue'
 import UserProjectPage from '@/user/pages/project/UserProjectPage.vue'
+import MakerPage from '@/user/pages/makerPage/MakerPage.vue'
+import NotificationPage from "@/user/pages/notifications/NotificationPage.vue"
+
 
 import MakerSettingsPage from '@/maker/pages/settingsPage/SettingsPage.vue'
+import MakerSearchPage from '@/maker/pages/searchPage/SearchPage.vue'
+import MakerProjectPage from '@/maker/pages/project/MakerProjectPage.vue'
+import MakerMyProjectsPage from "@/maker/pages/myProjects/MyProjectsPage.vue"
+import MakerNotificationPage from "@/maker/pages/notifications/NotificationPage.vue"
+import MakerCreateProjectPage from "@/maker/pages/createProject/CreateProjectPage.vue"
 
 const routes = [
   {
@@ -84,10 +92,42 @@ const routes = [
     component: UserProjectPage,
     props: true,
   },
+  {
+    path: '/user/makerPage/:uuid',
+    name: 'user/makerPage',
+    component: MakerPage,
+    props: true,
+  },
+  {
+    path: '/user/notifications',
+    component: NotificationPage,
+  },
 
   {
     path: '/maker/settingsPage',
     component: MakerSettingsPage,
+  },
+  {
+    path: '/maker/search',
+    component: MakerSearchPage,
+  },
+  {
+    path: '/maker/project/:projectId',
+    name: 'maker/project',
+    component: MakerProjectPage,
+    props: true,
+  },
+  {
+    path: '/maker/myProjects',
+    component: MakerMyProjectsPage,
+  },
+  {
+    path: '/maker/notifications',
+    component: MakerNotificationPage,
+  },
+  {
+    path: '/maker/createProject',
+    component: MakerCreateProjectPage,
   }
 ]
 

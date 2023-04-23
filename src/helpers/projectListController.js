@@ -5,9 +5,11 @@ import {createError, ERROR_CODES} from "@/helpers/ErrorMaker.js"
 import { serverURL } from "@/preferenses.js"
 
 class ProjectListController {
-    async createProject(data) {
+    async createProject(data, review) {
         try {
             this.validateData(data)
+            if (review && !review.text) { throw createError("REVIEW TEXT ERROR", ERROR_CODES.CPVRTextFailed)}
+            if (review && isNaN(Number(review.rating))) { throw createError("REVIEW RATING ERROR", ERROR_CODES.CPVRRatingFailed) }
         } catch(error) {
             throw error
         }
@@ -27,6 +29,8 @@ class ProjectListController {
             "start_date": new Date(Date.now() + data.start_date.offset * 86400000),
             "title": data.title,
         }
+        if (review) { model.contractor_uuid = (await UserDataController.shared.getData()).uuid }
+    
         const projectUrl = `${serverURL}/api/v1/projects/add_new`
         const projectConfig = {
             headers: {
@@ -97,7 +101,48 @@ class ProjectListController {
             })
             .catch((error) => {
                 console.log("ERROR", error)
+                throw error
             })
+
+        if (!review) { return }
+
+        const completeProjectURL = `${serverURL}/api/v1/projects/complete_project?p_id=${projectId}&stars=${review.rating}`
+        const completeProjectConfig = avatarConfig
+
+        await axios.get(completeProjectURL, completeProjectConfig)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+                throw error
+            })
+        
+        const setReviewURL = `${serverURL}/api/v1/projects/add_project_review?p_id=${projectId}`
+        const setReviewConfig = avatarConfig
+        const setReviewFormData = new FormData()
+
+        setReviewFormData.append("review", review.text)
+        await axios.post(setReviewURL, setReviewFormData, setReviewConfig)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+                throw error
+            })
+    }
+
+    async setMaker(id) {
+        const URL = `${serverURL}/api/v1/projects/accept_join_request?r_id=${id}`
+        var token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                "Authorization": "Bearer " + token,
+            }
+        }
+
+        await axios.get(URL, config)
     }
 
     async getProjectList(offset=0, limit=25) {
@@ -114,11 +159,16 @@ class ProjectListController {
                 throw createError("Failed data", ERROR_CODES.serverDataFail)
             }
             var array = data.project_list
-            return array == null ? [] : array
+            return array == null ? [] : [...array]
         } catch(e) {
             console.log(e)
-            return
         }
+    }
+
+    async getProjectRating(id) {
+        const URL = `${serverURL}/api/v1/projects/get_project_reviews?p_id=${id}`
+
+        return (await axios.get(URL))?.data?.stars
     }
 
     validateData(data) {
@@ -135,7 +185,7 @@ class ProjectListController {
         if (!data.square_meters || isNaN(Number(data.square_meters))) { throw createError("Square Error", ERROR_CODES.CPVSquareFailed) }
         if (!data.start_date) { throw createError("Strat Date Error", ERROR_CODES.CPVStartDateFailed) }
         if (!data.title) { throw createError("Title Error", ERROR_CODES.CPVTitleFailed) }
-        if (Number(data.planned_budget_down) > Number(data.planned_budget_up)) { throw ERROR_CODES.CPVPlanedBudgetDownFailed }
+        if (Number(data.planned_budget_down) > Number(data.planned_budget_up)) { throw createError("Unable range", ERROR_CODES.CPVPlanedBudgetDownFailed) }
         if (!data.imageList || data.imageList?.length == 0) { throw createError("No images pinned", ERROR_CODES.CPVImageListFailed)}
     }
 }

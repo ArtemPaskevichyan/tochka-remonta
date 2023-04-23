@@ -4,15 +4,15 @@
             <img v-if="imageSrc" :src="imageSrc" alt="" loading="lazy">
         </div>
         <div class="infoCard__container">
-            <div class="infoCard__title largeText">
-                {{ title }}
+            <div class="infoCard__title largeText" :class="{skeleton: isLoading}">
+                {{ title ?? "DEFAULT TITLE"}}
             </div>
-            <div class="infoCard__body">
+            <div class="infoCard__body" :class="{skeleton: isLoading}">
                 <slot name="body"></slot>
             </div>
             <div class="infoCard__footer">
                 <slot name="footer"></slot>
-                <UIButton @click="$emit('action')" class="infoCard__button" :style="buttonStyle">
+                <UIButton @click="$emit('action')" class="infoCard__button" :style="isLoading ? 'disabled' : buttonStyle">
                     <slot name="button"></slot>
                 </UIButton>
             </div>
@@ -33,7 +33,7 @@ export default {
     data() {
         return {
             imageError: false,
-            imageSrc: undefined,
+            imageSrc: '',
         }
     },
     props: {
@@ -46,6 +46,10 @@ export default {
         buttonStyle: {
             type: String,
             default: 'secondary',
+        },
+        isLoading: {
+            type: Boolean,
+            default: false,
         }
     },
     methods: {

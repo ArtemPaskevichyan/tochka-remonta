@@ -179,6 +179,27 @@ class SettingsPageController {
             })
     }
 
+    async setDescription(description) {
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
+        const URL = `${serverURL}/api/v1/auth/update_user_data`
+        var model = {
+            description: description,
+        }
+
+        await axios.post(URL, model, config)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+            })
+    }
+
     async saveAdress(adress) {
         //
     }

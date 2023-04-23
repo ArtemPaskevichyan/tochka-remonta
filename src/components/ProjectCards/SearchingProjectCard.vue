@@ -1,5 +1,5 @@
 <template>
-    <UIInformationCard :title="title" :imageName="imageName" @action="$router.push('/user/project/' + String(projectId))">
+    <UIInformationCard :title="title" :imageName="imageName" @action="$emit('action')">
         <template v-slot:body class="searchingProject__body">
             Текущий статус: {{ status }}
         </template>

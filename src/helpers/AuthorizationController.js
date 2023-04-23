@@ -152,11 +152,29 @@ class AuthorizationController {
             })
     }
 
-    sendEmailAgain(email) {
+    async sendEmailAgain(email) {
         if (!newEmail) {
-
+            //
         }
-    }  // 
+    } 
+
+    async sendRecovery() {
+        //
+    }
+
+    async getAfterLoginURL() {
+        const token = await TokenHandler.shared.getToken()
+        const model = TokenHandler.shared.parseJwt(token)
+        console.log(model.role)
+        switch (model.role) {
+            case "customer":
+                return '/user/search'
+            case "contractor":
+                return '/maker/search'
+            default:
+                return undefined
+        }
+    }
 }
 
 export { AuthorizationController }
