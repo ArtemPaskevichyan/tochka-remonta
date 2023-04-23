@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+
 ROOT_DIR=/app
 
 echo "Replacing env constants in JS"
