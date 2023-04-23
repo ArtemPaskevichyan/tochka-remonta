@@ -1,0 +1,49 @@
+name: deploy_CI
+
+on:
+  push:
+    branches: [ "build" ]
+  pull_request:
+    branches: [ "build" ]
+
+env:
+  REGISTRY: "registry.computernetthings.ru"
+  IMAGE_NAME: "cf/frontend"
+  COMPOSE_LOCATION: "cf_start_microservices/docker-compose.yml"
+  ENV_LOCATION: "cf_start_microservices/.env"
+  COMPOSE_IMAGE_NAME: "frontend_service"
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build --file Dockerfile --tag $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest .
+    - name: Login to registry
+      run: docker login -u ${{ secrets.REGISTRY_LOGIN }} -p ${{ secrets.REGISTRY_PASSWORD }} $(echo $REGISTRY)
+    - name: Push to registry
+      run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
+  deploy:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        envs: REGISTRY,IMAGE_NAME,COMPOSE_LOCATION,ENV_LOCATION,COMPOSE_IMAGE_NAME
+        script: |
+          # Login into registry
+          docker login -u ${{ secrets.REGISTRY_LOGIN }} -p ${{ secrets.REGISTRY_PASSWORD }} $(echo $REGISTRY)
+          # Pull new image
+          docker pull $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
+          
+          # Run new container
+          docker-compose -f $(echo $COMPOSE_LOCATION) --env-file $(echo $ENV_LOCATION) up -d $(echo $COMPOSE_IMAGE_NAME)
+          
+          # Prune images
+          docker image prune -f -a
