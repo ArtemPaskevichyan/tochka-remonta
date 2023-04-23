@@ -1,0 +1,55 @@
+<template>
+    <div class="fileLoader">
+        <div class="fileLoader__title">
+            {{ title }}
+        </div>
+        <input type="file" ref="input" :accept="accept" @change="fetchFile">
+        <div class="fileLoader__inner">
+            <UIButton v-if="!file" @click="$refs.input.click()" class="fileLoader__button">Выбрать файл</UIButton>
+            <div v-else class="fileLoader__fileInfo">
+                <span class="fileLoader__fileName">{{ fileName }}</span>
+                <UIButton @click="clearFile" class="fileLoader__destructive" :style="'destructive'">Удалить</UIButton>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import UIButton from "../Buttons/UIButton.vue"
+
+export default {
+    components: {
+        UIButton, 
+    },
+    data() {
+        return {
+            file: false,
+            fileName: "",
+            inputId: this._uid+"-input",
+        }
+    },
+    props: {
+        title: String,
+        accept: Array,
+    },
+    methods: {
+        fetchFile(event) {
+            try {
+                this.$emit("fileLoaded", event.target.files[0])
+                this.file = true
+                this.fileName = event.target.files[0].name
+            } catch(e) {
+                this.$emit("error", e)
+            }
+        },
+        clearFile() {
+            this.file = false
+            this.fileName = ""
+            this.$refs("input").value = null
+            this.$emit("cleared")
+        }
+    }
+}
+</script>
+
+<style>
+</style>

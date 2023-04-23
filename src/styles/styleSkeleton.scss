@@ -1,0 +1,179 @@
+@import './stylePreferences.scss';
+
+@keyframes skeletalLoading {
+    0% {opacity: 20%;}
+    50% {opacity: 40%;}
+    100% {opacity: 20%;}
+}
+
+.skeleton {
+    color: transparent;
+    opacity: 20%;
+    animation: skeletalLoading 2s infinite;
+    border-radius: 4px;
+}
+
+.skeleton.header {
+    &__location {
+        background-color: $secondary-theme-color;
+        min-width: 80px;
+    }
+
+    &__profileLabel {
+        background-color: $secondary-theme-color;
+        min-width: 80px;
+    }
+
+    &__dropdown {
+        &Title {
+            background-color: $primary-text-color;
+            min-width: 200px;
+        }
+
+        &Role {
+            background-color: $light-text-color;
+            min-width: 100px;
+        }
+    }
+}
+
+.skeleton.infoCard {
+    &__image {
+        background-color: $placeholder-text-color;
+    }
+
+    &__title {
+        background-color: $primary-text-color;
+    }
+
+    &__body {
+        background-color: $placeholder-text-color;
+    }
+}
+
+.settingsPage {
+    .skeleton.baseText__value {
+        color: none;
+        display: inline-block;
+        background-color: $secondary-text-color;
+        min-width: 100px;
+        margin-top: 1px;
+    }
+}
+.skeleton.settingsPage__number {
+    color: transparent !important;
+    background-color: $secondary-text-color;
+    min-width: 200px;
+}
+
+.skeleton.settingsPage__nameHolder {
+    .input__holder {
+        color: none;
+        background-color: $placeholder-text-color;
+    }
+}
+
+.skeleton.settingsPage__socialItem {
+    .settingsPage__socialInfo {
+        background-color: $placeholder-text-color;
+        border-radius: 4px;
+
+        span {
+            color: transparent !important;
+        }
+    }
+    
+    .settingsPage__socialControls {
+        background-color: $placeholder-text-color;
+        border-radius: 4px;
+
+        .button {
+            opacity: 0 !important;
+        }
+    }
+}
+
+.skeleton.pageTitle {
+    background-color: $primary-text-color;
+}
+
+.skeleton.projectSearchingPage__parameterValue {
+    background-color: $placeholder-text-color;
+}
+
+.skeleton.projectSearchingPage__description {
+    background-color: $placeholder-text-color;
+}
+
+.skeleton.link {
+    background-color: $primary-theme-color;
+}
+
+.skeleton.makerProfileCard {
+    &__projectsCount {
+        background-color: $primary-text-color;
+    }
+
+    &__projectDescription {
+        background-color: $secondary-text-color;
+    }
+
+    &__title {
+        background-color: $primary-text-color;
+    }
+
+    &__text {
+        background-color: $secondary-text-color;
+    }
+}
+
+.skeleton.notification {
+    &__title {
+        background-color: $primary-text-color;
+    }
+
+    &__body {
+        background-color: $secondary-text-color;
+    }
+}
+
+.skeleton.makerPage {
+    &__achivement {
+        border-radius: 50%;
+        background: $light-text-color;
+    }
+
+    &__makerLogoHolder {
+        border-radius: 50%;
+        background-color: $light-text-color;
+    }
+
+    &__makerTitle {
+        background-color: $primary-text-color;
+    }
+
+    &__description {
+        background-color: $secondary-text-color;
+    }
+
+    &__contact {
+        background-color: $secondary-text-color;
+    }
+}
+
+.skeleton.review {
+    &__avatar {
+        border-radius: 50%;
+        background-color: $light-text-color;
+    }
+
+    &__username {
+        background-color: $primary-text-color;
+    }
+
+    &__body {
+        background-color: $secondary-text-color;
+    }
+}
+
+
