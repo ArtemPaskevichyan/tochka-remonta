@@ -3,11 +3,9 @@
 ROOT_DIR=/app
 
 echo "Replacing env constants in JS"
-for file in $ROOT_DIR/dist/assets/*.js;
 do
-  echo "Processing $file ...";
-
-  sed -i 's|serverURL|'${SERVER_URL}'|g' $file
+  echo "Processing ...";
+  sed -i 's|serverURL|'${SERVER_URL}'|g' $ROOT_DIR'/src/preferenses.js'
 
 done
 
