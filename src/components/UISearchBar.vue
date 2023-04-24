@@ -11,7 +11,9 @@
         </div>
         <UIButton class="searchBar__searchButton" :style="'primary'" @click="search">Поиск</UIButton>
         <UINotificationIndicatiorHolder :amount="filtersCount" :displayZero="false">
-            <UIButton class="searchBar__filterButton" v-if="filterExists" :style="'square'" @click="showHideFilters">F</UIButton>
+            <UIButton class="searchBar__filterButton" v-if="filterExists" :style="'square'" @click="showHideFilters">
+                <i class="icon-filter"></i>
+            </UIButton>
         </UINotificationIndicatiorHolder>
         <div v-if="filterExists && filterIsOpened" class="searchBar__filter">
             <slot name="filterContent"></slot>

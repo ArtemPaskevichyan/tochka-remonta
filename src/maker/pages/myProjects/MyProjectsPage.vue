@@ -95,15 +95,15 @@ export default {
     },
     computed: {
         activeList: function() {
-            return this.dataArray.filter(i => i.status == "active")
+            return this.dataArray?.filter(i => i.status == "active") ?? []
             //
         },
         searchList: function() {
-            return this.dataArray.filter(i => i.status == "search")
+            return this.dataArray?.filter(i => i.status == "search") ?? []
             //
         },
         completedList: function() {
-            return this.dataArray.filter(i => i.status == "archive")
+            return this.dataArray?.filter(i => i.status == "archive") ?? []
             //
         }
     }
