@@ -7,6 +7,7 @@ const app = createApp(App)
 
 console.log("router in index")
 console.log(serverURL)
+console.log(router)
 app.use(router)
 
 app.mount('#app')
