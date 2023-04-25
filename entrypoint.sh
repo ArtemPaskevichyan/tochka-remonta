@@ -12,4 +12,4 @@ do
 
 done
 
-http-server dist --proxy http://someurl.com
+http-server dist --proxy http://localhost:8080?
