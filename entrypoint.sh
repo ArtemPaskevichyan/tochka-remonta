@@ -13,4 +13,4 @@ do
 done
 
 http-server dist
-http-server --port 8080 -P http://localhost:8080?
+http-server --proxy http://localhost:8080?
