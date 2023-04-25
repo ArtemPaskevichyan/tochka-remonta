@@ -90,6 +90,7 @@ class AuthorizationController {
         }
 
         const url = `${serverURL}/api/v1/auth/login`
+        console.log("URL OF LOGIN", url, serverURL)
         const data = JSON.stringify({
             "email": email,
             "password": password,
@@ -174,11 +175,6 @@ class AuthorizationController {
             default:
                 return undefined
         }
-    }
-
-    constructor() {
-        console.log(axios)
-        console.log(axios.defaults.baseURL, "BASE URL")
     }
 }
 
