@@ -175,6 +175,11 @@ class AuthorizationController {
                 return undefined
         }
     }
+
+    constructor() {
+        console.log(axios)
+        console.log(axios.defaults.baseURL, "BASE URL")
+    }
 }
 
 export { AuthorizationController }
