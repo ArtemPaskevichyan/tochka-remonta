@@ -12,5 +12,4 @@ do
 
 done
 
-http-server dist
-http-server --proxy http://someurl.com
+http-server dist --proxy http://someurl.com
