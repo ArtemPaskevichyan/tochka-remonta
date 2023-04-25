@@ -21,7 +21,7 @@
             Настройки профиля
         </button>
         <button class="header__dropdownMenuItem primary" @click="goTo('/createProject')">
-            Создать проект +
+            Создать проект <i style="margin-left: 0.3em" class="icon-plus inline-icon"></i>
         </button>
         <div class="header__dropdownMenuItem hight">
             <UIProgressBar class="header__progressView" :title="'Заполненность профиля'" :value="profileFillProgress"/>

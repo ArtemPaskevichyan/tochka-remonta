@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'tochka-remonta';
-  src:  url('fonts/tochka-remonta.eot?k357hh');
-  src:  url('fonts/tochka-remonta.eot?k357hh#iefix') format('embedded-opentype'),
-    url('fonts/tochka-remonta.ttf?k357hh') format('truetype'),
-    url('fonts/tochka-remonta.woff?k357hh') format('woff'),
-    url('fonts/tochka-remonta.svg?k357hh#tochka-remonta') format('svg');
+  src:  url('fonts/tochka-remonta.eot?zcn91q');
+  src:  url('fonts/tochka-remonta.eot?zcn91q#iefix') format('embedded-opentype'),
+    url('fonts/tochka-remonta.ttf?zcn91q') format('truetype'),
+    url('fonts/tochka-remonta.woff?zcn91q') format('woff'),
+    url('fonts/tochka-remonta.svg?zcn91q#tochka-remonta') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.inline-icon {
+  font-size: 0.8em;
+}
+
+.icon-eye:before {
+  content: "\e909";
+}
+.icon-eye-cross:before {
+  content: "\e90a";
+}
+.icon-plus:before {
+  content: "\e908";
+}
 .icon-camera:before {
   content: "\e900";
 }

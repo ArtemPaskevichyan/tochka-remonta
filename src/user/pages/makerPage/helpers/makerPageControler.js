@@ -3,11 +3,6 @@ import axios from "axios"
 import { TokenHandler } from "@/helpers/TokenHandler.js"
 
 class MakerPageController {
-    constructor() {
-        console.log(axios)
-        console.log(axios.defaults.baseURL, "BASE URL")
-    }
-
     async getData(uuid) {
         const URL = `${serverURL}/api/v1/auth/get_user_data?user_uuid=${uuid}`
         return (await axios.get(URL))?.data?.user

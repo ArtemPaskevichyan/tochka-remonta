@@ -6,12 +6,14 @@
         <div @click="isSelectShown = !isSelectShown" class="select__holder">
             <div class="select__value">{{ selectArray[value].label }}</div>
             <button class="select__arrow">
-                >
+                <i class="icon-arrow-down"></i>
             </button>
             <div :class="{active: isSelectShown}" class="select__list">
                 <div @click="changeValue(opt.id)" :key="opt.id" v-for="opt in selectArray" class="select__item">
                     {{ opt.label }}
-                    <span v-if="opt.id == value">V</span>
+                    <span class="select__selected" v-if="opt.id == value">
+                        <i class="icon-checkmark inline-icon"></i>
+                    </span>
                 </div>
             </div>
         </div>

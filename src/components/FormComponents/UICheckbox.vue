@@ -1,7 +1,7 @@
 <template>
     <div @click="switchValue" class="checkbox">
         <div class="checkbox__holder">
-            <div class="checkbox__box" :class="{active: value}">{{inner}}</div>
+            <div class="checkbox__box" :class="{active: value}" v-html="inner"></div>
         </div>
         <div class="checkbox__title" :class="{small: style == 'small'}">
             <slot></slot>
@@ -29,7 +29,7 @@
         },
         computed: {
             inner: function() {
-                return this.value ? "a" : ""
+                return this.value ? "<i class='icon-checkmark inline-icon'></i>" : ""
             }
         }
     }

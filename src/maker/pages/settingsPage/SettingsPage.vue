@@ -54,11 +54,11 @@
                         <div class="settingsPage__socialControls">
                             <!-- <UIButton @click="switchSocialHidden(index)" v-if="s.show" :style="'square colorless default'">H</UIButton>
                             <UIButton @click="switchSocialHidden(index)" v-if="!s.show" :style="'square colorless default'">h</UIButton> -->
-                            <UIButton @click="deleteSocial(index)" :style="'square destructive'">X</UIButton>
+                            <UIButton @click="deleteSocial(index)" :style="'square destructive'"><i class="icon-cross inline-icon"></i></UIButton>
                         </div>
                     </div>
                     <div class="settingsPage__socialCaption" v-if="socialsList.length == 0">Вы пока не добавили ни одного канала связи с вами</div>
-                    <UIButton @click="isAddSocialModalOpened = true" class="settingsPage__socialButton" :style="'primary'">Добавить +</UIButton>
+                    <UIButton @click="isAddSocialModalOpened = true" class="settingsPage__socialButton" :style="'primary'">Добавить <i class="icon-plus inline-icon"></i></UIButton>
                 </div>
             </div>
 

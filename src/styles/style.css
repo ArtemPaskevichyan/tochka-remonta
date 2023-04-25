@@ -397,6 +397,15 @@ img {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin-right: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .checkbox__box.active {
   border: none;
@@ -487,6 +496,7 @@ img {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  color: #CC8C52;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   cursor: pointer;
@@ -548,6 +558,9 @@ img {
 }
 .select.error .paramInput__holder {
   background-color: #FFDCDC;
+}
+.select__selected {
+  color: #CC8C52;
 }
 
 .paramInput__holder {
@@ -1073,8 +1086,12 @@ img {
   top: 20px;
   right: 20px;
   position: absolute;
-  background: green;
-  color: red;
+  background: none;
+  border: none;
+  color: #D9D9D9;
+}
+.modal__button:active {
+  color: #c3c3c3;
 }
 .modal__defaultTitle {
   color: #262626;
@@ -1460,6 +1477,7 @@ img {
       flex-shrink: 0;
   border: 1px solid #F2F2F2;
   background-color: #fff;
+  color: #401F00;
   border-radius: 12px !important;
 }
 .searchBar__filter {

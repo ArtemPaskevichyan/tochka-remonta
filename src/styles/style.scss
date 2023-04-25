@@ -383,6 +383,9 @@ img {
         border-radius: 6px;
         box-sizing: border-box;
         margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &.active {
             border: none;
@@ -477,6 +480,7 @@ img {
         display: flex;
         justify-content: center;
         align-items: center;
+        color: $primary-theme-color;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         cursor: pointer;
     }
@@ -536,6 +540,10 @@ img {
         .paramInput__holder {
             background-color: $error-red;
         }
+    }
+
+    &__selected {
+        color: $primary-theme-color;
     }
 }
 
@@ -1048,8 +1056,13 @@ img {
         top: 20px;
         right: 20px;
         position: absolute;
-        background: green;
-        color: red;
+        background: none;
+        border: none;
+        color: $grey-color;
+
+        &:active {
+            color: scale-color($color: $grey-color, $lightness: -10%);
+        }
     }
 
     &__defaultTitle {
@@ -1379,6 +1392,7 @@ img {
         flex-shrink: 0;
         border: 1px solid $element-background;
         background-color: #fff;
+        color: $secondary-theme-color;
         border-radius: 12px !important;
     }
 
