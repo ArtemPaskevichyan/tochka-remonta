@@ -5,6 +5,9 @@ import MessagePage from "@/public/pages/message/MessagePage.vue"
 import CheckEmailPage from "@/public/pages/checkEmailPage/CheckEmailPage.vue"
 import ForgotPasswordPage from "@/public/pages/forgotPassword/ForgotPasswordPage.vue"
 import PasswordRecoveryPage from "@/public/pages/passwordRecovery/PasswordRecoveryPage.vue"
+import CheckEmailPageForRecovery from "@/public/pages/checkEmailPage/CheckEmailPageForRecovery.vue"
+import SuccessfulPasswordChangePage from "@/public/pages/message/SuccessfulPasswordChangePage.vue"
+
 import UserSearchPage from "@/user/pages/searchPage/SearchPage.vue"
 import CreateProjectPage from "@/user/pages/createProject/CreateProjectPage.vue"
 import MyProjectsPage from "@/user/pages/myProjects/MyProjectsPage.vue"
@@ -60,6 +63,15 @@ const routes = [
   {
     path: '/succesfulRegistration',
     component: SuccessfulPage,
+  },
+  {
+    path: '/checkEmailForRecovery/:email',
+    name: 'checkEmailForRecovery',
+    component: CheckEmailPageForRecovery,
+  },
+  {
+    path: '/successfulPasswordChange',
+    component: SuccessfulPasswordChangePage,
   },
 
   {

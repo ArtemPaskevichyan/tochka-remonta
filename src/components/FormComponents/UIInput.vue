@@ -6,7 +6,7 @@
     <div class="input__holder">
         <input :type="inputType" v-model="innerValue" :placeholder="placeholder" :id="idOfInput">
         <button v-if="role == 'password'" class="input__passwordShowHideButton" @click="showHidePassword">
-            Show
+            <i :class="{'icon-eye' : inputType == 'password', 'icon-eye-cross' : inputType == 'text'}"></i>
         </button>
     </div>
 </div>

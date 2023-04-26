@@ -3,7 +3,7 @@
         <div v-if="title.length > 0" class="imageLoader__title">{{ title }}</div>
         <label class="imageLoader__dropzone" :class="{draggedover: isBeingDraggedOver}" @dragover.prevent="dragOverHandling" @dragleave="dragLeaveHandling" @drop="dropHandling">
             <input ref="imageInput" type="file" @change="inputImagePick">
-            <img v-if="!imageSrc" class="imageLoader__icon" src="" alt=""/>
+            <i v-if="!imageSrc" class="icon-camera imageLoader__icon"></i>
             <div v-if="!imageSrc" class="imageLoader__label">
                 Перетащите фото или выберите из файлов
             </div>

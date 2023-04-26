@@ -64,7 +64,7 @@
                         <div class="makerPage__contact baseText" v-for="(c, index) in contacts" :key="index" :class="{skeleton: isContactsLoading}">
                             {{c?.Entity}} : {{c?.contact_list?.map(v => v.value).join(', ')}}
                         </div>
-                        <div class="makerPage__caption" v-if="contacts?.length == 0">
+                        <div class="makerPage__caption" v-if="!contacts || contacts.length == 0">
                             Исполнитель не добавил каналы связи
                         </div>
                     </div>

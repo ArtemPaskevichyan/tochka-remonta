@@ -61,7 +61,7 @@
                     Пока никто не откликнулся на ваш проект
                 </div>
                 
-                <MakerResponseCard v-for="resp in listOfResponses" :key="resp.id" :model="resp" @goToMaker="goToMaker(resp.from)" @setMaker="setMaker(resp.id)"/>
+                <MakerResponseCard v-for="resp in listOfResponses" :key="resp.id" :model="resp?.maker" @goToMaker="goToMaker(resp.from)" @setMaker="setMaker(resp.id)"/>
             </div>
         </div>
     </div>
@@ -116,7 +116,7 @@ export default {
             for (let i = 0; i < this.listOfResponses.length; i++) {
                 this.projectController.getDataForResponse(this.listOfResponses[i]?.from)
                     .then((data) => {
-                        this.listOfResponses[i] = data
+                        this.listOfResponses[i].maker = data
                     })
                     .catch((error) => {
 

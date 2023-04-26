@@ -1,14 +1,14 @@
 <template>
     <div class="authorizationHolder">
         <div class="authorizationHolder__titleBlock">
-            <div class="titleText">Подтвердите регистрацию</div>
+            <div class="titleText">Письмо отправлено</div>
         </div>
 
         <div class="messagePageBlock__textHolder">
-            <div class="baseText">Мы отправили письмо для подтверждения регистрации вам на почту {{ email }}.<br>
+            <div class="baseText">Мы отправили письмо с ссылкой для изменения пароля вам на почту {{ email }}.<br>
                 Если письмо не приходит на протяжении долгого времени, проверите папку "Спам"
                 <div class="login__links messagePageBlock__buttons ">
-                    <UILink :link="'/registration'" :size="'small'">Другая почта</UILink>
+                    <UILink :link="'/forgotPassword'" :size="'small'">Другая почта</UILink>
 
                     <div v-if="time != '00:00'" class="smallText caption" :style="'disabled'">Отправить повторно через {{ time }}</div>
                     <UIButton v-else :style="'secondary'" @click="sendEmailAgain">Отправить повторно</UIButton>
@@ -49,7 +49,7 @@
             async sendEmailAgain() {
                 try {
                     this.isLoading = true
-                    await this.viewModel.sendEmailAgain(this.email)
+                    await this.viewModel.sendPasswordRecovery(this.email)
                     
                     Timer.shared.setTimer(120)
                 } catch(e) {

@@ -2,11 +2,11 @@
 <div class="makerResponse">
     <div class="makerResponse__header">
         <img :src="src" alt="">
-        {{ model.firstname ?? "TITLE"}}
+        {{ model?.firstname ?? "TITLE"}}
     </div>
 
     <div class="makerResponse__text">
-        {{ model.description ?? "TEXT"}}
+        {{ model?.description ?? "TEXT"}}
     </div>
 
     <div class="makerResponse__footer">
@@ -38,7 +38,7 @@ export default {
     },
     computed: {
         src: function() {
-            return this.model.avatar ? this.baseSrc + this.model.avatar : undefined
+            return this.model?.avatar ? this.baseSrc + this.model?.avatar : undefined
         }
     }
     

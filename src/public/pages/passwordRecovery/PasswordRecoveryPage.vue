@@ -11,7 +11,7 @@
                 <UIInput :title="'Повторите пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" 
                 v-model:value="password2" :role="'password'" :style="'small'"></UIInput>
 
-                <UIButton :style="buttonStyle" class="login__mainButton recovery__button" @click="() => {}">Подтвердить</UIButton>
+                <UIButton :style="buttonStyle" class="login__mainButton recovery__button" @click="sendRecovery">Подтвердить</UIButton>
             </div>
         </div> 
     </div>
@@ -44,10 +44,10 @@ export default {
             try {
                 this.isLoading = true
                 const key = this.fetchKeyFromURL()
-                await viewController.sendRecovery(key, password1, password2) //
-                
+                await this.viewController.sendRecovery(key, this.password1, this.password2)
+                this.$router.push('/successfulPasswordChange')
             } catch(e) {
-                //
+                alert(e)
             } finally {
                 this.isLoading = false
             }

@@ -40,6 +40,9 @@ export default {
             try {
                 this.isLoading = true
                 await this.viewModel.sendPasswordRecovery(this.email)
+                this.$router.push({ name: "checkEmailForRecovery", params: {
+                    email: this.email,
+                }})
             } catch(error) {
                 alert(error)
             } finally {

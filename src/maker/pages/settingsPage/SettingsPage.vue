@@ -32,8 +32,8 @@
                         UUID пользователя: <span class="baseText__value" :class="{skeleton: isLoading}">{{uuid}}</span><br/>
                         Email: <span class="baseText__value" :class="{skeleton: isLoading}">{{email}}</span><br/>
                         Роль: <span class="baseText__value" :class="{skeleton: isLoading}">{{role}}</span><br/>
-                        Дней на платформе: <span class="baseText__value" :class="{skeleton: isLoading}">{{time}}</span><br/>
-                        Количество проектов (за все время): <span class="baseText__value" :class="{skeleton: isLoading}">{{projectsCount}}</span><br/>
+                        На платформе: <span class="baseText__value" :class="{skeleton: isLoading}">{{time}}</span> {{daysAdding}}<br/>
+                        Количество проектов: <span class="baseText__value" :class="{skeleton: isLoading}">{{projectsCount}}</span><br/>
                     </div>
                     <div class="settingsPage__numberBlock" :class="{needsToApprove: !isNumberApproved}">
                         Номер телефона: <span class="settingsPage__number" :class="{skeleton: isLoading}" v-if="isNumberApproved">{{number}}</span>
@@ -284,6 +284,23 @@ export default {
             if (this.isSocialsLoading) { return }
             this.socialsList[index].show = !this.socialsList[index].show
         },
+    },
+    computed: {
+        daysAdding() {
+            if (11 <= this.time % 100 && this.time % 100 <= 20) {
+                console.log(1, this.time % 100)
+                return 'дней'
+            } else if (this.time % 10 == 1) {
+                console.log(2, this.time % 10)
+                return 'день'
+            } else if (2 <= this.time % 10 && this.time % 10 <= 4) {
+                console.log(3, this.time % 10)
+                return 'дня'
+            } else if (5 <= this.time % 10 && this.time % 10 <= 9 || this.time % 10 == 0) {
+                console.log(4, this.time % 10)
+                return 'дней'
+            }
+        }
     },
     mounted() {
         this.fetchData()

@@ -12,7 +12,7 @@
                 :progress="0" @action="$router.push('/user/project/' + String(proj.id))"/>
 
                 <div class="myProjectsPage__blockFooter">
-                    <UIButton :style="'primary'" @click="$router.push('/user/createProject')">Создать проект XD</UIButton>
+                    <UIButton :style="'primary'" @click="$router.push('/user/createProject')">Создать проект <i class="icon-plus inline-icon"></i></UIButton>
                 </div>
             </div>
 
@@ -35,7 +35,7 @@
 
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
                 Проекты, созданные вами, не найдены
-                <UIButton @click="$router.push('/user/createProject')" :style="'primary'">Создать проект XD</UIButton>
+                <UIButton @click="$router.push('/user/createProject')" :style="'primary'">Создать проект <i class="icon-plus inline-icon"></i></UIButton>
             </div>
         </div>
     </div>

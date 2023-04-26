@@ -334,6 +334,8 @@ img {
 
     &__passwordShowHideButton {
         width: 44px;
+        color: $placeholder-text-color;
+        font-size: 16px;
         border: none;
         background: none;
         cursor: pointer;
@@ -802,6 +804,11 @@ img {
             weight: $font-regular;
         }
     }
+
+    &__icon {
+        color: $placeholder-text-color;
+        font-size: 20px;
+    }
 }
 
 .imageLoader {
@@ -847,11 +854,11 @@ img {
     }
 
     &__icon {
-        background-color: red;
         border-radius: 0;
         flex-shrink: 0;
-        width: 24px;
-        height: 24px;
+        font-size: 24px;
+        margin-bottom: 4px;
+        color: $placeholder-text-color;
     }
     
     &__image {
@@ -2289,7 +2296,7 @@ img {
         flex-direction: column;
         border-radius: 12px;
         box-sizing: border-box;
-        padding: 10px;
+        padding: 20px 10px 10px 20px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         aspect-ratio: 1/1;
     }

@@ -1,4 +1,5 @@
 const ERROR_CODES = {
+    keyVerificationError: 431,
     emailValidationFailed: 432,
     passwordValidationFailed: 433,
     roleValidationFailed: 434,

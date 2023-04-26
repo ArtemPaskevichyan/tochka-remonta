@@ -12,7 +12,7 @@
                 </div>
                 <label v-else class="galeryLoader__dropzone" :class="{draggedover: isBeingDraggedOver}" @dragover.prevent="dragOverHandling" @dragleave="dragLeaveHandling" @drop="dropHandling">
                     <input ref="imageInput" type="file" @change="inputImagePick">
-                    <img src="" alt="">
+                    <i class="icon-camera galeryLoader__icon"></i>
                     <div class="galeryLoader__label">
                         Перетащите фото или выберите из файлов
                         <div v-if="limit > 0">До {{limit}} файлов</div>

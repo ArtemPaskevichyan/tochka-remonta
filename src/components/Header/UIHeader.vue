@@ -54,6 +54,7 @@ import UINotificationCounter from "../NotificationIndicator/UINotificationCounte
 import UIProgressBar from "../UIProgressBar.vue"
 import {UserDataController} from "../../helpers/UserDataController.js"
 import { serverURL } from "@/preferenses"
+import defaultAvatar from "@/assets/images/profileIcon.png"
 
 export default {
     components: {
@@ -70,7 +71,7 @@ export default {
             isDataLoaded: false,
             notificationCount: 0,
             profileFillProgress: 0,
-            avatarSrc: "",
+            avatarSrc: undefined,
             baseAvatarSrc: serverURL + "/api/v1/auth/get_avatar?filename="
         }
     },
@@ -83,7 +84,7 @@ export default {
             } else if (this.role == "Заказчик") {
                 return "Поиск исполнителей"
             }
-        }
+        },
     },
     methods: {
         showHideNavigation() {
@@ -102,7 +103,7 @@ export default {
             } else if (data.role == "contractor") {
                 this.role = "Исполнитель"
             }
-            this.avatarSrc = this.baseAvatarSrc + data.avatar
+            this.avatarSrc = data.avatar?.length > 0 ? this.baseAvatarSrc + data.avatar : defaultAvatar
             this.isDataLoaded = true
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness

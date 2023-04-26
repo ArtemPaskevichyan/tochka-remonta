@@ -49,6 +49,7 @@ class AuthorizationController {
         }
     }
 
+    // sends registration data, sends email with prove link with key and lounches the timer
     async sendRegistration(email, password1, password2, role) {
         try {
             this.validateData("reg", email, role, password1, password2)
@@ -82,6 +83,7 @@ class AuthorizationController {
             })
     }
 
+    // sends login data for authorization. Sets tokens
     async sendLogin(email, password, role) {
         try {
             this.validateData("log", email, role, password)
@@ -113,6 +115,7 @@ class AuthorizationController {
             })
     }
 
+    // Sends email with password recovery link with key
     async sendPasswordRecovery(email) {
         try {
             this.validateData('rec', email)
@@ -129,13 +132,16 @@ class AuthorizationController {
                 var msg = error.response?.data["msg"]
                 throw msg ? createError() : error 
             })
+
+        Timer.shared.setTimer(120)
     }
 
+    // Verifies registration key email
     async emailVerify(key) {
         const url = `${serverURL}/api/v1/auth/email_verify?key=${key}`
         await axios.get(url)
             .then((response) => {
-
+                console.log("RESP", response)
             })
             .catch((error) => {
                 const msg = error?.response?.data?.msg
@@ -153,16 +159,46 @@ class AuthorizationController {
             })
     }
 
+    // send registration link email again
     async sendEmailAgain(email) {
-        if (!newEmail) {
-            //
+        try {
+            this.validateEmail(email)
+        } catch(error) {
+            throw error
         }
-    } 
 
-    async sendRecovery() {
-        //
+        const URL = `${serverURL}/api/v1/auth/send_email_verify_code?email=${email}`
+        await axios.get(URL)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+        
+        Timer.shared.setTimer(120)
     }
 
+    // updates password and sends key
+    async sendRecovery(key, password1, password2) {
+        if (!key || key.length == 0) {
+            throw createError("Incorrect Key", ERROR_CODES.keyVerificationError)
+        }
+        this.validatePassword(password1)
+        this.validatePassword(password2)
+        if (password1 != password2) {
+            throw createError("Passwords doesn't match", ERROR_CODES.passwordValidationFailed)
+        }
+
+        const URL = `${serverURL}/api/v1/auth/update_password?code=${key}&new_pass=${password1}`
+        await axios.get(URL)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+                throw error
+            })
+    }
+    
+    // returnes correct url for router
     async getAfterLoginURL() {
         const token = await TokenHandler.shared.getToken()
         const model = TokenHandler.shared.parseJwt(token)

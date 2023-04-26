@@ -137,6 +137,7 @@ class ProjectController {
 
         try {
             const response = await axios.get(URL, config)
+            console.log("NRESP", response)
             return response.data.n_list
         } catch(e) {
             throw e
