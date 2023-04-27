@@ -203,6 +203,10 @@ class SettingsPageController {
     async saveAdress(adress) {
         //
     }
+
+    async getRating(uuid) {
+        return (await axios.get(`${serverURL}/api/v1/projects/get_contractor_rate?user_uuid=${uuid}`))?.data?.rate ?? 0
+    }
 }
 
 export { SettingsPageController }

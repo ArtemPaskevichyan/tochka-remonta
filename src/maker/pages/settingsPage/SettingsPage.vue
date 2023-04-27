@@ -167,7 +167,8 @@ export default {
             const oneDay = 24 * 60 * 60 * 1000
             this.time = Math.max(Math.round((new Date(Date.now() - Date.parse(data?.registration_date))) / oneDay), 1)
             this.isLoading = false
-            console.log("FINNALED")
+
+            this.getRating()
         },
 
         async getSocials() {
@@ -280,6 +281,16 @@ export default {
                 await this.viewModel.saveAdress(this.adress)
             } catch(e) {
                 //
+            }
+        },
+
+        async getRating() {
+            try {
+                let ratingLocal = Number(await this.viewModel.getRating(this.uuid))
+                if (isNaN(ratingLocal)) { return }
+                this.rating = ratingLocal
+            } catch(e) {
+                console.log("ERROR", error)
             }
         },
 
