@@ -21,7 +21,7 @@
             <i class="icon-gear header__icon"></i> Настройки профиля
         </button>
         <button class="header__dropdownMenuItem primary" @click="goTo('/createProject')">
-            <i class="icon-plus header__icon"></i> Создать проект
+            <i class="icon-plus header__icon"></i> {{createText}}
         </button>
         <div class="header__dropdownMenuItem hight">
             <UIProgressBar class="header__progressView" :title="'Заполненность профиля'" :value="profileFillProgress"/>
@@ -74,18 +74,9 @@ export default {
             avatarSrc: undefined,
             baseAvatarSrc: serverURL + "/api/v1/auth/get_avatar?filename=",
             clickOutsideListener: undefined,
+            searchText: "Поиск",
+            createText: "Добавить",
         }
-    },
-    computed: {
-        searchText: function() {
-            if (this.role == "Не определена") {
-                return "Поиск"
-            } else if (this.role == "Исполнитель") {
-                return "Поиск проектов"
-            } else if (this.role == "Заказчик") {
-                return "Поиск исполнителей"
-            }
-        },
     },
     methods: {
         showHideNavigation() {
@@ -97,9 +88,6 @@ export default {
             }
         },
 
-        async see() {
-            
-        },
         async fetchData() {
             this.isDataLoaded = false
             var data = await UserDataController.shared.getData()
@@ -114,7 +102,10 @@ export default {
             this.isDataLoaded = true
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness
+            
+            this.setupItems()
         },
+
         goTo(path, ignoreRole=false) {
             var p = path
             if (ignoreRole) { this.$router.push(p); return }
@@ -125,6 +116,16 @@ export default {
                 p = "/maker" + p
             }
             this.$router.push(p);
+        },
+        
+        setupItems() {
+            if (this.role == "Исполнитель") {
+                this.searchText = "Поиск проектов"
+                this.createText = "Добавить проект"
+            } else if (this.role == "Заказчик") {
+                this.searchText = "Поиск исполнителей"
+                this.createText = "Создать проект"
+            }
         }
     },
     mounted() {

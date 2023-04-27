@@ -25,7 +25,7 @@
                 <div class="makerPage__blockTitle">Достижения</div>
                 <div class="makerPage__achivementHolder">
                     <div class="makerPage__achivement" v-for="(a, index) in achivements" :key="index" :class="{skeleton: isAchivementsLoading}">
-                        
+                        <UIAchievment :filename="a?.filename"/>
                     </div>
                 </div>
                 <div class="makerPage__caption" v-if="achivements?.length == 0">
@@ -95,12 +95,13 @@ import UIRating from '@/components/FormComponents/UIRating.vue'
 import { serverURL } from '@/preferenses.js'
 import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue'
 import Review from '@/components/Supports/Review.vue'
+import UIAchievment from '@/components/UIAchievment.vue'
 import { UserDataController } from '@/helpers/UserDataController'
 
 export default {
     components: {
         UIHeader, SuggestProject, UIModal, UIButton, UIRating,
-        ArchiveProjectCard, Review,
+        ArchiveProjectCard, Review, UIAchievment,
 
     },
     data() {

@@ -1,7 +1,7 @@
 <template>
     <div class="headerPage">
         <UIHeader></UIHeader>
-        <div class="titleText pageTitle">Создание проекта</div>
+        <div class="titleText pageTitle">Добавление проекта</div>
         <div class="createProject backgroundCard">
             <div class="createProject__content" id="CPTitle">
                 <div class="createProject__item">

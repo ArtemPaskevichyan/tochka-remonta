@@ -7,7 +7,6 @@
         <div class="authorizationHolder__content">
             <div class="login__formBlock">
                 <div class="registration__switchHolder">
-                    <UISwitch :data="selectionData" @selectedId="(event) => {selectionId = event}"></UISwitch>
                 </div>
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'"
                 v-model:value="email" :style="'small'"></UIInput>

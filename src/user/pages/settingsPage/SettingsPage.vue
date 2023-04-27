@@ -30,7 +30,9 @@
                 </div>
             </div>
         </div>
-        <UIButton :style="'destructive'" @click="exit()">Выйти</UIButton>
+        <div class="settingsPage__controlsFooter">
+            <UIButton :style="'destructive'" @click="exit()">Выйти из аккаунта</UIButton>
+        </div>
     </div>
     <UILoadingWall v-if="totalLoading"/>
 </template>

@@ -20,8 +20,7 @@
                     <div class="settingsPage__imageHolder">
                         <UIImageLoader :class="{skeleton: isLoading}" v-model:imageSrc="imageSrc" @fileLoaded="setAvatar"/>
                     </div>
-                    <!-- <UIButton :style="'default'" class="settingsPage__imageButton" @click="clearAvatar" v-if="imageSrc">Очистить</UIButton>
-                    <UIButton :style="'default'" class="settingsPage__imageButton" @click="setAvatar" v-if="imageNew">Сохранить</UIButton> -->
+                    <UIRating :rating="rating"/>
                 </div>
                 <div class="settingsPage__infoSide">
                     <div class="settingsPage__nameHolder" :class="{skeleton: isLoading}">
@@ -52,8 +51,6 @@
                             <span>{{s.title}}</span><span class="settingsPage__socialSplitter">: </span><span>{{s.value}}</span>
                         </div>   
                         <div class="settingsPage__socialControls">
-                            <!-- <UIButton @click="switchSocialHidden(index)" v-if="s.show" :style="'square colorless default'">H</UIButton>
-                            <UIButton @click="switchSocialHidden(index)" v-if="!s.show" :style="'square colorless default'">h</UIButton> -->
                             <UIButton @click="deleteSocial(index)" :style="'square destructive'"><i class="icon-cross inline-icon"></i></UIButton>
                         </div>
                     </div>
@@ -86,7 +83,9 @@
                 </div>
             </div>
         </div>
-        <UIButton :style="'destructive'" @click="exit()">Выйти</UIButton>
+        <div class="settingsPage__controlsFooter">
+            <UIButton :style="'destructive'" @click="exit()">Выйти из аккаунта</UIButton>
+        </div>
     </div>
 </template>
 
@@ -98,6 +97,8 @@ import UIImageLoader from '@/components/FormComponents/ImageLoaders/UIImageLoade
 import UIModal from '@/components/UIModal.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
 import UITextInput from '@/components/FormComponents/UITextInput.vue';
+import UIRating from '@/components/FormComponents/UIRating.vue';
+
 
 import { AdressHelper } from '@/helpers/AdressHelper.js'
 import {UserDataController} from '@/helpers/UserDataController.js'
@@ -106,7 +107,8 @@ import {SettingsPageController} from '@/maker/pages/settingsPage/helpers/setting
 
 export default {
     components: {
-        UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall, UITextInput,
+        UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall,
+        UITextInput, UIRating,
     },
 
     data() {
@@ -139,7 +141,8 @@ export default {
                 {title: 'Номер телефона', value: '89105834007', show: true, id: 2},
             ],
             achivesList: [],
-            viewModel: new SettingsPageController()
+            viewModel: new SettingsPageController(),
+            rating: 0,
         }
     },
     methods: {

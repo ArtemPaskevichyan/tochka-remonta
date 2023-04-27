@@ -8,7 +8,7 @@
             {{ model?.description }}
         </div>
 
-        <div class="negotiationView__footer" v-if="model?.decision">
+        <div class="negotiationView__footer negotiationView__footerText" v-if="model?.decision">
             Вердикт: {{ Boolean(model?.decision) ? "Одобрено" : "Отклонено" }}
         </div>
         <div class="negotiationView__footer" v-else-if="!watchOnly">

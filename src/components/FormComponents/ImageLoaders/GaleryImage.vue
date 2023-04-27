@@ -2,7 +2,7 @@
 <div class="uploadImageContainer">
     <img :src="src" alt="">
     <UIButton @click="$emit('remove')" class="uploadImageContainer__closeButton" :style="'square small destructive'">
-    X
+        <i class="icon-cross inline-icon"></i>
     </UIButton>
 </div>
 </template>

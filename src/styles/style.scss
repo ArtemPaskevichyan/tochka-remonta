@@ -794,6 +794,7 @@ img {
     &__closeButton {
         top: 4px;
         right: 4px;
+        font-size: 15px;
         position: absolute;
     }
 
@@ -1116,6 +1117,7 @@ img {
         background: none;
         border: none;
         color: $grey-color;
+        cursor: pointer;
 
         &:active {
             color: scale-color($color: $grey-color, $lightness: -10%);
@@ -1719,6 +1721,7 @@ img {
     display: flex;
     flex-direction: row;
     gap: 30px;
+    margin-bottom: 20px;
 
     &__imageSide {
         display: flex;
@@ -1934,6 +1937,15 @@ img {
         .button {
             margin-top: 14px;
         }
+    }
+
+    &__controlsFooter {
+        width: 60%;
+        margin: 20px auto;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        flex-direction: row;
     }
 }
 
@@ -2276,6 +2288,7 @@ img {
         color: $secondary-text-color;
         font-weight: $font-regular;
         flex-grow: 1;
+        margin-bottom: 20px;
     }
 
     &__footer {
@@ -2283,6 +2296,14 @@ img {
         flex-direction: row;
         justify-content: flex-end;
         gap: 20px;
+    }
+
+    &__footerText {
+        color: $primary-theme-color;
+        font: {
+            weight: $font-medium;
+            size: 20px;
+        }
     }
 }
 
