@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isNavigationOpened" class="header__dropdownMenu">
-        <div class="header__dropdownTitleBlock">
+    <div v-if="isNavigationOpened" class="header__dropdownMenu" @click.stop>
+        <div class="header__dropdownTitleBlock" @click="goTo('/settingsPage')">
             <div class="header__dropdownTitle" :class="{skeleton: !isDataLoaded}">
                 {{ email }}
             </div>
@@ -9,19 +9,19 @@
             </div>
         </div>
         <button class="header__dropdownMenuItem" @click="goTo('/myProjects')">
-            Мои проекты<span v-if="countOfProjects > 0" style="margin-left: 0.3em;">({{countOfProjects}})</span>
+            <i class="icon-cards header__icon"></i> Мои проекты<span v-if="countOfProjects > 0" style="margin-left: 0.3em;">({{countOfProjects}})</span>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/search')">
-            {{searchText}}
+            <i class="icon-search header__icon"></i> {{searchText}}
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
-            Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="countOfNotifications" v-if="countOfNotifications > 0"></UINotificationCounter>
+            <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="countOfNotifications" v-if="countOfNotifications > 0"></UINotificationCounter>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/settingsPage')">
-            Настройки профиля
+            <i class="icon-gear header__icon"></i> Настройки профиля
         </button>
         <button class="header__dropdownMenuItem primary" @click="goTo('/createProject')">
-            Создать проект <i style="margin-left: 0.3em" class="icon-plus inline-icon"></i>
+            <i class="icon-plus header__icon"></i> Создать проект
         </button>
         <div class="header__dropdownMenuItem hight">
             <UIProgressBar class="header__progressView" :title="'Заполненность профиля'" :value="profileFillProgress"/>
@@ -32,7 +32,7 @@
         <div @click="see" class="header__location" :class="{skeleton: !isDataLoaded}">
             МОСКВА
         </div>
-        <div @click="showHideNavigation" class="header__profileBlock">
+        <div @click.stop="showHideNavigation" class="header__profileBlock">
             <UINotificationIndicatorHolder :amount="notificationCount" :displayZero="false">
                 <span class="header__profileLabel" :class="{skeleton: !isDataLoaded}">
                     Профиль
@@ -72,7 +72,8 @@ export default {
             notificationCount: 0,
             profileFillProgress: 0,
             avatarSrc: undefined,
-            baseAvatarSrc: serverURL + "/api/v1/auth/get_avatar?filename="
+            baseAvatarSrc: serverURL + "/api/v1/auth/get_avatar?filename=",
+            clickOutsideListener: undefined,
         }
     },
     computed: {
@@ -89,7 +90,13 @@ export default {
     methods: {
         showHideNavigation() {
             this.isNavigationOpened = !this.isNavigationOpened
+            if (this.isNavigationOpened) {
+                document.addEventListener("click", this.showHideNavigation)
+            } else {
+                document.removeEventListener("click", this.showHideNavigation)
+            }
         },
+
         async see() {
             
         },
@@ -123,7 +130,7 @@ export default {
     mounted() {
         console.log("HEADER IS MOUNTED")
         this.fetchData()
-    }
+    },
 }
 </script>
 

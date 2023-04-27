@@ -39,7 +39,7 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Действия</div>
                 <div class="projectSearchingPage__controls">
-                    <UIButton>Профиль исполнителя</UIButton>
+                    <UIButton @click="goToMaker">Профиль исполнителя</UIButton>
                     <UIButton @click="openCompletion">Завершить проект</UIButton>
                 </div>
             </div>
@@ -148,6 +148,9 @@ export default {
             } finally {
                 this.isLoading = false
             }
+        },
+        goToMaker() {
+            this.$router.push('/user/makerPage/' + this.project?.contractor_uuid)
         },
     },
     props: {

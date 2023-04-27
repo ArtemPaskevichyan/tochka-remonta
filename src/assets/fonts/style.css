@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'tochka-remonta';
-  src:  url('fonts/tochka-remonta.eot?zcn91q');
-  src:  url('fonts/tochka-remonta.eot?zcn91q#iefix') format('embedded-opentype'),
-    url('fonts/tochka-remonta.ttf?zcn91q') format('truetype'),
-    url('fonts/tochka-remonta.woff?zcn91q') format('woff'),
-    url('fonts/tochka-remonta.svg?zcn91q#tochka-remonta') format('svg');
+  src:  url('fonts/tochka-remonta.eot?p84fzc');
+  src:  url('fonts/tochka-remonta.eot?p84fzc#iefix') format('embedded-opentype'),
+    url('fonts/tochka-remonta.ttf?p84fzc') format('truetype'),
+    url('fonts/tochka-remonta.woff?p84fzc') format('woff'),
+    url('fonts/tochka-remonta.svg?p84fzc#tochka-remonta') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,10 +25,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.inline-icon {
-  font-size: 0.8em;
+.icon-search:before {
+  content: "\e90c";
 }
-
+.icon-bell:before {
+  content: "\e90d";
+}
+.icon-gear:before {
+  content: "\e90b";
+}
+.icon-cards:before {
+  content: "\e90e";
+}
 .icon-eye:before {
   content: "\e909";
 }
