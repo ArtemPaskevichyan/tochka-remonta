@@ -8,7 +8,10 @@
             {{ model?.description }}
         </div>
 
-        <div class="negotiationView__footer" v-if="!watchOnly">
+        <div class="negotiationView__footer" v-if="model?.decision">
+            Вердикт: {{ Boolean(model?.decision) ? "Одобрено" : "Отклонено" }}
+        </div>
+        <div class="negotiationView__footer" v-else-if="!watchOnly">
             <UIButton :style="'secondary'" @click="$emit('deny')">Отклонить</UIButton>
             <UIButton :style="'primary'" @click="$emit('allow')">Согласовать</UIButton>
         </div>

@@ -7,10 +7,28 @@
 
         
         <div class="authorizationHolder__content">
-            <div class="registration__formBlock">
-                <div class="registration__switchHolder">
-                    <UISwitch :data="selectionData" @selectedId="(event) => {selectionId = event}"></UISwitch>
-                </div>
+            <AuthorizationPagination class="registration__pagination" v-model:currentPageIndex="currentPage" :paginationList="paginationData"/>
+            <div class="registration__formBlock" v-show="currentPage == 0">
+                <RoleSelectItem :class="{active: selectionId == 0}" @click="selectionId = 0">
+                    <template v-slot:title>
+                        <i class="icon-tools"></i>
+                        Я исполнитель
+                    </template>
+                    <template v-slot:body>
+                        Компания, занимающаяся ремонтыми или строительными работами
+                    </template>
+                </RoleSelectItem>
+                <RoleSelectItem :class="{active: selectionId == 1}" @click="selectionId = 1">
+                    <template v-slot:title>
+                        <i class="icon-idea"></i>
+                        Я заказчик
+                    </template>
+                    <template v-slot:body>
+                        Вы хотите реализовать идею в сфере ремонта
+                    </template>
+                </RoleSelectItem>
+            </div>
+            <div class="registration__formBlock" v-show="currentPage == 1">
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" 
                 v-model:value="email" :style="'small'"></UIInput>
                 <UIInput :title="'Пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" 
@@ -18,11 +36,12 @@
                 <UIInput :title="'Повторите пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" 
                 v-model:value="password2" :role="'password'" :style="'small'"></UIInput>
             </div>
+
     
             
             <div class="registration__buttonBlock">
                 <UICheckbox v-model:value="acceptPP" :style="'small'">Я принимаю <UILink :link="'/privacyPolicy'">политику конфиденциальности</UILink></UICheckbox>
-                <UIButton class="registration__mainButton" @click="sendRegistration" :style="buttonStyle">Далее</UIButton>
+                <UIButton class="registration__mainButton" @click="sendRegistration" :style="buttonStyle">{{buttonText}}</UIButton>
             </div>
     
             
@@ -47,18 +66,20 @@
 
 <script>
 import UILink from '@/components/FormComponents/UILink.vue';
-import UISwitch from '@/components/FormComponents/UISwitch.vue';
+// import UISwitch from '@/components/FormComponents/UISwitch.vue';
 import UIInput from '@/components/FormComponents/UIInput.vue'
 import UICheckbox from '@/components/FormComponents/UICheckbox.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
+import AuthorizationPagination from '@/components/Supports/AuthorizationPagination.vue';
+import RoleSelectItem from '@/components/Supports/RoleSelectItem.vue';
 
 import {AuthorizationController} from "@/helpers/AuthorizationController.js"
 import { createError, ERROR_CODES} from "@/helpers/ErrorMaker.js"
 
 export default {
     components: {
-        UISwitch, UIInput, UILink, UICheckbox, UIButton, UILoadingWall, 
+        UIInput, UILink, UICheckbox, UIButton, UILoadingWall, AuthorizationPagination, RoleSelectItem,
     },
     data() {
         return {
@@ -68,6 +89,8 @@ export default {
                 {id: 1, title: "Сделаем ремонт"},
             ],
             selectionId: 0,
+            currentPage: 0,
+            paginationData: [1, 2],
             email: "",
             password1: "",
             password2: "",
@@ -78,6 +101,11 @@ export default {
     },
     methods: {
         async sendRegistration() {
+            if (this.currentPage == 0) {
+                this.currentPage = 1
+                return
+            }
+
             try {
                 if (!this.acceptPP) { throw createError("Accept Privacy Policy", ERROR_CODES.privacyPolicyError) }
                 this.isLoading = true
@@ -104,8 +132,17 @@ export default {
             }
         },
         buttonStyle: function() {
-            return (this.email == '' || this.password1 == '' || this.password2 == '' || !this.acceptPP) ? 'disabled' : 'primary'
+            if (this.currentPage != this.paginationData.length - 1) {
+                return 'primary'
+            } else if (this.email == '' || this.password1 == '' || this.password2 == '' || !this.acceptPP) {
+                return 'disabled'
+            } else {
+                return 'primary'
+            }
         },
+        buttonText: function() {
+            return (this.currentPage != this.paginationData.length - 1) ? 'Далее' : 'Создать аккаунт'
+        }
     }
 }
 </script>

@@ -7,7 +7,7 @@
             </span>
         </div>
 
-        <UIButton :style="'secondary'" @click="$emit('open')">Перейти</UIButton>
+        <UIButton :style="!model?.decision ? 'primary' : 'secondary'" @click="$emit('open')">Перейти</UIButton>
     </div>
 </template>
 

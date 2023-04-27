@@ -102,6 +102,59 @@ img {
   margin-top: 20px;
 }
 
+.authPagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+  height: 40px;
+  gap: 14px;
+}
+.authPagination__item {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  background-color: #C5C5C5;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+}
+.authPagination__item.active {
+  width: 40px;
+  height: 40px;
+  font-size: 27px;
+  background-color: #FFE7C3;
+}
+.authPagination__item:hover:not(.active) {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+.authPagination__item:active {
+  -webkit-filter: brightness(0.95);
+          filter: brightness(0.95);
+}
+
 .authorizationHolder {
   width: 60%;
   min-height: 90vh;
@@ -227,6 +280,10 @@ img {
 }
 .registration__mainButton, .login__mainButton {
   width: 100%;
+}
+.registration__pagination, .login__pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .button {
@@ -2996,4 +3053,80 @@ img {
   width: 60%;
   margin: 0 auto;
   margin-bottom: 25px;
+}
+
+.roleSelectItem {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 6px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 6px;
+  border-radius: 12px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 80px;
+  margin-bottom: 20px;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+  cursor: pointer;
+}
+.roleSelectItem__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 20px;
+  font-weight: 500;
+}
+.roleSelectItem__title {
+  color: #262626;
+}
+.roleSelectItem__checkmark {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  opacity: 0%;
+  color: #401F00;
+}
+.roleSelectItem__body {
+  color: #C5C5C5;
+  font-size: 15px;
+  line-height: 1.3em;
+  font-weight: 400;
+}
+.roleSelectItem.active {
+  background-color: #FFE7C3;
+  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+.roleSelectItem.active .roleSelectItem__title {
+  color: #401F00;
+}
+.roleSelectItem.active .roleSelectItem__body {
+  color: #808080;
+}
+.roleSelectItem.active .roleSelectItem__checkmark {
+  opacity: 100%;
+}
+.roleSelectItem:active {
+  -webkit-filter: brightness(0.95);
+          filter: brightness(0.95);
+}
+.roleSelectItem:hover:not(.active) {
+  background-color: rgb(250, 250, 250);
 }
