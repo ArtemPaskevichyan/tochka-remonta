@@ -17,6 +17,23 @@ class NotificationController {
         return (await axios.get(URL, config)).data?.notifications ?? []
     }
 
+    async viewNotification(id) {
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const URL = `${serverURL}/api/v1/notifications/view_notification?notif_id=${id}`
+
+        await axios.get(URL, config)
+            .then((response) => {
+                
+            })
+            .error((error) => {
+                console.log("ERROR NV", error)
+            })
+    }
 
     fillUser() {
         this.router.push('/user/settingsPage')

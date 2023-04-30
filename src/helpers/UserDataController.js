@@ -44,7 +44,19 @@ class UserDataController {
                 throw createError("Server data error", ERROR_CODES.serverDataFail)
             })
         
-        // Notification parsing
+        console.log("GO TO PARSE NOTIFICATIONS")
+        
+        await this.getNotificationsCount()
+            .then((nCount) => {
+                user.notificationsCount = nCount
+                sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+            })
+
+
+
         
         return user
     }
@@ -65,6 +77,19 @@ class UserDataController {
         } else {
             return undefined
         }
+    }
+
+    async getNotificationsCount() {
+        const nURL = `${serverURL}/api/v1/notifications/get_count`
+        var token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        return (await axios.get(nURL, config))?.data?.count ?? 0
+
     }
 
     async updateData() {

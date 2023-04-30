@@ -15,7 +15,7 @@
             <i class="icon-search header__icon"></i> {{searchText}}
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
-            <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="countOfNotifications" v-if="countOfNotifications > 0"></UINotificationCounter>
+            <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="notificationCount" v-if="notificationCount > 0"></UINotificationCounter>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/settingsPage')">
             <i class="icon-gear header__icon"></i> Настройки профиля
@@ -29,7 +29,7 @@
     </div>
 
     <div class="header">
-        <div @click="see" class="header__location" :class="{skeleton: !isDataLoaded}">
+        <div class="header__location" :class="{skeleton: !isDataLoaded}">
             МОСКВА
         </div>
         <div @click.stop="showHideNavigation" class="header__profileBlock">
@@ -102,6 +102,7 @@ export default {
             this.isDataLoaded = true
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness
+            this.notificationCount = data.notificationsCount
             
             this.setupItems()
         },

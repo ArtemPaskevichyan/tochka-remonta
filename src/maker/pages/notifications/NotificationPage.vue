@@ -51,8 +51,13 @@ export default {
                 console.log(notifications)
                 
                 for (let noticitaion of notifications) {
-                    this.oldNotifications.push(noticitaion)
-                    this.newNotifications.push(noticitaion)
+                    if (noticitaion.viewed === undefined) {
+                        console.log("udefined viewed")
+                    } else  if (noticitaion.viewed) {
+                        this.oldNotifications.push(noticitaion)
+                    } else {
+                        this.newNotifications.push(noticitaion)
+                    }
                 }
 
             } catch(e) {
@@ -79,6 +84,9 @@ export default {
                     break;
             }
         },
+        async viewNotification(id) {
+            this.notificationController.viewNotification(id)
+        }
     },
     mounted() {
         this.getNotifications()
