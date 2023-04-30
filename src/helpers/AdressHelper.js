@@ -11,16 +11,24 @@ class AdressHelper {
 
     onYmapsAreLoaded(ymaps) {
         this.isLoaded = true
-        for (let id of this.waiters) {
-            this.addToYMAP(id)
+        for (let i of this.waiters) {
+            console.log("FINNALY ADDING", i)
+            this.addToYMAP(i?.id, i?.callback)
         }
     }
 
-    addToYMAP(id) {
-        if (!this.isLoaded) { this.waiters.push(id); return}
+    addToYMAP(id, callback) {
+        console.log(id, callback)
+        if (!this.isLoaded) { this.waiters.push({id, callback}); return}
         console.log("ADDR", ymaps, this.waiters)
         try {
             var suggestView = new ymaps.SuggestView(id, this.CONFIG);
+            suggestView.events.add("select", (event) => {
+                if (callback) {
+                    callback(event?.originalEvent?.item?.value)
+                }
+                console.log(event, id)
+            })
         } catch(e) {
             console.log("ADDTOYAMAPERROR", e)
         }

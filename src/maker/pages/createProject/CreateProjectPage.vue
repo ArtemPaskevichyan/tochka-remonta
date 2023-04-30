@@ -294,7 +294,10 @@ export default {
         }
     },
     mounted() {
-        AdressHelper.shared.addToYMAP(this.adressId)
+        AdressHelper.shared.addToYMAP(this.adressId, (data) => {
+            console.log("CALLBACK", data)
+            this.adress = data
+        })
     },
 }
 </script>

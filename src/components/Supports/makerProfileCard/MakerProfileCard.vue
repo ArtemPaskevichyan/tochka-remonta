@@ -113,6 +113,13 @@ export default {
     },
     watch: {
         model: function() {
+            if (this.model?.firstname) {
+                this.onModelLoaded()
+            }
+        }
+    },
+    mounted() {
+        if (this.model?.firstname) {
             this.onModelLoaded()
         }
     },

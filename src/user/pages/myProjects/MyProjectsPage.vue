@@ -30,7 +30,7 @@
             <div class="myProjectsPage__block" v-if="completedList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Завершенные проекты</div>
                 <ArchiveProjectCard v-for="proj in completedList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'"
-                :imageName="proj.main_picture" :description="proj.description" @action="$router.push('/user/project/' + String(proj.id))"/>
+                :imageName="proj.main_picture" :description="proj.description" @action="$router.push('/user/project/' + String(proj.id))" :rating="proj.rating"/>
             </div>
 
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
@@ -71,6 +71,18 @@ export default {
             try {
                 this.isLoading = true
                 this.dataArray = await this.viewModel.getProjectList()
+
+                for (let i = 0; i < this.dataArray.length; i++) {
+                    if (this.dataArray[i]?.status == 'archive') {
+                        this.viewModel.getProjectRating(this.dataArray[i]?.id)
+                            .then((stars) => {
+                                this.dataArray[i].rating = stars
+                            })
+                            .catch((error) => {
+                                console.log("ERROR", error)
+                            })
+                    }
+                }
             } catch(e) {
                 //
             } finally {
