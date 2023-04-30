@@ -1357,6 +1357,17 @@ img {
         cursor: pointer;
     }
 
+    @keyframes dropdownMenuApperance {
+        0% {
+            transform: translateY(-5%);
+            opacity: 0%;
+        }
+        100% {
+            opacity: 100%;
+            transform: translateY(0%);
+        }
+    }
+
     &__dropdownMenu {
         position: fixed;
         display: flex;
@@ -1368,6 +1379,7 @@ img {
         width: 280px;
         border-radius: 0 0 0 12px;
         z-index: 1;
+        animation: dropdownMenuApperance 0.25s 1;
     }
 
     &__dropdownMenuItem {
