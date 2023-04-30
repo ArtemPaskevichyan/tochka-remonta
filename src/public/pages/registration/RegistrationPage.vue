@@ -11,20 +11,20 @@
             <div class="registration__formBlock" v-show="currentPage == 0">
                 <RoleSelectItem :class="{active: selectionId == 0}" @click="selectionId = 0">
                     <template v-slot:title>
-                        <i class="icon-tools"></i>
-                        Я исполнитель
-                    </template>
-                    <template v-slot:body>
-                        Компания, занимающаяся ремонтыми или строительными работами
-                    </template>
-                </RoleSelectItem>
-                <RoleSelectItem :class="{active: selectionId == 1}" @click="selectionId = 1">
-                    <template v-slot:title>
                         <i class="icon-idea"></i>
                         Я заказчик
                     </template>
                     <template v-slot:body>
                         Вы хотите реализовать идею в сфере ремонта
+                    </template>
+                </RoleSelectItem>
+                <RoleSelectItem :class="{active: selectionId == 1}" @click="selectionId = 1">
+                    <template v-slot:title>
+                        <i class="icon-tools"></i>
+                        Я исполнитель
+                    </template>
+                    <template v-slot:body>
+                        Компания, занимающаяся ремонтыми или строительными работами
                     </template>
                 </RoleSelectItem>
             </div>

@@ -64,6 +64,7 @@ img {
     margin-top: 25px;
     margin-bottom: 40px;
     text-align: center;
+    color: $primary-text-color;
 
     &.shortened {
         display: table;
@@ -1067,6 +1068,10 @@ img {
     height: 100px;
     border-radius: 12px;
     overflow: hidden;
+    position: relative;
+    transition: 0.3s all, 0.1s border;
+    cursor: pointer;
+
     img {
         min-width: 100%;
         min-height: 100%;
@@ -1074,6 +1079,19 @@ img {
         object-fit: cover;
         width: 100%;
         height: 100%;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &:hover:not(.active) {
+        opacity: 0.8;
+    }
+
+    &.active {
+        box-sizing: border-box;
+        border: 3px solid $primary-theme-color;
     }
 }
 
@@ -1330,6 +1348,7 @@ img {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         width: 280px;
         border-radius: 0 0 0 12px;
+        z-index: 1;
     }
 
     &__dropdownMenuItem {
@@ -2869,6 +2888,7 @@ img {
     padding: 20px 6px 6px 20px;
     min-height: 160px;
     max-height: 200px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     &__title {
         color: $primary-text-color;

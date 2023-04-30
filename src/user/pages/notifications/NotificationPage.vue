@@ -4,7 +4,7 @@
         <div>
             <div class="titleText pageTitle">Новые уведомления</div>
             <div class="notificationPage" v-if="newNotifications?.length > 0">
-                <UINotification :isLoading="isLoading" :key="index" v-for="(n, index) in newNotifications"/>
+                <UINotification :isLoading="isLoading" :key="index" v-for="(n, index) in newNotifications" :model="n"/>
             </div>
             <div class="notificationPage__caption" v-else>
                 Новых уведомлений нет
@@ -13,7 +13,7 @@
         <div>
             <div class="titleText pageTitle">Прочитанные</div>
             <div class="notificationPage" v-if="oldNotifications?.length > 0">
-                <UINotification :isLoading="isLoading" :key="index" v-for="(n, index) in oldNotifications"/>
+                <UINotification :isLoading="isLoading" :key="index" v-for="(n, index) in oldNotifications" :model="n"/>
             </div>
             <div class="notificationPage__caption" v-else>
                 У вас ещё нет непрочитанных уведомлений
@@ -44,9 +44,11 @@ export default {
         async getNotifications() {
             try {
                 this.isLoading = true
-                var notifications = this.notificationController.getNotifications()
+                var notifications = await this.notificationController.getNotifications()
                 this.oldNotifications = []
                 this.newNotifications = []
+                
+                console.log(notifications)
                 
                 for (let noticitaion of notifications) {
                     this.oldNotifications.push(noticitaion)

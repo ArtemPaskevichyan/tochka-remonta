@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import RegistrationPage from "@/public/pages/registration/RegistrationPage.vue"
 import LoginPage from "@/public/pages/login/LoginPage.vue"
 import MessagePage from "@/public/pages/message/MessagePage.vue"
@@ -7,6 +7,7 @@ import ForgotPasswordPage from "@/public/pages/forgotPassword/ForgotPasswordPage
 import PasswordRecoveryPage from "@/public/pages/passwordRecovery/PasswordRecoveryPage.vue"
 import CheckEmailPageForRecovery from "@/public/pages/checkEmailPage/CheckEmailPageForRecovery.vue"
 import SuccessfulPasswordChangePage from "@/public/pages/message/SuccessfulPasswordChangePage.vue"
+import NotFoundPage from "@/public/pages/message/NotFoundPage.vue"
 
 import UserSearchPage from "@/user/pages/searchPage/SearchPage.vue"
 import CreateProjectPage from "@/user/pages/createProject/CreateProjectPage.vue"
@@ -68,6 +69,7 @@ const routes = [
     path: '/checkEmailForRecovery/:email',
     name: 'checkEmailForRecovery',
     component: CheckEmailPageForRecovery,
+    props: true,
   },
   {
     path: '/successfulPasswordChange',
@@ -140,7 +142,12 @@ const routes = [
   {
     path: '/maker/createProject',
     component: MakerCreateProjectPage,
-  }
+  },
+
+  {
+    path: '/:pathMatch(.*)',
+    component: NotFoundPage,
+  },
 ]
 
 const router = createRouter({
