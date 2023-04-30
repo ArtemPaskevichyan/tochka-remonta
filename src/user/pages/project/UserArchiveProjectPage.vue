@@ -50,7 +50,7 @@
                             <UIRating :rating="maker?.rating ?? 0"/>
                         </div>
                         <div class="projectSearchingPage__controls">
-                            <UIButton :style="'secondary'">Профиль</UIButton>
+                            <UIButton :style="'secondary'" @click="goToMaker">Профиль</UIButton>
                             <UIButton :style="'primary'" @click="openSuggestModal">Предложить проект</UIButton>
                         </div>
                     </div>
@@ -161,6 +161,9 @@ export default {
         openSuggestModal() {
             this.isSuggestModalShown = true
         },
+        goToMaker() {
+            this.$router.push('/user/makerPage/' + this.project?.contractor_uuid)
+        }
     },
     watch: {
         project: function() {

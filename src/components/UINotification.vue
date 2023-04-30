@@ -7,7 +7,7 @@
             {{ model?.body ?? "NO BODY TEXT FOUND HERE" }}
         </div>
         <div class="notification__footer">
-            <UIButton :style="isLoading ? 'disabled' : (model?.watched ? 'secondary' : 'primary')" @click="$emit('action')">Посмотреть</UIButton>
+            <UIButton :style="isLoading ? 'disabled' : (model?.watched ? 'secondary' : 'primary')" @click="$emit('action', model)">Посмотреть</UIButton>
         </div>
     </div>
 </template>
