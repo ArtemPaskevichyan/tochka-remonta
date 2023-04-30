@@ -18,6 +18,7 @@ import MakerActiveProjectPage from "@/maker/pages/project/MakerActiveProjectPage
 import MakerArchiveProjectPage from "@/maker/pages/project/MakerArchiveProjectPage.vue"
 import UILoadingWall from '@/components/UILoadingWall.vue'
 import {ProjectController} from '@/maker/pages/project/helpers/projectController.js'
+import { UserDataController } from "@/helpers/UserDataController"
 
 export default {
     components: {
@@ -30,6 +31,7 @@ export default {
             project: undefined,
             eventList: undefined,
             isLoading: false,
+            uuid: undefined,
         }
     },
     props: {

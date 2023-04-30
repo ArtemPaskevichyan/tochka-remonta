@@ -87,6 +87,7 @@ import CompleteProjectForMaker from '@/components/Supports/CompleteProjectForMak
 import EventCreation from '@/components/Supports/EventCreation.vue';
 import NegotiationCreation from '@/components/Supports/NegotiationCreation.vue';
 import { serverURL } from '@/preferenses';
+import { UserDataController } from '@/helpers/UserDataController';
 
 
 export default {
@@ -203,6 +204,18 @@ export default {
                 this.isLoading = false
             }
         },
+        async onMounted() {
+            this.isLoading = true
+            var uuid = (await UserDataController.shared.getData()).uuid
+            console.log(uuid)
+            if (uuid != this.project?.contractor_uuid) {
+                console.log("GOBACK2")
+                this.$router.back()
+                return
+            }
+            this.isLoading = false
+            this.getNegotiations()
+        }
     },
     props: {
         project: {
@@ -230,7 +243,7 @@ export default {
         }
     },
     mounted() {
-        this.getNegotiations()
+        this.onMounted()
     },
     computed: {
         hasProject: function() {

@@ -17,6 +17,9 @@
         <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
             <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="notificationCount" v-if="notificationCount > 0"></UINotificationCounter>
         </button>
+        <button class="header__dropdownMenuItem" @click="goTo('/suggestions')" v-if="this.role == 'Исполнитель'">
+            <i class="icon-person-plus header__icon"></i>Предложенные мне
+        </button>
         <button class="header__dropdownMenuItem" @click="goTo('/settingsPage')">
             <i class="icon-gear header__icon"></i> Настройки профиля
         </button>

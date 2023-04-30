@@ -19,7 +19,8 @@
                 Мои проекты
             </div>
             <SuggestProjectCard class="suggestProject__projectsCard" v-for="p in projectsList"  :isLoading="isProjectListLoading"
-            :key="p.id" :title="p.title ?? 'UNTITLED'" :projectId="p.id" :status="'Поиск исполнителя'" :imageName="p.main_picture"/>
+            :key="p.id" :title="p.title ?? 'UNTITLED'" :projectId="p.id" :status="'Поиск исполнителя'" :imageName="p.main_picture"
+            @suggest="sendSuggestion"/>
             <div class="suggestProject__projectsCaption" v-if="projectsList?.length == 0">
                 Проекты, доступные для предложения, не найдены
             </div>
@@ -62,7 +63,17 @@ export default {
             } finally {
                 this.isProjectListLoading = false
             }
-        }
+        },
+
+        async sendSuggestion(p_id) {
+            this.viewController.sendSuggestion(p_id, this.makerModel?.uuid)
+                .then((response) => {
+                    console.log("RESP", response)
+                })
+                .catch((error) => {
+                    console.log("ERROR", error)
+                })
+        },
     },
     computed: {
         avatarURL: function() {

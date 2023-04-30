@@ -1750,6 +1750,7 @@ img {
     &__button {
         margin-left: auto;
         width: 215px;
+        flex-shrink: 0;
     }
 }
 
@@ -3023,5 +3024,22 @@ img {
         background-color: $light-yellow;
     }
 }
+
+.suggestionsPage {
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+.suggestionsCard {
+    &__footer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-right: 14px;
+        
+    }
+}
+
 
 

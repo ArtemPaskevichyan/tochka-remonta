@@ -27,6 +27,7 @@ import MakerProjectPage from '@/maker/pages/project/MakerProjectPage.vue'
 import MakerMyProjectsPage from "@/maker/pages/myProjects/MyProjectsPage.vue"
 import MakerNotificationPage from "@/maker/pages/notifications/NotificationPage.vue"
 import MakerCreateProjectPage from "@/maker/pages/createProject/CreateProjectPage.vue"
+import SuggestionsPage from "@/maker/pages/suggestions/SuggestionsPage.vue"
 
 const routes = [
   {
@@ -142,6 +143,10 @@ const routes = [
   {
     path: '/maker/createProject',
     component: MakerCreateProjectPage,
+  },
+  {
+    path: '/maker/suggestions',
+    component: SuggestionsPage,
   },
 
   {

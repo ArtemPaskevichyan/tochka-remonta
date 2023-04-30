@@ -1,6 +1,7 @@
 import { serverURL } from "@/preferenses"
 import axios from "axios"
 import { UserDataController } from "@/helpers/UserDataController"
+import { TokenHandler } from "@/helpers/TokenHandler"
 
 class SuggestProjectController {
     async getProjects() {
@@ -21,6 +22,20 @@ class SuggestProjectController {
             })
         
         return data ?? []
+    }
+
+    async sendSuggestion(p_id, maker_uuid) {
+        if (!p_id || !maker_uuid) { return }
+
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const URL = `${serverURL}/api/v1/projects/create_join_request?p_id=${p_id}&to_user=${maker_uuid}`
+
+        return await axios.get(URL, config)
     }
 }
 

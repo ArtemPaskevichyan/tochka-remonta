@@ -54,9 +54,6 @@ class UserDataController {
             .catch((error) => {
                 console.log("ERROR", error)
             })
-
-
-
         
         return user
     }

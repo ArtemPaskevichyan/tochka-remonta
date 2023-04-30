@@ -1885,6 +1885,8 @@ img {
 .infoCard__button {
   margin-left: auto;
   width: 215px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 
 .myProjectsPage {
@@ -3327,4 +3329,21 @@ img {
 }
 .roleSelectItem:hover:not(.active) {
   background-color: #FFFDF6;
+}
+
+.suggestionsPage {
+  width: 60%;
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+
+.suggestionsCard__footer {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-right: 14px;
 }

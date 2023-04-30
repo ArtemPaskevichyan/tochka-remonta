@@ -58,11 +58,15 @@ export default {
                 this.imageError = true
                 return
             }
-            this.imageSrc = `${serverURL}/api/v1/projects/get_event_photo?filename=${this.imageName}`
         }
     },
     mounted() {
         this.fetchImage()
+    },
+    computed: {
+        imageSrc() {
+            return `${serverURL}/api/v1/projects/get_event_photo?filename=${this.imageName}`
+        }
     }
 }
 </script>
