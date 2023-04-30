@@ -4,7 +4,8 @@
         {{ title }}
     </div>
     <div class="input__holder">
-        <input :type="inputType" v-model="innerValue" :placeholder="placeholder" :id="idOfInput">
+        <input :type="inputType" v-model="innerValue" :placeholder="placeholder" :id="idOfInput" v-if="idOfInput">
+        <input :type="inputType" v-model="innerValue" :placeholder="placeholder" v-else>
         <button v-if="role == 'password'" class="input__passwordShowHideButton" @click="showHidePassword">
             <i :class="{'icon-eye' : inputType == 'password', 'icon-eye-cross' : inputType == 'text'}"></i>
         </button>
@@ -22,10 +23,6 @@ export default {
     },
     props: {
         title: String,
-        idOfInput: {
-            type: String,
-            default: ""
-        },
         value: {
             type: String,
             required: true,
@@ -38,7 +35,11 @@ export default {
         style: {
             type: String,
             default: "text"
-        }
+        },
+        idOfInput: {
+            type: String,
+            default: undefined
+        },
     },
     methods: {
         showHidePassword() {

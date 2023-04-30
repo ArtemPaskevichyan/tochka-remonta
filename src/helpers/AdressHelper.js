@@ -11,15 +11,19 @@ class AdressHelper {
 
     onYmapsAreLoaded(ymaps) {
         this.isLoaded = true
-        for (var id of this.waiters) {
+        for (let id of this.waiters) {
             this.addToYMAP(id)
         }
     }
 
     addToYMAP(id) {
         if (!this.isLoaded) { this.waiters.push(id); return}
-
-        var suggestView = new ymaps.SuggestView(id, this.CONFIG);
+        console.log("ADDR", ymaps, this.waiters)
+        try {
+            var suggestView = new ymaps.SuggestView(id, this.CONFIG);
+        } catch(e) {
+            console.log("ADDTOYAMAPERROR", e)
+        }
     }
 
     constructor() {

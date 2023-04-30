@@ -1,8 +1,8 @@
 <template>
     <div class="negotiation">
-        <div class="negotiation__content">
-            {{ model?.title }}
-            <span class="negotiation__date">
+        <div class="negotiation__content" :class="{skeleton: !model?.title}">
+            {{ model?.title ?? "UNFINED"}}
+            <span class="negotiation__date" :class="{skeleton: !model?.title}">
                 {{ date }}
             </span>
         </div>
@@ -31,7 +31,7 @@ export default {
     },
     computed: {
         date: function() {
-            return new Date(this.model?.date).toISOString().slice(0,10).replace(/-/g,".");
+            return this.model?.date ? new Date(this.model?.date).toISOString().slice(0,10).replace(/-/g,".") : "00.00.00"
         }
     }
 }

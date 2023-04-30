@@ -29,11 +29,11 @@
                 </RoleSelectItem>
             </div>
             <div class="registration__formBlock" v-show="currentPage == 1">
-                <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" 
+                <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" :class="{error: emailError}" 
                 v-model:value="email" :style="'small'"></UIInput>
-                <UIInput :title="'Пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" 
+                <UIInput :title="'Пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" :class="{error: passwordError}" 
                 v-model:value="password1" :role="'password'" :style="'small'"></UIInput>
-                <UIInput :title="'Повторите пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" 
+                <UIInput :title="'Повторите пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" :class="{error: passwordError}" 
                 v-model:value="password2" :role="'password'" :style="'small'"></UIInput>
             </div>
 
@@ -61,25 +61,40 @@
             <span>Уже есть аккаунт?  <UILink :size="'small'" :link="'/login'">Войти</UILink></span>
         </div>
     </div>
+
     <UILoadingWall v-if="isLoading"></UILoadingWall>
+    <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
+        <template v-slot:body>
+            <div class="alert__baseTitle" v-if="errorToAlert?.title">
+                {{errorToAlert?.title}}
+            </div>
+            <div class="alert__baseText" v-if="errorToAlert?.text">
+                {{errorToAlert?.text}}
+            </div>
+        </template>
+        <template v-slot:controls>
+            <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
+        </template>
+    </UIAlert>
 </template>
 
 <script>
 import UILink from '@/components/FormComponents/UILink.vue';
-// import UISwitch from '@/components/FormComponents/UISwitch.vue';
 import UIInput from '@/components/FormComponents/UIInput.vue'
 import UICheckbox from '@/components/FormComponents/UICheckbox.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
 import AuthorizationPagination from '@/components/Supports/AuthorizationPagination.vue';
 import RoleSelectItem from '@/components/Supports/RoleSelectItem.vue';
+import UIAlert from '@/components/UIAlert.vue';
 
 import {AuthorizationController} from "@/helpers/AuthorizationController.js"
 import { createError, ERROR_CODES} from "@/helpers/ErrorMaker.js"
 
 export default {
     components: {
-        UIInput, UILink, UICheckbox, UIButton, UILoadingWall, AuthorizationPagination, RoleSelectItem,
+        UIInput, UILink, UICheckbox, UIButton, UILoadingWall, AuthorizationPagination,
+        RoleSelectItem, UIAlert, 
     },
     data() {
         return {
@@ -97,6 +112,11 @@ export default {
             acceptPP: false,
             authServices: [],
             isLoading: false,
+            errorToAlert: {},
+            isAlertOpened: false,
+
+            emailError: false,
+            passwordError: false,
         }
     },
     methods: {
@@ -114,11 +134,42 @@ export default {
                     email: this.email,
                 }})
             } catch(error) {
-                alert(error.message)
+                switch (error?.message) {
+                    case "Accept Privacy Policy":
+                        this.callError("Политика конфиденциальности", "Чтобы создать аккаунт, необходимо принять политику конфиденциальности", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+                        break;
+                    case "email is already in use":
+                        this.emailError = true
+                        this.callError("Использующийся Email", "Аккаунт с таким Email уже существует", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}, {label: "Войти в аккаунт", style: "primary", callback: () => {this.$router.push("/login")}}])
+                        break;
+                    case "Incorrect Email":
+                        this.emailError = true
+                        this.callError("Некорректный Email", "Проверьте правильность введённого Email", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+                        break;
+                    case "Empty password":
+                        this.callError("Пустой пароль", "Проверьте, ввели ли вы пароль", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+                        break;
+                    case "Unexisting role":
+                        this.callError("Некорректная роль", "Проверьте выбранную вами роль", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+                        break;
+                    case "Passwords doesn't match":
+                        this.passwordError = true
+                        this.callError("Пароли не совпадают", "Введённые пароли не совпадают, проверьте введённые данные", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+                        break;
+                    default:
+                        this.callError("Обнаружена ошибка", error?.message + ". Повторите попытку входа позже", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+                }
             } finally {
                 this.isLoading = false
             }
-        }
+        },
+
+        callError(title, text, buttons) {
+            this.isAlertOpened = true
+            this.errorToAlert.title = title
+            this.errorToAlert.text = text
+            this.errorToAlert.buttons = buttons
+        },
     },
     computed: {
         role: function() {
@@ -143,7 +194,18 @@ export default {
         buttonText: function() {
             return (this.currentPage != this.paginationData.length - 1) ? 'Далее' : 'Создать аккаунт'
         }
-    }
+    },
+    watch: {
+        email: function() {
+            this.emailError = false
+        },
+        password1: function() {
+            this.passwordError = false
+        },
+        password2: function() {
+            this.passwordError = false
+        }
+    },
 }
 </script>
 

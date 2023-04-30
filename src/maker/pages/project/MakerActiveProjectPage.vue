@@ -10,9 +10,11 @@
                         Согласования
                         <UIButton :style="'primary'" @click="createNegotiation">Создать</UIButton>
                     </div>
+
+                    все {{negotiations?.length}} согласований
                 </div>
                 <!-- <Negotiation v-for="n in negotiations?.slice(-3)" :key="n.id" :model="n" @open="openNegotiation(n)"/> -->
-                <Negotiation v-for="n in negotiations" :key="n.id" :model="n" @open="openNegotiation(n)"/>
+                <Negotiation v-for="n in negotiations?.slice(0, 3)" :key="n.id" :model="n" @open="openNegotiation(n)"/>
                 <div class="projectSearchingPage__caption" v-if="negotiations?.length == 0 || negotiations == null">Вопросов для согласования пока нет</div>
             </div>
 
@@ -100,7 +102,8 @@ export default {
             isModalOpened: false,
             modalContentType: undefined,
             negotiationModel: undefined,
-            negotiations: [],
+            negotiations: [{}, {}, {}],
+            isNegotiationsLoading: true,
             isLoading: false,
             isResponsesLoading: false,
         }
@@ -108,9 +111,12 @@ export default {
     methods: {
         async getNegotiations() {
             try {
-                this.negotiations = await this.projectController.getNegotiations(this.project?.id)
+                this.isNegotiationsLoading = true
+                this.negotiations = await this.projectController.getNegotiations(this.project?.id, 3)
             } catch(e) {
                 //
+            } finally {
+                this.isNegotiationsLoading = false
             }
         },
         openNegotiation(n) {
@@ -151,6 +157,7 @@ export default {
                 this.isModalOpened = false
                 this.isLoading = true
                 await this.projectController.createNegotiation(data, this.project?.id, this.project?.customer_uuid)
+                this.getNegotiations()
             } catch(e) {
                 //
             } finally {

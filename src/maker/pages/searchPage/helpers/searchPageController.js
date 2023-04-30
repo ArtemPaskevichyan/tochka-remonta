@@ -2,24 +2,26 @@ import axios from "axios"
 import { TokenHandler } from "@/helpers/TokenHandler"
 import { serverURL } from "@/preferenses"
 
-const OFFSET = 0
-const LIMIT = 10
 
 class SearchPageController {
-    async getProjectsByFilters(filtersModel) {
+    async getProjectsByFilters(offset=0, limit=10, filtersModel) {
         var token = await TokenHandler.shared.getToken()
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }
-        const URL = `${serverURL}/api/v1/projects/get_project_list?city=${filtersModel?.city ?? 'Moscow'}&offset=${OFFSET}&limit=${LIMIT}`
+
+        //
+        var URL = `${serverURL}/api/v1/projects/get_project_list?offset=${offset}&limit=${limit}`
+        if (filtersModel?.city) { URL += "&city=" + filtersModel?.city }
+        if (filtersModel?.status) { URL += "&status=" + filtersModel?.status }
         var projects = []
 
         await axios.get(URL, config)
             .then((response) => {
                 console.log("RESP", response)
-                projects = response?.data?.project_list?.filter(p => p.status == 'search')
+                projects = response?.data?.project_list
             })
             .catch((error) => {
                 console.log("ERROR", error)

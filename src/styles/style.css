@@ -469,11 +469,16 @@ img {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  cursor: pointer;
 }
 .checkbox__box.active {
   border: none;
   color: #401F00;
   background-color: #FFE7C3;
+}
+.checkbox__box:active {
+  -webkit-filter: brightness(0.98);
+          filter: brightness(0.98);
 }
 .checkbox.error .checkbox__box {
   border: 2px solid #FF6868;
@@ -1119,6 +1124,88 @@ img {
 }
 .rating img.mutating {
   cursor: pointer;
+}
+
+.alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 12;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.alert__content {
+  border-radius: 20px;
+  width: 40vw;
+  max-width: 500px;
+  min-height: 200px;
+  background-color: white;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  max-height: 90vh;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.alert__body {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin-bottom: 30px;
+}
+.alert__button {
+  top: 20px;
+  right: 20px;
+  position: absolute;
+  background: none;
+  border: none;
+  color: #D9D9D9;
+  cursor: pointer;
+}
+.alert__button:active {
+  color: #c3c3c3;
+}
+.alert__controls {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 14px;
+}
+.alert__controls .button {
+  width: 100%;
+}
+.alert__baseTitle {
+  margin-bottom: 30px;
+  color: #262626;
+  font-size: 32px;
+  font-weight: 500;
+}
+.alert__baseText {
+  color: #676767;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3em;
 }
 
 .modal {
@@ -3157,5 +3244,5 @@ img {
           filter: brightness(0.95);
 }
 .roleSelectItem:hover:not(.active) {
-  background-color: rgb(250, 250, 250);
+  background-color: #FFFDF6;
 }

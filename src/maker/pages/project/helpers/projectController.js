@@ -125,7 +125,7 @@ class ProjectController {
             })
     }
 
-    async getNegotiations(id) {
+    async getNegotiations(id, slice) {
         var token = await TokenHandler.shared.getToken()
         const URL = `${serverURL}/api/v1/projects/get_negotiation_list?p_id=${id}`
         const config = {
@@ -136,7 +136,12 @@ class ProjectController {
 
         try {
             const response = await axios.get(URL, config)
-            return response.data.n_list
+            if (response.data.n_list) {
+                response.data.n_list.reverse()
+                return response.data.n_list
+            } else {
+                return []
+            }
         } catch(e) {
             throw e
         }

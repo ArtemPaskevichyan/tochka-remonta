@@ -6,7 +6,7 @@
             <UIGalery :imageNames="imageNames" :orientation="'h'"/>
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Согласование ключевых вопросов</div>
-                <Negotiation v-for="n in negotiations?.slice(-3)" :key="n.id" :model="n" @open="openNegotiation(n)"/>
+                <Negotiation v-for="n in negotiations?.slice(0, 3)" :key="n.id" :model="n" @open="openNegotiation(n)"/>
                 <div class="projectSearchingPage__caption" v-if="negotiations?.length == 0  || negotiations == null">Вопросов для согласования пока нет</div>
             </div>
 

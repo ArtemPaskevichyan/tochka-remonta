@@ -24,8 +24,8 @@ class SearchingController {
 
         const response = await axios.post(URL, parameters, config)
         console.log("RESP", response)
-        var array = response?.data?.users
-        return array ?? []
+        var array = response?.data?.users ?? []
+        return array
     }
 
     async getDataOfMaker(uuid) {

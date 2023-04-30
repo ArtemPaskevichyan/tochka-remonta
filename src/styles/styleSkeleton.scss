@@ -176,4 +176,12 @@
     }
 }
 
+.skeleton.negotiation {
+    &__content {
+        background-color: $secondary-text-color;
+    }
 
+    &__date {
+        color: transparent;
+    }
+}

@@ -33,19 +33,19 @@ class AuthorizationController {
 
     validatePassword(password) {
         if (!password || password == '') {
-            throw createError(`Empty password ${password}`, ERROR_CODES.passwordValidationFailed)
+            throw createError("Empty password", ERROR_CODES.passwordValidationFailed)
         }
     }
 
     validateEmail(email) {
         if (!email || !email.includes("@") || !email.includes(".")) {
-            throw createError(`Incorrect Email ${email}`, ERROR_CODES.emailValidationFailed)
+            throw createError("Incorrect Email", ERROR_CODES.emailValidationFailed)
         }
     }
 
     validateRole(role) {
         if (!role || !(role != "customer" || role != "contractor")) {
-            throw createError(`Unexisting role ${role}`, ERROR_CODES.roleValidationFailed)
+            throw createError("Unexisting role", ERROR_CODES.roleValidationFailed)
         }
     }
 
@@ -79,7 +79,7 @@ class AuthorizationController {
             })
             .catch((error) => {
                 console.log(error)
-                throw error
+                throw error?.response?.data?.msg ? new Error(error?.response?.data?.msg) : error
             })
     }
 
@@ -92,7 +92,6 @@ class AuthorizationController {
         }
 
         const url = `${serverURL}/api/v1/auth/login`
-        console.log("URL OF LOGIN", url, serverURL)
         const data = JSON.stringify({
             "email": email,
             "password": password,
@@ -110,8 +109,8 @@ class AuthorizationController {
                 }
             })
             .catch((error) => {
-                console.log(error)
-                throw error
+                console.log("ERROR", error)
+                throw error?.response?.data?.msg ? new Error(error?.response?.data?.msg) : error
             })
     }
 

@@ -11,6 +11,7 @@
 <script>
 import UIHeader from '@/components/Header/UIHeader.vue';
 import UINotification from '@/components/UINotification.vue';
+import { NotificationController } from './helpers/notificatioController';
 
 export default {
     components: {
@@ -20,7 +21,23 @@ export default {
         return {
             isLoading: true,
             notifications: [{}, {}, {}],
+            notificationController: new NotificationController(),
         }
+    },
+    methods: {
+        async getNotifications() {
+            try {
+                this.isLoading = true
+                this.notifications = this.notificationController.getNotifications()
+            } catch(e) {
+                console.log("ERROR", e)
+            } finally {
+                this.isLoading = false
+            }
+        }
+    },
+    mounted() {
+        this.getNotifications()
     }
 }
 </script>

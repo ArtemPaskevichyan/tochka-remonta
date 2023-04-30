@@ -152,3 +152,10 @@
 .skeleton.review__body {
   background-color: #676767;
 }
+
+.skeleton.negotiation__content {
+  background-color: #676767;
+}
+.skeleton.negotiation__date {
+  color: transparent;
+}

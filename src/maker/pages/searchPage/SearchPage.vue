@@ -33,6 +33,8 @@ export default {
             searchSuggestions: [],
             viewModel: new SearchPageController(),
             projectList: [],
+            offset: 0,
+            LIMIT: 10,
         }
     },
     methods: {
@@ -43,7 +45,8 @@ export default {
             
         },
         async getProjectsList() {
-            this.projectList = await this.viewModel.getProjectsByFilters({city: "Moscow"})
+            var model = {status: 'search'}
+            this.projectList = await this.viewModel.getProjectsByFilters(this.offset, this.LIMIT, model)
         }
     },
     mounted() {

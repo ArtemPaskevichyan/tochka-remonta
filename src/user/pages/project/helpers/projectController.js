@@ -137,8 +137,12 @@ class ProjectController {
 
         try {
             const response = await axios.get(URL, config)
-            console.log("NRESP", response)
-            return response.data.n_list
+            if (response.data.n_list) {
+                response.data.n_list.reverse()
+                return response.data.n_list
+            } else {
+                return []
+            }
         } catch(e) {
             throw e
         }
