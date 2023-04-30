@@ -22,9 +22,16 @@
 .skeleton {
   color: transparent;
   opacity: 20%;
-  -webkit-animation: skeletalLoading 2s infinite;
-          animation: skeletalLoading 2s infinite;
+  -webkit-animation-name: skeletalLoading;
+          animation-name: skeletalLoading;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-fill-mode: initial;
+          animation-fill-mode: initial;
   border-radius: 4px;
+  z-index: inherit;
 }
 
 .skeleton.header__location {

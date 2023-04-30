@@ -9,7 +9,7 @@
                 <div class="registration__switchHolder">
                 </div>
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" :class="{error: emailError}"
-                v-model:value="email" :style="'small'"></UIInput>
+                v-model:value="email" :style="'small'" :role="'email'"></UIInput>
                 <UIInput class="lastInput" :title="'Пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" :class="{error: passwordError}"
                 v-model:value="password" :role="'password'" :style="'small'"></UIInput>
                 <div class="login__links">
@@ -92,7 +92,7 @@ export default {
         async sendLogin() {
             try {
                 this.isLoading = true
-                await this.loginViewModel.sendLogin(this.email, this.password, this.role)
+                await this.loginViewModel.sendLogin(this.email?.trim(), this.password, this.role)
                 this.$router.push(await this.loginViewModel.getAfterLoginURL())
             } catch(error) {
                 console.log("COMMING ERROR", error)

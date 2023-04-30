@@ -2481,6 +2481,12 @@ img {
     &__title {
         font-weight: $font-bold;
         color: $primary-text-color;
+        transition: 0.3s opacity;
+        cursor: pointer;
+        
+        &:hover {
+            opacity: 0.7;
+        }
     }
 
     &__text {
@@ -2501,6 +2507,12 @@ img {
         border-radius: 50%;
         background-color: $element-background;
         overflow: hidden;
+        cursor: pointer;
+        transition: 0.3s all;
+
+        &:hover {
+            opacity: 0.8;
+        }
 
         img {
             min-height: 100%;
@@ -2880,6 +2892,15 @@ img {
         width: 60%;
         margin: 0 auto;
         margin-bottom: 25px;
+    }
+
+    &__caption {
+        color: $placeholder-text-color;
+        text-align: center;
+        font: {
+            size: 20px;
+            weight: $font-regular;
+        }
     }
 }
 

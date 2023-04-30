@@ -7,7 +7,7 @@
         <div class="authorizationHolder__centerAligned">
             <div class="authorizationHolder__content">
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'"
-                v-model:value="email" :style="'small'"></UIInput>
+                v-model:value="email" :style="'small'" :role="'email'"></UIInput>
                 <div class="caption smallText forgotPassword__text">
                     Введите email, указаный при регистрации, мы пришлем на него инструкцию по восстановлению пароля.
                 </div>
@@ -39,7 +39,7 @@ export default {
         async sendPasswordRecovery() {
             try {
                 this.isLoading = true
-                await this.viewModel.sendPasswordRecovery(this.email)
+                await this.viewModel.sendPasswordRecovery(this.email?.trim())
                 this.$router.push({ name: "checkEmailForRecovery", params: {
                     email: this.email,
                 }})

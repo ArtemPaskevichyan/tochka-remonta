@@ -43,7 +43,7 @@ export default {
             searchSuggestions: [],
             isSuggestOpened: false,
             makerUUIDList: [],
-            makerList: [],
+            makerList: [{}, {}, {}],
             filters: {
                 completed_projects: '',
                 rating: '',

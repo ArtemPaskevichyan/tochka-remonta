@@ -9,8 +9,12 @@
 .skeleton {
     color: transparent;
     opacity: 20%;
-    animation: skeletalLoading 2s infinite;
+    animation-name: skeletalLoading;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: initial;
     border-radius: 4px;
+    z-index: inherit;
 }
 
 .skeleton.header {

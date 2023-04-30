@@ -49,7 +49,7 @@
             async sendEmailAgain() {
                 try {
                     this.isLoading = true
-                    await this.viewModel.sendEmailAgain(this.email)
+                    await this.viewModel.sendEmailAgain(this.email?.trim())
                     
                     Timer.shared.setTimer(120)
                 } catch(e) {

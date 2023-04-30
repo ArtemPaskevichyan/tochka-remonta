@@ -3,7 +3,7 @@
         <div class="makerProfileCard__info">
             <div class="makerProfileCard__content">
                 <div class="makerProfileCard__infoLeftPart">
-                    <div class="makerProfileCard__title largeText" @click="" :class="{skeleton: !model?.firstname}">
+                    <div class="makerProfileCard__title largeText" @click="$emit('goTo')" :class="{skeleton: !model?.firstname}">
                         {{ (!model?.firstname ||  model?.firstname?.length == 0) ? "<UNKNOWN>" : model.firstname}}
                     </div>
                     <div class="makerProfileCard__text baseText" :class="{skeleton: !model?.description}">
@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="makerProfileCard__infoRightPart">
-                    <div class="makerProfileCard__logoHolder">
+                    <div class="makerProfileCard__logoHolder" @click="$emit('goTo')">
                         <img :src="avatarSrc" alt="" loading="lazy">
                     </div>
                     <div class="makerProfileCard__rating">

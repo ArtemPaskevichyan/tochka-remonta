@@ -30,7 +30,7 @@
             </div>
             <div class="registration__formBlock" v-show="currentPage == 1">
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" :class="{error: emailError}" 
-                v-model:value="email" :style="'small'"></UIInput>
+                v-model:value="email" :style="'small'" :role="'email'"></UIInput>
                 <UIInput :title="'Пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" :class="{error: passwordError}" 
                 v-model:value="password1" :role="'password'" :style="'small'"></UIInput>
                 <UIInput :title="'Повторите пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" :class="{error: passwordError}" 
@@ -129,7 +129,7 @@ export default {
             try {
                 if (!this.acceptPP) { throw createError("Accept Privacy Policy", ERROR_CODES.privacyPolicyError) }
                 this.isLoading = true
-                await this.registrationViewModel.sendRegistration(this.email, this.password1, this.password2, this.role)
+                await this.registrationViewModel.sendRegistration(this.email?.trim(), this.password1, this.password2, this.role)
                 this.$router.push({ name: "checkEmail", params: {
                     email: this.email,
                 }})
@@ -185,7 +185,7 @@ export default {
         buttonStyle: function() {
             if (this.currentPage != this.paginationData.length - 1) {
                 return 'primary'
-            } else if (this.email == '' || this.password1 == '' || this.password2 == '' || !this.acceptPP) {
+            } else if (this.email?.trim() == '' || this.password1 == '' || this.password2 == '' || !this.acceptPP) {
                 return 'disabled'
             } else {
                 return 'primary'
