@@ -172,12 +172,18 @@ router.beforeEach(async (to, from) => {
       console.log("INROUTERERROR", error)
     })
 
+  if (to?.name == 'user/makerPage') { return true }
+
   var prefix = to.fullPath.split('/')[1]
-  if (to?.name != 'user/makerPage') { return true }
+  console.log("ROUTER", prefix)
+
   if (prefix == "user" || prefix == "maker") {
     var role = (await UserDataController.shared.getData())?.role
+    console.log("ROUTER", role)
     return !(role == "customer" && prefix == "maker" || role == "contractor" && prefix == "user") 
   }
+
+  return true
 })
 
 export default router

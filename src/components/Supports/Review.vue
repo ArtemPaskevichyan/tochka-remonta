@@ -2,7 +2,7 @@
     <div class="review">
         <div class="review__header">
             <div class="review__info">
-                <div class="review__avatar" :class="{skeleton: isLoading}"><img :src="model?.img && model?.img?.length > 0? this.imageURL : defaultAvatar" alt=""></div>
+                <div class="review__avatar" :class="{skeleton: isLoading}"><img :src="model?.img && model?.img?.length > 0? this.imageURL : defaultAvatar" alt="" v-if="!isLoading"></div>
                 <span class="review__username" :class="{skeleton: isLoading}">{{ model?.username ?? "USERNAME" }}</span>
                 <UIRating :rating="model?.stars ?? 0"/>
             </div>
@@ -36,7 +36,7 @@ export default {
         isLoading: {
             type: Boolean,
             default: false,
-        }
+        },
     },
     computed: {
         imageURL() {

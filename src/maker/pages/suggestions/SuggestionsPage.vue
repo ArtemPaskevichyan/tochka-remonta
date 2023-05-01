@@ -8,7 +8,7 @@
         </div>
         <div class="suggestionsPage__caption" v-if="suggestions?.length == 0">
             Никто ещё не предложил вам проект для сотрудничества
-            <UIButton :style="'primary'">Искать проекты <i class="icon-search inline-icon"></i></UIButton>
+            <UIButton :style="'primary'" @click="$router.push('/maker/search')">Искать проекты <i class="icon-search inline-icon"></i></UIButton>
         </div>
     </div>
 

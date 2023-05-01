@@ -2225,6 +2225,7 @@ img {
 }
 .settingsPage__controlsFooter {
   width: 60%;
+  gap: 14px;
   margin: 20px auto;
   display: -webkit-box;
   display: -ms-flexbox;

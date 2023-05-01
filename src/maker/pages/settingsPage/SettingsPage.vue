@@ -88,6 +88,7 @@
         </div>
         <div class="settingsPage__controlsFooter">
             <UIButton :style="'destructive'" @click="exit()">Выйти из аккаунта</UIButton>
+            <UIButton :style="previewButtonStyle" @click="goToAccount">Предпросмтотр аккаунта</UIButton>
         </div>
     </div>
 </template>
@@ -129,7 +130,7 @@ export default {
             number: "n",
             email: "n",
             totalLoading: false,
-            isLoading: false,
+            isLoading: true,
             isSocialsLoading: false,
             buttonStyle: 'disabled',
             isAddSocialModalOpened: false,
@@ -146,6 +147,7 @@ export default {
             ],
             achivesList: [{}, {}, {}],
             isAchivementsLoading: true,
+            previewButtonStyle: 'disabled',
             viewModel: new SettingsPageController(),
             rating: 0,
         }
@@ -153,6 +155,14 @@ export default {
     methods: {
         exit() {
             UserDataController.shared.exit()
+        },
+
+        goToAccount() {
+            if (this.isLoading || !this.uuid) { 
+                return
+             }
+            console.log("PUSH")
+            this.$router.push('/user/makerPage/' + this.uuid)
         },
 
         async fetchData() {
@@ -343,6 +353,7 @@ export default {
             if (this.isSocialsLoading) { return }
             this.socialsList[index].show = !this.socialsList[index].show
         },
+
     },
     computed: {
         daysAdding() {
@@ -362,6 +373,7 @@ export default {
             .then(() => {
                 this.buttonStyle = 'disabled'
                 this.descriptionButtonStyle = 'disabled'
+                this.previewButtonStyle = 'default'
             })
         this.getSocials()
             .then(() => {

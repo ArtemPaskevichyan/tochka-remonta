@@ -75,7 +75,7 @@
             </div>
 
             <div class="makerPage__footer">
-                <UIButton :style="'primary'" @click="openSuggestModal">Предложить сотрудничество</UIButton>
+                <UIButton :style="maker?.avatar ? 'primary' : 'disabled'" @click="openSuggestModal">Предложить сотрудничество</UIButton>
             </div>
         </div>
 
@@ -113,7 +113,7 @@ export default {
             achivements: [{}, {}, {}, {}],
             isProjectsLoading: false,
             projects: [{}, {}, {}],
-            isReviewsLoading: false,
+            isReviewsLoading: true,
             reviews: [{}, {}, {}],
             isContactsLoading: false,
             contacts: [
@@ -183,7 +183,7 @@ export default {
         async getReviews() {
             try {
                 this.isReviewsLoading = true
-                this.makerPageController.getReviews(this.uuid)
+                await this.makerPageController.getReviews(this.uuid)
                     .then((response) => {
                         this.reviews = response?.data?.review_list ?? []
                         console.log("REVIEWS", this.reviews)
@@ -208,12 +208,11 @@ export default {
         },
 
         openSuggestModal() {
+            if (this.isMakerLoading) { return }
             this.isSuggestOpened = true
         },
 
         smoothScrollTo(selector) {
-            // document.querySelector(selector).scrollIntoView({behavior: 'smooth', block: 'center', duration: 200,})
-
             $([document.documentElement, document.body]).animate({
                 scrollTop: $(selector).offset().top - 200
             }, 350);
