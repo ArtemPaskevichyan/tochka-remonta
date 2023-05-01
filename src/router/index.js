@@ -103,7 +103,7 @@ const routes = [
   },
   {
     path: '/user/successNumberSubmition',
-    mane: 'user/successNumberSubmition',
+    name: 'user/successNumberSubmition',
     component: SuccessNumberSubmition,
   },
   {
