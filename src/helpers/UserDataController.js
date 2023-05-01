@@ -46,14 +46,14 @@ class UserDataController {
         
         console.log("GO TO PARSE NOTIFICATIONS")
         
-        await this.getNotificationsCount()
-            .then((nCount) => {
-                user.notificationsCount = nCount
-                sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
-            })
-            .catch((error) => {
-                console.log("ERROR", error)
-            })
+        // await this.getNotificationsCount()
+        //     .then((nCount) => {
+        //         user.notificationsCount = nCount
+        //         sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
+        //     })
+        //     .catch((error) => {
+        //         console.log("ERROR", error)
+        //     })
         
         return user
     }
@@ -86,8 +86,23 @@ class UserDataController {
         }
 
         return (await axios.get(nURL, config))?.data?.count ?? 0
-
     }
+
+    async updateNotificationsCount() {
+        const nURL = `${serverURL}/api/v1/notifications/get_count`
+        var token = await TokenHandler.shared.getToken()
+        if (!token) { return }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        var count = (await axios.get(nURL, config))?.data?.count ?? 0
+        var user = await this.getData()
+        user.notificationsCount = count
+        sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
+    } 
 
     async updateData() {
         this.clearData()

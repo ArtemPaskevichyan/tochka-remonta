@@ -21,7 +21,7 @@ class MakerDataController {
                 console.log("ERROR", uuid, error)
             })
         
-        return projectList?.filter(p => p?.status == 'archive') ?? ["ASS"]
+        return projectList?.filter(p => p?.status == 'archive') ?? []
     }
 
     async getProjectsCount(uuid) {

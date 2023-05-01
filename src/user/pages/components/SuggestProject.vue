@@ -26,6 +26,20 @@
             </div>
         </div>
     </div>
+
+    <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
+        <template v-slot:body>
+            <div class="alert__baseTitle" v-if="errorToAlert?.title">
+                {{errorToAlert?.title}}
+            </div>
+            <div class="alert__baseText" v-if="errorToAlert?.text">
+                {{errorToAlert?.text}}
+            </div>
+        </template>
+        <template v-slot:controls>
+            <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
+        </template>
+    </UIAlert>
 </template>
 
 <script>
@@ -33,10 +47,11 @@ import { serverURL } from '@/preferenses'
 import UIRating from '@/components/FormComponents/UIRating.vue'
 import SuggestProjectCard from '@/components/ProjectCards/SuggestProjectCard.vue'
 import { SuggestProjectController } from '@/user/pages/components/suggestProjectController.js'
+import UIAlert from '@/components/UIAlert.vue'
 
 export default {
     components: {
-        UIRating, SuggestProjectCard,
+        UIRating, SuggestProjectCard, UIAlert,
     },
     data() {
         return {
@@ -45,6 +60,13 @@ export default {
             avatarBaseURL: `${serverURL}/api/v1/auth/get_avatar?filename=`,
             imageBaseURL: `${serverURL}/api/v1/projects/get_event_photo?filename=`,
             viewController: new SuggestProjectController(),
+            isAlertOpened: false,
+            errorToAlert: {
+                buttons: [],
+                title: "",
+                text: "",
+            },
+
         }
     },
     props: {
@@ -72,7 +94,20 @@ export default {
                 })
                 .catch((error) => {
                     console.log("ERROR", error)
+                    let msg = error?.response?.data?.msg ?? error.message
+
+                    switch(msg) {
+                        case 'request already sent':
+                            this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                            break;
+                    }
                 })
+        },
+        callError(title, text, buttons) {
+            this.isAlertOpened = true
+            this.errorToAlert.title = title
+            this.errorToAlert.text = text
+            this.errorToAlert.buttons = buttons
         },
     },
     computed: {

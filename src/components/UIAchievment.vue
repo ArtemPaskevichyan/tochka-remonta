@@ -1,6 +1,6 @@
 <template>
     <div class="achievment">
-        <img :src="imageURL" alt="">
+        <img :src="image" alt="" v-if="image">
     </div>
 </template>
 
@@ -10,6 +10,7 @@ import {serverURL} from "@/preferenses.js"
 export default {
     data() {
         return {
+            image: undefined,
         }
     },
     props:{
@@ -18,9 +19,28 @@ export default {
             required: true,
         }
     },
-    computed: {
-        imageURL() {
-            return serverURL + '/api/v1/projects/get_event_photo?fileanme=' + this.filename
+    methods: {
+        async fetchImage() {
+            if (!this.filename) { return }
+            switch(this.filename) {
+                case "registration_a.png":
+                    import("@/assets/images/achievments/registration_a.png")
+                        .then((data) => {
+                            this.image = data?.default
+                        })
+                    break;
+                case "one_project_complete.png":
+                    import("@/assets/images/achievments/one_project_complete.png")
+                        .then((data) => {
+                            this.image = data?.default
+                        })
+                    break;
+            }
+        },
+    },
+    watch: {
+        filename: function() {
+            this.fetchImage()
         }
     }
 }

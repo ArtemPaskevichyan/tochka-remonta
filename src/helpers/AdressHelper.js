@@ -12,13 +12,11 @@ class AdressHelper {
     onYmapsAreLoaded(ymaps) {
         this.isLoaded = true
         for (let i of this.waiters) {
-            console.log("FINNALY ADDING", i)
             this.addToYMAP(i?.id, i?.callback)
         }
     }
 
     addToYMAP(id, callback) {
-        console.log(id, callback)
         if (!this.isLoaded) { this.waiters.push({id, callback}); return}
         console.log("ADDR", ymaps, this.waiters)
         try {
@@ -27,7 +25,6 @@ class AdressHelper {
                 if (callback) {
                     callback(event?.originalEvent?.item?.value)
                 }
-                console.log(event, id)
             })
         } catch(e) {
             console.log("ADDTOYAMAPERROR", e)

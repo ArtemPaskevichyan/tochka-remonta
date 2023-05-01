@@ -198,7 +198,7 @@ export default {
         async getContacts() {
             try {
                 this.isContactsLoading = true
-                this.contacts = await this.makerPageController.getContacts(this.uuid)
+                this.contacts = (await this.makerPageController.getContacts(this.uuid))?.filter(i => i.Entity != '__adress__')
             } catch(e) {
                 //
             } finally {

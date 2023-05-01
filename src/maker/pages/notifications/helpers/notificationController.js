@@ -28,27 +28,27 @@ class NotificationController {
 
         await axios.get(URL, config)
             .then((response) => {
-                
+                console.log("READ OK", response)
             })
-            .error((error) => {
+            .catch((error) => {
                 console.log("ERROR NV", error)
             })
     }
 
     fillUser() {
-        this.router.push('/user/settingsPage')
+        this.router.push('/maker/settingsPage')
     }
     statusChanged(id) {
         if (!id) { return }
-        this.router.push('/user/project/' + id)
+        this.router.push('/maker/project/' + id)
     }
     newResponse(id) {
         if (!id) { return }
-        this.router.push('/user/project/' + id)
+        this.router.push('/maker/project/' + id)
     }
     newNegotiation(id) {
         if (!id) { return }
-        this.router.push('/user/project/' + id)
+        this.router.push('/maker/project/' + id)
     }
 
     constructor(router) {

@@ -67,7 +67,10 @@
 
             <div class="settingsPage__title">Достижения</div>
             <div class="settingsPage__block">
-                <div class="settingsPage__achivesCaption">
+                <div class="makerPage__achivement" v-for="(a, index) in achivesList" :key="index" :class="{skeleton: isAchivementsLoading}">
+                    <UIAchievment :filename="a?.filename"/>
+                </div>
+                <div class="settingsPage__achivesCaption" v-if="achivesList?.length == 0">
                     У вас пока нет достижений
                 </div>
             </div>
@@ -98,17 +101,17 @@ import UIModal from '@/components/UIModal.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
 import UITextInput from '@/components/FormComponents/UITextInput.vue';
 import UIRating from '@/components/FormComponents/UIRating.vue';
-
+import UIAchievment from '@/components/UIAchievment.vue';
 
 import { AdressHelper } from '@/helpers/AdressHelper.js'
 import {UserDataController} from '@/helpers/UserDataController.js'
-import {SettingsPageController} from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
+import {SettingsPageController, ADDRESS_SOCIAL_TITLE} from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
 
 
 export default {
     components: {
         UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall,
-        UITextInput, UIRating,
+        UITextInput, UIRating, UIAchievment,
     },
 
     data() {
@@ -134,13 +137,15 @@ export default {
             newSocialValue: "",
             adress: "",
             adressId: "maker_settingsPage_Adress",
+            adressContact: {},
             adressButtonStyle: 'disabled',
             socialsList: [
                 {title: 'Номер телефона', value: '89105834005', show: true, id: 0},
                 {title: 'Номер телефона', value: '89105834006', show: true, id: 1},
                 {title: 'Номер телефона', value: '89105834007', show: true, id: 2},
             ],
-            achivesList: [],
+            achivesList: [{}, {}, {}],
+            isAchivementsLoading: true,
             viewModel: new SettingsPageController(),
             rating: 0,
         }
@@ -168,6 +173,7 @@ export default {
             this.time = Math.max(Math.round((new Date(Date.now() - Date.parse(data?.registration_date))) / oneDay), 1)
             this.isLoading = false
 
+            this.getAchievments()
             this.getRating()
         },
 
@@ -178,7 +184,13 @@ export default {
 
                 this.socialsList = []
                 for (var s of socialsRaw) {
-                    if (s.Entity == '__adress__') {continue}
+                    if (s.Entity == ADDRESS_SOCIAL_TITLE) {
+                        this.adress = s.contact_list[(s.contact_list?.length ?? 1) - 1].value
+                        this.adressContact.id = s.id
+                        this.adressContact.value = this.adress
+                        continue
+                    }
+
                     var socialNew = {}
                     socialNew.id = s.id
                     socialNew.title = s.Entity
@@ -191,6 +203,7 @@ export default {
                 console.log(e)
             } finally {
                 this.isSocialsLoading = false
+                this.adressButtonStyle = 'disabled'
             }
         },
 
@@ -278,9 +291,29 @@ export default {
 
         async saveAdress() {
             try {
+                await this.removeAdress()
                 await this.viewModel.saveAdress(this.adress)
             } catch(e) {
                 //
+            } finally {
+                this.adressButtonStyle = 'disabled'
+            }
+        },
+
+        async removeAdress() {
+            try {
+                if (!this.adressContact?.id || !this.adressContact?.value) { return }
+                await this.viewModel.deleteSocial(this.adressContact?.id, this.adressContact?.value)
+                    .then((response) => {
+                        console.log("RESP", response)
+                    })
+                    .catch((error) => {
+                        console.log("ERROR", error)
+                    })
+            } catch(e) {
+                //
+            } finally {
+
             }
         },
 
@@ -294,6 +327,18 @@ export default {
             }
         },
 
+        async getAchievments() {
+            try {
+                console.log("FETCHING ACHIEVMENTS")
+                this.achivesList = await this.viewModel.getAchievments(this.uuid)
+            } catch(e) {
+                //
+                console.log("ERROR", e)
+            } finally {
+                this.isAchivementsLoading = false
+            }
+        },
+
         switchSocialHidden(index) {
             if (this.isSocialsLoading) { return }
             this.socialsList[index].show = !this.socialsList[index].show
@@ -302,16 +347,12 @@ export default {
     computed: {
         daysAdding() {
             if (11 <= this.time % 100 && this.time % 100 <= 20) {
-                console.log(1, this.time % 100)
                 return 'дней'
             } else if (this.time % 10 == 1) {
-                console.log(2, this.time % 10)
                 return 'день'
             } else if (2 <= this.time % 10 && this.time % 10 <= 4) {
-                console.log(3, this.time % 10)
                 return 'дня'
             } else if (5 <= this.time % 10 && this.time % 10 <= 9 || this.time % 10 == 0) {
-                console.log(4, this.time % 10)
                 return 'дней'
             }
         }
@@ -321,11 +362,12 @@ export default {
             .then(() => {
                 this.buttonStyle = 'disabled'
                 this.descriptionButtonStyle = 'disabled'
-                this.adressButtonStyle = 'disabled'
             })
         this.getSocials()
+            .then(() => {
+                this.adressButtonStyle = 'disabled'
+            })
         AdressHelper.shared.addToYMAP(this.adressId, (data) => {
-            console.log("CALLBACK", data)
             this.adress = data
         })
     },

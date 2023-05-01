@@ -25,15 +25,15 @@ class MakerPageController {
     }
 
     async getContacts(uuid) {
-        return (await axios.get(`${serverURL}/api/v1/auth/get_contact_list?user_uuid=${uuid}`))?.data?.contacts
+        return (await axios.get(`${serverURL}/api/v1/auth/get_contact_list?user_uuid=${uuid}`))?.data?.contacts ?? []
     }
 
     async getProjectRating(p_id) {
-        return axios.get(`${serverURL}/api/v1/projects/get_project_reviews?p_id=${p_id}`)
+        return axios.get(`${serverURL}/api/v1/projects/get_project_reviews?p_id=${p_id}`) ?? 0
     }
 
     async getUserInfo(uuid) {
-        return (await axios.get(`${serverURL}/api/v1/auth/get_user_data?user_uuid=${uuid}`))?.data?.user
+        return (await axios.get(`${serverURL}/api/v1/auth/get_user_data?user_uuid=${uuid}`))?.data?.user ?? {}
     }
 
     async goToProject(id) {

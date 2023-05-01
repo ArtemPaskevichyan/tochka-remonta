@@ -11,7 +11,7 @@
                         <UIButton :style="'primary'" @click="createNegotiation">Создать</UIButton>
                     </div>
 
-                    все {{negotiations?.length}} согласований
+                    <!-- все {{negotiations?.length}} согласований -->
                 </div>
                 <!-- <Negotiation v-for="n in negotiations?.slice(-3)" :key="n.id" :model="n" @open="openNegotiation(n)"/> -->
                 <Negotiation v-for="n in negotiations?.slice(0, 3)" :key="n.id" :model="n" @open="openNegotiation(n)"/>

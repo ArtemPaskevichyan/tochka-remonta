@@ -6,7 +6,12 @@
             <SuggestionsCard v-for="(s, index) in suggestions" :key="index" :projectId="s.id" :imageName="s.main_picture"
             :title="s.title" :description="s.description" :price="s.planned_budget_up" @accept="acceptSuggestion(s.sId, s.id)"/>
         </div>
+        <div class="suggestionsPage__caption" v-if="suggestions?.length == 0">
+            Никто ещё не предложил вам проект для сотрудничества
+            <UIButton :style="'primary'">Искать проекты <i class="icon-search inline-icon"></i></UIButton>
+        </div>
     </div>
+
     <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
         <template v-slot:body>
             <div class="alert__baseTitle" v-if="errorToAlert?.title">
@@ -27,10 +32,11 @@ import UIHeader from '@/components/Header/UIHeader.vue'
 import SuggestionsCard from './SuggestionsCard.vue';
 import { SuggestionsController } from "./helpers/suggestionsController.js"
 import UIAlert from '@/components/UIAlert.vue';
+import UIButton from '@/components/Buttons/UIButton.vue';
 
 export default {
     components: {
-        UIHeader, SuggestionsCard, UIAlert,
+        UIHeader, SuggestionsCard, UIAlert, UIButton,
     },
     data() {
         return {
@@ -79,7 +85,10 @@ export default {
 
                     switch(dataMsg) {
                         case "contractor already set":
-                            this.callError("Действое невозможно", "Испонитель этого проекта уже назначен", {label: "ОК", callback: () => {this.isAlertOpened = false}})
+                            this.callError("Действие невозможно", "Испонитель этого проекта уже назначен", [{label: "ОК", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                            break;
+                        case "request already sent":
+                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
                             break;
                     }
                 })

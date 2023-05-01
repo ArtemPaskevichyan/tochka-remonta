@@ -29,6 +29,8 @@ import MakerNotificationPage from "@/maker/pages/notifications/NotificationPage.
 import MakerCreateProjectPage from "@/maker/pages/createProject/CreateProjectPage.vue"
 import SuggestionsPage from "@/maker/pages/suggestions/SuggestionsPage.vue"
 
+import {UserDataController} from "@/helpers/UserDataController.js"
+
 const routes = [
   {
     path: '/registration',
@@ -64,6 +66,7 @@ const routes = [
   },
   {
     path: '/succesfulRegistration',
+    name: 'succesfulRegistration',
     component: SuccessfulPage,
   },
   {
@@ -158,6 +161,23 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
+})
+
+router.beforeEach(async (to, from) => {
+  UserDataController.shared.updateNotificationsCount()
+    .then((response) => {
+      console.log("INROUTERRESP", response)
+    })
+    .catch((error) => {
+      console.log("INROUTERERROR", error)
+    })
+
+  var prefix = to.fullPath.split('/')[1]
+  if (to?.name != 'user/makerPage') { return true }
+  if (prefix == "user" || prefix == "maker") {
+    var role = (await UserDataController.shared.getData())?.role
+    return !(role == "customer" && prefix == "maker" || role == "contractor" && prefix == "user") 
+  }
 })
 
 export default router

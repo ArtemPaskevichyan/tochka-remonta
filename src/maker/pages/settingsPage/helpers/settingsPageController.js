@@ -5,6 +5,9 @@ import {createError, ERROR_CODES} from '@/helpers/ErrorMaker.js'
 import { UserDataController } from "@/helpers/UserDataController";
 
 
+const ADDRESS_SOCIAL_TITLE = "__adress__"
+
+
 class SettingsPageController {
     async callAPhone(number) {
         const token = await TokenHandler.shared.getToken()
@@ -202,11 +205,16 @@ class SettingsPageController {
 
     async saveAdress(adress) {
         //
+        this.addSocial(ADDRESS_SOCIAL_TITLE, adress)
     }
 
     async getRating(uuid) {
         return (await axios.get(`${serverURL}/api/v1/projects/get_contractor_rate?user_uuid=${uuid}`))?.data?.rate ?? 0
     }
+
+    async getAchievments(uuid) {
+        return (await axios.get(`${serverURL}/api/v1/projects/get_user_achievements?user_uuid=${uuid}`))?.data?.achievements ?? []
+    }
 }
 
-export { SettingsPageController }
+export { SettingsPageController, ADDRESS_SOCIAL_TITLE }

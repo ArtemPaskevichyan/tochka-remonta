@@ -1,10 +1,10 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage notificationPage">
         <UIHeader/>
         <div>
             <div class="titleText pageTitle">Новые уведомления</div>
             <div class="notificationPage" v-if="newNotifications?.length > 0">
-                <UINotification :isLoading="isLoading" :key="index" v-for="(n, index) in newNotifications" :model="n" @action="handleAction"/>
+                <UINotification :isLoading="isLoading" :key="index" v-for="(n, index) in newNotifications" :model="n" @action="handleAction" :ref="(el) => {addObservers(el, n.id)}"/>
             </div>
             <div class="notificationPage__caption" v-else>
                 Новых уведомлений нет
@@ -38,6 +38,7 @@ export default {
             notificationController: new NotificationController(this.$router),
             oldNotifications: [{}, {}, {}],
             newNotifications: [{}, {}, {}],
+            observersAdded: false,
         }
     },
     methods: {
@@ -50,16 +51,16 @@ export default {
                 
                 console.log(notifications)
                 
-                for (let noticitaion of notifications) {
-                    if (noticitaion.viewed === undefined) {
+                for (let i = 0; i < notifications?.length; i++) {
+                    let notification = notifications[i]
+                    if (notification.viewed === undefined) {
                         console.log("udefined viewed")
-                    } else  if (noticitaion.viewed) {
-                        this.oldNotifications.push(noticitaion)
+                    } else if (notification.viewed) {
+                        this.oldNotifications.push(notification)
                     } else {
-                        this.newNotifications.push(noticitaion)
+                        this.newNotifications.push(notification)
                     }
                 }
-
             } catch(e) {
                 console.log("ERROR", e)
             } finally {
@@ -86,10 +87,25 @@ export default {
         },
         async viewNotification(id) {
             this.notificationController.viewNotification(id)
+        },
+
+        addObservers(data, id) {
+            if (this.isLoading || !data) { return }
+
+            var intersectionOptions = {
+                    rootMargin: '0px',
+                    threshold: 1.0,
+                }
+            
+            let observer = new IntersectionObserver(() => {
+                console.log("RE")
+                this.notificationController.viewNotification(id)
+            }, intersectionOptions)
+            observer.observe(data?.$el)
         }
     },
     mounted() {
         this.getNotifications()
-    }
+    },
 }
 </script>
