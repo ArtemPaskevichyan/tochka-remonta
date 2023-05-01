@@ -35,7 +35,7 @@
 
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
                 Проекты, созданные вами, не найдены
-                <UIButton @click="$router.push('/user/createProject')" :style="'primary'">Добавить проект <i class="icon-plus inline-icon"></i></UIButton>
+                <UIButton @click="$router.push('/maker/createProject')" :style="'primary'">Добавить проект <i class="icon-plus inline-icon"></i></UIButton>
             </div>
         </div>
     </div>
