@@ -121,6 +121,8 @@ export default {
                 console.log(e)
             } finally {
                 this.isLoading = false
+                this.isModalOpened = false
+                this.$router.go()
             }
         },
         async negotiationAllowed() {
@@ -135,6 +137,8 @@ export default {
                 console.log(e)
             } finally {
                 this.isLoading = false
+                this.isModalOpened = false
+                this.$router.go()
             }
         },
         async completeProject(model) {
@@ -143,6 +147,8 @@ export default {
             try {
                 this.isLoading = true
                 await this.projectController.completeProject(this.project?.id, model?.rating, model?.text)
+                this.isModalOpened = false
+                this.$router.go()
             } catch(e) {
                 //
             } finally {

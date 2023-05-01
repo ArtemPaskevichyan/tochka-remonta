@@ -2,7 +2,7 @@
     <div class="review">
         <div class="review__header">
             <div class="review__info">
-                <div class="review__avatar" :class="{skeleton: isLoading}"><img :src="this.imageURL" alt="" v-if="model?.img"></div>
+                <div class="review__avatar" :class="{skeleton: isLoading}"><img :src="model?.img && model?.img?.length > 0? this.imageURL : defaultAvatar" alt=""></div>
                 <span class="review__username" :class="{skeleton: isLoading}">{{ model?.username ?? "USERNAME" }}</span>
                 <UIRating :rating="model?.stars ?? 0"/>
             </div>
@@ -16,6 +16,7 @@
 <script>
 import UIRating from '@/components/FormComponents/UIRating.vue';
 import { serverURL } from '@/preferenses';
+import defaultAvatar from '@/assets/images/profileIcon.png'
 
 export default {
     components: {
@@ -23,6 +24,7 @@ export default {
     },
     data() {
         return {
+            defaultAvatar: defaultAvatar,
             baseURL: `${serverURL}/api/v1/auth/get_avatar?filename=`
         }
     },

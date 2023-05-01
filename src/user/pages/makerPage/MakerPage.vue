@@ -186,6 +186,7 @@ export default {
                 this.makerPageController.getReviews(this.uuid)
                     .then((response) => {
                         this.reviews = response?.data?.review_list ?? []
+                        console.log("REVIEWS", this.reviews)
                         this.handleReviewsData()
                     })
             } catch(e) {
