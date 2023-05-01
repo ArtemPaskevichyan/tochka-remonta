@@ -98,10 +98,12 @@ const routes = [
   },
   {
     path: '/user/submitPhonePage',
+    name: 'user/submitPhonePage',
     component: SubmitPhonePage,
   },
   {
     path: '/user/successNumberSubmition',
+    mane: 'user/successNumberSubmition',
     component: SuccessNumberSubmition,
   },
   {
@@ -158,6 +160,12 @@ const routes = [
   },
 ]
 
+const COMMON_ROUTES_NAMES = [
+  'user/successNumberSubmition',
+  'user/submitPhonePage',
+  'user/makerPage',
+]
+
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
@@ -172,7 +180,7 @@ router.beforeEach(async (to, from) => {
       console.log("INROUTERERROR", error)
     })
 
-  if (to?.name == 'user/makerPage') { return true }
+  if (COMMON_ROUTES_NAMES.includes(to?.name)) { return true }
 
   var prefix = to.fullPath.split('/')[1]
   console.log("ROUTER", prefix)
