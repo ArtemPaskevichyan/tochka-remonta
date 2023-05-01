@@ -19,7 +19,7 @@
                         <UIRating :rating="rating"/>
                     </div>
                     <div class="makerProfileCard__achivements">
-                        
+                        <UIAchievment class="makerProfileCard__achivement" v-for="(a, index) in achivements" :key="index" :class="{skeleton: isAchivementsLoading}" :filename="a?.filename"/>
                     </div>
                 </div>
             </div>
@@ -58,12 +58,13 @@
 import UILink from '@/components/FormComponents/UILink.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIRating from '@/components/FormComponents/UIRating.vue';
+import UIAchievment from '@/components/UIAchievment.vue';
 import { MakerDataController } from './makerDataControler';
 import { serverURL } from '@/preferenses';
 
 export default {
     components: {
-        UILink, UIButton, UIRating,
+        UILink, UIButton, UIRating, UIAchievment,
     },
     data() {
         return {
@@ -76,6 +77,8 @@ export default {
             projects: [{}, {}, {}],
             avatarBaseURL: `${serverURL}/api/v1/auth/get_avatar?filename=`,
             imageBaseURL: `${serverURL}/api/v1/projects/get_event_photo?filename=`,
+            achivements: [{}, {}, {}],
+            isAchivementsLoading: true,
         }
     },
     props: {
@@ -106,10 +109,15 @@ export default {
                 this.projectsIsLoading = false
             }
         },
+        async getAchivements() {
+            this.achivements = await this.makerDataController.getAchivements(this?.model?.uuid)
+            this.isAchivementsLoading = false
+        },
         onModelLoaded() {
             this.getRating()
             this.getProjects()
-        }
+            this.getAchivements()
+        },
     },
     watch: {
         model: function() {

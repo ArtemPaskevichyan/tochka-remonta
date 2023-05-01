@@ -27,6 +27,10 @@ class MakerDataController {
     async getProjectsCount(uuid) {
         return axios.get(`${serverURL}/api/v1/projects/get_project_count?user_uuid=${uuid}` )
     }
+
+    async getAchivements(uuid) {
+        return (await axios.get(`${serverURL}/api/v1/projects/get_user_achievements?user_uuid=${uuid}`))?.data?.achievements ?? []
+    }
 }
 
 export { MakerDataController }

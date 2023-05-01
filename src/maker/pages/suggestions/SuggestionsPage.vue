@@ -73,6 +73,7 @@ export default {
 
         async acceptSuggestion(sId, pId) {
             if (!sId) { return }
+            if (!confirm("Вы хотите стать исполнителем этого проекта?")) { return }
             
             this.suggestionsController.acceptSuggestion(sId)
                 .then((response) => {

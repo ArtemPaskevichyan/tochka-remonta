@@ -48,10 +48,11 @@ import UIRating from '@/components/FormComponents/UIRating.vue'
 import SuggestProjectCard from '@/components/ProjectCards/SuggestProjectCard.vue'
 import { SuggestProjectController } from '@/user/pages/components/suggestProjectController.js'
 import UIAlert from '@/components/UIAlert.vue'
+import UIButton from '@/components/Buttons/UIButton.vue'
 
 export default {
     components: {
-        UIRating, SuggestProjectCard, UIAlert,
+        UIRating, SuggestProjectCard, UIAlert, UIButton,
     },
     data() {
         return {
@@ -88,9 +89,12 @@ export default {
         },
 
         async sendSuggestion(p_id) {
+            if (!confirm("Вы хотите предложить проект этому исполнителю?")) { return }
+
             this.viewController.sendSuggestion(p_id, this.makerModel?.uuid)
                 .then((response) => {
                     console.log("RESP", response)
+                    this.isAlertOpened = false
                 })
                 .catch((error) => {
                     console.log("ERROR", error)

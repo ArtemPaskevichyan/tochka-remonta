@@ -2789,6 +2789,7 @@ img {
   color: #676767;
 }
 .makerProfileCard__infoRightPart {
+  width: 130px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2821,7 +2822,13 @@ img {
   -o-object-fit: cover;
      object-fit: cover;
 }
+.makerProfileCard__rating {
+  margin: 0 auto;
+}
 .makerProfileCard__achivements {
+  width: 100%;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2830,6 +2837,23 @@ img {
           justify-content: space-between;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 6px 0;
+}
+.makerProfileCard__achivement {
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  background-color: #F2F2F2;
+  border-radius: 50%;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 .makerProfileCard__footer {
   display: -webkit-box;
