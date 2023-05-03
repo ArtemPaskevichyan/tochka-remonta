@@ -236,6 +236,18 @@ class ProjectController {
         const URL = `${serverURL}/api/v1/auth/get_user_data?user_uuid=${uuid}`
         return (await axios.get(URL)).data?.user 
     }
+
+    async getProjectRating(id) {
+        const URL = `${serverURL}/api/v1/projects/get_project_reviews?p_id=${id}`
+
+        return (await axios.get(URL))?.data?.stars
+    }
+
+    async getUserInfo(uuid) {
+        const URL = `${serverURL}/api/v1/auth/get_user_data?user_uuid=${uuid}`
+
+        return (await axios.get(URL))?.data?.user
+    }
 }
 
 export { ProjectController }

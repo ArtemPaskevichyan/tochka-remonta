@@ -89,7 +89,7 @@ export default {
                             this.callError("Действие невозможно", "Испонитель этого проекта уже назначен", [{label: "ОК", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
                             break;
                         case "request already sent":
-                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                            this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
                             break;
                     }
                 })
