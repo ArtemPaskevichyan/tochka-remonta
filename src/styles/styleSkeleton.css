@@ -95,6 +95,11 @@
   opacity: 0 !important;
 }
 
+.skeleton.settingsPage__adressMap {
+  color: initial;
+  background-color: lightgrey;
+}
+
 .skeleton.pageTitle {
   background-color: #262626;
 }
@@ -147,6 +152,10 @@
 }
 .skeleton.makerPage__contact {
   background-color: #676767;
+}
+.skeleton.makerPage__map {
+  color: initial;
+  background-color: lightgrey;
 }
 
 .skeleton.review__avatar {

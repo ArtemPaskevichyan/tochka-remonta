@@ -60,6 +60,7 @@ export default {
                 const projectId = suggestionsPrevious[i]?.project_id
                 this.suggestionsController.getProjectData(projectId)
                     .then((response) => {
+                        console.log("RESP", response)
                         this.suggestions[i] = response?.data?.project ?? {}
                         this.suggestions[i].sId = suggestionsPrevious[i]?.id
                         this.suggestions[i].from = suggestionsPrevious[i]?.from
@@ -96,10 +97,10 @@ export default {
         },
 
         callError(title, text, buttons) {
-            this.isAlertOpened = true
             this.errorToAlert.title = title
             this.errorToAlert.text = text
             this.errorToAlert.buttons = buttons
+            this.isAlertOpened = true
         },
     },
     mounted() {

@@ -7,17 +7,15 @@
 </template>
 
 <script>
-import UILoadingSpinner from './UILoadingSpinner.vue';
+import UILoadingSpinner from "./UILoadingSpinner.vue";
 
 export default {
     components: {
-        UILoadingSpinner, 
+        UILoadingSpinner,
     },
     data() {
-        return {}
-    }
-}
+        return {};
+    },
+};
 </script>
 
-<style>
-</style>

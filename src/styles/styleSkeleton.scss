@@ -97,6 +97,13 @@
     }
 }
 
+.skeleton.settingsPage {
+    &__adressMap {
+        color: initial;
+        background-color: lightgrey;
+    }
+}
+
 .skeleton.pageTitle {
     background-color: $primary-text-color;
 }
@@ -162,6 +169,10 @@
 
     &__contact {
         background-color: $secondary-text-color;
+    }
+    &__map {
+        color: initial;
+        background-color: lightgrey;
     }
 }
 

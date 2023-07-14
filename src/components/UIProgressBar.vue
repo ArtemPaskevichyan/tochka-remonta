@@ -5,7 +5,7 @@
                 {{title}}
             </span>
             <span class="progressBar__value">
-                {{value}}%
+                {{Math.round(value)}}%
             </span>
         </div>
         <div class="progressBar__progressHolder">
@@ -18,15 +18,24 @@
 export default {
     data() {
         return {
-
+            innerValue: 0,
         }
     },
     props: {
         title: String,
+        round: Boolean,
         value: {
             type: Number,
             required: true,
         }
+    },
+    computed: {
+        roundedValue() {
+            return Math.round(this.round)
+        }
+    },
+    mounted() {
+        this.innerValue = this.round ? this.roundedValue : this.value 
     }
 }
 </script>

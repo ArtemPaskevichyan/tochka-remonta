@@ -2,6 +2,7 @@ import axios from "axios"
 import {serverURL} from "@/preferenses.js"
 import { TokenHandler } from "./TokenHandler"
 import { createError, ERROR_CODES } from "@/helpers/ErrorMaker.js"
+import { AdressHelper } from "./AdressHelper"
 
 
 class UserDataController {
@@ -23,14 +24,17 @@ class UserDataController {
         var response = await axios.get(url, config)
         console.log("RESP_USER_DATA", response)
         var user = response?.data?.user
+        if (!user) throw createError("Server data error", ERROR_CODES.serverDataFail)
+
+        console.log("UDC stage 1")
         var profileFullness = response?.data?.profile_fullness
         user.profileFullness = profileFullness ? profileFullness : 0
+        user.city = await this.getUserCity()
+        console.log("UDC stage 2")
 
-        if (user) {
-            sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
-        } else {
-            throw createError("Server data error", ERROR_CODES.serverDataFail)
-        }
+
+        sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
+
 
         const uuid = user.uuid
         const pUrl = `${serverURL}/api/v1/projects/get_project_count?user_uuid=${uuid}` 
@@ -107,6 +111,16 @@ class UserDataController {
     async updateData() {
         this.clearData()
         await this.getData()
+    }
+
+    async getUserCity() {
+        try {
+            const city = (await AdressHelper.shared.getUserLocation())?.geoObjects?.get(0)?.getLocalities()
+            return city[0]
+        } catch(e) {
+            console.log("GEOLOCATION IS NOT FOUND")
+            return "Москва"
+        }
     }
 
     clearData() {

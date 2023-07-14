@@ -33,7 +33,7 @@
 
     <div class="header">
         <div class="header__location" :class="{skeleton: !isDataLoaded}">
-            МОСКВА
+            {{ city ?? "Не определено" }}
         </div>
         <div @click.stop="showHideNavigation" class="header__profileBlock">
             <UINotificationIndicatorHolder :amount="notificationCount" :displayZero="false">
@@ -55,7 +55,8 @@ import UINotificationIndicatorHolder from "../NotificationIndicator/UINotificati
 import UIProfileProgress from './UIProfileProgress.vue'
 import UINotificationCounter from "../NotificationIndicator/UINotificationCounter.vue"
 import UIProgressBar from "../UIProgressBar.vue"
-import {UserDataController} from "../../helpers/UserDataController.js"
+
+import { UserDataController } from "@/helpers/UserDataController.js"
 import { serverURL } from "@/preferenses"
 import defaultAvatar from "@/assets/images/profileIcon.png"
 
@@ -79,6 +80,7 @@ export default {
             clickOutsideListener: undefined,
             searchText: "Поиск",
             createText: "Добавить",
+            city: "Не определено",
         }
     },
     methods: {
@@ -93,6 +95,7 @@ export default {
 
         async fetchData() {
             this.isDataLoaded = false
+
             var data = await UserDataController.shared.getData()
 
             this.email = data.email
@@ -106,6 +109,7 @@ export default {
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness
             this.notificationCount = data.notificationsCount
+            this.city = data.city
             
             this.setupItems()
         },
@@ -130,7 +134,7 @@ export default {
                 this.searchText = "Поиск исполнителей"
                 this.createText = "Создать проект"
             }
-        }
+        },
     },
     mounted() {
         console.log("HEADER IS MOUNTED")

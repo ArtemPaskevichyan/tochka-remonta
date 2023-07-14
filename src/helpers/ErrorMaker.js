@@ -19,8 +19,12 @@ const ERROR_CODES = {
     CPVImageListFailed: 447,
     CPVRTextFailed: 448,
     CPVRRatingFailed: 449,
+    CPVCeiligFailed: 450,
+    CPVNetworksFailed: 451,
+    CPVFloorsFailed: 452,
+    CPVWallsFailed: 453,
 
-    PSVNumberFailed: 450,
+    PSVNumberFailed: 454,
 
     jsonParsingFailed: 540,
     privacyPolicyError: 541,

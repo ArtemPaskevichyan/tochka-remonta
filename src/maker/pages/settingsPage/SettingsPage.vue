@@ -81,8 +81,8 @@
                     <UIInput class="adressHolder" v-model:value="adress" :placeholder="'Адресс компании'" :idOfInput="adressId"/>
                     <UIButton :style="adressButtonStyle" @click="saveAdress">Сохранить</UIButton>
                 </div>
-                <div class="settingsPage__adressMap">
-
+                <div class="settingsPage__adressMap" :id="mapId" :class="{skeleton: !map}">
+                    {{mapErrorMessage}}
                 </div>
             </div>
         </div>
@@ -147,9 +147,12 @@ export default {
             ],
             achivesList: [{}, {}, {}],
             isAchivementsLoading: true,
-            previewButtonStyle: 'disabled',
+            previewButtonStyle: "disabled",
             viewModel: new SettingsPageController(),
             rating: 0,
+            map: undefined,
+            mapId: "__adressMap__",
+            mapErrorMessage: "Загрузка карты...",
         }
     },
     methods: {
@@ -190,18 +193,16 @@ export default {
         async getSocials() {
             try {
                 this.isSocialsLoading = true
-                var socialsRaw = await this.viewModel.getSocials()
+                const socialsRaw = await this.viewModel.getSocials()
 
                 this.socialsList = []
-                for (var s of socialsRaw) {
+                for (let s of socialsRaw) {
                     if (s.Entity == ADDRESS_SOCIAL_TITLE) {
-                        this.adress = s.contact_list[(s.contact_list?.length ?? 1) - 1].value
-                        this.adressContact.id = s.id
-                        this.adressContact.value = this.adress
+                        this.getAddress(s)
                         continue
                     }
 
-                    var socialNew = {}
+                    let socialNew = {}
                     socialNew.id = s.id
                     socialNew.title = s.Entity
                     socialNew.value = s.contact_list[0].value
@@ -299,8 +300,30 @@ export default {
             }
         },
 
+        async getAddress(s) {
+            this.adress = s.contact_list[(s.contact_list?.length ?? 1) - 1].value
+            this.adressContact.id = s.id
+            this.adressContact.value = this.adress
+            this.mapErrorMessage = ""
+            AdressHelper.shared.getMapByAdress(this.mapId, this.adress, this.map)
+                .then((response) => {
+                    this.map = response
+                })
+                .catch((error) => {
+                    console.log("ERROROROROOR", error)
+                })
+        },
+
         async saveAdress() {
             try {
+                console.log(this.adress)
+                AdressHelper.shared.getMapByAdress(this.mapId, this.adress, this.map)
+                    .then((response) => {
+                        this.map = response
+                    })
+                    .catch((error) => {
+                        console.log("ERROROROROOR", error)
+                    })
                 await this.removeAdress()
                 await this.viewModel.saveAdress(this.adress)
             } catch(e) {

@@ -62,14 +62,14 @@
                 <div class="makerPage__contactsBlock">
                     <div class="makerPage__contacts">
                         <div class="makerPage__contact baseText" v-for="(c, index) in contacts" :key="index" :class="{skeleton: isContactsLoading}">
-                            {{c?.Entity}} : {{c?.contact_list?.map(v => v.value).join(', ')}}
+                            {{c.title}} : {{c.value}}
                         </div>
                         <div class="makerPage__caption" v-if="!contacts || contacts.length == 0">
                             Исполнитель не добавил каналы связи
                         </div>
                     </div>
-                    <div class="makerPage__map">
-
+                    <div class="makerPage__map" :class="{skeleton: !map}" :id="mapId">
+                        {{ mapErrorMessage }}
                     </div>
                 </div>
             </div>
@@ -86,7 +86,10 @@
 </template>
 
 <script>
-import {MakerPageController} from '@/user/pages/makerPage/helpers/makerPageControler.js'
+import { MakerPageController } from '@/user/pages/makerPage/helpers/makerPageControler.js'
+import { ADDRESS_SOCIAL_TITLE } from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
+import { AdressHelper } from '@/helpers/AdressHelper.js'
+
 import UIHeader from '@/components/Header/UIHeader.vue'
 import SuggestProject from '@/user/pages/components/SuggestProject.vue'
 import UIModal from '@/components/UIModal.vue'
@@ -96,7 +99,6 @@ import { serverURL } from '@/preferenses.js'
 import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue'
 import Review from '@/components/Supports/Review.vue'
 import UIAchievment from '@/components/UIAchievment.vue'
-import { UserDataController } from '@/helpers/UserDataController'
 
 export default {
     components: {
@@ -123,6 +125,9 @@ export default {
             ],
             isSuggestOpened: false,
             avatarBaseURL: serverURL + '/api/v1/auth/get_avatar?filename=',
+            map: undefined,
+            mapId: "__adressMap__",
+            mapErrorMessage: "Загрузка карты...",
         }
     },
     methods: {
@@ -186,7 +191,6 @@ export default {
                 await this.makerPageController.getReviews(this.uuid)
                     .then((response) => {
                         this.reviews = response?.data?.review_list ?? []
-                        console.log("REVIEWS", this.reviews)
                         this.handleReviewsData()
                     })
             } catch(e) {
@@ -199,12 +203,46 @@ export default {
         async getContacts() {
             try {
                 this.isContactsLoading = true
-                this.contacts = (await this.makerPageController.getContacts(this.uuid))?.filter(i => i.Entity != '__adress__')
+                const contactsRaw = await this.makerPageController.getContacts(this.uuid)
+
+                this.contacts = []
+                for (let c of contactsRaw) {
+                    if (c.Entity == ADDRESS_SOCIAL_TITLE) {
+                        let address = c.contact_list[0].value
+                        if (!address || address.length == 0) {
+                            this.mapErrorMessage = "Испольнитель некорректно указал адрес"
+                            this.map = true
+                            continue
+                        }
+
+                        this.contacts.push({title: "Адрес", value: c.contact_list[(c.contact_list?.length ?? 1) - 1].value, id: c.id})
+                        this.getMapForAddress(address)
+                        continue
+                    }
+
+                    let contactNew = {}
+                    contactNew.id = c.id
+                    contactNew.title = c.Entity
+                    contactNew.value = c.contact_list.map(v => v.value).join(", ")
+
+                    this.contacts.push(contactNew)
+                }
             } catch(e) {
                 //
             } finally {
                 this.isContactsLoading = false
             }
+        },
+
+        async getMapForAddress(address) {
+            this.mapErrorMessage = ""
+            AdressHelper.shared.getMapByAdress(this.mapId, address, this.map)
+                .then((response) => {
+                    this.map = response
+                })
+                .catch((error) => {
+                    console.log("ERROROROROOR", error)
+                })
         },
 
         openSuggestModal() {

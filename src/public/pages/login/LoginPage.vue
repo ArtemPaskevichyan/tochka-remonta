@@ -6,8 +6,6 @@
         
         <div class="authorizationHolder__content">
             <div class="login__formBlock">
-                <div class="registration__switchHolder">
-                </div>
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" :class="{error: emailError}"
                 v-model:value="email" :style="'small'" :role="'email'"></UIInput>
                 <UIInput class="lastInput" :title="'Пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'" :class="{error: passwordError}"
@@ -94,6 +92,7 @@ export default {
                 this.isLoading = true
                 await this.loginViewModel.sendLogin(this.email?.trim(), this.password, this.role)
                 this.$router.push(await this.loginViewModel.getAfterLoginURL())
+                console.log("ETERING")
             } catch(error) {
                 console.log("COMMING ERROR", error)
                 switch(error?.message) {

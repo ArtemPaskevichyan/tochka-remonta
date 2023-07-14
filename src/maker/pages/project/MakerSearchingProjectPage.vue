@@ -53,6 +53,19 @@
         </div>
     </div>
 
+    <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
+        <template v-slot:body>
+            <div class="alert__baseTitle" v-if="errorToAlert?.title">
+                {{errorToAlert?.title}}
+            </div>
+            <div class="alert__baseText" v-if="errorToAlert?.text">
+                {{errorToAlert?.text}}
+            </div>
+        </template>
+        <template v-slot:controls>
+            <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
+        </template>
+    </UIAlert>
     <UILoadingWall v-if="isLoading"/>
 </template>
 
@@ -62,15 +75,23 @@ import UIHeader from '@/components/Header/UIHeader.vue';
 import UILink from '@/components/FormComponents/UILink.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
+import UIAlert from '@/components/UIAlert.vue'
 import { convertDateToBase } from '@/helpers/DateConverter';
 
 export default {
     components: {
-        UIGalery, UIHeader, UILink, UIButton, UILoadingWall,
+        UIGalery, UIHeader, UILink, UIButton,
+        UILoadingWall, UIAlert,
     },
     data() {
         return {
             isLoading: false,
+            isAlertOpened: false,
+            errorToAlert: {
+                buttons: [],
+                title: "",
+                text: "",
+            },
         }
     },
     props: {
@@ -91,14 +112,49 @@ export default {
         async sendResponse() {
             try {
                 this.isLoading = true
-                await this.projectController.sendResponse(this.project?.id, this.project?.customer_uuid)
-                this.$router.push("/maker/myProjects")
-            } catch(e) {
-                //
+                let response = await this.projectController.sendResponse(this.project?.id, this.project?.customer_uuid)
+
+                if (response?.data?.msg == "you joined to this project") {
+                    this.callInviteAlert()
+                } else if (response?.data?.msg == "request already sent") {
+                    this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                } else {
+                    this.$router.push("/maker/myProjects")
+                }
+            } catch(error) {
+                let dataMsg = error?.response?.data?.msg ?? error.message
+
+                switch(dataMsg) {
+                    case "contractor already set":
+                        this.callError("Действие невозможно", "Испонитель этого проекта уже назначен", [{label: "ОК", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                        break;
+                    case "request already sent":
+                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                        break;
+                }
             } finally {
                 this.isLoading = false
             }
-        }
+        },
+        callInviteAlert() {
+            this.errorToAlert.title = "Встречное предложение!"
+            this.errorToAlert.text = "Заказчик уже предложил Вам сотрудничество по этому проекту. Примите его, чтобы начать работу."
+            this.errorToAlert.buttons = [
+                {style: "secondary", callback: () => {this.isAlertOpened = false}, label: "Отмена"},
+                {style: "primary", callback: this.goToSuggestions, label: "К предложенным мне"},
+                // {style: "primary", callback: this.goToSuggestions, label: "К предложенным мне"},
+            ]
+            this.isAlertOpened = true
+        },
+        goToSuggestions() {
+            this.$router.push("/maker/suggestions")
+        },
+        callError(title, text, buttons) {
+            this.errorToAlert.title = title
+            this.errorToAlert.text = text
+            this.errorToAlert.buttons = buttons
+            this.isAlertOpened = true
+        },
     },
     computed: {
         hasProject: function() {

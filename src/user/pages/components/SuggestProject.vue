@@ -91,27 +91,43 @@ export default {
         async sendSuggestion(p_id) {
             if (!confirm("Вы хотите предложить проект этому исполнителю?")) { return }
 
-            this.viewController.sendSuggestion(p_id, this.makerModel?.uuid)
-                .then((response) => {
-                    console.log("RESP", response)
-                    this.isAlertOpened = false
-                })
-                .catch((error) => {
-                    console.log("ERROR", error)
-                    let msg = error?.response?.data?.msg ?? error.message
+            try {
+                let response = await this.viewController.sendSuggestion(p_id, this.makerModel?.uuid)
 
-                    switch(msg) {
-                        case 'request already sent':
-                            this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
-                            break;
-                    }
-                })
+                console.log("RESP", response)
+                this.isAlertOpened = false
+
+                if (response?.data?.msg == "you joined to this project") {
+                    this.callInviteAlert(p_id)
+                } else {
+
+                }
+            } catch(error) {
+                console.log("ERROR", error)
+                let msg = error?.response?.data?.msg ?? error.message
+
+                switch(msg) {
+                    case 'request already sent':
+                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                        break;
+                }
+            }
         },
         callError(title, text, buttons) {
             this.isAlertOpened = true
             this.errorToAlert.title = title
             this.errorToAlert.text = text
             this.errorToAlert.buttons = buttons
+        },
+        callInviteAlert(p_id) {
+            this.errorToAlert.title = "Встречное предложение!"
+            this.errorToAlert.text = "Исполнитель уже предложил Вам сотрудничество по этому проекту. Примите его, чтобы начать работу."
+            this.errorToAlert.buttons = [
+                {style: "secondary", callback: () => {this.isAlertOpened = false}, label: "Отмена"},
+                {style: "primary", callback: () => {this.$router.push(`/user/project/${p_id}`)}, label: "К предложению"},
+                // {style: "primary", callback: () => {this.$router.push(`/user/project/${p_id}`)}, label: "Назначить исполнителем"},
+            ]
+            this.isAlertOpened = true
         },
     },
     computed: {

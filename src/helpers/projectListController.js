@@ -5,7 +5,8 @@ import {createError, ERROR_CODES} from "@/helpers/ErrorMaker.js"
 import { serverURL } from "@/preferenses.js"
 
 class ProjectListController {
-    async createProject(data, review) {
+    async createProject(data, review, delegate) {
+        if (delegate) delegate.uploadProgressStatus = "Обработка данных..."
         try {
             this.validateData(data)
             if (review && !review.text) { throw createError("REVIEW TEXT ERROR", ERROR_CODES.CPVRTextFailed)}
@@ -28,14 +29,35 @@ class ProjectListController {
             "square_meters": Number(data.square_meters),
             "start_date": new Date(Date.now() + data.start_date.offset * 86400000),
             "title": data.title,
+            "ceiling": data.ceiling,
+            "engineering_networks": data.engineering_networks,
+            "floor_covering": data.floor_covering,
+            "wall_covering": data.wall_covering,
         }
-        if (review) { model.contractor_uuid = (await UserDataController.shared.getData()).uuid }
+
+        let pushTopUploadProgress
+        let uploadProgress = [0, 0, 0, 0, 0]
+        if (review) {
+            model.contractor_uuid = (await UserDataController.shared.getData()).uuid
+            pushTopUploadProgress = () => {
+                if (delegate) delegate.uploadProgress = (uploadProgress[0] + uploadProgress[1] + uploadProgress[2] + uploadProgress[3] + uploadProgress[4]) / 5 * 100
+            }
+        } else {
+            pushTopUploadProgress = () => {
+                if (delegate) delegate.uploadProgress = (uploadProgress[0] + uploadProgress[1] + uploadProgress[2]) / 3 * 100
+            }
+        }
     
+        // stage1
         const projectUrl = `${serverURL}/api/v1/projects/add_new`
         const projectConfig = {
             headers: {
                 "Authorization": "Bearer " + token,
-            }
+            },
+            onUploadProgress: (progressEvent) => {
+                uploadProgress[0] = progressEvent.progress
+                pushTopUploadProgress()
+            },
         }
 
         try {
@@ -55,11 +77,11 @@ class ProjectListController {
                 throw error
             })
         
+        // stage2
+        if (delegate) delegate.uploadProgressStatus = "Загрузка фото..."
         const eventUrl = `${serverURL}/api/v1/projects/create_event?p_id=${projectId}`
         const formData = new FormData();
-        data.imageList.forEach(img => {
-            formData.append('projectphoto', img.file)
-        });
+        data.imageList.forEach(img => { formData.append('projectphoto', img.file) });
         if (data.hostDocs) {
             formData.append('projectdoc', data.hostDocs)
         }
@@ -70,7 +92,11 @@ class ProjectListController {
         const eventConfig = {
             headers: {
                 "Authorization": "Bearer " + token,
-            }
+            },
+            onUploadProgress: (progressEvent) => {
+                uploadProgress[1] = progressEvent.progress
+                pushTopUploadProgress()
+            },
         }
 
         console.log("FORMDATA", formData)
@@ -82,6 +108,8 @@ class ProjectListController {
                 console.log("ERROR", error)
             })
         
+        // stage3
+        if (delegate) delegate.uploadProgressStatus = "Добаление проекта..."
         const avatarUrl = `${serverURL}/api/v1/projects/set_project_picture?p_id=${projectId}`
         const avatarFormData = new FormData();
         try {
@@ -92,7 +120,11 @@ class ProjectListController {
         const avatarConfig = {
             headers: {
                 "Authorization": "Bearer " + token,
-            }
+            },
+            onUploadProgress: (progressEvent) => {
+                uploadProgress[2] = progressEvent.progress
+                pushTopUploadProgress()
+            },
         }
         await axios.post(avatarUrl, avatarFormData, avatarConfig)
             .then((response) => {
@@ -104,10 +136,23 @@ class ProjectListController {
                 throw error
             })
 
-        if (!review) { return }
-
+        if (!review) {
+            if (delegate) delegate.uploadProgressStatus = "Проект создан!"
+            await new Promise(r => setTimeout(r, 1000))
+            return
+        }
+        
+        // stage4
         const completeProjectURL = `${serverURL}/api/v1/projects/complete_project?p_id=${projectId}&stars=${review.rating}`
-        const completeProjectConfig = avatarConfig
+        const completeProjectConfig = {
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            onUploadProgress: (progressEvent) => {
+                uploadProgress[3] = progressEvent.progress
+                pushTopUploadProgress()
+            },
+        }
 
         await axios.get(completeProjectURL, completeProjectConfig)
             .then((response) => {
@@ -118,8 +163,17 @@ class ProjectListController {
                 throw error
             })
         
+        // stage5
         const setReviewURL = `${serverURL}/api/v1/projects/add_project_review?p_id=${projectId}`
-        const setReviewConfig = avatarConfig
+        const setReviewConfig = {
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
+            onUploadProgress: (progressEvent) => {
+                uploadProgress[4] = progressEvent.progress
+                pushTopUploadProgress()
+            },
+        }
         const setReviewFormData = new FormData()
 
         setReviewFormData.append("review", review.text)
@@ -187,6 +241,10 @@ class ProjectListController {
         if (!data.title) { throw createError("Title Error", ERROR_CODES.CPVTitleFailed) }
         if (Number(data.planned_budget_down) > Number(data.planned_budget_up)) { throw createError("Unable range", ERROR_CODES.CPVPlanedBudgetDownFailed) }
         if (!data.imageList || data.imageList?.length == 0) { throw createError("No images pinned", ERROR_CODES.CPVImageListFailed)}
+        if (!(Array.isArray(data.ceiling) && data.ceiling.length != 0)) { throw createError("Ceiling Error", ERROR_CODES.CPVCeiligFailed) }
+        if (!(Array.isArray(data.engineering_networks) && data.engineering_networks.length != 0)) { throw createError("Engineering Networks Error", ERROR_CODES.CPVNetworksFailed) }
+        if (!(Array.isArray(data.floor_covering) && data.floor_covering.length != 0)) { throw createError("Floor Covering Error", ERROR_CODES.CPVFloorsFailed) }
+        if (!(Array.isArray(data.wall_covering) && data.wall_covering.length != 0)) { throw createError("Wall Covering Error", ERROR_CODES.CPVWallsFailed) }
     }
 }
 

@@ -7,7 +7,7 @@
             <button class="alert__button" @click="close">
                 <i class="icon-cross"></i>
             </button>
-            <div class="alert__controls">
+            <div class="alert__controls" ref="controls" :class="orientation">
                 <slot name="controls"></slot>
             </div>
         </div>
@@ -18,7 +18,7 @@
 export default {
     data() {
         return {
-
+            orientation: 'horizontal',
         }
     },
     props: {
@@ -37,7 +37,12 @@ export default {
             this.$emit('close')
             this.$emit('update:isOpened', false)
         }
-    }
+    },
+    mounted() {
+        if (this.$refs.controls?.children?.length >= 3) {
+            this.orientation = 'vertical'
+        }
+    },
 }
 </script>
 

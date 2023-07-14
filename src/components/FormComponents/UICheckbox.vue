@@ -3,7 +3,7 @@
         <div class="checkbox__holder">
             <div class="checkbox__box" :class="{active: value}" v-html="inner"></div>
         </div>
-        <div class="checkbox__title" :class="{small: style == 'small'}">
+        <div class="checkbox__title" :class="{small: style == 'small', slim: style == 'slim'}">
             <slot></slot>
         </div>
     </div>

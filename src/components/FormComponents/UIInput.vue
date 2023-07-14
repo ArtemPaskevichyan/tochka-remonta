@@ -56,6 +56,7 @@ export default {
         }
     },
     mounted() {
+        this.innerValue = this.value
         this.inputType = this.role
     },
 }

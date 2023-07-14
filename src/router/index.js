@@ -8,6 +8,7 @@ import PasswordRecoveryPage from "@/public/pages/passwordRecovery/PasswordRecove
 import CheckEmailPageForRecovery from "@/public/pages/checkEmailPage/CheckEmailPageForRecovery.vue"
 import SuccessfulPasswordChangePage from "@/public/pages/message/SuccessfulPasswordChangePage.vue"
 import NotFoundPage from "@/public/pages/message/NotFoundPage.vue"
+import AccessDeniedPage from "@/public/pages/message/AccessDeniedPage.vue"
 
 import UserSearchPage from "@/user/pages/searchPage/SearchPage.vue"
 import CreateProjectPage from "@/user/pages/createProject/CreateProjectPage.vue"
@@ -155,7 +156,13 @@ const routes = [
   },
 
   {
+    path: '/accessDenied',
+    name: 'accessDeniedPage',
+    component: AccessDeniedPage,
+  },
+  {
     path: '/:pathMatch(.*)',
+    name: "notFoundPage",
     component: NotFoundPage,
   },
 ]
@@ -179,18 +186,22 @@ router.beforeEach(async (to, from) => {
     .catch((error) => {
       console.log("INROUTERERROR", error)
     })
+  
+  console.log("Stage 1")
+  if (COMMON_ROUTES_NAMES.includes(to?.name)) { console.log("LETS GOOO"); return true }
+  console.log("Stage 2")
 
-  if (COMMON_ROUTES_NAMES.includes(to?.name)) { return true }
-
-  var prefix = to.fullPath.split('/')[1]
+  const prefix = to.fullPath.split('/')[1]
   console.log("ROUTER", prefix)
 
   if (prefix == "user" || prefix == "maker") {
-    var role = (await UserDataController.shared.getData())?.role
-    console.log("ROUTER", role)
-    return !(role == "customer" && prefix == "maker" || role == "contractor" && prefix == "user") 
+    const role = (await UserDataController.shared.getData())?.role
+
+    console.log("Stage 3")
+    if (role == "customer" && prefix == "maker" || role == "contractor" && prefix == "user") { return { name: "accessDeniedPage" } }
   }
 
+  console.log("U CAN GO")
   return true
 })
 

@@ -97,14 +97,14 @@ class ProjectController {
             }
         }
 
-        await axios.get(URL, config)
-            .then((response) => {
-                console.log("RESP", response)
-            })
-            .catch((error) => {
-                console.log("ERROR", error)
-                throw error
-            })
+        try {
+            const response = await axios.get(URL, config)
+            console.log("RESP", response)
+            return response
+        } catch(error) {
+            console.log("ERROR", error)
+            throw error
+        }
     }
 
     async setProjectStatus(id) {

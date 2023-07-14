@@ -6,7 +6,7 @@
         </div>
 
         
-        <div class="authorizationHolder__content">
+        <div class="authorizationHolder__content registration">
             <AuthorizationPagination class="registration__pagination" v-model:currentPageIndex="currentPage" :paginationList="paginationData"/>
             <div class="registration__formBlock" v-show="currentPage == 0">
                 <RoleSelectItem :class="{active: selectionId == 0}" @click="selectionId = 0">
