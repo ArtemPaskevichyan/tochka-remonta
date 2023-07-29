@@ -30,9 +30,16 @@ import MakerNotificationPage from "@/maker/pages/notifications/NotificationPage.
 import MakerCreateProjectPage from "@/maker/pages/createProject/CreateProjectPage.vue"
 import SuggestionsPage from "@/maker/pages/suggestions/SuggestionsPage.vue"
 
+import TestPage from "@/public/pages/message/TestPage.vue"
+
 import {UserDataController} from "@/helpers/UserDataController.js"
 
 const routes = [
+  {
+    path: '/test',
+    name: 'test',
+    component: TestPage,
+  },
   {
     path: '/registration',
     name: 'registration',
@@ -206,3 +213,6 @@ router.beforeEach(async (to, from) => {
 })
 
 export default router
+
+
+
