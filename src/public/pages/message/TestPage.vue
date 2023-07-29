@@ -2,7 +2,7 @@
   <UIHeader></UIHeader>
 
   CHAT
-  <iframe src="https://chat.tochka-remonta.site" frameborder="0">
+  <iframe src="https://chat.tochka-remonta.site?layout=embedded" frameborder="0">
 
   </iframe>
 </template>
