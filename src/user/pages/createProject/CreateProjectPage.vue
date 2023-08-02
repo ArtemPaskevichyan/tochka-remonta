@@ -1,6 +1,7 @@
 <template>
-    <div class="headerPage">
-        <UIHeader></UIHeader>
+    <div class="headerPage tabBarPage">
+        <UIHeader/>
+        <UITabBar :page="'Новый проект'"/>
         <div class="titleText pageTitle">Создание проекта</div>
         <div class="createProject backgroundCard">
             <div class="createProject__content">
@@ -21,16 +22,16 @@
                     <UISelect :title="'Вид работы'" v-model:value="typeOfWork" :selectArray="typesOfWork" :class="{error: typeOfNewError}"></UISelect>
                 </div>
                 <div class="createProject__item" id="CPChoisesOfWalls">
-                    <UIMultiChoise v-model:selectionData="choisesOfWalls" :title="'Покрытие стен'"/>
+                    <UIMultiChoise v-model:selectionData="choisesOfWalls" :title="'Покрытие стен'" :foldable="true"/>
                 </div>
                 <div class="createProject__item" id="CPChoisesOfFloor">
-                    <UIMultiChoise v-model:selectionData="choisesOfFloor" :title="'Напольное покрытие'"/>
+                    <UIMultiChoise v-model:selectionData="choisesOfFloor" :title="'Напольное покрытие'" :foldable="true"/>
                 </div>
                 <div class="createProject__item" id="CPChoisesOfTop">
-                    <UIMultiChoise v-model:selectionData="choisesOfTop" :title="'Потолок'"/>
+                    <UIMultiChoise v-model:selectionData="choisesOfTop" :title="'Потолок'" :foldable="true"/>
                 </div>
                 <div class="createProject__item" id="CPChoisesOfNetworks">
-                    <UIMultiChoise v-model:selectionData="choisesOfNetworks" :title="'Инженерные сети'"/>
+                    <UIMultiChoise v-model:selectionData="choisesOfNetworks" :title="'Инженерные сети'" :foldable="true"/>
                 </div>
                 <div class="createProject__item" id="CPTypeOfHouse">
                     <UISelect :title="'Тип дома'" v-model:value="typeOfHouse" :selectArray="typesOfHouse" :class="{error: typeOfHouseError}"></UISelect>
@@ -72,7 +73,6 @@
             </div>
         </div>
     </div>
-    <!-- <UILoadingWall v-if="isLoading">{{uploadProgress}} {{ uploadProgressStatus }}</UILoadingWall> -->
     <UIProgressLoading v-if="isLoading" :status="uploadProgressStatus" v-model:progress="uploadProgress"></UIProgressLoading>
 </template>
 
@@ -89,6 +89,7 @@ import UIGaleryLoader from '@/components/FormComponents/ImageLoaders/UIGaleryLoa
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIMultiChoise from '@/components/FormComponents/UIMultiChoise.vue';
 
+import UITabBar from '@/components/UITabBar.vue';
 import UIHeader from '@/components/Header/UIHeader.vue'
 import UILoadingWall from '@/components/UILoadingWall.vue'
 import UIProgressLoading from '@/components/UIProgressLoading.vue';
@@ -103,7 +104,7 @@ export default {
         UIInput, UISelect, UIHeader, UIParamInput, UICheckbox,
         UIFileLoader, UITextInput, UIRangeInput, GaleryImage,
         UIGaleryLoader, UIButton, UILoadingWall, UIMultiChoise,
-        UIProgressLoading,
+        UIProgressLoading, UITabBar,
     },
     data() {
         return {

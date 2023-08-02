@@ -1,6 +1,7 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
         <UIHeader/>
+        <UITabBar :page="'Профиль'"/>
         <div class="titleText pageTitle">Настройки профиля</div>
         <div class="backgroundCard settingsPage">
             <div class="settingsPage__imageSide">
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+import UITabBar from '@/components/UITabBar.vue';
 import UIHeader from '@/components/Header/UIHeader.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIInput from '@/components/FormComponents/UIInput.vue';
@@ -50,6 +52,7 @@ import {UserDataController} from '@/helpers/UserDataController.js'
 export default {
     components: {
         UIHeader, UIButton, UIInput, UIImageLoader, UILoadingWall,
+        UITabBar,
     },
     data() {
         return {

@@ -120,6 +120,13 @@
     background-color: $primary-theme-color;
 }
 
+.skeleton.projectSearchingPage {
+    &__gantDiagram {
+        background-color: $grey-color;
+        color: $secondary-text-color;
+    }
+}
+
 .skeleton.makerProfileCard {
     &__projectsCount {
         background-color: $primary-text-color;

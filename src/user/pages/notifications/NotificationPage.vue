@@ -1,6 +1,7 @@
 <template>
     <div class="headerPage notificationPage">
         <UIHeader/>
+        <UITabBar :page="'Уведомления'"/>
         <div>
             <div class="titleText pageTitle">Новые уведомления</div>
             <div class="notificationPage" v-if="newNotifications?.length > 0">
@@ -23,13 +24,14 @@
 </template>
 
 <script>
+import UITabBar from '@/components/UITabBar.vue';
 import UIHeader from '@/components/Header/UIHeader.vue';
 import UINotification from '@/components/UINotification.vue';
 import { NotificationController } from './helpers/notificationController';
 
 export default {
     components: {
-        UIHeader, UINotification,
+        UIHeader, UINotification, UITabBar,
     },
     data() {
         return {

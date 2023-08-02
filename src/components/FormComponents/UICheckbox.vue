@@ -25,6 +25,7 @@
         methods: {
             switchValue() {
                 this.$emit("update:value", !this.value)
+                this.$emit("change", this.value)
             }
         },
         computed: {

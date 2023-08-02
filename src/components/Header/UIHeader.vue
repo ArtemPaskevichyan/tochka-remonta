@@ -59,11 +59,12 @@ import UIProgressBar from "../UIProgressBar.vue"
 import { UserDataController } from "@/helpers/UserDataController.js"
 import { serverURL } from "@/preferenses"
 import defaultAvatar from "@/assets/images/profileIcon.png"
+import UIModal from '@/components/UIModal.vue'
 
 export default {
     components: {
         UINotificationIndicatorHolder, UIProfileProgress, UINotificationCounter,
-        UIProgressBar,
+        UIProgressBar, UIModal,
     },
     data() {
         return {
@@ -96,7 +97,7 @@ export default {
         async fetchData() {
             this.isDataLoaded = false
 
-            var data = await UserDataController.shared.getData()
+            let data = await UserDataController.shared.getData()
 
             this.email = data.email
             if (data.role == "customer") {
@@ -139,6 +140,11 @@ export default {
     mounted() {
         console.log("HEADER IS MOUNTED")
         this.fetchData()
+    },
+    unmounted() {
+        try {
+            document.removeEventListener("click", this.showHideNavigation)
+        } catch(e) {}
     },
 }
 </script>

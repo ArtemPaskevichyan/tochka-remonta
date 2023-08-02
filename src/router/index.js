@@ -90,18 +90,22 @@ const routes = [
 
   {
     path: '/user/search',
+    name: 'userSearch',
     component: UserSearchPage,
   },
   {
     path: '/user/createProject',
+    name: 'userCreateProject',
     component: CreateProjectPage,
   },
   {
     path: '/user/myProjects',
+    name: 'userMyProjects',
     component: MyProjectsPage,
   },
   {
     path: '/user/settingsPage',
+    name: 'userSettingsPage',
     component: SettingsPage,
   },
   {
@@ -128,15 +132,18 @@ const routes = [
   },
   {
     path: '/user/notifications',
+    name: 'userNotifications',
     component: NotificationPage,
   },
 
   {
     path: '/maker/settingsPage',
+    name: 'makerSettingsPage',
     component: MakerSettingsPage,
   },
   {
     path: '/maker/search',
+    name: 'makerSearch',
     component: MakerSearchPage,
   },
   {
@@ -147,14 +154,17 @@ const routes = [
   },
   {
     path: '/maker/myProjects',
+    name: 'makerMyProjects',
     component: MakerMyProjectsPage,
   },
   {
     path: '/maker/notifications',
+    name: 'makerNotifications',
     component: MakerNotificationPage,
   },
   {
     path: '/maker/createProject',
+    name: 'makerCreateProject',
     component: MakerCreateProjectPage,
   },
   {

@@ -248,6 +248,27 @@ class ProjectController {
 
         return (await axios.get(URL))?.data?.user
     }
+
+    async getDiagramTasks(p_id) {
+        var token = await TokenHandler.shared.getToken()
+
+        const URL = `${serverURL}/api/v1/projects/get_project_tasks?p_id=${p_id}`
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            let response = await axios.get(URL, config)
+            console.log("RESP", response)
+        } catch(error) {
+            console.log("ERROR", error)
+            throw error
+        }
+
+        return []
+    }
 }
 
 export { ProjectController }

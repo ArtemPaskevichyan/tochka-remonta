@@ -22,11 +22,6 @@ export default {
       axios.post("https://chat.tochka-remonta.site/api/v1/login", {
         user: "new-user",
         password: "new-users-passw0rd",
-      }, {
-        headers: {
-          "Access-Control-Allow-Origin": "https://chat.tochka-remonta.site",
-          "Access-Control-Allow-Credentials": "true",
-        }
       })
       .then((response) => {
         console.log("CHAT RESPONSE", response)

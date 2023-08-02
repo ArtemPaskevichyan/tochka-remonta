@@ -1,6 +1,7 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
         <UIHeader/>
+        <UITabBar :page="'Мои проекты'"/>
         <div class="myProjectsPage">
             <div class="myProjectsPage__loader">
                 <UILoadingSpinner v-if="isLoading"></UILoadingSpinner>
@@ -43,6 +44,7 @@
 
 <script>
 import UIHeader from '@/components/Header/UIHeader.vue'
+import UITabBar from '@/components/UITabBar.vue'
 import UIInformationCard from '@/components/UIInformationCard.vue';
 import {ProjectListController} from '@/helpers/projectListController.js'
 import UILoadingSpinner from "@/components/UILoadingSpinner.vue"
@@ -56,7 +58,7 @@ import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue
 export default {
     components: {
         UIHeader, UIInformationCard, UILoadingSpinner, UIButton, UILink,
-        SearchingProjectCard, ActiveProjectCard, ArchiveProjectCard,
+        SearchingProjectCard, ActiveProjectCard, ArchiveProjectCard, UITabBar,
     },
     data() {
         return {

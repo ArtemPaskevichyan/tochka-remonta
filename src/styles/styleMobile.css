@@ -1,0 +1,228 @@
+@media screen and (max-width: 900px) {
+  .submitPhonePage {
+    padding: 40px 40px;
+  }
+  .submitPhonePage__inputBlock {
+    gap: 16px;
+  }
+  .createProject {
+    padding: 40px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .authorizationHolder {
+    width: 90%;
+  }
+  .authorizationHolder__content {
+    width: unset;
+    min-width: unset;
+  }
+  .header {
+    padding: 0 20px;
+  }
+  .header__dropdownMenu {
+    width: unset;
+    left: 0;
+    border-radius: 0 0 12px 12px;
+  }
+  .tabBar {
+    display: block;
+  }
+  .tabBarPage {
+    margin-bottom: 66px;
+  }
+  .titleText {
+    font-size: 32px;
+    font-weight: 400;
+    text-align: left;
+    padding: 0 20px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
+  .baseText {
+    font-size: 15px;
+  }
+  .pageTitle {
+    margin-top: 50px;
+    margin-bottom: 16px;
+  }
+  .input__title {
+    font-size: 15px;
+  }
+  .input__title.small {
+    font-size: 12px;
+  }
+  .input input {
+    font-size: 15px;
+  }
+  .paramInput input {
+    font-size: 15px;
+  }
+  .paramInput__label {
+    font-size: 15px;
+  }
+  .select__holder {
+    padding-right: 6px;
+  }
+  .select__title {
+    font-size: 15px;
+  }
+  .select__value {
+    font-size: 15px;
+  }
+  .select__item {
+    font-size: 15px;
+  }
+  .select__arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+  .multiChoise__title {
+    font-size: 15px;
+  }
+  .checkbox__title {
+    font-size: 15px;
+  }
+  .link.small {
+    font-size: 12px;
+  }
+  .rangeCheck__title {
+    font-size: 15px;
+  }
+  .fileLoader__title {
+    font-size: 15px;
+  }
+  .fileLoader__fileName {
+    font-size: 15px;
+  }
+  .textArea__title {
+    font-size: 15px;
+  }
+  .textArea textarea {
+    font-size: 15px;
+  }
+  .galeryLoader__title {
+    font-size: 15px;
+  }
+  .button {
+    border-radius: 12px;
+  }
+  .alert__content {
+    width: 95vw;
+  }
+  .alert__baseTitle {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .alert__baseText {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  .backgroundCard {
+    width: 95%;
+    margin: 16px auto;
+  }
+  .searchBar__inlineSearchButton {
+    display: block;
+    visibility: visible;
+  }
+  .searchBar__searchButton {
+    display: none;
+  }
+  .searchBar__inputHolder input {
+    font-size: 15px;
+  }
+  .searchPage__searchBar {
+    width: 100%;
+    padding: 0 20px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    margin-bottom: 25px;
+  }
+  .searchPage__title {
+    margin-bottom: 4px;
+  }
+  .searchPage__caption {
+    font-size: 15px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 0 20px;
+  }
+  .myProjectsPage {
+    width: 100%;
+  }
+  .myProjectsPage__placeholder {
+    font-size: 15px;
+  }
+  .myProjectsPage__block .infoCard {
+    margin: 20px;
+  }
+  .notificationPage .notification {
+    width: calc(100% - 40px);
+  }
+  .notificationPage__caption {
+    font-size: 15px;
+  }
+  .notification__title {
+    font-size: 20px;
+  }
+  .settingsPage {
+    padding: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .settingsPage__imageHolder {
+    width: 180px;
+    height: 180px;
+  }
+  .settingsPage__nameHolder {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 10px;
+  }
+  .settingsPage__numberBlock {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    gap: 10px;
+  }
+  .settingsPage__numberBlock .button {
+    margin-left: unset;
+    width: 100%;
+  }
+  .settingsPage__number {
+    margin: 0;
+  }
+  .submitPhonePage {
+    padding: 40px 20px;
+  }
+  .submitPhonePage__content {
+    margin: 0 auto;
+    max-width: 400px;
+  }
+  .submitPhonePage__inputBlock {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 10px;
+  }
+  .submitPhonePage__inputBlock .button {
+    width: 100%;
+  }
+  .createProject {
+    padding: 20px;
+  }
+  .createProject__submitButton .button {
+    width: 100%;
+  }
+}

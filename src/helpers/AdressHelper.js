@@ -36,15 +36,20 @@ class AdressHelper {
             const interval = setInterval(() => {
                 if (!ymaps) { return }
                 clearInterval(interval)
-                ymaps.geolocation.get({ provider: 'yandex' })
-                    .then((response) => {
-                        console.log("RESOLVED")
-                        resolve(response)
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                        reject(error)
-                    })
+
+                try {
+                    ymaps.geolocation.get({ provider: 'yandex' })
+                        .then((response) => {
+                            console.log("RESOLVED")
+                            resolve(response)
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                            reject(error)
+                        })
+                } catch(error) {
+                    reject(error)
+                }
             }, 500)
         })
     }
