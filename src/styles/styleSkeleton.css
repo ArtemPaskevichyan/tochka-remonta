@@ -96,6 +96,11 @@
   opacity: 0 !important;
 }
 
+.skeleton.settingsPage__adressMap {
+  color: initial;
+  background-color: lightgrey;
+}
+
 .skeleton.pageTitle {
   background-color: #262626;
 }
@@ -110,6 +115,11 @@
 
 .skeleton.link {
   background-color: #CC8C52;
+}
+
+.skeleton.projectSearchingPage__gantDiagram {
+  background-color: #D9D9D9;
+  color: #676767;
 }
 
 .skeleton.makerProfileCard__projectsCount {
@@ -148,6 +158,10 @@
 }
 .skeleton.makerPage__contact {
   background-color: #676767;
+}
+.skeleton.makerPage__map {
+  color: initial;
+  background-color: lightgrey;
 }
 
 .skeleton.review__avatar {

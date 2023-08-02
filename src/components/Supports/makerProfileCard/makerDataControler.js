@@ -10,22 +10,26 @@ class MakerDataController {
     }
 
     async getProjects(uuid) {
-        const URL = `${serverURL}/api/v1/projects/get_user_project_list?user_uuid=${uuid}`
+        const URL = `${serverURL}/api/v1/projects/get_user_project_list?user_uuid=${uuid}&status=archive`
         var projectList = []
         await axios.get(URL)
             .then((response) => {
                 projectList = response?.data?.project_list
-                console.log(projectList)
+                console.log("PLIST", response)
             })
             .catch((error) => {
                 console.log("ERROR", uuid, error)
             })
         
-        return projectList?.filter(p => p.status == 'archive') ?? []
+        return projectList?.filter(p => p?.status == 'archive') ?? []
     }
 
     async getProjectsCount(uuid) {
         return axios.get(`${serverURL}/api/v1/projects/get_project_count?user_uuid=${uuid}` )
+    }
+
+    async getAchivements(uuid) {
+        return (await axios.get(`${serverURL}/api/v1/projects/get_user_achievements?user_uuid=${uuid}`))?.data?.achievements ?? []
     }
 }
 

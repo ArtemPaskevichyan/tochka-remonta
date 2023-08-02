@@ -1,7 +1,7 @@
 <template>
     <div class="headerPage">
         <UIHeader/>
-        <div class="titleText pageTitle">Проекты</div>
+        <div class="titleText pageTitle searchPage__title">Проекты</div>
         <UISearchBar class="searchPage__searchBar" v-model:suggestions="searchSuggestions" :placeholder="'Найти проект'"
         v-model:text="searchText" @chosen="searchChosen" @search="goSearch"/>
 

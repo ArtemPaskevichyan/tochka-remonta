@@ -1,18 +1,18 @@
 @font-face {
-  font-family: 'tochka-remonta';
-  src:  url('fonts/tochka-remonta.eot?bomann');
-  src:  url('fonts/tochka-remonta.eot?bomann#iefix') format('embedded-opentype'),
-    url('fonts/tochka-remonta.ttf?bomann') format('truetype'),
-    url('fonts/tochka-remonta.woff?bomann') format('woff'),
-    url('fonts/tochka-remonta.svg?bomann#tochka-remonta') format('svg');
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?8ek5bv');
+  src:  url('fonts/icomoon.eot?8ek5bv#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?8ek5bv') format('truetype'),
+    url('fonts/icomoon.woff?8ek5bv') format('woff'),
+    url('fonts/icomoon.svg?8ek5bv#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+i {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'tochka-remonta' !important;
+  font-family: 'icomoon' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -25,54 +25,64 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-tools:before {
-  content: "\e90f";
+.icon-trash:before {
+  content: "\e913";
 }
-.icon-idea:before {
-  content: "\e910";
-}
-.icon-search:before {
-  content: "\e90c";
-}
-.icon-bell:before {
-  content: "\e90d";
-}
-.icon-gear:before {
-  content: "\e90b";
-}
-.icon-cards:before {
-  content: "\e90e";
-}
-.icon-eye:before {
-  content: "\e909";
-}
-.icon-eye-cross:before {
-  content: "\e90a";
-}
-.icon-plus:before {
-  content: "\e908";
-}
-.icon-camera:before {
+.icon-options:before {
   content: "\e900";
 }
-.icon-filter:before {
+.icon-gear:before {
   content: "\e901";
 }
-.icon-cross:before {
+.icon-idea:before {
   content: "\e902";
+  color: #401f00;
 }
-.icon-checkmark:before {
+.icon-eye:before {
   content: "\e903";
 }
-.icon-arrow-right:before {
+.icon-eye-cross:before {
   content: "\e904";
 }
-.icon-arrow-down:before {
+.icon-search:before {
   content: "\e905";
 }
-.icon-arrow-up:before {
+.icon-bell:before {
   content: "\e906";
 }
-.icon-arrow-left:before {
+.icon-person-plus:before {
   content: "\e907";
+}
+.icon-tools:before {
+  content: "\e908";
+}
+.icon-filter:before {
+  content: "\e909";
+}
+.icon-cross:before {
+  content: "\e90a";
+}
+.icon-checkmark:before {
+  content: "\e90b";
+}
+.icon-arrow-right:before {
+  content: "\e90c";
+}
+.icon-arrow-down:before {
+  content: "\e90d";
+}
+.icon-arrow-up:before {
+  content: "\e90e";
+}
+.icon-arrow-left:before {
+  content: "\e90f";
+}
+.icon-camera:before {
+  content: "\e910";
+}
+.icon-plus:before {
+  content: "\e911";
+}
+.icon-cards:before {
+  content: "\e912";
 }

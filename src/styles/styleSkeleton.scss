@@ -97,6 +97,13 @@
     }
 }
 
+.skeleton.settingsPage {
+    &__adressMap {
+        color: initial;
+        background-color: lightgrey;
+    }
+}
+
 .skeleton.pageTitle {
     background-color: $primary-text-color;
 }
@@ -111,6 +118,13 @@
 
 .skeleton.link {
     background-color: $primary-theme-color;
+}
+
+.skeleton.projectSearchingPage {
+    &__gantDiagram {
+        background-color: $grey-color;
+        color: $secondary-text-color;
+    }
 }
 
 .skeleton.makerProfileCard {
@@ -163,6 +177,10 @@
     &__contact {
         background-color: $secondary-text-color;
     }
+    &__map {
+        color: initial;
+        background-color: lightgrey;
+    }
 }
 
 .skeleton.review {
@@ -189,3 +207,9 @@
         color: transparent;
     }
 }
+
+.skeleton.review {
+    
+}
+
+

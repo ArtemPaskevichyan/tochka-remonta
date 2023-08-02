@@ -50,7 +50,7 @@
                             <UIRating :rating="maker?.rating ?? 0"/>
                         </div>
                         <div class="projectSearchingPage__controls">
-                            <UIButton :style="'secondary'">Профиль</UIButton>
+                            <UIButton :style="'secondary'" @click="goToMaker">Профиль</UIButton>
                             <UIButton :style="'primary'" @click="openSuggestModal">Предложить проект</UIButton>
                         </div>
                     </div>
@@ -61,6 +61,13 @@
                 <div class="projectSearchingPage__blockTitle">Описание</div>
                 <div class="projectSearchingPage__description" :class="{skeleton: !hasProject}">
                     {{project?.description ?? "some description for sceleton loader"}}
+                </div>
+            </div>
+
+            <div class="projectSearchingPage__block">
+                <div class="projectSearchingPage__blockTitle">Отзыв</div>
+                <div class="projectSearchingPage__review" :class="{skeleton: !hasProject}">
+                    <Review :model="review"/>
                 </div>
             </div>
         </div>
@@ -83,12 +90,13 @@ import UIRating from '@/components/FormComponents/UIRating.vue';
 import { serverURL } from '@/preferenses';
 import UIModal from '@/components/UIModal.vue';
 import SuggestProject from '@/user/pages/components/SuggestProject.vue';
+import Review from '@/components/Supports/Review.vue';
 
 
 export default {
     components: {
         UIGalery, UIHeader, UILink, UIButton, UILoadingWall, UIRating,
-        UIModal, SuggestProject,
+        UIModal, SuggestProject, Review,
     },
     data() {
         return {
@@ -147,6 +155,25 @@ export default {
                 this.isReviewLoading = false
             }
         },
+
+        async getProjectRating() {
+            await this.projectController.getProjectRating(this.project?.id)
+                .then((response) => {
+                    this.review.stars = response
+                })
+                .catch((error) => {
+                    console.log("ERROR", error)
+                })
+            await this.projectController.getUserInfo(this.project?.customer_uuid)
+                .then((response) => {
+                    this.review.username = response?.firstname
+                    this.review.img = response?.avatar
+                })
+                .catch((error) => {
+                    console.log("ERROR", error)
+                })
+        },
+
         async getMaker() {
             try {
                 this.isMakerLoading = true
@@ -161,6 +188,9 @@ export default {
         openSuggestModal() {
             this.isSuggestModalShown = true
         },
+        goToMaker() {
+            this.$router.push('/user/makerPage/' + this.project?.contractor_uuid)
+        }
     },
     watch: {
         project: function() {
@@ -173,6 +203,7 @@ export default {
     mounted() {
         this.getMaker()
         this.getReview(this.project?.id)
+        this.getProjectRating()
     }
 }
 </script>

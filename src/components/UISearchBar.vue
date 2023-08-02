@@ -2,7 +2,7 @@
     <div class="searchBar">
         <div class="searchBar__inputHolder">
             <input type="text" :placeholder="placeholder" v-model="innerText">
-            <UIButton class="searchBar__inlineSearchButton" :style="'square primary'" @click="search">S</UIButton>
+            <UIButton class="searchBar__inlineSearchButton" :style="'square primary'" @click="search"><i class="icon-search"></i></UIButton>
             <div class="searchBar__dropdown" v-if="suggestions?.length > 0">
             <div class="searchBar__dropdownItem" :key="index" v-for="(s, index) in suggestions" @click="choseItem(index)">
                 {{s}}
@@ -11,11 +11,11 @@
         </div>
         <UIButton class="searchBar__searchButton" :style="'primary'" @click="search">Поиск</UIButton>
         <UINotificationIndicatiorHolder :amount="filtersCount" :displayZero="false">
-            <UIButton class="searchBar__filterButton" v-if="filterExists" :style="'square'" @click="showHideFilters">
+            <UIButton class="searchBar__filterButton" v-if="filterExists" :style="'square'" @click.stop="showHideFilters">
                 <i class="icon-filter"></i>
             </UIButton>
         </UINotificationIndicatiorHolder>
-        <div v-if="filterExists && filterIsOpened" class="searchBar__filter">
+        <div v-if="filterExists && filterIsOpened" class="searchBar__filter" @click.stop>
             <slot name="filterContent"></slot>
         </div>
     </div>
@@ -46,13 +46,14 @@ export default {
         },
         showHideFilters() {
             this.$emit("update:suggestions", [])
-            if (!this.filterIsOpened) {
-                this.$emit("filtersWillBeOpened")
-            } else {
-                this.$emit("filtersWillBeClosed")
-            }
             this.filterIsOpened = !this.filterIsOpened
-            if (this.filterIsOpened) { this.$emit('filtersHasBeenOpened') }
+            if (this.filterIsOpened) {
+                document.addEventListener("click", this.showHideFilters)
+                this.$emit('filtersHasBeenOpened')
+            } else {
+                document.removeEventListener("click", this.showHideFilters)
+                this.$emit('filtersHasBeenClosed')
+            }
         },
         search() {
             this.$emit("update:suggestions", [])
@@ -88,6 +89,11 @@ export default {
             this.innerText = this.text
         }
     },
+    unmounted() {
+        try {
+            document.removeEventListener("click", this.showHideFilters)
+        } catch(e) {}
+    }
 }
 </script>
 

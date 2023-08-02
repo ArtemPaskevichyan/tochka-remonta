@@ -1,5 +1,6 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
+        <UITabBar :page="'Профиль'"/>
         <UIHeader/>
         <div class="titleText pageTitle">Подтверждение номера телефона</div>
         <div class="backgroundCard submitPhonePage">
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import UITabBar from '@/components/UITabBar.vue'
 import UIInput from '@/components/FormComponents/UIInput.vue'
 import UIHeader from '@/components/Header/UIHeader.vue'
 import UIButton from '@/components/Buttons/UIButton.vue'
@@ -32,7 +34,7 @@ import UILoadingWall from '@/components/UILoadingWall.vue'
 
 export default {
     components: {
-        UIInput, UIHeader, UIButton, UILoadingWall,
+        UIInput, UIHeader, UIButton, UILoadingWall, UITabBar,
     },
     data() {
         return {

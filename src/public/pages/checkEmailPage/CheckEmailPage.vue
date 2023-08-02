@@ -15,6 +15,10 @@
                 </div>
             </div>
         </div> 
+
+        <div class="registration__loginBlock">
+            <span>Уже подтвердили?  <UILink :size="'small'" :link="'/login'">Войти</UILink></span>
+        </div>
     </div>
     <UILoadingWall v-if="isLoading"></UILoadingWall>
 </template>

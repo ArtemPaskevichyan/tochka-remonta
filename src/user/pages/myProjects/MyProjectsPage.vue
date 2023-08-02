@@ -1,6 +1,7 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
         <UIHeader/>
+        <UITabBar :page="'Мои проекты'"/>
         <div class="myProjectsPage">
             <div class="myProjectsPage__loader">
                 <UILoadingSpinner v-if="isLoading"></UILoadingSpinner>
@@ -30,7 +31,7 @@
             <div class="myProjectsPage__block" v-if="completedList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Завершенные проекты</div>
                 <ArchiveProjectCard v-for="proj in completedList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'"
-                :imageName="proj.main_picture" :description="proj.description" @action="$router.push('/user/project/' + String(proj.id))"/>
+                :imageName="proj.main_picture" :description="proj.description" @action="$router.push('/user/project/' + String(proj.id))" :rating="proj.rating"/>
             </div>
 
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
@@ -43,6 +44,7 @@
 
 <script>
 import UIHeader from '@/components/Header/UIHeader.vue'
+import UITabBar from '@/components/UITabBar.vue'
 import UIInformationCard from '@/components/UIInformationCard.vue';
 import {ProjectListController} from '@/helpers/projectListController.js'
 import UILoadingSpinner from "@/components/UILoadingSpinner.vue"
@@ -56,7 +58,7 @@ import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue
 export default {
     components: {
         UIHeader, UIInformationCard, UILoadingSpinner, UIButton, UILink,
-        SearchingProjectCard, ActiveProjectCard, ArchiveProjectCard,
+        SearchingProjectCard, ActiveProjectCard, ArchiveProjectCard, UITabBar,
     },
     data() {
         return {
@@ -71,6 +73,18 @@ export default {
             try {
                 this.isLoading = true
                 this.dataArray = await this.viewModel.getProjectList()
+
+                for (let i = 0; i < this.dataArray.length; i++) {
+                    if (this.dataArray[i]?.status == 'archive') {
+                        this.viewModel.getProjectRating(this.dataArray[i]?.id)
+                            .then((stars) => {
+                                this.dataArray[i].rating = stars
+                            })
+                            .catch((error) => {
+                                console.log("ERROR", error)
+                            })
+                    }
+                }
             } catch(e) {
                 //
             } finally {

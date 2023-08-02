@@ -1,13 +1,13 @@
 <template>
     <div class="notification">
         <div class="notification__title largeText" :class="{skeleton: isLoading}">
-            {{ title ?? "NO TITLE" }}
+            {{ model?.title ?? "NO TITLE" }}
         </div>
         <div class="notification__body baseText" :class="{skeleton: isLoading}">
-            {{ title ?? "NO BODY TEXT FOUND HERE" }}
+            {{ model?.body ?? "NO BODY TEXT FOUND HERE" }}
         </div>
         <div class="notification__footer">
-            <UIButton :style="isLoading ? 'disabled' : (watched ? 'secondary' : 'primary')" @click="$emit('action')">Посмотреть</UIButton>
+            <UIButton :style="isLoading ? 'disabled' : (model?.viewed ? 'secondary' : 'primary')" @click="$emit('action', model)">Посмотреть</UIButton>
         </div>
     </div>
 </template>
@@ -25,11 +25,9 @@ export default {
         }
     },
     props: {
-        title: String,
-        text: String,
-        watched: {
-            type: Boolean,
-            default: true,
+        model: {
+            required: true,
+            type: Object,
         },
         isLoading: {
             type: Boolean,

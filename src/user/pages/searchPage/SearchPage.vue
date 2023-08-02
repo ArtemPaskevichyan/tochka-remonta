@@ -1,18 +1,22 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
         <UIHeader/>
-        <div class="titleText pageTitle">Исполнители</div>
+        <UITabBar :page="'Поиск'"/>
+        <div class="titleText pageTitle searchPage__title">Исполнители</div>
         <UISearchBar class="searchPage__searchBar" v-model:suggestions="searchSuggestions" :placeholder="'Найти компанию'" :ref="'searchBar'"
         v-model:text="searchText" :filtersCount="filtersCount" @chosen="searchChosen" @search="goSearch" @filtersHasBeenOpened="prepareFilters">
             <template v-slot:filterContent>
-                <UIParamInput :title="'Проектов выполненно'" :prefix="'от'" :placeholder="'1'" v-model:value="filters.completed_projects"/>
-                <UIParamInput :title="'Рейтинг'" :prefix="'от'" :placeholder="'4.5'" v-model:value="filters.rating"/>
-                <UIParamInput :title="'Дней на платформе'" :placeholder="'20'" v-model:value="filters.registred_days"/>
+                <UIMultiChoise :title="'Проектов выполнено'" :foldable="true" :single="true" v-model:selectionData="filters.completed_projects"/>
+                <UIMultiChoise :title="'Средний чек (за М²)'" :foldable="true" :single="true" v-model:selectionData="filters.average_check"/>
+                <UIMultiChoise :title="'Рейтинг'" :foldable="true" :single="true" v-model:selectionData="filters.rating"/>
                 <UIButton :style="'primary'" @click="setFilters">Применить</UIButton>
             </template>
         </UISearchBar>
         <MakerProfileCard class="searchPage__card" v-for="(m, index) in makerList" :model="m" :key="index"
         @goTo="goTo(m)" @suggest="seggestTo(m)" @ratingSetten="rating => m.rating = rating"/>
+        <div class="searchPage__caption" v-if="makerList?.length == 0">
+            Исполнители{{filtersCount > 0 ? ' с такими параметрами ' : ' '}}не найдены 
+        </div>
     </div>
 
     <UIModal v-if="isSuggestOpened" v-model:isOpened="isSuggestOpened">
@@ -22,19 +26,22 @@
 
 <script>
 import UIHeader from '@/components/Header/UIHeader.vue';
+import UITabBar from '@/components/UITabBar.vue';
 import UISearchBar from '@/components/UISearchBar.vue';
 import MakerProfileCard from '@/components/Supports/makerProfileCard/MakerProfileCard.vue';
 import { SearchingController } from '@/user/pages/searchPage/helpers/serchingController.js'
 import UIModal from '@/components/UIModal.vue';
 import SuggestProject from '@/user/pages/components/SuggestProject.vue';
+
 import UIInput from '@/components/FormComponents/UIInput.vue';
-import UIParamInput from '@/components/FormComponents/UIParamInput.vue';
+import UIMultiChoise from "@/components/FormComponents/UIMultiChoise.vue";
 import UIButton from '@/components/Buttons/UIButton.vue';
 
 export default {
     components: {
-        UIHeader, UISearchBar, MakerProfileCard, UIModal,
-        SuggestProject, UIInput, UIParamInput, UIButton,
+        UIHeader, UITabBar, UISearchBar, MakerProfileCard,
+        UIModal, SuggestProject, UIInput, UIButton,
+        UIMultiChoise,
     },
     data() {
         return {
@@ -45,12 +52,26 @@ export default {
             makerUUIDList: [],
             makerList: [{}, {}, {}],
             filters: {
-                completed_projects: '',
-                rating: '',
-                registred_days: '',
+                average_check: [
+                    {id: 0, label: "до 50 000 ₽", active: false, value: 50000},
+                    {id: 1, label: "до 100 000 ₽", active: false, value: 100000},
+                    {id: 2, label: "до 200 000 ₽", active: false, value: 200000},
+                ],
+                completed_projects: [
+                    {id: 0, label: "от 10", active: false, value: 10},
+                    {id: 1, label: "от 20", active: false, value: 20},
+                    {id: 2, label: "от 50", active: false, value: 50},
+                ],
+                rating: [
+                    {id: 0, label: "3.0+", active: false, value: 3},
+                    {id: 1, label: "4.0+", active: false, value: 4},
+                    {id: 2, label: "5.0+", active: false, value: 5},
+                ],
+                city: "",
+                role: undefined,
             },
             realFiltersList: {},
-            viewController: new SearchingController(this.filtersToSearch),
+            viewController: new SearchingController(),
             makerToSuggest: undefined,
         }
     },
@@ -98,24 +119,38 @@ export default {
         },
 
         prepareFilters() {
-            console.log("j", this.realFiltersList)
-            for (var i in this.realFiltersList) {
-                if (!this.realFiltersList[i]) {continue}
-                console.log(i, this.realFiltersList[i])
-                this.filters[i] = String(this.realFiltersList[i])
-            }
+            // When filters window is opened copies inUse filters
+            // console.log("j", this.realFiltersList)
+            // for (var i in this.realFiltersList) {
+            //     if (!this.realFiltersList[i]) {continue}
+            //     this.filters[i] = this.realFiltersList[i]
+            // }
         },
 
         setFilters() {
-            for (var i in this.filters) {
-                if (this.filters[i].length == 0) { this.realFiltersList[i] = undefined; continue }
-                const num = Number(this.filters[i])
-                if (isNaN(num) || num == 0) { this.realFiltersList[i] = undefined; continue }
-                this.realFiltersList[i] = num
+            // Make filters in use, then searches
+            // for (var i in this.filters) {
+            //     if (this.filters[i].length == 0) { this.realFiltersList[i] = undefined; continue }
+            //     const num = Number(this.filters[i])
+            //     if (isNaN(num) || num == 0) { this.realFiltersList[i] = undefined; continue }
+            //     this.realFiltersList[i] = num
+            // }
+            this.realFiltersList = {}
+            for (let key in this.filters) {
+                let value = this.filters[key]
+                if (Array.isArray(value)) value = this.getActiveFrom(value)
+                if (value !== undefined) this.realFiltersList[key] = value
             }
             this.$refs.searchBar.showHideFilters()
             this.goSearch()
         },
+
+        getActiveFrom(filterParameter) {
+            for (let i of filterParameter) {
+                if (i.active) return i.value
+            }
+            return undefined
+        }
     },
     watch: {
         searchText: function() {

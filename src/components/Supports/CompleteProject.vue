@@ -18,7 +18,7 @@ import UIButton from '@/components/Buttons/UIButton.vue';
 
 export default {
     components: {
-        SetReview, UIButton, 
+        SetReview, UIButton,
     },
     data() {
         return {

@@ -8,7 +8,7 @@
                 <img :src="baseSrc" alt="">
             </div>
             <div class="galery__images">
-                <GaleryImage :src="imgName ? srcBase+imgName : ''" :key="index" v-for="(imgName, index) in imageNames" @click="chose(index)"/>
+                <GaleryImage :src="imgName ? srcBase+imgName : ''" :key="index" v-for="(imgName, index) in imageNames" @click="chose(index)" :class="{active: index == pickedImage}"/>
                 <!-- <GaleryImage :src="'/src/assets/images/JVS_0526 2.jpg'" :key="index" v-for="(imgName, index) in imageNames"/> -->
             </div>
         </div>

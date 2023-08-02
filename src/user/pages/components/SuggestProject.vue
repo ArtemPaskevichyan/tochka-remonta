@@ -19,12 +19,27 @@
                 Мои проекты
             </div>
             <SuggestProjectCard class="suggestProject__projectsCard" v-for="p in projectsList"  :isLoading="isProjectListLoading"
-            :key="p.id" :title="p.title ?? 'UNTITLED'" :projectId="p.id" :status="'Поиск исполнителя'" :imageName="p.main_picture"/>
+            :key="p.id" :title="p.title ?? 'UNTITLED'" :projectId="p.id" :status="'Поиск исполнителя'" :imageName="p.main_picture"
+            @suggest="sendSuggestion"/>
             <div class="suggestProject__projectsCaption" v-if="projectsList?.length == 0">
                 Проекты, доступные для предложения, не найдены
             </div>
         </div>
     </div>
+
+    <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
+        <template v-slot:body>
+            <div class="alert__baseTitle" v-if="errorToAlert?.title">
+                {{errorToAlert?.title}}
+            </div>
+            <div class="alert__baseText" v-if="errorToAlert?.text">
+                {{errorToAlert?.text}}
+            </div>
+        </template>
+        <template v-slot:controls>
+            <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
+        </template>
+    </UIAlert>
 </template>
 
 <script>
@@ -32,10 +47,12 @@ import { serverURL } from '@/preferenses'
 import UIRating from '@/components/FormComponents/UIRating.vue'
 import SuggestProjectCard from '@/components/ProjectCards/SuggestProjectCard.vue'
 import { SuggestProjectController } from '@/user/pages/components/suggestProjectController.js'
+import UIAlert from '@/components/UIAlert.vue'
+import UIButton from '@/components/Buttons/UIButton.vue'
 
 export default {
     components: {
-        UIRating, SuggestProjectCard,
+        UIRating, SuggestProjectCard, UIAlert, UIButton,
     },
     data() {
         return {
@@ -44,6 +61,13 @@ export default {
             avatarBaseURL: `${serverURL}/api/v1/auth/get_avatar?filename=`,
             imageBaseURL: `${serverURL}/api/v1/projects/get_event_photo?filename=`,
             viewController: new SuggestProjectController(),
+            isAlertOpened: false,
+            errorToAlert: {
+                buttons: [],
+                title: "",
+                text: "",
+            },
+
         }
     },
     props: {
@@ -62,7 +86,49 @@ export default {
             } finally {
                 this.isProjectListLoading = false
             }
-        }
+        },
+
+        async sendSuggestion(p_id) {
+            if (!confirm("Вы хотите предложить проект этому исполнителю?")) { return }
+
+            try {
+                let response = await this.viewController.sendSuggestion(p_id, this.makerModel?.uuid)
+
+                console.log("RESP", response)
+                this.isAlertOpened = false
+
+                if (response?.data?.msg == "you joined to this project") {
+                    this.callInviteAlert(p_id)
+                } else {
+
+                }
+            } catch(error) {
+                console.log("ERROR", error)
+                let msg = error?.response?.data?.msg ?? error.message
+
+                switch(msg) {
+                    case 'request already sent':
+                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                        break;
+                }
+            }
+        },
+        callError(title, text, buttons) {
+            this.isAlertOpened = true
+            this.errorToAlert.title = title
+            this.errorToAlert.text = text
+            this.errorToAlert.buttons = buttons
+        },
+        callInviteAlert(p_id) {
+            this.errorToAlert.title = "Встречное предложение!"
+            this.errorToAlert.text = "Исполнитель уже предложил Вам сотрудничество по этому проекту. Примите его, чтобы начать работу."
+            this.errorToAlert.buttons = [
+                {style: "secondary", callback: () => {this.isAlertOpened = false}, label: "Отмена"},
+                {style: "primary", callback: () => {this.$router.push(`/user/project/${p_id}`)}, label: "К предложению"},
+                // {style: "primary", callback: () => {this.$router.push(`/user/project/${p_id}`)}, label: "Назначить исполнителем"},
+            ]
+            this.isAlertOpened = true
+        },
     },
     computed: {
         avatarURL: function() {

@@ -15,7 +15,10 @@
             <i class="icon-search header__icon"></i> {{searchText}}
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
-            <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="countOfNotifications" v-if="countOfNotifications > 0"></UINotificationCounter>
+            <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="notificationCount" v-if="notificationCount > 0"></UINotificationCounter>
+        </button>
+        <button class="header__dropdownMenuItem" @click="goTo('/suggestions')" v-if="this.role == 'Исполнитель'">
+            <i class="icon-person-plus header__icon"></i>Предложенные мне
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/settingsPage')">
             <i class="icon-gear header__icon"></i> Настройки профиля
@@ -29,8 +32,8 @@
     </div>
 
     <div class="header">
-        <div @click="see" class="header__location" :class="{skeleton: !isDataLoaded}">
-            МОСКВА
+        <div class="header__location" :class="{skeleton: !isDataLoaded}">
+            {{ city ?? "Не определено" }}
         </div>
         <div @click.stop="showHideNavigation" class="header__profileBlock">
             <UINotificationIndicatorHolder :amount="notificationCount" :displayZero="false">
@@ -52,14 +55,16 @@ import UINotificationIndicatorHolder from "../NotificationIndicator/UINotificati
 import UIProfileProgress from './UIProfileProgress.vue'
 import UINotificationCounter from "../NotificationIndicator/UINotificationCounter.vue"
 import UIProgressBar from "../UIProgressBar.vue"
-import {UserDataController} from "../../helpers/UserDataController.js"
+
+import { UserDataController } from "@/helpers/UserDataController.js"
 import { serverURL } from "@/preferenses"
 import defaultAvatar from "@/assets/images/profileIcon.png"
+import UIModal from '@/components/UIModal.vue'
 
 export default {
     components: {
         UINotificationIndicatorHolder, UIProfileProgress, UINotificationCounter,
-        UIProgressBar,
+        UIProgressBar, UIModal,
     },
     data() {
         return {
@@ -76,6 +81,7 @@ export default {
             clickOutsideListener: undefined,
             searchText: "Поиск",
             createText: "Добавить",
+            city: "Не определено",
         }
     },
     methods: {
@@ -90,7 +96,8 @@ export default {
 
         async fetchData() {
             this.isDataLoaded = false
-            var data = await UserDataController.shared.getData()
+
+            let data = await UserDataController.shared.getData()
 
             this.email = data.email
             if (data.role == "customer") {
@@ -102,6 +109,8 @@ export default {
             this.isDataLoaded = true
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness
+            this.notificationCount = data.notificationsCount
+            this.city = data.city
             
             this.setupItems()
         },
@@ -126,11 +135,16 @@ export default {
                 this.searchText = "Поиск исполнителей"
                 this.createText = "Создать проект"
             }
-        }
+        },
     },
     mounted() {
         console.log("HEADER IS MOUNTED")
         this.fetchData()
+    },
+    unmounted() {
+        try {
+            document.removeEventListener("click", this.showHideNavigation)
+        } catch(e) {}
     },
 }
 </script>

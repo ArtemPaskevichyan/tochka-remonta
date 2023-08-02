@@ -3,7 +3,7 @@
         <div class="select__title">
             {{ title }}
         </div>
-        <div @click="isSelectShown = !isSelectShown" class="select__holder">
+        <div @click.stop="showHideSelector" class="select__holder">
             <div class="select__value">{{ selectArray[value].label }}</div>
             <button class="select__arrow">
                 <i class="icon-arrow-down"></i>
@@ -44,7 +44,21 @@ export default {
         changeValue(id) {
             console.log(id)
             this.$emit("update:value", id)
+        },
+
+        showHideSelector() {
+            this.isSelectShown = !this.isSelectShown
+            if (this.isSelectShown) {
+                document.addEventListener("click", this.showHideSelector)
+            } else {
+                document.removeEventListener("click", this.showHideSelector)
+            }
         }
+    },
+    unmounted() {
+        try {
+            document.removeEventListener("click", this.showHideSelector)
+        } catch(e) {}
     }
 }
 </script>

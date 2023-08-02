@@ -67,7 +67,10 @@
 
             <div class="settingsPage__title">Достижения</div>
             <div class="settingsPage__block">
-                <div class="settingsPage__achivesCaption">
+                <div class="makerPage__achivement" v-for="(a, index) in achivesList" :key="index" :class="{skeleton: isAchivementsLoading}">
+                    <UIAchievment :filename="a?.filename"/>
+                </div>
+                <div class="settingsPage__achivesCaption" v-if="achivesList?.length == 0">
                     У вас пока нет достижений
                 </div>
             </div>
@@ -78,13 +81,14 @@
                     <UIInput class="adressHolder" v-model:value="adress" :placeholder="'Адресс компании'" :idOfInput="adressId"/>
                     <UIButton :style="adressButtonStyle" @click="saveAdress">Сохранить</UIButton>
                 </div>
-                <div class="settingsPage__adressMap">
-
+                <div class="settingsPage__adressMap" :id="mapId" :class="{skeleton: !map}">
+                    {{mapErrorMessage}}
                 </div>
             </div>
         </div>
         <div class="settingsPage__controlsFooter">
             <UIButton :style="'destructive'" @click="exit()">Выйти из аккаунта</UIButton>
+            <UIButton :style="previewButtonStyle" @click="goToAccount">Предпросмтотр аккаунта</UIButton>
         </div>
     </div>
 </template>
@@ -98,17 +102,17 @@ import UIModal from '@/components/UIModal.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
 import UITextInput from '@/components/FormComponents/UITextInput.vue';
 import UIRating from '@/components/FormComponents/UIRating.vue';
-
+import UIAchievment from '@/components/UIAchievment.vue';
 
 import { AdressHelper } from '@/helpers/AdressHelper.js'
 import {UserDataController} from '@/helpers/UserDataController.js'
-import {SettingsPageController} from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
+import {SettingsPageController, ADDRESS_SOCIAL_TITLE} from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
 
 
 export default {
     components: {
         UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall,
-        UITextInput, UIRating,
+        UITextInput, UIRating, UIAchievment,
     },
 
     data() {
@@ -126,7 +130,7 @@ export default {
             number: "n",
             email: "n",
             totalLoading: false,
-            isLoading: false,
+            isLoading: true,
             isSocialsLoading: false,
             buttonStyle: 'disabled',
             isAddSocialModalOpened: false,
@@ -134,20 +138,34 @@ export default {
             newSocialValue: "",
             adress: "",
             adressId: "maker_settingsPage_Adress",
+            adressContact: {},
             adressButtonStyle: 'disabled',
             socialsList: [
                 {title: 'Номер телефона', value: '89105834005', show: true, id: 0},
                 {title: 'Номер телефона', value: '89105834006', show: true, id: 1},
                 {title: 'Номер телефона', value: '89105834007', show: true, id: 2},
             ],
-            achivesList: [],
+            achivesList: [{}, {}, {}],
+            isAchivementsLoading: true,
+            previewButtonStyle: "disabled",
             viewModel: new SettingsPageController(),
             rating: 0,
+            map: undefined,
+            mapId: "__adressMap__",
+            mapErrorMessage: "Загрузка карты...",
         }
     },
     methods: {
         exit() {
             UserDataController.shared.exit()
+        },
+
+        goToAccount() {
+            if (this.isLoading || !this.uuid) { 
+                return
+             }
+            console.log("PUSH")
+            this.$router.push('/user/makerPage/' + this.uuid)
         },
 
         async fetchData() {
@@ -168,18 +186,23 @@ export default {
             this.time = Math.max(Math.round((new Date(Date.now() - Date.parse(data?.registration_date))) / oneDay), 1)
             this.isLoading = false
 
+            this.getAchievments()
             this.getRating()
         },
 
         async getSocials() {
             try {
                 this.isSocialsLoading = true
-                var socialsRaw = await this.viewModel.getSocials()
+                const socialsRaw = await this.viewModel.getSocials()
 
                 this.socialsList = []
-                for (var s of socialsRaw) {
-                    if (s.Entity == '__adress__') {continue}
-                    var socialNew = {}
+                for (let s of socialsRaw) {
+                    if (s.Entity == ADDRESS_SOCIAL_TITLE) {
+                        this.getAddress(s)
+                        continue
+                    }
+
+                    let socialNew = {}
                     socialNew.id = s.id
                     socialNew.title = s.Entity
                     socialNew.value = s.contact_list[0].value
@@ -191,6 +214,7 @@ export default {
                 console.log(e)
             } finally {
                 this.isSocialsLoading = false
+                this.adressButtonStyle = 'disabled'
             }
         },
 
@@ -276,11 +300,53 @@ export default {
             }
         },
 
+        async getAddress(s) {
+            this.adress = s.contact_list[(s.contact_list?.length ?? 1) - 1].value
+            this.adressContact.id = s.id
+            this.adressContact.value = this.adress
+            this.mapErrorMessage = ""
+            AdressHelper.shared.getMapByAdress(this.mapId, this.adress, this.map)
+                .then((response) => {
+                    this.map = response
+                })
+                .catch((error) => {
+                    console.log("ERROROROROOR", error)
+                })
+        },
+
         async saveAdress() {
             try {
+                console.log(this.adress)
+                AdressHelper.shared.getMapByAdress(this.mapId, this.adress, this.map)
+                    .then((response) => {
+                        this.map = response
+                    })
+                    .catch((error) => {
+                        console.log("ERROROROROOR", error)
+                    })
+                await this.removeAdress()
                 await this.viewModel.saveAdress(this.adress)
             } catch(e) {
                 //
+            } finally {
+                this.adressButtonStyle = 'disabled'
+            }
+        },
+
+        async removeAdress() {
+            try {
+                if (!this.adressContact?.id || !this.adressContact?.value) { return }
+                await this.viewModel.deleteSocial(this.adressContact?.id, this.adressContact?.value)
+                    .then((response) => {
+                        console.log("RESP", response)
+                    })
+                    .catch((error) => {
+                        console.log("ERROR", error)
+                    })
+            } catch(e) {
+                //
+            } finally {
+
             }
         },
 
@@ -294,24 +360,33 @@ export default {
             }
         },
 
+        async getAchievments() {
+            try {
+                console.log("FETCHING ACHIEVMENTS")
+                this.achivesList = await this.viewModel.getAchievments(this.uuid)
+            } catch(e) {
+                //
+                console.log("ERROR", e)
+            } finally {
+                this.isAchivementsLoading = false
+            }
+        },
+
         switchSocialHidden(index) {
             if (this.isSocialsLoading) { return }
             this.socialsList[index].show = !this.socialsList[index].show
         },
+
     },
     computed: {
         daysAdding() {
             if (11 <= this.time % 100 && this.time % 100 <= 20) {
-                console.log(1, this.time % 100)
                 return 'дней'
             } else if (this.time % 10 == 1) {
-                console.log(2, this.time % 10)
                 return 'день'
             } else if (2 <= this.time % 10 && this.time % 10 <= 4) {
-                console.log(3, this.time % 10)
                 return 'дня'
             } else if (5 <= this.time % 10 && this.time % 10 <= 9 || this.time % 10 == 0) {
-                console.log(4, this.time % 10)
                 return 'дней'
             }
         }
@@ -321,10 +396,15 @@ export default {
             .then(() => {
                 this.buttonStyle = 'disabled'
                 this.descriptionButtonStyle = 'disabled'
-                this.adressButtonStyle = 'disabled'
+                this.previewButtonStyle = 'default'
             })
         this.getSocials()
-        AdressHelper.shared.addToYMAP(this.adressId)
+            .then(() => {
+                this.adressButtonStyle = 'disabled'
+            })
+        AdressHelper.shared.addToYMAP(this.adressId, (data) => {
+            this.adress = data
+        })
     },
     watch: {
         name: function() {
