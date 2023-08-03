@@ -49,16 +49,6 @@ class UserDataController {
             })
         
         console.log("GO TO PARSE NOTIFICATIONS")
-        
-        // await this.getNotificationsCount()
-        //     .then((nCount) => {
-        //         user.notificationsCount = nCount
-        //         sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
-        //     })
-        //     .catch((error) => {
-        //         console.log("ERROR", error)
-        //     })
-        
         return user
     }
 
@@ -120,6 +110,16 @@ class UserDataController {
         } catch(e) {
             console.log("GEOLOCATION IS NOT FOUND")
             return "Москва"
+        }
+    }
+
+    async setUserCity(city) {
+        try {
+            let user = await this.getData()
+            user.city = city
+            sessionStorage.setItem(UserDataController.sessionStorageKey, JSON.stringify(user))
+        } catch(e) {
+            console.log("ERROR WITH SETTING CITY", error)
         }
     }
 

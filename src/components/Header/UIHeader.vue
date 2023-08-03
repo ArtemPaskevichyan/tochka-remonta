@@ -20,7 +20,7 @@
         <button class="header__dropdownMenuItem" @click="goTo('/suggestions')" v-if="this.role == 'Исполнитель'">
             <i class="icon-person-plus header__icon"></i>Предложенные мне
         </button>
-        <button class="header__dropdownMenuItem" @click="goTo('/settingsPage')">
+        <button class="header__dropdownMenuItem" @click="goToSettings">
             <i class="icon-gear header__icon"></i> Настройки профиля
         </button>
         <button class="header__dropdownMenuItem primary" @click="goTo('/createProject')">
@@ -32,7 +32,7 @@
     </div>
 
     <div class="header">
-        <div class="header__location" :class="{skeleton: !isDataLoaded}">
+        <div class="header__location" :class="{skeleton: !isDataLoaded}" @click="openCitySelector">
             {{ city ?? "Не определено" }}
         </div>
         <div @click.stop="showHideNavigation" class="header__profileBlock">
@@ -42,12 +42,14 @@
                 </span>
             </UINotificationIndicatorHolder>
             <div class="header__profileAvatar">
-                <img :src="avatarSrc" alt="">
+                <img :src="avatarSrc" alt="avatar">
             </div>
-            <!-- <UIProfileProgress>
-            </UIProfileProgress> -->
         </div>
     </div>
+
+    <UIModal v-if="isCitySelectorOpened" v-model:isOpened="isCitySelectorOpened">
+        <CitySelect @selected="updateCity"/>
+    </UIModal>
 </template>
 
 <script>
@@ -60,11 +62,12 @@ import { UserDataController } from "@/helpers/UserDataController.js"
 import { serverURL } from "@/preferenses"
 import defaultAvatar from "@/assets/images/profileIcon.png"
 import UIModal from '@/components/UIModal.vue'
+import CitySelect from '@/components/Supports/CitySelect.vue'
 
 export default {
     components: {
         UINotificationIndicatorHolder, UIProfileProgress, UINotificationCounter,
-        UIProgressBar, UIModal,
+        UIProgressBar, UIModal, CitySelect,
     },
     data() {
         return {
@@ -82,6 +85,7 @@ export default {
             searchText: "Поиск",
             createText: "Добавить",
             city: "Не определено",
+            isCitySelectorOpened: false,
         }
     },
     methods: {
@@ -126,6 +130,12 @@ export default {
             }
             this.$router.push(p);
         },
+
+        goToSettings() {
+            console.log("GO TO SETTINGS")
+            if (this.role == "Исполнитель") this.$router.push({name: "makerSettingsPage"})
+            else this.$router.push({name: "userSettingsPage"})
+        },
         
         setupItems() {
             if (this.role == "Исполнитель") {
@@ -136,6 +146,16 @@ export default {
                 this.createText = "Создать проект"
             }
         },
+
+        updateCity(city) {
+            this.isCitySelectorOpened = false
+            this.city = city
+            UserDataController.shared.setUserCity(city)
+        },
+
+        openCitySelector() {
+            this.isCitySelectorOpened = true
+        }
     },
     mounted() {
         console.log("HEADER IS MOUNTED")

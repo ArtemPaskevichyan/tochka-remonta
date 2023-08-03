@@ -197,28 +197,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   UserDataController.shared.updateNotificationsCount()
-    .then((response) => {
-      console.log("INROUTERRESP", response)
-    })
-    .catch((error) => {
-      console.log("INROUTERERROR", error)
-    })
-  
-  console.log("Stage 1")
-  if (COMMON_ROUTES_NAMES.includes(to?.name)) { console.log("LETS GOOO"); return true }
-  console.log("Stage 2")
+
+  if (COMMON_ROUTES_NAMES.includes(to?.name)) return true
 
   const prefix = to.fullPath.split('/')[1]
-  console.log("ROUTER", prefix)
 
   if (prefix == "user" || prefix == "maker") {
     const role = (await UserDataController.shared.getData())?.role
 
-    console.log("Stage 3")
-    if (role == "customer" && prefix == "maker" || role == "contractor" && prefix == "user") { return { name: "accessDeniedPage" } }
+    if (role == "customer" && prefix == "maker" || role == "contractor" && prefix == "user") return { name: "accessDeniedPage" }
   }
 
-  console.log("U CAN GO")
   return true
 })
 

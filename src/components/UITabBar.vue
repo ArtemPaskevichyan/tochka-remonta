@@ -24,9 +24,7 @@ export default {
   data() {
     return {
       isLoaded: false,
-      tabs: {
-
-      },
+      tabs: [],
     }
   },
   props: {

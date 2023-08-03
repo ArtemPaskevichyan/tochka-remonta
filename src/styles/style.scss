@@ -1472,6 +1472,9 @@ img {
     max-height: 100vh;
     animation: alertAppear 0.3s;
 
+    * {
+        overscroll-behavior: contain;
+    }
 
     &__content {
         border-radius: 20px;
@@ -1482,7 +1485,6 @@ img {
         box-sizing: border-box;
         max-height: 80vh;
         overflow: auto;
-        overscroll-behavior: contain;
     }
 
     &__button {
@@ -1613,6 +1615,9 @@ img {
         font-weight: $font-medium;
         text-decoration: underline;
         text-transform: uppercase;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     &__profileLabel {
@@ -3613,3 +3618,68 @@ img {
     height: 100%;
     background-color: $grey-color;
 }
+
+.citySelect {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: 20px;
+    max-height: inherit;
+    overflow: hidden;
+    --horizontalPadding: 20px;
+
+    &__input {
+        box-sizing: border-box;
+        position: relative;
+        padding: {
+            left: var(--horizontalPadding);
+            right: var(--horizontalPadding);
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            --fadeHeight: 20px;
+            height: var(--fadeHeight);
+            bottom: calc(-1 * var(--fadeHeight) + 1px);
+            left: 0;
+            right: 0;
+            background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        }
+    }
+
+    &__variants {
+        flex-grow: 1;
+        overflow: auto;
+        padding: 20px 0;
+    }
+
+    &__variant {
+        padding: 8px 14px;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: {
+            left: var(--horizontalPadding);
+            right: var(--horizontalPadding);
+        }
+
+        &:hover {
+            background-color: $element-background;
+        }
+
+        &:not(:last-child) {
+            border-bottom: 1px solid $element-background;
+        }
+
+        &Subtitle {
+            color: $placeholder-text-color;
+            font-size: 15px;
+        }
+    }
+}
+
+

@@ -163,6 +163,12 @@
     // font-size: 15px;
   }
 
+  .modal {
+    &__content {
+      width: 95vw;
+    }
+  }
+
   .alert {
     &__content {
       width: 95vw;
@@ -304,6 +310,16 @@
     &__submitButton {
       .button {
         width: 100%;
+      }
+    }
+  }
+
+  .citySelect {
+    &__variant {
+      font-size: 15px;
+
+      &Subtitle {
+        font-size: 12px;
       }
     }
   }

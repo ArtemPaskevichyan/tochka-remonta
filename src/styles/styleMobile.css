@@ -108,6 +108,9 @@
   .button {
     border-radius: 12px;
   }
+  .modal__content {
+    width: 95vw;
+  }
   .alert__content {
     width: 95vw;
   }
@@ -224,5 +227,11 @@
   }
   .createProject__submitButton .button {
     width: 100%;
+  }
+  .citySelect__variant {
+    font-size: 15px;
+  }
+  .citySelect__variantSubtitle {
+    font-size: 12px;
   }
 }
