@@ -37,11 +37,14 @@ export default {
   },
   methods: {
     makeSearch() {
-      const URL = `https://api.vk.com/method/database.getCities?country_id=1&count=30&access_token=7022df147022df147022df14e17337f2ac770227022df1414ebfd1a796d1171793de127&v=5.131&q=${this.text.trim()}`
+      const URL = `https://api.vk.com/method/database.getCities?country_id=1&count=30&v=5.131&q=${this.text.trim()}`
       axios.get(URL, {headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-        "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type",
+        // "Access-Control-Allow-Origin": "*",
+        // 'WithCredentials': true,
+        // "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+        // "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+        // "Authorization": "Bearer " + "7022df147022df147022df14e17337f2ac770227022df1414ebfd1a796d1171793de127",
+        "Content-Type": "application/x-www-form-encode",
       }})
         .then((response) => {
           console.log("RESP", response)
