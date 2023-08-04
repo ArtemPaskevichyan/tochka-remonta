@@ -38,14 +38,42 @@ export default {
   methods: {
     makeSearch() {
       const URL = `https://api.vk.com/method/database.getCities?country_id=1&count=30&v=5.131&q=${this.text.trim()}`
-      axios.get(URL, {headers: {
-        // "Access-Control-Allow-Origin": "*",
-        // 'WithCredentials': true,
-        // "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-        // "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
-        // "Authorization": "Bearer " + "7022df147022df147022df14e17337f2ac770227022df1414ebfd1a796d1171793de127",
-        "Content-Type": "application/x-www-form-encode",
-      }})
+      // axios.get(URL, {
+      //   headers: {
+      //     "Access-Control-Allow-Origin": "*",
+      //     'WithCredentials': true,
+      //     "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+      //     "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+      //     "Authorization": "Bearer " + "7022df147022df147022df14e17337f2ac770227022df1414ebfd1a796d1171793de127",
+      //     "X-Requested-With": "XMLHttpRequest",
+      //     "Content-Type": "application/x-www-form-encode",
+      //   },
+      //   withCredentials: true,
+      //   mode: "cors",
+      // })
+      //   .then((response) => {
+      //     console.log("RESP", response)
+      //     this.variants = response.data
+      //   })
+      //   .catch((error) => {
+      //     console.log("ERROR", error)
+      //   })
+      
+      fetch(URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/x-www-form-encode',
+            'WithCredentials': true,
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/x-www-form-encode; charset=UTF-8',
+            'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT,DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+            'Authorization': "Bearer " + "7022df147022df147022df14e17337f2ac770227022df1414ebfd1a796d1171793de127",
+        },
+        withCredentials: true,
+        credentials: 'same-origin',
+      })
         .then((response) => {
           console.log("RESP", response)
           this.variants = response.data
