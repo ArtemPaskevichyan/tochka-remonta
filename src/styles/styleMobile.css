@@ -18,7 +18,7 @@
     min-width: unset;
   }
   .header {
-    padding: 0 20px;
+    --paddingHorizontal: 20px;
   }
   .header__dropdownMenu {
     width: unset;
@@ -204,6 +204,11 @@
   }
   .settingsPage__number {
     margin: 0;
+  }
+  .settingsPage__controlsFooter {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
   }
   .submitPhonePage {
     padding: 40px 20px;

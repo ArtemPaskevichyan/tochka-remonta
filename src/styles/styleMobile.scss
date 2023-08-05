@@ -26,7 +26,7 @@
   }
 
   .header {
-    padding: 0 20px;
+    --paddingHorizontal: 20px;
 
     &__dropdownMenu {
       width: unset;
@@ -283,6 +283,10 @@
 
     &__number {
       margin: 0;
+    }
+
+    &__controlsFooter {
+      width: max-content;
     }
   }
 

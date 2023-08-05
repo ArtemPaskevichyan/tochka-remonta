@@ -1676,6 +1676,7 @@ img {
 }
 
 .header {
+  --paddingHorizontal: 40px;
   height: 50px;
   background-color: white;
   display: -webkit-box;
@@ -1687,7 +1688,7 @@ img {
   right: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 0 40px;
+  padding: 0 var(--paddingHorizontal);
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
@@ -1711,6 +1712,92 @@ img {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: 0.15s all;
+  transition: 0.15s all;
+}
+.header__location:hover {
+  color: #CC8C52;
+}
+@-webkit-keyframes locationQuestionApperance {
+  0% {
+    opacity: 0%;
+    -webkit-transform: translateY(-5%);
+            transform: translateY(-5%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+@keyframes locationQuestionApperance {
+  0% {
+    opacity: 0%;
+    -webkit-transform: translateY(-5%);
+            transform: translateY(-5%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+}
+@-webkit-keyframes locationQuestionDisapperance {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  100% {
+    opacity: 0%;
+    -webkit-transform: translateY(-5%);
+            transform: translateY(-5%);
+  }
+}
+@keyframes locationQuestionDisapperance {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
+  }
+  100% {
+    opacity: 0%;
+    -webkit-transform: translateY(-5%);
+            transform: translateY(-5%);
+  }
+}
+.header__locationQuestion {
+  padding: 14px;
+  border-radius: 20px;
+  background-color: white;
+  position: absolute;
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  left: var(--paddingHorizontal);
+  bottom: -100px;
+  text-transform: none;
+  -webkit-animation: locationQuestionApperance 0.3s 1;
+          animation: locationQuestionApperance 0.3s 1;
+}
+.header__locationQuestion.hidding {
+  -webkit-animation: locationQuestionDisapperance 0.3s 1 ease-out;
+          animation: locationQuestionDisapperance 0.3s 1 ease-out;
+}
+.header__locationCity {
+  text-transform: uppercase;
+}
+.header__locationControls {
+  margin-top: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 8px;
 }
 .header__profileLabel {
   color: #401F00;

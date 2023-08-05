@@ -1594,6 +1594,7 @@ img {
 }
 
 .header {
+    --paddingHorizontal: 40px;
     height: 50px;
     background-color: white;
     display: flex;
@@ -1602,7 +1603,7 @@ img {
     left: 0;
     right: 0;
     box-sizing: border-box;
-    padding: 0 40px;
+    padding: 0 var(--paddingHorizontal);
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -1618,6 +1619,62 @@ img {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        position: relative;
+        cursor: pointer;
+        transition: 0.15s all;
+
+        &:hover {
+            color: $primary-theme-color;
+        }
+
+        @keyframes locationQuestionApperance {
+            0% {
+                opacity: 0%;
+                transform: translateY(-5%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+        }
+
+        @keyframes locationQuestionDisapperance {
+            0% {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+            100% {
+                opacity: 0%;
+                transform: translateY(-5%);
+            }
+        }
+
+        &Question {
+            padding: 14px;
+            border-radius: 20px;
+            background-color: white;
+            position: absolute;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, .15);
+            left: var(--paddingHorizontal);
+            bottom: -100px;
+            text-transform: none;
+            animation: locationQuestionApperance 0.3s 1;
+
+            &.hidding {
+                animation: locationQuestionDisapperance 0.3s 1 ease-out;
+            }
+        }
+
+        &City {
+            text-transform: uppercase;
+        }
+
+        &Controls {
+            margin-top: 6px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+        }
     }
 
     &__profileLabel {

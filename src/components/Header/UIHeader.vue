@@ -35,6 +35,14 @@
         <div class="header__location" :class="{skeleton: !isDataLoaded}" @click="openCitySelector">
             {{ city ?? "Не определено" }}
         </div>
+        <div class="header__locationQuestion" ref="cityQuestion" v-if="showCityQuestion">
+            Ваш город <span class="header__locationCity">{{ city }}</span>?
+            <div class="header__locationControls">
+                <UIButton :style="'secondary'" @click="denyCityQuestion">Выбрать другой</UIButton>
+                <UIButton :style="'primary'" @click="submitCityQuestion">Да</UIButton>
+            </div>
+        </div>
+
         <div @click.stop="showHideNavigation" class="header__profileBlock">
             <UINotificationIndicatorHolder :amount="notificationCount" :displayZero="false">
                 <span class="header__profileLabel" :class="{skeleton: !isDataLoaded}">
@@ -60,14 +68,16 @@ import UIProgressBar from "../UIProgressBar.vue"
 
 import { UserDataController } from "@/helpers/UserDataController.js"
 import { serverURL } from "@/preferenses"
+import { CityController } from "./CityController.js"
 import defaultAvatar from "@/assets/images/profileIcon.png"
 import UIModal from '@/components/UIModal.vue'
 import CitySelect from '@/components/Supports/CitySelect.vue'
+import UIButton from "@/components/Buttons/UIButton.vue";
 
 export default {
     components: {
         UINotificationIndicatorHolder, UIProfileProgress, UINotificationCounter,
-        UIProgressBar, UIModal, CitySelect,
+        UIProgressBar, UIModal, CitySelect, UIButton,
     },
     data() {
         return {
@@ -86,6 +96,9 @@ export default {
             createText: "Добавить",
             city: "Не определено",
             isCitySelectorOpened: false,
+            showCityQuestion: false,
+            timer: undefined,
+            cityController: new CityController(),
         }
     },
     methods: {
@@ -114,9 +127,11 @@ export default {
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness
             this.notificationCount = data.notificationsCount
+
             this.city = data.city
             
             this.setupItems()
+            this.beforeShowCityQuestion()
         },
 
         goTo(path, ignoreRole=false) {
@@ -150,15 +165,45 @@ export default {
         updateCity(city) {
             this.isCitySelectorOpened = false
             this.city = city
+            this.cityController.saveCityToStorage(this.city)
             UserDataController.shared.setUserCity(city)
         },
 
         openCitySelector() {
             this.isCitySelectorOpened = true
-        }
+        },
+
+        beforeShowCityQuestion() {
+            if (!this.cityController.needToShowCityQuestion(this.city)) return
+            this.showHideCityQuestion()
+
+            this.timer = setTimeout(() => {
+                // console.log(this)
+                this.$refs.cityQuestion.classList.add("hidding")
+                setTimeout(() => {
+                    this.submitCityQuestion()
+                }, 300)
+            }, 4000)
+        },
+
+        showHideCityQuestion() {
+            this.showCityQuestion = !this.showCityQuestion
+        },
+
+        submitCityQuestion() {
+            this.showHideCityQuestion()
+            clearTimeout(this.timer)
+            this.cityController.saveCityToStorage(this.city)
+        },
+
+        denyCityQuestion() {
+            this.showHideCityQuestion()
+            clearTimeout(this.timer)
+            this.showCityQuestion = false
+            this.isCitySelectorOpened = true
+        },
     },
     mounted() {
-        console.log("HEADER IS MOUNTED")
         this.fetchData()
     },
     unmounted() {
