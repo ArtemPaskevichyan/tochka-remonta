@@ -3,8 +3,13 @@
         <div class="makerProfileCard__info">
             <div class="makerProfileCard__content">
                 <div class="makerProfileCard__infoLeftPart">
-                    <div class="makerProfileCard__title largeText" @click="$emit('goTo')" :class="{skeleton: !model?.firstname}">
-                        {{ (!model?.firstname ||  model?.firstname?.length == 0) ? "<UNKNOWN>" : model.firstname}}
+                    <div class="makerProfileCard__titleBlock">
+                        <div class="makerProfileCard__title largeText" @click="$emit('goTo')" :class="{skeleton: !model?.firstname}">
+                            {{ (!model?.firstname ||  model?.firstname?.length == 0) ? "<UNKNOWN>" : model.firstname}}
+                        </div>
+                        <div class="makerProfileCard__rating mobileOnly">
+                            <UIRating :rating="rating"/>
+                        </div>
                     </div>
                     <div class="makerProfileCard__text baseText" :class="{skeleton: !model?.description}">
                         {{ (!model?.description || model?.description?.length == 0) ? "Some description here" : model.description }}
@@ -15,7 +20,7 @@
                     <div class="makerProfileCard__logoHolder" @click="$emit('goTo')">
                         <img :src="avatarSrc" alt="" loading="lazy">
                     </div>
-                    <div class="makerProfileCard__rating">
+                    <div class="makerProfileCard__rating desktopOnly">
                         <UIRating :rating="rating"/>
                     </div>
                     <div class="makerProfileCard__achivements">
@@ -24,7 +29,8 @@
                 </div>
             </div>
             <div class="makerProfileCard__footer">
-                <UIButton :style="'primary'" @click="$emit('suggest')">Предложить проект</UIButton>
+                <UIButton :style="'primary'" class="desktopOnly" @click="$emit('suggest')">Предложить проект</UIButton>
+                <UIButton :style="'primary'" class="mobileOnly" @click="$emit('goTo')">Перейти к исполнителю</UIButton>
             </div>
         </div>
 

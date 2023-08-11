@@ -319,6 +319,7 @@ export default {
                 console.log(this.adress)
                 AdressHelper.shared.getMapByAdress(this.mapId, this.adress, this.map)
                     .then((response) => {
+                        this.mapErrorMessage = ""
                         this.map = response
                     })
                     .catch((error) => {

@@ -1,4 +1,13 @@
+@media screen and (max-width: 1000px) {
+  .settingsPage__imageHolder {
+    width: 160px;
+    height: 160px;
+  }
+}
 @media screen and (max-width: 900px) {
+  .backgroundCard {
+    width: 80%;
+  }
   .submitPhonePage {
     padding: 40px 40px;
   }
@@ -8,8 +17,80 @@
   .createProject {
     padding: 40px;
   }
+  .event {
+    height: 60px;
+  }
+  .event__content {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+    gap: 4px;
+  }
+  .galery__baseImage {
+    height: 100%;
+    min-height: 200px;
+    aspect-ratio: 16/9;
+  }
+  .galery__holder.horizontal {
+    position: relative;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .galery__holder.horizontal .galeryImage:first-child {
+    margin-left: 10px;
+    margin-top: unset;
+  }
+  .galery__holder.horizontal .galeryImage:last-child {
+    margin-bottom: unset;
+    margin-right: 10px;
+  }
+  .galery__holder.horizontal .galery__images {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: 100px;
+    width: 100%;
+  }
+  .galery__holder.horizontal .galery__images::before {
+    content: "";
+    left: 0;
+    top: unset;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
+    height: inherit;
+    width: 10px;
+    background: rgba(0, 0, 0, 0);
+    background: -webkit-gradient(linear, left top, right top, from(rgb(255, 255, 255)), to(rgba(255, 255, 255, 0)));
+    background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+  .galery__holder.horizontal .galery__images::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    height: inherit;
+    width: 10px;
+    background: rgba(0, 0, 0, 0);
+    background: -webkit-gradient(linear, right top, left top, from(rgb(255, 255, 255)), to(rgba(255, 255, 255, 0)));
+    background: linear-gradient(270deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+  #editDiagramButton {
+    display: none;
+  }
 }
 @media screen and (max-width: 750px) {
+  .mobileOnly {
+    display: initial;
+  }
+  .desktopOnly {
+    display: none;
+  }
   .authorizationHolder {
     width: 90%;
   }
@@ -23,7 +104,7 @@
   .header__dropdownMenu {
     width: unset;
     left: 0;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 20px 20px;
   }
   .tabBar {
     display: block;
@@ -41,6 +122,10 @@
   }
   .baseText {
     font-size: 15px;
+  }
+  .largeText {
+    font-size: 20px;
+    font-weight: 400;
   }
   .pageTitle {
     margin-top: 50px;
@@ -84,6 +169,9 @@
   .checkbox__title {
     font-size: 15px;
   }
+  .link {
+    font-size: 15px;
+  }
   .link.small {
     font-size: 12px;
   }
@@ -106,10 +194,20 @@
     font-size: 15px;
   }
   .button {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-radius: 12px;
+  }
+  .button.square {
     border-radius: 12px;
   }
   .modal__content {
     width: 95vw;
+  }
+  .modal__defaultTitle {
+    font-size: 32px;
+    font-weight: 400;
   }
   .alert__content {
     width: 95vw;
@@ -121,6 +219,15 @@
   .alert__baseText {
     font-size: 15px;
     margin-bottom: 20px;
+  }
+  .alert__body {
+    margin-bottom: 0;
+  }
+  .alert__controls.horizontal {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .backgroundCard {
     width: 95%;
@@ -135,6 +242,12 @@
   }
   .searchBar__inputHolder input {
     font-size: 15px;
+  }
+  .progressBar__titleBlock {
+    font-size: 15px;
+  }
+  .registration__loginBlock {
+    font-size: 12px;
   }
   .searchPage__searchBar {
     width: 100%;
@@ -152,6 +265,15 @@
             box-sizing: border-box;
     padding: 0 20px;
   }
+  .searchPage__project {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .searchPage__card {
+    --sideMargin: 14px;
+    margin-left: var(--sideMargin);
+    margin-right: var(--sideMargin);
+  }
   .myProjectsPage {
     width: 100%;
   }
@@ -160,6 +282,9 @@
   }
   .myProjectsPage__block .infoCard {
     margin: 20px;
+  }
+  .myProjectsPage__blockFooter {
+    gap: 20px;
   }
   .notificationPage .notification {
     width: calc(100% - 40px);
@@ -172,6 +297,16 @@
   }
   .settingsPage {
     padding: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .settingsPage__title {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .settingsPage__block {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -196,7 +331,8 @@
     -webkit-box-align: start;
         -ms-flex-align: start;
             align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
+    font-size: 15px;
   }
   .settingsPage__numberBlock .button {
     margin-left: unset;
@@ -205,10 +341,20 @@
   .settingsPage__number {
     margin: 0;
   }
+  .settingsPage__socialCaption {
+    font-size: 15px;
+  }
+  .settingsPage__socialItem span {
+    font-size: 15px !important;
+  }
   .settingsPage__controlsFooter {
     width: -webkit-max-content;
     width: -moz-max-content;
     width: max-content;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .submitPhonePage {
     padding: 40px 20px;
@@ -238,5 +384,284 @@
   }
   .citySelect__variantSubtitle {
     font-size: 12px;
+  }
+  .makerPage {
+    padding: 20px;
+  }
+  .makerPage__makerCard {
+    gap: 20px;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .makerPage__makerTitle {
+    padding: 0 !important;
+  }
+  .makerPage__makerLogoHolder {
+    width: 180px;
+    height: 180px;
+  }
+  .makerPage__makerInfo {
+    width: 100%;
+  }
+  .makerPage__controls {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    gap: 8px;
+  }
+  .makerPage__controls .button {
+    width: 100%;
+  }
+  .makerPage__rating {
+    margin-bottom: 14px;
+  }
+  .makerPage__blockTitle {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .makerPage__caption {
+    font-size: 15px;
+  }
+  .makerPage__contactsBlock {
+    gap: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .makerPage__footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+  }
+  .suggestProject {
+    padding: 20px;
+  }
+  .suggestProject__maker {
+    gap: 14px;
+  }
+  .suggestProject__makerTitle {
+    font-size: 20px;
+    padding-left: 0;
+    padding-right: 20px;
+  }
+  .suggestProject__makerLogo {
+    width: 60px;
+    height: 60px;
+  }
+  .suggestProject__projectsCaption {
+    font-size: 15px;
+  }
+  .suggestionsPage__caption {
+    font-size: 15px;
+  }
+  .setReview__title {
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .infoCard {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: unset;
+    width: unset;
+  }
+  .infoCard__image {
+    width: 100%;
+    height: unset;
+    margin: 0;
+    padding: 2px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    aspect-ratio: 16/9 !important;
+  }
+  .infoCard__container {
+    padding: 6px 4px 4px 14px;
+  }
+  .infoCard__body {
+    margin-top: 8px;
+    margin-bottom: 18px;
+    font-size: 15px;
+    padding-right: 10px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
+  .infoCard__footer {
+    font-size: 15px;
+  }
+  .searchingProject__resp {
+    font-size: 12px;
+  }
+  .projectSearchingPage {
+    padding: 20px;
+  }
+  .projectSearchingPage__blockTitle {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .projectSearchingPage__block {
+    margin-top: 40px;
+  }
+  .projectSearchingPage__block .makerResponse:last-child {
+    margin-bottom: 0;
+  }
+  .projectSearchingPage__parameterTitle, .projectSearchingPage__parameterValue {
+    font-size: 15px;
+  }
+  .projectSearchingPage__description {
+    font-size: 15px;
+  }
+  .projectSearchingPage__actions {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .projectSearchingPage__caption {
+    font-size: 15px;
+  }
+  .projectSearchingPage .galery {
+    height: unset;
+  }
+  .projectSearchingPage__controls {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .projectSearchingPage__makerCard {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 14px;
+  }
+  .projectSearchingPage__makerLogoHolder {
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    background-color: red;
+  }
+  .projectSearchingPage__makerTitleBlock {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  .makerResponse {
+    height: unset;
+    padding: 14px;
+  }
+  .makerResponse__header {
+    font-weight: 400;
+  }
+  .makerResponse__text {
+    font-size: 15px;
+  }
+  .makerResponse__footer {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .makerProfileCard {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+    padding: 0;
+    gap: 16px;
+  }
+  .makerProfileCard__info {
+    width: 100%;
+    padding: 14px;
+    padding-top: 0;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background-color: rgba(255, 255, 255, 0);
+    gap: 14px;
+    aspect-ratio: unset;
+  }
+  .makerProfileCard__infoRightPart {
+    -ms-flex-negative: initial;
+        flex-shrink: initial;
+    width: initial;
+  }
+  .makerProfileCard__projects {
+    width: 100%;
+    aspect-ratio: 1/1;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 14px;
+    padding-bottom: 0;
+  }
+  .makerProfileCard__projects .makerProfileCard__tile:not(:first-child) {
+    display: none;
+  }
+  .makerProfileCard__tile {
+    width: 100%;
+    height: 100%;
+  }
+  .makerProfileCard__logoHolder {
+    width: 50px;
+    height: 50px;
+  }
+  .makerProfileCard__content {
+    -webkit-box-flex: initial;
+        -ms-flex-positive: initial;
+            flex-grow: initial;
+  }
+  .makerProfileCard__achivements {
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    overflow: auto;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .makerProfileCard__achivement {
+    width: 24px;
+    height: 24px;
+  }
+  .makerProfileCard__footer .button {
+    width: 100%;
+  }
+  .activeProject__body {
+    padding: 0;
+  }
+  .eventCreation .textArea {
+    width: 100%;
+  }
+  .review__info {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: start;
+    gap: 0;
+  }
+}
+@media screen and (max-width: 450px) {
+  .registration__title {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 372px) {
+  .registration__title {
+    font-size: 20px;
   }
 }

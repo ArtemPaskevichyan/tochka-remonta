@@ -126,8 +126,13 @@ export default {
             this.isDataLoaded = true
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness
-            this.notificationCount = data.notificationsCount
-
+            UserDataController.shared.getNotificationsCount()
+                .then((response) => {
+                    this.notificationCount = response
+                })
+                .catch((error) => {
+                    console.log("ERROR WITH NOTIFICATIONS", error)
+                })
             this.city = data.city
             
             this.setupItems()

@@ -5,6 +5,14 @@ body {
   background-color: #FAFAFA;
 }
 
+.mobileOnly {
+  display: none;
+}
+
+.desktopOnly {
+  display: initial;
+}
+
 img {
   background: #F2F2F2;
 }
@@ -793,6 +801,9 @@ img {
   display: none;
 }
 
+.textArea {
+  width: 100%;
+}
 .textArea__title {
   font-size: 20px;
   font-weight: 400;
@@ -2238,6 +2249,7 @@ img {
   background-color: white;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  max-width: 1100px;
 }
 
 .createProject {
@@ -2320,6 +2332,8 @@ img {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding: 20px 6px 6px 14px;
 }
 .infoCard__title {
@@ -2364,6 +2378,9 @@ img {
   width: 215px;
   -ms-flex-negative: 0;
       flex-shrink: 0;
+}
+.infoCard__resp {
+  font-size: 15px;
 }
 
 .myProjectsPage {
@@ -2433,6 +2450,7 @@ img {
   margin-top: 14px;
 }
 .searchingProject__resp {
+  font-size: 15px;
   font-weight: 500;
   color: #262626;
 }
@@ -2518,14 +2536,19 @@ img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  gap: 30px;
+  gap: 16px;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 .settingsPage__nameHolder .input {
-  width: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  min-width: 200px;
 }
 .settingsPage__nameHolder .input__title {
   font-weight: 500;
@@ -2552,6 +2575,9 @@ img {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border-radius: 12px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 0.7em;
   font-weight: 500;
   font-size: 18px;
 }
@@ -2568,9 +2594,6 @@ img {
 }
 .settingsPage__numberBlock.needsToApprove .settingsPage__number {
   color: #FFBB0C;
-}
-.settingsPage__number {
-  margin: 0 0.7em;
 }
 .settingsPage__block {
   margin-top: 25px;
@@ -2728,6 +2751,9 @@ img {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  max-width: 1100px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .submitPhonePage {
@@ -2889,6 +2915,13 @@ img {
       -ms-flex-pack: start;
           justify-content: flex-start;
   gap: 14px;
+  overflow: hidden;
+}
+.projectSearchingPage__controls .button {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 128px;
 }
 .projectSearchingPage__makerCard {
   display: -webkit-box;
@@ -2917,6 +2950,8 @@ img {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  gap: 6px;
+  overflow: hidden;
 }
 .projectSearchingPage__makerTitle {
   color: #262626;
@@ -2937,6 +2972,18 @@ img {
   min-height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+.projectSearchingPage__makerTitleBlock {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .projectSearchingPage__photos {
   display: -webkit-box;
@@ -3128,6 +3175,7 @@ img {
   font-size: 15px;
 }
 .searchPage__card {
+  max-width: 900px;
   margin: 0 auto;
   margin-bottom: 50px;
 }
@@ -3340,8 +3388,7 @@ img {
   text-align: left;
 }
 .setReview .textArea {
-  width: 60%;
-  min-width: 400px;
+  width: 100%;
 }
 
 .completeProject {
@@ -3366,8 +3413,6 @@ img {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
-  width: 60%;
-  min-width: 400px;
   margin-top: 20px;
   margin-bottom: 40px;
 }
@@ -3383,25 +3428,25 @@ img {
       -ms-flex-pack: end;
           justify-content: flex-end;
 }
+.completeProject .setReview {
+  margin-bottom: 20px;
+}
 
 .makerProfileCard {
   background-color: white;
-  height: 540px;
   border-radius: 22px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  gap: 16px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 10px;
+  --pojectsGap: 16px;
+  gap: var(--pojectsGap);
 }
 .makerProfileCard__info {
   display: -webkit-box;
@@ -3412,24 +3457,24 @@ img {
       -ms-flex-direction: column;
           flex-direction: column;
   border-radius: 12px;
+  padding: 20px 10px 10px 20px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 20px 10px 10px 20px;
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: calc(50% - var(--pojectsGap) / 2);
   aspect-ratio: 1/1;
+  background-color: white;
 }
 .makerProfileCard__content {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: -ms-grid;
+  display: grid;
   gap: 10px;
-  -webkit-box-pack: row;
-      -ms-flex-pack: row;
-          justify-content: row;
+  -ms-grid-columns: auto 10px auto;
+  grid-template-columns: auto auto;
 }
 .makerProfileCard__infoLeftPart {
   display: -webkit-box;
@@ -3442,6 +3487,9 @@ img {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
 }
 .makerProfileCard__title {
   font-weight: 600;
@@ -3458,7 +3506,6 @@ img {
   color: #676767;
 }
 .makerProfileCard__infoRightPart {
-  width: 130px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3513,7 +3560,9 @@ img {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: 6px 0;
+  gap: 6px 2px;
+  max-height: 162px;
+  overflow: auto;
 }
 .makerProfileCard__achivement {
   margin: 0 auto;
@@ -3533,18 +3582,20 @@ img {
           justify-content: flex-end;
 }
 .makerProfileCard__projects {
-  height: 100%;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 255px 10px 255px;
-  grid-template-columns: 255px 255px;
-  gap: 10px;
+  width: calc(50% - var(--pojectsGap) / 2);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: var(--pojectsGap);
 }
 .makerProfileCard__tile {
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  height: 255px;
+  height: calc(50% - var(--pojectsGap) / 2);
+  width: calc(50% - var(--pojectsGap) / 2);
   aspect-ratio: 1/1;
 }
 .makerProfileCard__project {
@@ -3573,6 +3624,7 @@ img {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 10px 16px;
+  background-color: white;
 }
 .makerProfileCard__projectsCount {
   font-size: 20px;
@@ -3611,6 +3663,9 @@ img {
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  margin: auto 0;
   overflow: hidden;
 }
 .suggestProject__makerLogo img {
@@ -3680,6 +3735,9 @@ img {
   border-radius: 50%;
   overflow: hidden;
   background-color: #F2F2F2;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  aspect-ratio: 1/1;
 }
 .makerPage__makerLogoHolder img {
   width: 100%;
@@ -3700,6 +3758,7 @@ img {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  gap: 10px;
 }
 .makerPage__makerTitle {
   color: #262626;
@@ -3713,6 +3772,8 @@ img {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 14px;
 }
 .makerPage__achivementHolder {
@@ -3732,6 +3793,8 @@ img {
   background-color: #F2F2F2;
   border-radius: 50%;
   overflow: hidden;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 .makerPage__review {
   margin-bottom: 25px;
@@ -3815,12 +3878,10 @@ img {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  gap: 10px;
 }
 .review__avatar {
   width: 32px;
@@ -3829,6 +3890,8 @@ img {
   background-color: #F2F2F2;
   margin-right: 4px;
   overflow: hidden;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 .review__avatar img {
   width: 100%;
@@ -3856,6 +3919,7 @@ img {
 .review__body {
   margin-top: 16px;
   color: #676767;
+  overflow: hidden;
 }
 
 .eventCreation {
@@ -3871,10 +3935,11 @@ img {
   margin-top: 20px;
 }
 .eventCreation .imageLoader__dropzone {
-  width: 356px;
-  height: 200px;
+  width: 100%;
+  max-width: 356px;
   background-color: #F2F2F2;
   border-radius: 12px;
+  aspect-ratio: 1.78/1;
 }
 .eventCreation__footer {
   margin-top: 20px;
@@ -3979,7 +4044,6 @@ img {
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  height: 80px;
   margin-bottom: 20px;
   -webkit-transition: 0.3s all;
   transition: 0.3s all;

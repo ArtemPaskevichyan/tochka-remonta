@@ -1,6 +1,6 @@
 <template>
     <div class="completeProject">
-        <div class="completeProject__title titleText">Завершить проект</div>
+        <div class="completeProject__title modal__defaultTitle">Завершить проект</div>
         <div class="completeProject__text baseText">
             При завершении проекта, заказчик получит уведомление о завершении. При этом статус проекта будет установлен в "завершенный"<br>
         </div>

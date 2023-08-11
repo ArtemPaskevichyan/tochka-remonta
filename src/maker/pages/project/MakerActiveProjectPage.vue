@@ -33,7 +33,7 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">
                     План работы
-                    <UIButton :style="'default'" @click="editDiagram">Редактировать</UIButton>
+                    <UIButton id="editDiagramButton" :style="'default'" @click="editDiagram">Редактировать</UIButton>
                 </div>
                 <div class="projectSearchingPage__gantDiagram" :id="ganttId" :class="{skeleton: gantIsLoading}">
                     <div v-if="gantTasksList?.length == 0" class="projectSearchingPage__gantDiagramMessage">{{ gantMessage }}</div>
@@ -105,7 +105,7 @@ export default {
     data() {
         return {
             srcBase: `${serverURL}/api/v1/projects/get_event_photo?filename=`,
-            isModalOpened: true,
+            isModalOpened: false,
             modalContentType: "e_dia",
             negotiationModel: undefined,
             negotiations: [{}, {}, {}],

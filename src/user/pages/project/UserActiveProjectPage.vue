@@ -65,6 +65,7 @@ import Event from '@/components/Supports/Event.vue';
 import GaleryImage from '@/components/Galery/GaleryImage.vue';
 import CompleteProject from '@/components/Supports/CompleteProject.vue';
 import { serverURL } from '@/preferenses';
+import { UserDataController } from '@/helpers/UserDataController.js'
 
 import { GanttHelper } from '@/helpers/GanttHelper';
 

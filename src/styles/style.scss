@@ -8,6 +8,14 @@ body {
     background-color: $background-fill;
 }
 
+.mobileOnly {
+    display: none;
+}
+
+.desktopOnly {
+    display: initial;
+}
+
 img {
     background: $element-background;
 }
@@ -764,6 +772,8 @@ img {
 }
 
 .textArea {
+    width: 100%;
+
     &__title {
         font: {
             size: 20px;
@@ -2042,6 +2052,7 @@ img {
     margin: 5vh auto;
     background-color: white;
     box-sizing: border-box;
+    max-width: 1100px;
 }
 
 .createProject {
@@ -2121,6 +2132,7 @@ img {
         width: 100%;
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
         padding: 20px 6px 6px 14px; 
     }
 
@@ -2155,6 +2167,10 @@ img {
         margin-left: auto;
         width: 215px;
         flex-shrink: 0;
+    }
+
+    &__resp {
+        font-size: 15px;
     }
 }
 
@@ -2213,6 +2229,7 @@ img {
     }
 
     &__resp {
+        font-size: 15px;
         font-weight: $font-medium;
         color: $primary-text-color;
     }
@@ -2292,11 +2309,13 @@ img {
 
     &__nameHolder {
         display: flex;
-        gap: 30px;
+        gap: 16px;
         flex-direction: row;
+        flex-wrap: wrap;
 
         .input {
-            width: 100%;
+            flex-grow: 1;
+            min-width: 200px;
             &__title {
                 font-weight: $font-medium;
             }
@@ -2319,6 +2338,8 @@ img {
         color: $secondary-text-color;
         box-sizing: border-box;
         border-radius: 12px;
+        flex-wrap: wrap;
+        gap: 0.7em;
         font: {
             weight: $font-medium;
             size: 18px;
@@ -2341,10 +2362,6 @@ img {
                 color: $default-yellow;
             }
         }
-    }
-
-    &__number {
-        margin: 0 0.7em;
     }
 
     &__block {
@@ -2491,6 +2508,8 @@ img {
         justify-content: start;
         align-items: center;
         flex-direction: row;
+        max-width: 1100px;
+        flex-wrap: wrap;
     }
 }
 
@@ -2647,6 +2666,14 @@ img {
         flex-direction: row;
         justify-content: flex-start;
         gap: 14px;
+        overflow: hidden;
+
+        .button {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            min-width: 128px;
+        }
     }
 
     &__maker {
@@ -2664,6 +2691,8 @@ img {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 6px;
+            overflow: hidden;
         }
 
         &Title {
@@ -2685,6 +2714,16 @@ img {
                 min-height: 100%;
                 object-fit: cover;
             }
+        }
+
+        &TitleBlock {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            // flex-direction: ;
         }
     }
 
@@ -2860,6 +2899,7 @@ img {
     }
 
     &__card {
+        max-width: 900px;
         margin: 0 auto;
         margin-bottom: 50px;
     }
@@ -3034,8 +3074,8 @@ img {
     }
 
     .textArea {
-        width: 60%;
-        min-width: 400px;
+        width: 100%;
+        // min-width: 400px;
     }
 }
 
@@ -3054,8 +3094,8 @@ img {
         color: $secondary-text-color;
         line-height: 1.3em;
         flex-grow: 1;
-        width: 60%;
-        min-width: 400px;
+        // width: 60%;
+        // min-width: 400px;
         margin-top: 20px;
         margin-bottom: 40px;
     }
@@ -3065,41 +3105,46 @@ img {
         flex-direction: row;
         justify-content: flex-end;
     }
+
+    .setReview {
+        margin-bottom: 20px;
+    }
 }
 
 .makerProfileCard {
     background-color: white;
-    height: 540px;
     border-radius: 22px;
     display: flex;
-    width: fit-content;
     flex-direction: row;
-    gap: 16px;
     box-sizing: border-box;
     padding: 10px;
-
+    --pojectsGap: 16px;
+    gap: var(--pojectsGap);
 
     &__info {
         display: flex;
         flex-direction: column;
         border-radius: 12px;
-        box-sizing: border-box;
         padding: 20px 10px 10px 20px;
+        box-sizing: border-box;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        width: calc(50% - var(--pojectsGap) / 2);
         aspect-ratio: 1/1;
+        background-color: white;
     }
 
     &__content {
         flex-grow: 1;
-        display: flex;
+        display: grid;
         gap: 10px;
-        justify-content: row;
+        grid-template-columns: auto auto;
     }
 
     &__infoLeftPart {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        height: min-content;
     }
 
     &__title {
@@ -3119,7 +3164,6 @@ img {
     }
 
     &__infoRightPart {
-        width: 130px;
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
@@ -3160,7 +3204,9 @@ img {
         flex-wrap: wrap;
         flex-direction: row;
         align-items: center;
-        gap: 6px 0;
+        gap: 6px 2px;
+        max-height: 162px;
+        overflow: auto;
     }
 
     &__achivement {
@@ -3178,16 +3224,22 @@ img {
     }
 
     &__projects {
-        height: 100%;
-        display: grid;
-        grid-template-columns: 255px 255px;
-        gap: 10px;
+        width: calc(50% - var(--pojectsGap) / 2);
+        display: flex;
+        flex-wrap: wrap;
+        // display: grid;
+        // grid-template-columns: max-content max-content;
+        gap: var(--pojectsGap);
+        // aspect-ratio: 1/1;
     }
 
     &__tile {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         border-radius: 12px;
-        height: 255px;
+        // height: 255px;
+        height: calc(50% - var(--pojectsGap) / 2);
+        // width: 100%;
+        width: calc(50% - var(--pojectsGap) / 2);
         aspect-ratio: 1/1;
     }
 
@@ -3210,6 +3262,7 @@ img {
         justify-content: flex-end;
         box-sizing: border-box;
         padding: 10px 16px;
+        background-color: white;
     }
 
     &__projectsCount {
@@ -3250,6 +3303,8 @@ img {
             width: 80px;
             height: 80px;
             border-radius: 50%;
+            flex-shrink: 0;
+            margin: auto 0;
             overflow: hidden;
 
             img {
@@ -3321,6 +3376,8 @@ img {
         border-radius: 50%;
         overflow: hidden;
         background-color: $element-background;
+        flex-shrink: 0;
+        aspect-ratio: 1/1;
 
         img {
             width: 100%;
@@ -3335,6 +3392,7 @@ img {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        gap: 10px;
     }
 
     &__makerTitle {
@@ -3345,6 +3403,7 @@ img {
     &__controls {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         gap: 14px;
     }
 
@@ -3361,6 +3420,7 @@ img {
         background-color: $element-background;
         border-radius: 50%;
         overflow: hidden;
+        flex-shrink: 0;
     }
 
     &__review {
@@ -3422,8 +3482,8 @@ img {
     &__header {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         align-items: center;
+        gap: 10px;
     }
 
     &__avatar {
@@ -3433,6 +3493,7 @@ img {
         background-color: $element-background;
         margin-right: 4px;
         overflow: hidden;
+        flex-shrink: 0;
 
         img {
             width: 100%;
@@ -3457,6 +3518,7 @@ img {
     &__body {
         margin-top: 16px;
         color: $secondary-text-color;
+        overflow: hidden;
     }
 }
 
@@ -3473,10 +3535,11 @@ img {
         margin-top: 20px;
 
         &__dropzone {
-            width: 356px;
-            height: 200px;
+            width: 100%;
+            max-width: 356px;
             background-color: $element-background;
             border-radius: 12px;
+            aspect-ratio: 1.78/1;
         }
     }
 
@@ -3563,7 +3626,7 @@ img {
     background-color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    height: 80px;
+    // height: 80px;
     margin-bottom: 20px;
     transition: 0.3s all;
     cursor: pointer;

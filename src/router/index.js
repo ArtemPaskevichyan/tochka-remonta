@@ -196,8 +196,6 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  UserDataController.shared.updateNotificationsCount()
-
   if (COMMON_ROUTES_NAMES.includes(to?.name)) return true
 
   const prefix = to.fullPath.split('/')[1]

@@ -1,8 +1,8 @@
 <template>
     <div class="registration authorizationHolder">
         <div class="authorizationHolder__titleBlock">
-            <div class="titleText">Добро пожаловать!</div>
-            <div class="largeText">Регистрация</div>
+            <div class="titleText registration__title">Добро пожаловать!</div>
+            <div class="largeText registration__subtitle">Регистрация</div>
         </div>
 
         

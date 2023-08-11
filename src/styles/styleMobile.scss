@@ -1,6 +1,19 @@
 @import './stylePreferences.scss';
 
+@media screen and ( max-width: 1000px ) {
+  .settingsPage {
+    &__imageHolder {
+      width: 160px;
+      height: 160px;
+    }
+  }
+}
+
 @media screen and ( max-width: 900px ) {
+  .backgroundCard {
+    width: 80%;
+  }
+
   .submitPhonePage {
     padding: 40px 40px;
 
@@ -12,10 +25,87 @@
   .createProject {
     padding: 40px;
   }
+
+  .event {
+    height: 60px;
+    &__content {
+      flex-direction: column-reverse;
+      gap: 4px;
+    }
+  }
+
+  .galery {
+    &__baseImage {
+      height: 100%;
+      min-height: 200px;
+      aspect-ratio: 16/9;
+    }
+
+    &__holder {
+      &.horizontal {
+        $offset: 10px;
+        position: relative;
+        flex-direction: column;
+        
+        .galeryImage:first-child {
+          margin-left: $offset;
+          margin-top: unset;
+        }
+
+        .galeryImage:last-child {
+          margin-bottom: unset;
+          margin-right: $offset;
+        }
+
+        .galery__images {
+          flex-direction: row;
+          height: 100px;
+          width: 100%;
+
+          &::before {
+            content: '';
+            left: 0;
+            top: unset;
+            bottom: 0;
+            position: absolute;
+            z-index: 1;
+            height: inherit;
+            width: $offset;
+            background: rgba(0, 0, 0, 0);
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            height: inherit;
+            width: $offset;
+            background: rgba(0, 0, 0, 0);
+            background: linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+          }
+        }
+      }
+    }
+  }
+
+  #editDiagramButton {
+    display: none;
+  }
 }
 
 // mobile
 @media screen and ( max-width: 750px ) {
+  .mobileOnly {
+    display: initial;
+  }
+
+  .desktopOnly {
+      display: none;
+  }
+
   .authorizationHolder {
     width: 90%;
 
@@ -31,7 +121,7 @@
     &__dropdownMenu {
       width: unset;
       left: 0;
-      border-radius: 0 0 12px 12px;
+      border-radius: 0 0 20px 20px;
     }
   }
 
@@ -53,6 +143,13 @@
 
   .baseText {
     font-size: 15px;
+  }
+
+  .largeText {
+    font: {
+      size: 20px;
+      weight: $font-regular;
+    }
   }
 
   .pageTitle {
@@ -121,6 +218,8 @@
   }
 
   .link {
+    font-size: 15px;
+
     &.small {
       font-size: 12px;
     }
@@ -159,13 +258,27 @@
   }
 
   .button {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     border-radius: 12px;
     // font-size: 15px;
+
+    &.square {
+      border-radius: 12px;
+    }
   }
 
   .modal {
     &__content {
       width: 95vw;
+    }
+
+    &__defaultTitle {
+      font: {
+        size: 32px;
+        weight: $font-regular;
+      }
     }
   }
 
@@ -182,6 +295,16 @@
     &__baseText {
       font-size: 15px;
       margin-bottom: 20px;
+    }
+
+    &__body {
+      margin-bottom: 0;
+    }
+
+    &__controls {
+      &.horizontal {
+        flex-direction: column;
+      }
     }
   }
 
@@ -207,6 +330,18 @@
     }
   }
 
+  .progressBar {
+    &__titleBlock {
+      font-size: 15px;
+    }
+  }
+
+  .registration {
+    &__loginBlock {
+      font-size: 12px;
+    }
+  }
+
   .searchPage {
     &__searchBar {
       width: 100%;
@@ -224,6 +359,21 @@
       box-sizing: border-box;
       padding: 0 20px;
     }
+
+    &__project {
+      margin: {
+        left: 20px;
+        right: 20px;
+      }
+    }
+
+    &__card {
+      --sideMargin: 14px;
+      margin: {
+        left: var(--sideMargin);
+        right: var(--sideMargin);
+      }
+    }
   }
 
   .myProjectsPage {
@@ -237,6 +387,10 @@
       .infoCard {
         margin: 20px;
       }
+    }
+
+    &__blockFooter {
+      gap: 20px;
     }
   }
 
@@ -260,6 +414,17 @@
     padding: 20px;
     flex-direction: column;
 
+    &__title {
+      font: {
+        size: 20px;
+        weight: $font-regular;
+      }
+    }
+
+    &__block {
+      flex-direction: column;
+    }
+
     &__imageHolder {
       width: 180px;
       height: 180px;
@@ -273,7 +438,8 @@
     &__numberBlock {
       flex-direction: column;
       align-items: flex-start;
-      gap: 10px;
+      gap: 8px;
+      font-size: 15px;
 
       .button {
         margin-left: unset;
@@ -285,8 +451,19 @@
       margin: 0;
     }
 
+    &__socialCaption {
+      font-size: 15px;
+    }
+
+    &__socialItem {
+      span {
+        font-size: 15px !important;
+      }
+    }
+
     &__controlsFooter {
       width: max-content;
+      flex-direction: column;
     }
   }
 
@@ -325,6 +502,322 @@
       &Subtitle {
         font-size: 12px;
       }
+    }
+  }
+
+  .makerPage {
+    padding: 20px;
+
+    &__makerCard {
+      gap: 20px;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    &__makerTitle {
+      padding: 0 !important;
+    }
+
+    &__makerLogoHolder {
+      width: 180px;
+      height: 180px;
+    }
+
+    &__makerInfo {
+      width: 100%;
+    }
+
+    &__controls {
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    &__rating {
+      margin-bottom: 14px;
+    }
+
+    &__blockTitle {
+      font: {
+        size: 20px;
+        weight: $font-regular;
+      }
+    }
+
+    &__caption {
+      font-size: 15px;
+    }
+
+    &__contactsBlock {
+      gap: 20px;
+      flex-direction: column;
+    }
+
+    &__footer {
+      margin-top: 30px;
+      margin-bottom: 0;
+    }
+  }
+
+  .suggestProject {
+    padding: 20px;
+
+    &__maker {
+      gap: 14px;
+
+      &Title {
+        font-size: 20px;
+        padding-left: 0;
+        padding-right: 20px;
+      }
+
+      &Logo {
+        width: 60px;
+        height: 60px;
+      }
+    } 
+
+    &__projectsCaption {
+      font-size: 15px;
+    }
+  }
+
+  .suggestionsPage {
+    &__caption {
+      font-size: 15px;
+    }
+  }
+
+  .setReview {
+    &__title {
+      font: {
+        size: 15px;
+        weight: $font-regular;
+      }
+      margin-bottom: 4px;
+    }
+  }
+
+  .infoCard {
+    flex-direction: column;
+    height: unset;
+    width: unset;
+
+    &__image {
+      width: 100%;
+      height: unset;
+      margin: 0;
+      padding: 2px;
+      box-sizing: border-box;
+      aspect-ratio: 16/9 !important;
+    }
+
+    &__container {
+      padding: 6px 4px 4px 14px; 
+    }
+
+    &__body {
+      margin: {
+        top: 8px;
+        bottom: 18px;
+      }
+      font-size: 15px;
+      padding-right: 10px;
+      box-sizing: border-box;
+    }
+
+    &__footer {
+      font-size: 15px;
+    }
+  }
+
+  .searchingProject {
+    &__resp {
+      font-size: 12px;
+    }
+  }
+
+  .projectSearchingPage {
+    padding: 20px;
+
+    &__blockTitle {
+      font: {
+        size: 20px;
+        weight: $font-regular;
+      }
+    }
+
+    &__block {
+      margin-top: 40px;
+
+      .makerResponse:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__parameterTitle, &__parameterValue {
+      font-size: 15px;
+    }
+
+    &__description {
+      font-size: 15px;
+    }
+
+    &__actions {
+      flex-direction: column;
+    }
+
+    &__caption {
+      font-size: 15px;
+    }
+
+    .galery {
+      height: unset;
+    }
+
+    &__controls {
+      flex-direction: column;
+    }
+
+    &__maker {
+      &Card {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      &LogoHolder {
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        background-color: red;
+      }
+
+      &TitleBlock {
+        flex-direction: row;
+      }
+    }
+  }
+
+  .makerResponse {
+    height: unset;
+    padding: 14px;
+    
+    &__header {
+      font-weight: $font-regular;
+    }
+
+    &__text {
+      font-size: 15px;
+    }
+
+    &__footer {
+      flex-direction: column;
+    }
+  }
+
+  .makerProfileCard {
+    flex-direction: column-reverse;
+    padding: 0;
+    gap: 16px;
+
+    &__info {
+      width: 100%;
+      padding: 14px;
+      padding-top: 0;
+      box-shadow: none;
+      background-color: rgba(255,255,255,0);
+      gap: 14px;
+      aspect-ratio: unset;
+
+      &RightPart {
+        // height: 100%;
+        flex-shrink: initial;
+        width: initial;
+      }
+    }
+
+    &__projects {
+      width: 100%;
+      aspect-ratio: 1/1;
+      box-sizing: border-box;
+      padding: 14px;
+      padding-bottom: 0;
+
+      .makerProfileCard__tile:not(:first-child) {
+        display: none;
+      }
+    }
+
+    &__tile {
+      width: 100%;
+      height: 100%;
+    }
+
+    &__logoHolder {
+      width: 50px;
+      height: 50px;
+    }
+
+    &__content {
+      flex-grow: initial;
+    }
+
+    &__achivements {
+      flex-wrap: nowrap;
+      overflow: auto;
+      flex-grow: 1;
+      flex-direction: column;
+    }
+
+    &__achivement {
+      width: 24px;
+      height: 24px;
+    }
+
+    &__footer {
+      .button {
+        width: 100%;
+      }
+    }
+  }
+
+  .activeProject {
+    &__body {
+      padding: 0;
+    }
+  }
+
+  .eventCreation {
+    .textArea {
+      width: 100%;
+    }
+  }
+
+  .review {
+    &__info {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: start;
+      gap: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .registration {
+    &__title {
+      font-size: 25px;
+    }
+  }
+}
+
+@media screen and (max-width: 372px) {
+  .registration {
+    &__title {
+      font-size: 20px;
     }
   }
 }
