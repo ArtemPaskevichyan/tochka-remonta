@@ -3403,8 +3403,15 @@ img {
     &__controls {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        overflow: hidden;
         gap: 14px;
+
+        .button {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     &__achivementHolder {
@@ -3478,6 +3485,12 @@ img {
     border-radius: 14px;
     box-sizing: border-box;
     padding: 16px 22px;
+
+    &__username {
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+    }
 
     &__header {
         display: flex;

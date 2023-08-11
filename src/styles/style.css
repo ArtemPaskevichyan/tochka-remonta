@@ -3772,9 +3772,15 @@ img {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  overflow: hidden;
   gap: 14px;
+}
+.makerPage__controls .button {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .makerPage__achivementHolder {
   display: -webkit-box;
@@ -3869,6 +3875,10 @@ img {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 16px 22px;
+}
+.review__username {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .review__header {
   display: -webkit-box;
