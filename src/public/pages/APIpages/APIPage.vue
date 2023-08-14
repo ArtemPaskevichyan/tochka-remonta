@@ -74,6 +74,9 @@ export default {
     changePage(page) {
       this.currentPage = this.pages.find(e => e.name == page) ?? this.pages[0]
     }
+  },
+  mounted() {
+    this.changePage(this.page)
   }
 }
 </script>
