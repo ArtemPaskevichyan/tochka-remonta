@@ -1417,7 +1417,10 @@ img {
         top: 20px;
         right: 20px;
         position: absolute;
-        background: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.8);
         border: none;
         color: $grey-color;
         cursor: pointer;
@@ -1501,7 +1504,10 @@ img {
         top: 20px;
         right: 20px;
         position: absolute;
-        background: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.8);
         border: none;
         color: $grey-color;
         cursor: pointer;
@@ -1826,6 +1832,24 @@ img {
     &__icon {
         margin-right: 0.6em;
     }
+
+    &__logoBlock {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    &__logo {
+        height: 32px;
+        cursor: pointer;
+        img {
+            height: 100%;
+            max-width: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            background-color: rgba(255, 255, 255, 0);
+        }
+    }
 }
 
 .tabBar {
@@ -2104,7 +2128,7 @@ img {
 .infoCard {
     background-color: white;
     width: 100%;
-    height: 255px;
+    min-height: 255px;
     box-sizing: border-box;
     border-radius: 14px;
     display: flex;
@@ -2151,7 +2175,6 @@ img {
     &__body {
         height: 100%;
         overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     &__footer {
@@ -2161,11 +2184,11 @@ img {
         justify-content: space-between;
         align-items: center;
         flex-grow: 1;
+        flex-wrap: wrap;
     }
 
     &__button {
         margin-left: auto;
-        width: 215px;
         flex-shrink: 0;
     }
 
@@ -2211,6 +2234,11 @@ img {
         .button {
             width: 250px;
         }
+    }
+
+    &__pageHeader {
+        width: min-content;
+        margin: 20px auto;
     }
 
     &__loader {
@@ -2666,7 +2694,6 @@ img {
         flex-direction: row;
         justify-content: flex-start;
         gap: 14px;
-        overflow: hidden;
 
         .button {
             overflow: hidden;
@@ -2969,6 +2996,16 @@ img {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    transition: 0.3s all;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    &:active {
+        filter: brightness(0.97);
+    }
 
     &__content {
         color: $secondary-text-color;
@@ -2985,6 +3022,10 @@ img {
             size: 15px;
             weight: $font-regular;
         };
+    }
+
+    &__icon {
+        color: $grey-color
     }
 }
 
@@ -3026,7 +3067,7 @@ img {
         color: $primary-text-color;
         font-weight: $font-medium;
         margin-top: 4px;
-        margin-bottom: 35px;
+        margin-bottom: 20px;
     }
 
     &__description {
@@ -3034,7 +3075,7 @@ img {
         color: $secondary-text-color;
         font-weight: $font-regular;
         flex-grow: 1;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
     }
 
     &__footer {
@@ -3042,6 +3083,13 @@ img {
         flex-direction: row;
         justify-content: flex-end;
         gap: 20px;
+    }
+
+    &__textArea {
+        border-top: 1px dashed $grey-color;
+        margin-bottom: 20px;
+        padding-top: 14px;
+        box-sizing: border-box;
     }
 
     &__footerText {
@@ -3811,6 +3859,151 @@ img {
         &Subtitle {
             color: $placeholder-text-color;
             font-size: 15px;
+        }
+    }
+}
+
+.ocSuggestion {
+    background-color: white;
+    border-radius: 14px;
+    box-sizing: border-box;
+    padding: 20px 6px 6px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    &__text {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 20px
+    }
+
+    &__picture {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        i {
+            color: $grey-color;
+            margin: 0 20px;
+        }
+    }
+
+    &__image {
+        height: 60px;
+        flex-shrink: 0;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            object-fit: cover;
+        }
+    }
+
+    &__projectAvatar {
+        aspect-ratio: 1/1;
+        border-radius: 6px;
+    }
+
+    &__makerAvatar {
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+    }
+}
+
+.outcomingSuggestions {
+    &__list {
+        max-width: 1200px;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    &__caption {
+        font-size: 20px;
+        color: $placeholder-text-color;
+        text-align: center;
+    }
+}
+
+.API {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+
+    &__header {
+        --paddingHorizontal: 40px;
+        height: 50px;
+        background-color: white;
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+        padding: 0 var(--paddingHorizontal);
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid $grey-color;
+        z-index: 10;
+
+        &Logo {
+            cursor: pointer;
+            img {
+                background-color: transparent;
+            }
+        }
+
+        &Label {
+            color: $placeholder-text-color;
+        }
+    }
+
+    &__leftSide {
+        box-sizing: border-box;
+        width: 200px;
+        font-size: 14px;
+        font-weight: $font-regular;
+        border-right: 1px solid $grey-color;
+
+        &Link {
+            padding: 10px 20px;
+            border-bottom: 1px solid $grey-color;
+            cursor: pointer;
+
+            &.active {
+                padding: {
+                    top: 10px;
+                    bottom: 10px;
+                    left: 16px;
+                    right: 20px;
+                }
+                font-weight: $font-bold;
+                color: $primary-theme-color;
+                border-left: 4px solid $primary-theme-color;
+            }
+
+            &:hover {
+                background-color: $element-background;
+            }            
+        }
+    }
+
+    &__content {
+        flex-grow: 1;
+
+        iframe {
+            width: 100%;
+            height: 100%;
         }
     }
 }

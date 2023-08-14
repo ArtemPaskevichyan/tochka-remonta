@@ -14,10 +14,13 @@
         <button class="header__dropdownMenuItem" @click="goTo('/search')">
             <i class="icon-search header__icon"></i> {{searchText}}
         </button>
+        <button class="header__dropdownMenuItem" @click="goTo('/outcomingSuggestions')">
+            <i class="icon-arrow-top header__icon"></i> Мои заявки
+        </button>
         <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
             <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="notificationCount" v-if="notificationCount > 0"></UINotificationCounter>
         </button>
-        <button class="header__dropdownMenuItem" @click="goTo('/suggestions')" v-if="this.role == 'Исполнитель'">
+        <button class="header__dropdownMenuItem" @click="goTo('/suggestions')" v-if="role == 'Исполнитель'">
             <i class="icon-person-plus header__icon"></i>Предложенные мне
         </button>
         <button class="header__dropdownMenuItem" @click="goToSettings">
@@ -32,9 +35,15 @@
     </div>
 
     <div class="header">
-        <div class="header__location" :class="{skeleton: !isDataLoaded}" @click="openCitySelector">
-            {{ city ?? "Не определено" }}
-        </div>
+        <span class="header__logoBlock">
+            <div class="header__logo">
+                <img class="desktopOnly" src="@/assets/images/logo.png" alt="logo" width="96" height="32" @click="$router.push({name: role == 'Исполнитель' ? 'makerSearch' : 'userSearch'})">
+                <img class="mobileOnly" src="@/assets/images/shortLogo.png" alt="logo" width="30" height="32" @click="$router.push({name: role == 'Исполнитель' ? 'makerSearch' : 'userSearch'})">
+            </div>
+            <div class="header__location" :class="{skeleton: !isDataLoaded}" @click="openCitySelector">
+                {{ city ?? "Не определено" }}
+            </div>
+        </span>
         <div class="header__locationQuestion" ref="cityQuestion" v-if="showCityQuestion">
             Ваш город <span class="header__locationCity">{{ city }}</span>?
             <div class="header__locationControls">
@@ -46,7 +55,7 @@
         <div @click.stop="showHideNavigation" class="header__profileBlock">
             <UINotificationIndicatorHolder :amount="notificationCount" :displayZero="false">
                 <span class="header__profileLabel" :class="{skeleton: !isDataLoaded}">
-                    Профиль
+                    Меню
                 </span>
             </UINotificationIndicatorHolder>
             <div class="header__profileAvatar">

@@ -1,3 +1,12 @@
+@media screen and (max-width: 1200px) {
+  .infoCard {
+    min-height: 185px;
+  }
+  .infoCard__image {
+    width: 181px;
+    height: 181px;
+  }
+}
 @media screen and (max-width: 1000px) {
   .settingsPage__imageHolder {
     width: 160px;
@@ -8,6 +17,12 @@
   .backgroundCard {
     width: 80%;
   }
+  .alert__content {
+    width: 80%;
+  }
+  .modal__content {
+    width: 80%;
+  }
   .submitPhonePage {
     padding: 40px 40px;
   }
@@ -16,16 +31,6 @@
   }
   .createProject {
     padding: 40px;
-  }
-  .event {
-    height: 60px;
-  }
-  .event__content {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-        -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse;
-    gap: 4px;
   }
   .galery__baseImage {
     height: 100%;
@@ -105,6 +110,12 @@
     width: unset;
     left: 0;
     border-radius: 0 0 20px 20px;
+  }
+  .header__logoBlock {
+    gap: 14px;
+  }
+  .header__logo {
+    width: 30px;
   }
   .tabBar {
     display: block;
@@ -306,7 +317,7 @@
     font-size: 20px;
     font-weight: 400;
   }
-  .settingsPage__block {
+  .settingsPage__block:not(.settingsPage__achivements) {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -653,6 +664,79 @@
         -ms-flex-align: start;
             align-items: start;
     gap: 0;
+  }
+  .negotiation__content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    font-size: 15px;
+    gap: 4px;
+  }
+  .negotiation__date {
+    margin: 0;
+    font-size: 12px;
+  }
+  .event {
+    height: 60px;
+  }
+  .event__content {
+    font-size: 15px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+    gap: 4px;
+  }
+  .event__date {
+    font-size: 12px;
+  }
+  .negotiationView {
+    padding: 20px;
+  }
+  .negotiationView__subtitle {
+    margin-bottom: 20px;
+  }
+  .negotiationView__footer {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 10px;
+  }
+  .ocSuggestion {
+    padding: 14px;
+  }
+  .ocSuggestion__text {
+    font-size: 15px;
+  }
+  .ocSuggestion__info {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .ocSuggestion__controls {
+    width: 100%;
+  }
+  .ocSuggestion__controls .button {
+    width: 100%;
+  }
+  .outcomingSuggestions__list {
+    width: unset;
+    margin: 0 20px;
+  }
+  .outcomingSuggestions__caption {
+    font-size: 15px;
   }
 }
 @media screen and (max-width: 450px) {

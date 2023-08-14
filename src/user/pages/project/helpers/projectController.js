@@ -49,7 +49,7 @@ class ProjectController {
 
     async getResponsesList(id) {
         var token = await TokenHandler.shared.getToken()
-        const URL = `${serverURL}/api/v1/projects/get_project_join_requests?p_id=${id}`
+        const URL = `${serverURL}/api/v1/projects/get_project_join_requests?p_id=${id}&from=contractor`
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -148,18 +148,23 @@ class ProjectController {
         }
     }
 
-    async setNegotiationDecision(id, d) {
+    async setNegotiationDecision(id, d, text) {
         var token = await TokenHandler.shared.getToken()
-        const URL = `${serverURL}/api/v1/projects/set_negotiation_decision?n_id=${id}&accept=${d}`
+        const URL = `${serverURL}/api/v1/projects/set_negotiation_decision?n_id=${id}`
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }
 
+        const accept = {
+            decision_text: text,
+            decision: String(d),
+        }
+
         if (!id) { throw createError("ID IS UNDEFINED")}
 
-        await axios.get(URL, config)
+        await axios.post(URL, accept, config)
             .then((response) => {
                 console.log("RESP", response)
             })

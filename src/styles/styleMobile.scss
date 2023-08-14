@@ -1,5 +1,16 @@
 @import './stylePreferences.scss';
 
+@media screen and ( max-width: 1200px ) {
+  .infoCard {
+    min-height: 185px;
+
+    &__image {
+      width: 181px;
+      height: 181px;
+    }
+  }
+}
+
 @media screen and ( max-width: 1000px ) {
   .settingsPage {
     &__imageHolder {
@@ -14,6 +25,18 @@
     width: 80%;
   }
 
+  .alert {
+    &__content {
+      width: 80%;
+    }
+  }
+
+  .modal {
+    &__content {
+      width: 80%;
+    }
+  }
+
   .submitPhonePage {
     padding: 40px 40px;
 
@@ -24,14 +47,6 @@
 
   .createProject {
     padding: 40px;
-  }
-
-  .event {
-    height: 60px;
-    &__content {
-      flex-direction: column-reverse;
-      gap: 4px;
-    }
   }
 
   .galery {
@@ -122,6 +137,14 @@
       width: unset;
       left: 0;
       border-radius: 0 0 20px 20px;
+    }
+
+    &__logoBlock {
+      gap: 14px;
+    }
+
+    &__logo {
+      width: 30px;
     }
   }
 
@@ -421,7 +444,7 @@
       }
     }
 
-    &__block {
+    &__block:not(.settingsPage__achivements) {
       flex-direction: column;
     }
 
@@ -802,6 +825,78 @@
       justify-content: flex-start;
       align-items: start;
       gap: 0;
+    }
+  }
+
+  .negotiation {
+    &__content {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      font-size: 15px;
+      gap: 4px;
+    }
+
+    &__date {
+      margin: 0;
+      font-size: 12px;
+    }
+  }
+
+  .event {
+    height: 60px;
+    &__content {
+      font-size: 15px;
+      flex-direction: column-reverse;
+      gap: 4px;
+    }
+
+    &__date {
+      font-size: 12px;
+    }
+  }
+
+  .negotiationView {
+    padding: 20px;
+
+    &__subtitle {
+      margin-bottom: 20px;
+    }
+
+    &__footer {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  .ocSuggestion {
+    padding: 14px;
+
+    &__text {
+      font-size: 15px;
+    }
+
+    &__info {
+      align-items: center;
+      flex-direction: column;
+    }
+
+    &__controls {
+      width: 100%;
+      .button {
+        width: 100%;
+      }
+    }
+  }
+
+  .outcomingSuggestions {
+    &__list {
+      width: unset;
+      margin: 0 20px;
+    }
+
+    &__caption {
+      font-size: 15px;
     }
   }
 }

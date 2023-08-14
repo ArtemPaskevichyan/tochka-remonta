@@ -22,7 +22,6 @@
                 <div class="projectSearchingPage__blockTitle">
                     <div>
                         События
-                        <UIButton :style="'primary'" @click="createEvent">Создать</UIButton>
                     </div>
                 </div>
                 <!-- <Event v-for="e in eventList?.slice(-3)" :key="e.id" :model="e"/> -->

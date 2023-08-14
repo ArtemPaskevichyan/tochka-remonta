@@ -162,27 +162,27 @@ export default {
             this.modalContentType = 'cpl'
             this.isModalOpened = true
         },
-        async negotiationDenied() {
+        async negotiationDenied(text) {
             if (!confirm("Вы уверены, что хотите отказать исполнителю на это согласие?")) { return }
 
             try {
                 this.isLoading = true
-                await this.projectController.setNegotiationDecision(this.negotiationModel?.id, false)
+                await this.projectController.setNegotiationDecision(this.negotiationModel?.id, false, text)
             } catch(e) {
                 //
                 console.log(e)
             } finally {
                 this.isLoading = false
                 this.isModalOpened = false
-                this.$router.go()
+                // this.$router.go()
             }
         },
-        async negotiationAllowed() {
+        async negotiationAllowed(text) {
             if (!confirm("Вы уверены, что хотите согласовать это заявление с исполнителем?")) { return }
 
             try {
                 this.isLoading = true
-                await this.projectController.setNegotiationDecision(this.negotiationModel?.id, true)
+                await this.projectController.setNegotiationDecision(this.negotiationModel?.id, true, text)
                 this.isModalOpened = false
             } catch(e) {
                 //
@@ -190,7 +190,7 @@ export default {
             } finally {
                 this.isLoading = false
                 this.isModalOpened = false
-                this.$router.go()
+                // this.$router.go()
             }
         },
         async completeProject(model) {

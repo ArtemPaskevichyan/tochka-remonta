@@ -1,5 +1,5 @@
 <template>
-    <div class="headerPage notificationPage">
+    <div class="headerPage notificationPage tabBarPage">
         <UIHeader/>
         <UITabBar :page="'Уведомления'"/>
         <div>

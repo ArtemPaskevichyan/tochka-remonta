@@ -9,6 +9,9 @@ import CheckEmailPageForRecovery from "@/public/pages/checkEmailPage/CheckEmailP
 import SuccessfulPasswordChangePage from "@/public/pages/message/SuccessfulPasswordChangePage.vue"
 import NotFoundPage from "@/public/pages/message/NotFoundPage.vue"
 import AccessDeniedPage from "@/public/pages/message/AccessDeniedPage.vue"
+import SEOArticlesList from "@/public/pages/SEOcreationPages/SEOArticlesList.vue"
+import SEOArticlesCreation from "@/public/pages/SEOcreationPages/SEOArticlesCreation.vue"
+import APIPage from "@/public/pages/APIpages/APIPage.vue"
 
 import UserSearchPage from "@/user/pages/searchPage/SearchPage.vue"
 import CreateProjectPage from "@/user/pages/createProject/CreateProjectPage.vue"
@@ -20,6 +23,7 @@ import SuccessNumberSubmition from '@/user/pages/settingsPage/SuccessNumberSubmi
 import UserProjectPage from '@/user/pages/project/UserProjectPage.vue'
 import MakerPage from '@/user/pages/makerPage/MakerPage.vue'
 import NotificationPage from "@/user/pages/notifications/NotificationPage.vue"
+import UserOutcomingSuggestionsPage from "@/user/pages/outcomingSuggestions/OutcomingSuggestionsPage.vue"
 
 
 import MakerSettingsPage from '@/maker/pages/settingsPage/SettingsPage.vue'
@@ -29,6 +33,8 @@ import MakerMyProjectsPage from "@/maker/pages/myProjects/MyProjectsPage.vue"
 import MakerNotificationPage from "@/maker/pages/notifications/NotificationPage.vue"
 import MakerCreateProjectPage from "@/maker/pages/createProject/CreateProjectPage.vue"
 import SuggestionsPage from "@/maker/pages/suggestions/SuggestionsPage.vue"
+import MakerOutcomingSuggestionsPage from "@/maker/pages/outcomingSuggestions/OutcomingSuggestionsPage.vue"
+
 
 import TestPage from "@/public/pages/message/TestPage.vue"
 
@@ -87,6 +93,20 @@ const routes = [
     path: '/successfulPasswordChange',
     component: SuccessfulPasswordChangePage,
   },
+  {
+    path: '/seo/articles',
+    component: SEOArticlesList,
+  },
+  {
+    path: '/seo/createArticle',
+    component: SEOArticlesCreation,
+  },
+  {
+    path: '/documentation/:page?',
+    name: 'documentation',
+    component: APIPage,
+    props: true,
+  },
 
   {
     path: '/user/search',
@@ -135,6 +155,11 @@ const routes = [
     name: 'userNotifications',
     component: NotificationPage,
   },
+  {
+    path: '/user/outcomingSuggestions',
+    name: 'userOutcomingSuggestions',
+    component: UserOutcomingSuggestionsPage,
+  },
 
   {
     path: '/maker/settingsPage',
@@ -171,6 +196,12 @@ const routes = [
     path: '/maker/suggestions',
     component: SuggestionsPage,
   },
+  {
+    path: '/maker/outcomingSuggestions',
+    name: 'makerOutcomingSuggestions',
+    component: MakerOutcomingSuggestionsPage,
+  },
+
 
   {
     path: '/accessDenied',

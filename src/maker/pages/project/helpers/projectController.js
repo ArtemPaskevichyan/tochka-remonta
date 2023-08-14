@@ -136,6 +136,7 @@ class ProjectController {
 
         try {
             const response = await axios.get(URL, config)
+            console.log('NEG RESP', response)
             if (response.data.n_list) {
                 response.data.n_list.reverse()
                 return response.data.n_list
@@ -250,7 +251,8 @@ class ProjectController {
             payment: {
                 amount: 0,
                 to: customer_uuid,
-            }
+            },
+            type: "payment",
         }
 
         await axios.post(URL, body, config)

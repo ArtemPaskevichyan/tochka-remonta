@@ -66,7 +66,7 @@
             </div>
 
             <div class="settingsPage__title">Достижения</div>
-            <div class="settingsPage__block">
+            <div class="settingsPage__block settingsPage__achivements">
                 <div class="makerPage__achivement" v-for="(a, index) in achivesList" :key="index" :class="{skeleton: isAchivementsLoading}">
                     <UIAchievment :filename="a?.filename"/>
                 </div>

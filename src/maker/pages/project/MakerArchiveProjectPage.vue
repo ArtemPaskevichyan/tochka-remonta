@@ -39,18 +39,25 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Исполнитель</div>
                 <div class="projectSearchingPage__makerCard">
-                    <div class="projectSearchingPage__makerLogoHolder">
-                        <img :src="avatarURL" alt="">
+                    <div class="projectSearchingPage__makerLogoHolder desktopOnly">
+                        <img :src="avatarURL" alt="avatar">
                     </div>
                     <div class="projectSearchingPage__makerInfo">
-                        <div class="projectSearchingPage__makerTitle largeText">
-                            {{ maker?.firstname ?? "TITLE"}}
-                        </div>
-                        <div class="projectSearchingPage__rating">
-                            <UIRating :rating="maker?.rating ?? 0"/>
+                        <div class="projectSearchingPage__makerTitleBlock">
+                            <div class="projectSearchingPage__makerLogoHolder mobileOnly">
+                                <img :src="avatarURL" alt="avatar">
+                            </div>
+                            <div>
+                                <div class="projectSearchingPage__makerTitle largeText">
+                                    {{ maker?.firstname ?? "TITLE"}}
+                                </div>
+                                <div class="projectSearchingPage__rating">
+                                    <UIRating :rating="maker?.rating ?? 0"/>
+                                </div>
+                            </div>
                         </div>
                         <div class="projectSearchingPage__controls">
-                            <UIButton :style="'secondary'" @click="$router.push('/user/makerPage/' + this.project?.contractor_uuid)">Профиль</UIButton>
+                            <UIButton :style="'secondary'" @click="goToMaker">Профиль</UIButton>
                             <UIButton :style="'primary'" @click="openSuggestModal">Предложить проект</UIButton>
                         </div>
                     </div>

@@ -3,6 +3,13 @@
         <UIHeader/>
         <UITabBar :page="'Мои проекты'"/>
         <div class="myProjectsPage">
+            <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
+                Проекты, созданные вами, не найдены
+            </div>
+            <div class="myProjectsPage__pageHeader">
+                <UIButton :style="'primary'" @click="$router.push('/user/createProject')">Создать проект <i class="icon-plus inline-icon"></i></UIButton>
+            </div>
+
             <div class="myProjectsPage__loader">
                 <UILoadingSpinner v-if="isLoading"></UILoadingSpinner>
             </div>
@@ -12,9 +19,9 @@
                 <ActiveProjectCard v-for="proj in activeList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'" :imageName="proj.main_picture"
                 :progress="0" @action="$router.push('/user/project/' + String(proj.id))"/>
 
-                <div class="myProjectsPage__blockFooter">
+                <!-- <div class="myProjectsPage__blockFooter">
                     <UIButton :style="'primary'" @click="$router.push('/user/createProject')">Создать проект <i class="icon-plus inline-icon"></i></UIButton>
-                </div>
+                </div> -->
             </div>
 
             <div class="myProjectsPage__block" v-if="searchList.length > 0 && !isLoading">
@@ -24,7 +31,7 @@
 
                 <div class="myProjectsPage__blockFooter">
                     <UIButton @click="$router.push('/user/search')" :style="'primary'">Искать исполнителя</UIButton>
-                    <UILink :link="'/mySuggestions'">Мои предложения исполнителям<span v-if="countOfSuggestoins > 0" style="margin-left: 0.3em;">({{countOfSuggestoins}})</span></UILink>
+                    <UILink :link="'/user/outcomingSuggestions'">Мои предложения исполнителям<span v-if="countOfSuggestoins > 0" style="margin-left: 0.3em;">({{countOfSuggestoins}})</span></UILink>
                 </div>
             </div>
 
@@ -32,11 +39,6 @@
                 <div class="titleText pageTitle">Завершенные проекты</div>
                 <ArchiveProjectCard v-for="proj in completedList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'"
                 :imageName="proj.main_picture" :description="proj.description" @action="$router.push('/user/project/' + String(proj.id))" :rating="proj.rating"/>
-            </div>
-
-            <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
-                Проекты, созданные вами, не найдены
-                <UIButton @click="$router.push('/user/createProject')" :style="'primary'">Создать проект <i class="icon-plus inline-icon"></i></UIButton>
             </div>
         </div>
     </div>

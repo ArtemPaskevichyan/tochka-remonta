@@ -1,5 +1,5 @@
 <template>
-    <div class="negotiation">
+    <div class="negotiation" @click="$emit('open')">
         <div class="negotiation__content" :class="{skeleton: !model?.title}">
             {{ model?.title ?? "UNFINED"}}
             <span class="negotiation__date" :class="{skeleton: !model?.title}">
@@ -7,7 +7,10 @@
             </span>
         </div>
 
-        <UIButton :style="!model?.decision ? 'primary' : 'secondary'" @click="$emit('open')">Перейти</UIButton>
+        <UIButton class="desktopOnly" :style="!model?.decision ? 'primary' : 'secondary'">Перейти</UIButton>
+        <span class="negotiation__icon mobileOnly">
+            <i class="icon-arrow-right"></i>
+        </span>
     </div>
 </template>
 
