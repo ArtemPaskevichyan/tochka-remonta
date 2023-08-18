@@ -2,7 +2,7 @@
     
     <span class="notificationIndicatorHolder">
         <slot></slot>
-        <span v-if="displayZero || amount > 0" class="notificationIndicatorHolder__indicatior">
+        <span v-if="displayZero || amount > 0 " class="notificationIndicatorHolder__indicatior">
             {{textInIndicatior}}
         </span>
     </span>
@@ -20,12 +20,12 @@ export default {
         },
         displayZero: {
             type: Boolean,
-            default: ''
+            default: true,
         }
     },
     computed: {
         textInIndicatior: function() {
-            return (!this.displayZero && this.amount == 0) ? '' : this.amount
+            return (this.displayZero && this.amount == -1) ? '' : this.amount
         }
     }
 }

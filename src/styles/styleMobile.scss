@@ -609,6 +609,11 @@
   }
 
   .suggestionsPage {
+    width: unset;
+    margin: 0 20px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+
     &__caption {
       font-size: 15px;
     }
@@ -720,6 +725,14 @@
 
       &TitleBlock {
         flex-direction: row;
+      }
+    }
+
+    &__gantFooter {
+      flex-direction: column;
+
+      .button {
+        width: 100%;
       }
     }
   }

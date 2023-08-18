@@ -44,7 +44,7 @@ export default {
           {id: 1, active: false, iconClass: "icon-cards", label: "Мои проекты", destination: "userMyProjects"},
           {id: 2, active: false, iconClass: "icon-plus", label: "Новый проект", destination: "userCreateProject"},
           {id: 3, active: false, iconClass: "icon-bell", label: "Уведомления", destination: "userNotifications"},
-          {id: 4, active: false, iconClass: "icon-person-plus", label: "Профиль", destination: "userSettingsPage"},
+          {id: 4, active: false, iconClass: "icon-person", label: "Профиль", destination: "userSettingsPage"},
         ]
       } else if (data.role == "contractor") {
         this.tabs = [
@@ -52,7 +52,7 @@ export default {
           {id: 1, active: false, iconClass: "icon-cards", label: "Мои проекты", destination: "makerMyProjects"},
           {id: 2, active: false, iconClass: "icon-plus", label: "Новый проект", destination: "makerCreateProject"},
           {id: 3, active: false, iconClass: "icon-bell", label: "Уведомления", destination: "makerNotifications"},
-          {id: 4, active: false, iconClass: "icon-person-plus", label: "Профиль", destination: "makerSettingsPage"},
+          {id: 4, active: false, iconClass: "icon-person", label: "Профиль", destination: "makerSettingsPage"},
         ]
       }
 

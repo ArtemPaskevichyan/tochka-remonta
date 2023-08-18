@@ -265,14 +265,21 @@ class ProjectController {
         }
 
         try {
-            let response = await axios.get(URL, config)
+            const response = await axios.get(URL, config)
             console.log("RESP", response)
+            let tasks = response?.data?.tasks
+            if (tasks?.lenght === 0) return []
+            for (let i in tasks) {
+                tasks[i].id = String(tasks[i].id)
+                tasks[i].start = new Date(Date.parse(tasks[i].start)).toISOString().split("T")[0]
+                tasks[i].end = new Date(Date.parse(tasks[i].end)).toISOString().split("T")[0]
+            }
+            return tasks
+
         } catch(error) {
             console.log("ERROR", error)
             throw error
         }
-
-        return []
     }
 }
 

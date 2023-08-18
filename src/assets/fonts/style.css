@@ -1,16 +1,16 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?8ek5bv');
-  src:  url('fonts/icomoon.eot?8ek5bv#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?8ek5bv') format('truetype'),
-    url('fonts/icomoon.woff?8ek5bv') format('woff'),
-    url('fonts/icomoon.svg?8ek5bv#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?hkepn3');
+  src:  url('fonts/icomoon.eot?hkepn3#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?hkepn3') format('truetype'),
+    url('fonts/icomoon.woff?hkepn3') format('woff'),
+    url('fonts/icomoon.svg?hkepn3#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-i {
+[class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: never;
@@ -25,64 +25,70 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-trash:before {
-  content: "\e913";
-}
-.icon-options:before {
+.icon-person:before {
   content: "\e900";
 }
-.icon-gear:before {
+.icon-person-up:before {
   content: "\e901";
 }
-.icon-idea:before {
+.icon-options:before {
   content: "\e902";
+}
+.icon-trash:before {
+  content: "\e903";
+}
+.icon-gear:before {
+  content: "\e904";
+}
+.icon-idea:before {
+  content: "\e905";
   color: #401f00;
 }
 .icon-eye:before {
-  content: "\e903";
-}
-.icon-eye-cross:before {
-  content: "\e904";
-}
-.icon-search:before {
-  content: "\e905";
-}
-.icon-bell:before {
   content: "\e906";
 }
-.icon-person-plus:before {
+.icon-eye-cross:before {
   content: "\e907";
 }
-.icon-tools:before {
+.icon-search:before {
   content: "\e908";
 }
-.icon-filter:before {
+.icon-bell:before {
   content: "\e909";
 }
-.icon-cross:before {
+.icon-person-plus:before {
   content: "\e90a";
 }
-.icon-checkmark:before {
+.icon-tools:before {
   content: "\e90b";
 }
-.icon-arrow-right:before {
+.icon-filter:before {
   content: "\e90c";
 }
-.icon-arrow-down:before {
+.icon-cross:before {
   content: "\e90d";
 }
-.icon-arrow-up:before {
+.icon-checkmark:before {
   content: "\e90e";
 }
-.icon-arrow-left:before {
+.icon-arrow-right:before {
   content: "\e90f";
 }
-.icon-camera:before {
+.icon-arrow-down:before {
   content: "\e910";
 }
-.icon-plus:before {
+.icon-arrow-up:before {
   content: "\e911";
 }
-.icon-cards:before {
+.icon-arrow-left:before {
   content: "\e912";
+}
+.icon-camera:before {
+  content: "\e913";
+}
+.icon-plus:before {
+  content: "\e914";
+}
+.icon-cards:before {
+  content: "\e915";
 }

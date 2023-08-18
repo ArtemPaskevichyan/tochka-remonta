@@ -18,7 +18,7 @@ class GanttHelper {
   gantt = undefined
 
   createDiagram(id, tasks, options) {
-    console.log(id, tasks, options, Gantt.tasks)
+    console.log("GANTT", id, tasks, options, Gantt.tasks)
     this.gantt = new Gantt(id, tasks, options ?? this.options)
   }
 

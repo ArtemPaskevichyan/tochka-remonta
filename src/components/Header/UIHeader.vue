@@ -15,7 +15,7 @@
             <i class="icon-search header__icon"></i> {{searchText}}
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/outcomingSuggestions')">
-            <i class="icon-arrow-top header__icon"></i> Мои заявки
+            <i class="icon-person-up header__icon"></i> Мои заявки
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
             <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="notificationCount" v-if="notificationCount > 0"></UINotificationCounter>

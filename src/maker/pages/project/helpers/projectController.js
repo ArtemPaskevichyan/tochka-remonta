@@ -125,7 +125,7 @@ class ProjectController {
             })
     }
 
-    async getNegotiations(id, slice) {
+    async getNegotiations(id) {
         var token = await TokenHandler.shared.getToken()
         const URL = `${serverURL}/api/v1/projects/get_negotiation_list?p_id=${id}`
         const config = {
@@ -262,6 +262,76 @@ class ProjectController {
             .catch((error) => {
                 console.log("ERROR", error)
             })
+    }
+
+    covenrtTaskToNegotiation(taskList) {
+        let resArray = []
+        for (let task of taskList) {
+            resArray.push({
+                id: Number(task.id),
+                name: task.name,
+                end: new Date(Date.parse(task.end)),
+                start: new Date(Date.parse(task.start)),
+                progress: task.progress
+            })
+        }
+        return resArray
+    }
+
+    async createDiagramNegotiation(taskList, id) {
+        var token = await TokenHandler.shared.getToken()
+        const URL = `${serverURL}/api/v1/projects/create_negotiation`
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        var body = {
+            project_id: id,
+            title: "Изменения плана графика",
+            description: 'Исполнитель предложил внести изменения в график работ. Посмотрите их в разделе "План работ" под данным графиком и примеите решение по его одобрению',
+            project_tasks: this.covenrtTaskToNegotiation(taskList),
+            type: "diagram",
+        }
+
+        console.log(body.project_tasks)
+
+        await axios.post(URL, body, config)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+            })
+    }
+
+    async getDiagramTasks(p_id) {
+        var token = await TokenHandler.shared.getToken()
+
+        const URL = `${serverURL}/api/v1/projects/get_project_tasks?p_id=${p_id}`
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const response = await axios.get(URL, config)
+            console.log("RESP", response)
+            let tasks = response?.data?.tasks
+            if (tasks?.lenght === 0) return []
+            for (let i in tasks) {
+                tasks[i].id = String(tasks[i].id)
+                tasks[i].start = new Date(Date.parse(tasks[i].start)).toISOString().split("T")[0]
+                tasks[i].end = new Date(Date.parse(tasks[i].end)).toISOString().split("T")[0]
+            }
+            return tasks
+
+        } catch(error) {
+            console.log("ERROR", error)
+            throw error
+        }
     }
 
     async getProjectRating(id) {

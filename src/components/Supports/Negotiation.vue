@@ -8,8 +8,11 @@
         </div>
 
         <UIButton class="desktopOnly" :style="!model?.decision ? 'primary' : 'secondary'">Перейти</UIButton>
-        <span class="negotiation__icon mobileOnly">
-            <i class="icon-arrow-right"></i>
+        <span class="mobileOnly">
+            <span class="negotiation__icon">
+                <span class="negotiation__indicator" v-if="!model?.decision"></span>
+                <i class="icon-arrow-right"></i>
+            </span>
         </span>
     </div>
 </template>

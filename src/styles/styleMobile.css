@@ -466,6 +466,13 @@
   .suggestProject__projectsCaption {
     font-size: 15px;
   }
+  .suggestionsPage {
+    width: unset;
+    margin: 0 20px;
+    margin-bottom: 25px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
   .suggestionsPage__caption {
     font-size: 15px;
   }
@@ -563,6 +570,15 @@
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
+  }
+  .projectSearchingPage__gantFooter {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .projectSearchingPage__gantFooter .button {
+    width: 100%;
   }
   .makerResponse {
     height: unset;

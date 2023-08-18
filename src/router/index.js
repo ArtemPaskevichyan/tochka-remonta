@@ -40,6 +40,7 @@ import TestPage from "@/public/pages/message/TestPage.vue"
 
 import {UserDataController} from "@/helpers/UserDataController.js"
 
+const DEFALT_TITLE = "Точка ремонта"
 const routes = [
   {
     path: '/test',
@@ -106,6 +107,9 @@ const routes = [
     name: 'documentation',
     component: APIPage,
     props: true,
+    meta: {
+      title: "API Документация",
+    }
   },
 
   {
@@ -236,6 +240,8 @@ router.beforeEach(async (to, from) => {
 
     if (role == "customer" && prefix == "maker" || role == "contractor" && prefix == "user") return { name: "accessDeniedPage" }
   }
+
+  document.title = to.meta.title ?? DEFALT_TITLE
 
   return true
 })

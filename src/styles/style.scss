@@ -2185,6 +2185,7 @@ img {
         align-items: center;
         flex-grow: 1;
         flex-wrap: wrap;
+        gap: 10px 14px;
     }
 
     &__button {
@@ -2684,6 +2685,16 @@ img {
         align-items: center;
         color: $placeholder-text-color;
     }
+
+    &__gantFooter {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+    }
     
     &__photosButton {
         margin-top: 30px;
@@ -2993,6 +3004,7 @@ img {
     background-color: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
+    gap: 10px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -3008,7 +3020,12 @@ img {
     }
 
     &__content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         color: $secondary-text-color;
+        flex-wrap: wrap;
+        gap: 0 10px;
         font: {
             size: 20px;
             weight: $font-regular;
@@ -3017,7 +3034,6 @@ img {
 
     &__date {
         color: $light-text-color;
-        margin-left: 10px;
         font: {
             size: 15px;
             weight: $font-regular;
@@ -3025,7 +3041,19 @@ img {
     }
 
     &__icon {
-        color: $grey-color
+        color: $grey-color;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: 4px;
+    }
+
+    &__indicator {
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: $background-red;
     }
 }
 
@@ -3772,8 +3800,6 @@ img {
         width: 100%;
         display: flex;
         justify-content: space-between;
-        margin-right: 14px;
-        
     }
 }
 
@@ -3964,6 +3990,7 @@ img {
         }
 
         &Label {
+            font-size: 14px;
             color: $placeholder-text-color;
         }
     }

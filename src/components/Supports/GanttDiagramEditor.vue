@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import { toRaw } from 'vue';
+
 import { GanttHelper } from "@/helpers/GanttHelper";
 import UIButton from "@/components/Buttons/UIButton.vue";
 import UISwitch from "@/components/FormComponents/UISwitch.vue"
@@ -70,6 +72,7 @@ export default {
       ganttMessage: "",
       pickedBar: undefined,
       tasks: [],
+      changed: false,
       ganttStyle: [
         {id: 0, title: "День"},
         {id: 1, title: "Неделя"},
@@ -85,7 +88,7 @@ export default {
   },
   methods: {
     onMounted() {
-      this.tasks = this.tasksProp
+      this.tasks = JSON.parse(JSON.stringify(this.tasksProp))
       this.ganttHelper = new GanttHelper({
         on_click: this.selectBar,
         on_date_change: this.dateChange,
@@ -206,8 +209,28 @@ export default {
       this.ganttHelper.changeViewMode(mode)
     },
 
+    hasChanges() {
+      console.log("HC", this.tasks, this.tasks.length)
+      if (this.tasks.length != this.tasksProp.length) return true
+      for (let i in this.tasks) {
+        console.log(i,this.tasks[i], this.tasksProp[i])
+        if (this.tasks[i].start != this.tasksProp[i].start || this.tasks[i].end != this.tasksProp[i].end) return true
+      }
+      return false
+    },
+
     commitChanges() {
-      this.emit("commit", this.tasks)
+      if (this.hasChanges()) {
+        this.$emit("commit", {
+          taskList: toRaw(this.tasks),
+          changed: true,
+        })
+      } else {
+        this.$emit("commit", {
+          taskList: toRaw(this.tasks),
+          changed: false,
+        })
+      }
     },
   },
   mounted() {

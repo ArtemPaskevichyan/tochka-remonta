@@ -37,6 +37,20 @@
                 <div class="projectSearchingPage__gantDiagram" :id="ganttId" :class="{skeleton: gantIsLoading}">
                     <div v-if="gantTasksList?.length == 0" class="projectSearchingPage__gantDiagramMessage">{{ gantMessage }}</div>
                 </div>
+                <div class="projectSearchingPage__gantFooter" v-if="hasNewDiagram && shownNewDiagram">
+                    <div class="projectSearchingPage__caption">
+                        Предложенный измененный план график
+                    </div>
+                    <UIButton :style="'default'" @click="showHideNewDiagram">Показать нынешний график</UIButton>
+                </div>
+                <div class="projectSearchingPage__gantFooter" v-else-if="hasNewDiagram && !shownNewDiagram">
+                    <div class="projectSearchingPage__caption">
+                        Вы предложили измененный план график
+                    </div>
+                    <UINotificationIndicatiorHolder :amount="-1" :displayZero="true">
+                        <UIButton :style="'default'" @click="showHideNewDiagram">Предложенный график</UIButton>
+                    </UINotificationIndicatiorHolder>
+                </div>
             </div>
 
             <!-- <div class="projectSearchingPage__block">
@@ -66,7 +80,7 @@
         <NegotiationCreation v-if="modalContentType == 'neg_c'" @send="handleNegotiationCreation"/>
         <ProjectPhotosView v-if="modalContentType == 'pts'" :imageNames="eventImageNames"/>
         <CompleteProjectForMaker v-if="modalContentType == 'cpl'" @complete="completeProject"/>
-        <GanttDiagramEditor v-if="modalContentType == 'e_dia'" :tasksProp="gantTasksList"></GanttDiagramEditor>
+        <GanttDiagramEditor v-if="modalContentType == 'e_dia'" :tasksProp="gantTasksList" @commit="saveGanttTasks"></GanttDiagramEditor>
     </UIModal>
 
     <UILoadingWall v-if="isLoading"/>
@@ -79,6 +93,7 @@ import UILink from '@/components/FormComponents/UILink.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIModal from '@/components/UIModal.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue';
+import UINotificationIndicatiorHolder from '@/components/NotificationIndicator/UINotificationIndicatiorHolder.vue';
 
 import Negotiation from '@/components/Supports/Negotiation.vue';
 import NegotiationView from '@/components/Supports/NegotiationView.vue';
@@ -99,7 +114,7 @@ export default {
         UIGalery, UIHeader, UILink, UIButton, UILoadingWall,
         Negotiation, NegotiationView, Event, GaleryImage, UIModal,
         ProjectPhotosView, CompleteProjectForMaker, EventCreation,
-        NegotiationCreation, GanttDiagramEditor,
+        NegotiationCreation, GanttDiagramEditor, UINotificationIndicatiorHolder,
     },
     data() {
         return {
@@ -115,55 +130,9 @@ export default {
             gantHelper: new GanttHelper(),
             gantMessage: "Загрузка плана работ...",
             gantIsLoading: true,
-            gantTasksList: [
-                {
-                    id: '0',
-                    name: 'Заливка фундамента',
-                    start: '2023-07-20',
-                    end: '2023-07-27',
-                    progress: 100,
-                },
-                {
-                    id: '1',
-                    name: 'Выравнивание полов',
-                    start: '2023-07-28',
-                    end: '2023-07-30',
-                    progress: 100,
-                    custom_class: 'bar-milestone'
-                },
-                {
-                    id: '2',
-                    name: 'Возведение каркаса',
-                    start: '2023-08-01',
-                    end: '2023-08-10',
-                    progress: 100,
-                    custom_class: 'bar-milestone'
-                },
-                {
-                    id: '3',
-                    name: 'Очистка территории',
-                    start: '2023-08-04',
-                    end: '2023-08-12',
-                    progress: 100,
-                    custom_class: 'bar-milestone'
-                },
-                {
-                    id: '4',
-                    name: 'Установка кровли',
-                    start: '2023-08-11',
-                    end: '2023-08-14',
-                    progress: 100,
-                    custom_class: 'bar-milestone'
-                },
-                {
-                    id: '5',
-                    name: 'Внутренняя работа',
-                    start: '2023-08-15',
-                    end: '2023-08-27',
-                    progress: 70,
-                    custom_class: 'bar-milestone'
-                },
-            ],
+            gantTasksList: [],
+            hasNewDiagram: false,
+            shownNewDiagram: false,
         }
     },
     methods: {
@@ -171,6 +140,7 @@ export default {
             try {
                 this.isNegotiationsLoading = true
                 this.negotiations = await this.projectController.getNegotiations(this.project?.id, 3)
+                this.lookForNewDiagramm()
             } catch(e) {
                 //
             } finally {
@@ -266,22 +236,68 @@ export default {
             }
         },
         async loadDiagram() {
-            // try {
-            //     this.tasks = await this.projectController.getDiagramTasks(this.project?.id)
-            // } catch(error) {
-            //     console.log("HANDLED ERROR", error)
-            //     this.gantMessage = "Похоже, вы еще не заполнил план работ"
-            //     return
-            // } finally {
-            //     this.gantIsLoading = false
-            // }
+            try {
+                this.gantTasksList = await this.projectController.getDiagramTasks(this.project?.id)
+            } catch(error) {
+                console.log("HANDLED ERROR", error)
+                this.gantMessage = "На платформе появилась ошибка. Пожалуйста, проверьте этот раздел позже"
+                return
+            } finally {
+                this.gantIsLoading = false
+            }
 
-            // if (this.tasks?.length > 0) {
-            //     this.gantHelper.createDiagram('#' + this.ganttId, this.tasks)
-            // }
-            this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
-            this.gantIsLoading = false
+            if (this.gantTasksList?.length > 0) {
+                this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
+            } else {
+                this.gantMessage = "Похоже, вы еще не заполнил план работ"
+            }
+            // this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
         },
+
+        async saveGanttTasks({taskList, changed}) {
+            console.log(changed)
+            if (changed) {
+                try {
+                    this.projectController.createDiagramNegotiation(taskList, this.project?.id, this.project?.customer_uuid)
+                    this.isModalOpened = false
+                    this.$router.go()
+                } catch(e) {
+                    console.log("ERROR", e)
+                }
+            } else {
+                console.log("NO CHANGES")
+            }
+        },
+
+        lookForNewDiagramm() {
+            for (let n of this.negotiations) {
+                if (!n.decision && n.type == "diagram") {
+                    for (let i in n.project_tasks) {
+                        n.project_tasks[i].id = String(n.project_tasks[i].id)
+                        n.project_tasks[i].start = new Date(Date.parse(n.project_tasks[i].start))
+                            .toISOString()
+                            .split("T")[0]
+                        n.project_tasks[i].end = new Date(Date.parse(n.project_tasks[i].end))
+                            .toISOString()
+                            .split("T")[0]
+                    }
+
+                    this.hasNewDiagram = n.project_tasks
+                    break
+                }
+            }
+        },
+
+        showHideNewDiagram() {
+            this.shownNewDiagram = !this.shownNewDiagram
+            
+            if (this.shownNewDiagram) {
+                this.gantHelper.refresh(this.hasNewDiagram)
+            } else {
+                this.gantHelper.refresh(this.gantTasksList)
+            }
+        },
+
         async onMounted() {
             this.isLoading = true
             var uuid = (await UserDataController.shared.getData()).uuid
