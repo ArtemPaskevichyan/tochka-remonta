@@ -4,7 +4,7 @@
     <iframe
       id="chat"
       ref="chat"
-      src="https://chat.tochka-remonta.site?layout=embedded"
+      src="https://chat.tochka-remonta.site/channel/general?layout=embedded"
       frameborder="0"
     >
     </iframe>
@@ -34,12 +34,19 @@ export default {
         return
       }
       
+      console.log("Stage 1")
       const chat = this.$refs.chat
-      chat.contentWindow.postMessage({
-        externalCommand: "login-with-token",
-        token: authToken,
-      }, "*")
-      
+      // chat.contentWindow.postMessage({
+      //   externalCommand: "login-with-token",
+      //   token: authToken,
+      // }, "*")
+
+
+      // chat.contentWindow.postMessage({
+      //   externalCommand: 'go',
+      //   path: '/admin/General'
+      // }, '*')
+      console.log("Stage 2")
       // axios.post("https://chat.tochka-remonta.site/api/v1/login", {
       //   user: "new-user",
       //   password: "new-users-passw0rd",
