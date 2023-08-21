@@ -8,18 +8,40 @@
 
             <div class="myProjectsPage__block" v-if="activeList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Активные проекты</div>
-                <ActiveProjectCard v-for="proj in activeList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'" :imageName="proj.main_picture"
-                :progress="0" @action="$router.push('/maker/project/' + String(proj.id))"/>
+                <ActiveProjectCard
+                    v-for="proj in activeList"
+                    :title="proj.title"
+                    :projectId="proj.id"
+                    :key="proj.id"
+                    :status="'Реализация'"
+                    :imageName="proj.main_picture"
+                    :progress="proj.progress ?? 0"
+                    @action="$router.push('/maker/project/' + String(proj.id))"
+                />
 
                 <div class="myProjectsPage__blockFooter">
-                    <UIButton :style="'primary'" @click="$router.push('/maker/createProject')">Добавить проект <i class="icon-plus inline-icon"></i></UIButton>
+                    <UIButton
+                        :style="'primary'"
+                        @click="$router.push('/maker/createProject')"
+                    >
+                        Добавить проект 
+                        <i class="icon-plus inline-icon"></i>
+                    </UIButton>
                 </div>
             </div>
 
             <div class="myProjectsPage__block" v-if="searchList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Поиск исполнителя</div>
-                <SearchingProjectCard v-for="proj in searchList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Поиск исполнителя'" :responses="0"
-                :imageName="proj.main_picture" @action="$router.push('/maker/project/' + String(proj.id))"/>
+                <SearchingProjectCard
+                    v-for="proj in searchList"
+                    :title="proj.title"
+                    :projectId="proj.id"
+                    :key="proj.id"
+                    :status="'Поиск исполнителя'"
+                    :responses="0"
+                    :imageName="proj.main_picture"
+                    @action="$router.push('/maker/project/' + String(proj.id))"
+                />
 
                 <div class="myProjectsPage__blockFooter">
                     <UIButton @click="$router.push('/maker/search')" :style="'primary'">Искать заказчика</UIButton>
@@ -29,8 +51,17 @@
 
             <div class="myProjectsPage__block" v-if="completedList.length > 0 && !isLoading">
                 <div class="titleText pageTitle">Завершенные проекты</div>
-                <ArchiveProjectCard v-for="proj in completedList" :title="proj.title" :projectId="proj.id" :key="proj.id" :status="'Завершен'"
-                :imageName="proj.main_picture" :description="proj.description" @action="$router.push('/maker/project/' + String(proj.id))" :rating="proj.rating"/>
+                <ArchiveProjectCard
+                    v-for="proj in completedList"
+                    :title="proj.title"
+                    :projectId="proj.id"
+                    :key="proj.id"
+                    :status="'Завершен'"
+                    :imageName="proj.main_picture"
+                    :description="proj.description"
+                    @action="$router.push('/maker/project/' + String(proj.id))"
+                    :rating="proj.rating"
+                />
             </div>
 
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">

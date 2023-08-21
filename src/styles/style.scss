@@ -2238,8 +2238,9 @@ img {
     }
 
     &__pageHeader {
-        width: min-content;
         margin: 20px auto;
+        display: flex;
+        justify-content: center;
     }
 
     &__loader {
@@ -2616,6 +2617,10 @@ img {
 
         .button {
             margin-left: 10px;
+        }
+
+        .link {
+            cursor: pointer;
         }
     }
 
@@ -4034,5 +4039,11 @@ img {
         }
     }
 }
+
+.eventList, .negotiationList {
+    padding: 20px;
+    min-height: 80vh;
+}
+
 
 

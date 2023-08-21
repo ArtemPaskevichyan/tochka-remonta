@@ -10,8 +10,9 @@
                         Согласования
                         <UIButton :style="'primary'" @click="createNegotiation">Создать</UIButton>
                     </div>
-
-                    <!-- все {{negotiations?.length}} согласований -->
+                    <span class="link" @click="openNegotiationList">
+                        все {{negotiations?.length}}
+                    </span>
                 </div>
                 <!-- <Negotiation v-for="n in negotiations?.slice(-3)" :key="n.id" :model="n" @open="openNegotiation(n)"/> -->
                 <Negotiation v-for="n in negotiations?.slice(0, 3)" :key="n.id" :model="n" @open="openNegotiation(n)"/>
@@ -20,9 +21,10 @@
 
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">
-                    <div>
-                        События
-                    </div>
+                    События
+                    <span class="link" @click="openEventList">
+                        все {{eventList?.length}}
+                    </span>
                 </div>
                 <!-- <Event v-for="e in eventList?.slice(-3)" :key="e.id" :model="e"/> -->
                 <Event v-for="e in eventList" :key="e.id" :model="e"/>
@@ -81,6 +83,8 @@
         <ProjectPhotosView v-if="modalContentType == 'pts'" :imageNames="eventImageNames"/>
         <CompleteProjectForMaker v-if="modalContentType == 'cpl'" @complete="completeProject"/>
         <GanttDiagramEditor v-if="modalContentType == 'e_dia'" :tasksProp="gantTasksList" @commit="saveGanttTasks"></GanttDiagramEditor>
+        <NegotiationList v-if="modalContentType == 'neg_l'" :negotiationList="negotiations" @open="openNegotiation"/>
+        <EventList v-if="modalContentType == 'evt_l'" :eventList="eventList"/>
     </UIModal>
 
     <UILoadingWall v-if="isLoading"/>
@@ -97,8 +101,10 @@ import UINotificationIndicatiorHolder from '@/components/NotificationIndicator/U
 
 import Negotiation from '@/components/Supports/Negotiation.vue';
 import NegotiationView from '@/components/Supports/NegotiationView.vue';
+import NegotiationList from '@/components/Supports/NegotiationList.vue';
 import ProjectPhotosView from '@/components/Supports/ProjectPhotosView.vue';
 import Event from '@/components/Supports/Event.vue';
+import EventList from '@/components/Supports/EventList.vue';
 import GaleryImage from '@/components/Galery/GaleryImage.vue';
 import CompleteProjectForMaker from '@/components/Supports/CompleteProjectForMaker.vue';
 import EventCreation from '@/components/Supports/EventCreation.vue';
@@ -115,6 +121,7 @@ export default {
         Negotiation, NegotiationView, Event, GaleryImage, UIModal,
         ProjectPhotosView, CompleteProjectForMaker, EventCreation,
         NegotiationCreation, GanttDiagramEditor, UINotificationIndicatiorHolder,
+        NegotiationList, EventList,
     },
     data() {
         return {
@@ -170,6 +177,14 @@ export default {
         },
         editDiagram() {
             this.modalContentType = "e_dia"
+            this.isModalOpened = true
+        },
+        openNegotiationList() {
+            this.modalContentType = 'neg_l'
+            this.isModalOpened = true
+        },
+        openEventList() {
+            this.modalContentType = 'evt_l'
             this.isModalOpened = true
         },
         async handleEventCreation(data) {

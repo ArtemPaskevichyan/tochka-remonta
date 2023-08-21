@@ -5,13 +5,22 @@
         <div class="projectSearchingPage backgroundCard">
             <UIGalery :imageNames="imageNames" :orientation="'h'"/>
             <div class="projectSearchingPage__block">
-                <div class="projectSearchingPage__blockTitle">Согласование ключевых вопросов</div>
+                <div class="projectSearchingPage__blockTitle">Согласование ключевых вопросов
+                    <span class="link" @click="openNegotiationList">
+                        все {{negotiations?.length}}
+                    </span>
+                </div>
                 <Negotiation v-for="n in negotiations?.slice(0, 3)" :key="n.id" :model="n" @open="openNegotiation(n)"/>
                 <div class="projectSearchingPage__caption" v-if="negotiations?.length == 0  || negotiations == null">Вопросов для согласования пока нет</div>
             </div>
 
             <div class="projectSearchingPage__block">
-                <div class="projectSearchingPage__blockTitle">События</div>
+                <div class="projectSearchingPage__blockTitle">
+                    События
+                    <span class="link" @click="openEventList">
+                        все {{eventList?.length}}
+                    </span>
+                </div>
                 <Event v-for="e in eventList?.slice(-3)" :key="e.id" :model="e"/>
                 <div class="projectSearchingPage__caption" v-if="eventList?.length == 0">Событий пока нет</div>
             </div>
@@ -59,6 +68,8 @@
         <NegotiationView v-if="modalContentType == 'neg'" :model="negotiationModel" @allow="negotiationAllowed" @deny="negotiationDenied"/>
         <ProjectPhotosView v-if="modalContentType == 'pts'" :imageNames="eventImageNames"/>
         <CompleteProject v-if="modalContentType == 'cpl'" @complete="completeProject"/>
+        <NegotiationList v-if="modalContentType == 'neg_l'" :negotiationList="negotiations" @open="openNegotiation"/>
+        <EventList v-if="modalContentType == 'evt_l'" :eventList="eventList"/>
     </UIModal>
 
     <UILoadingWall v-if="isLoading"/>
@@ -75,8 +86,10 @@ import UINotificationIndicatiorHolder from '@/components/NotificationIndicator/U
 
 import Negotiation from '@/components/Supports/Negotiation.vue';
 import NegotiationView from '@/components/Supports/NegotiationView.vue';
+import NegotiationList from '@/components/Supports/NegotiationList.vue';
 import ProjectPhotosView from '@/components/Supports/ProjectPhotosView.vue';
 import Event from '@/components/Supports/Event.vue';
+import EventList from '@/components/Supports/EventList.vue';
 import GaleryImage from '@/components/Galery/GaleryImage.vue';
 import CompleteProject from '@/components/Supports/CompleteProject.vue';
 import { serverURL } from '@/preferenses';
@@ -90,6 +103,7 @@ export default {
         UIGalery, UIHeader, UILink, UIButton, UILoadingWall,
         Negotiation, NegotiationView, Event, GaleryImage, UIModal,
         ProjectPhotosView, CompleteProject, UINotificationIndicatiorHolder,
+        NegotiationList, EventList,
     },
     data() {
         return {
@@ -129,6 +143,14 @@ export default {
         },
         openCompletion() {
             this.modalContentType = 'cpl'
+            this.isModalOpened = true
+        },
+        openNegotiationList() {
+            this.modalContentType = 'neg_l'
+            this.isModalOpened = true
+        },
+        openEventList() {
+            this.modalContentType = 'evt_l'
             this.isModalOpened = true
         },
         async negotiationDenied(text) {

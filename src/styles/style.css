@@ -2462,10 +2462,13 @@ img {
   width: 250px;
 }
 .myProjectsPage__pageHeader {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
   margin: 20px auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .myProjectsPage__loader {
   margin: 50px auto;
@@ -2870,6 +2873,9 @@ img {
 }
 .projectSearchingPage__blockTitle .button {
   margin-left: 10px;
+}
+.projectSearchingPage__blockTitle .link {
+  cursor: pointer;
 }
 .projectSearchingPage__parameterTitle, .projectSearchingPage__parameterValue {
   margin-top: 6px;
@@ -4502,4 +4508,9 @@ img {
 .API__content iframe {
   width: 100%;
   height: 100%;
+}
+
+.eventList, .negotiationList {
+  padding: 20px;
+  min-height: 80vh;
 }

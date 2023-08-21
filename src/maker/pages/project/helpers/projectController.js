@@ -326,7 +326,7 @@ class ProjectController {
                 tasks[i].start = new Date(Date.parse(tasks[i].start)).toISOString().split("T")[0]
                 tasks[i].end = new Date(Date.parse(tasks[i].end)).toISOString().split("T")[0]
             }
-            return tasks
+            return tasks ?? []
 
         } catch(error) {
             console.log("ERROR", error)
