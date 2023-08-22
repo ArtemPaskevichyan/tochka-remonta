@@ -40,14 +40,14 @@ export default {
         password: 'Vadzo4-zonfik-xotkij'
       }).then((repsonse) => {
         const chat = this.$refs.chat
-        window.parent.postMessage({
+        chat.contentWindow.postMessage({
           externalCommand: "login",
           token: authToken,
         }, "https://chat.tochka-remonta.site")
-        window.parent.postMessage({
+        chat.contentWindow.postMessage({
           externalCommand: "logout",
         }, "https://chat.tochka-remonta.site")
-        window.parent.postMessage({
+        chat.contentWindow.postMessage({
           externalCommand: "/channel/general",
         }, "https://chat.tochka-remonta.site")
       })
