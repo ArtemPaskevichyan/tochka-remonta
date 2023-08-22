@@ -35,20 +35,19 @@ export default {
         return
       }
 
-      axios.post("https://chat.tochka-remonta.site/api/v1/login", {
-        username: 'artempaskevichyan',
-        password: 'Vadzo4-zonfik-xotkij'
-      }).then((repsonse) => {
+      axios.post("https://chat.tochka-remonta.site/api/v1/login")
+      .then((repsonse) => {
         const chat = this.$refs.chat
         chat.contentWindow.postMessage({
           externalCommand: "logout",
         }, "https://chat.tochka-remonta.site")
         chat.contentWindow.postMessage({
-          externalCommand: "login",
+          externalCommand: "login-with-token",
           token: authToken,
         }, "https://chat.tochka-remonta.site")
         chat.contentWindow.postMessage({
-          externalCommand: "/channel/general",
+          externalCommand: "go",
+          path: "/channel/general",
         }, "https://chat.tochka-remonta.site")
       })
       
