@@ -26,50 +26,14 @@ export default {
   },
   methods: {
     async onMounted() {
-      let authToken
-      try {
-        authToken = await this.getAuthToken()
-      } catch(e) {
-        console.log("ERROR CHAT", e)
-        this.$router.push("/login")
-        return
-      }
-
       axios.post("https://chat.tochka-remonta.site/api/v1/login")
       .then((repsonse) => {
-        const chat = this.$refs.chat
-        chat.contentWindow.postMessage({
-          externalCommand: "logout",
-        }, "https://chat.tochka-remonta.site")
-        chat.contentWindow.postMessage({
-          externalCommand: "login-with-token",
-          token: authToken,
-        }, "https://chat.tochka-remonta.site")
-        chat.contentWindow.postMessage({
-          externalCommand: "go",
-          path: "/channel/general",
-        }, "https://chat.tochka-remonta.site")
+        this.commands()
       })
-      
-      // console.log("Stage 1", authToken)
-      
-
-      // console.log("Stage 2")
-
-      // chat.contentWindow.postMessage({
-      //   externalCommand: 'go',
-      //   path: '/admin/General'
-      // }, '*')
-      // axios.post("https://chat.tochka-remonta.site/api/v1/login", {
-      //   user: "new-user",
-      //   password: "new-users-passw0rd",
-      // })
-      // .then((response) => {
-      //   console.log("CHAT RESPONSE", response)
-      // })
-      // .catch((error) => {
-      //   console.log("CHAT ERROR", error)
-      // })
+      .catch((error) => {
+        console.log("CHAT LOGIN ERROR", error)
+        this.commands()
+      })
     },
 
     async getAuthToken() {
@@ -84,6 +48,30 @@ export default {
       const response = await axios.get(URL, config)
       console.log(response)
       return response?.data?.authToken
+    },
+
+    async commands() {
+      let authToken
+      try {
+        authToken = await this.getAuthToken()
+      } catch(e) {
+        console.log("ERROR CHAT", e)
+        this.$router.push("/login")
+        return
+      }
+
+      const chat = this.$refs.chat
+        chat.contentWindow.postMessage({
+          externalCommand: "logout",
+        }, "https://chat.tochka-remonta.site")
+        chat.contentWindow.postMessage({
+          externalCommand: "login-with-token",
+          token: authToken,
+        }, "https://chat.tochka-remonta.site")
+        chat.contentWindow.postMessage({
+          externalCommand: "go",
+          path: "/channel/general",
+        }, "https://chat.tochka-remonta.site")
     }
   },
   mounted() {
