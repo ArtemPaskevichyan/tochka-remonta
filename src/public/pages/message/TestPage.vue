@@ -4,7 +4,7 @@
     <iframe
       id="chat"
       ref="chat"
-      src="https://chat.tochka-remonta.site/channel/general?layout=embedded"
+      src="https://chat.tochka-remonta.site/?layout=embedded"
       frameborder="0"
     >
     </iframe>
@@ -30,23 +30,37 @@ export default {
       try {
         authToken = await this.getAuthToken()
       } catch(e) {
+        console.log("ERROR CHAT", e)
         this.$router.push("/login")
         return
       }
-      
-      console.log("Stage 1")
-      const chat = this.$refs.chat
-      chat.contentWindow.postMessage({
-        event: "login-with-token",
-        loginToken: authToken,
-      }, "https://chat.tochka-remonta.site")
 
+      axios.post("https://chat.tochka-remonta.site/api/v1/login", {
+        username: 'artempaskevichyan',
+        password: 'Vadzo4-zonfik-xotkij'
+      }).then((repsonse) => {
+        const chat = this.$refs.chat
+        window.parent.postMessage({
+          externalCommand: "login",
+          token: authToken,
+        }, "https://chat.tochka-remonta.site")
+        window.parent.postMessage({
+          externalCommand: "logout",
+        }, "https://chat.tochka-remonta.site")
+        window.parent.postMessage({
+          externalCommand: "/channel/general",
+        }, "https://chat.tochka-remonta.site")
+      })
+      
+      // console.log("Stage 1", authToken)
+      
+
+      // console.log("Stage 2")
 
       // chat.contentWindow.postMessage({
       //   externalCommand: 'go',
       //   path: '/admin/General'
       // }, '*')
-      console.log("Stage 2")
       // axios.post("https://chat.tochka-remonta.site/api/v1/login", {
       //   user: "new-user",
       //   password: "new-users-passw0rd",
@@ -69,6 +83,7 @@ export default {
       const URL = `${serverURL}/api/v1/auth/get_chat_token`
 
       const response = await axios.get(URL, config)
+      console.log(response)
       return response?.data?.authToken
     }
   },
