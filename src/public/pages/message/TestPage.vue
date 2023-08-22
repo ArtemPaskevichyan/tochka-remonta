@@ -39,7 +39,7 @@ export default {
       chat.contentWindow.postMessage({
         externalCommand: "login-with-token",
         token: authToken,
-      }, "*")
+      }, "https://chat.tochka-remonta.site")
 
 
       // chat.contentWindow.postMessage({
