@@ -36,10 +36,10 @@ export default {
       
       console.log("Stage 1")
       const chat = this.$refs.chat
-      // chat.contentWindow.postMessage({
-      //   externalCommand: "login-with-token",
-      //   token: authToken,
-      // }, "*")
+      chat.contentWindow.postMessage({
+        externalCommand: "login-with-token",
+        token: authToken,
+      }, "*")
 
 
       // chat.contentWindow.postMessage({
