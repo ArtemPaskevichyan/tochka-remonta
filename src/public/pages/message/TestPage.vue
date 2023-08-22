@@ -41,11 +41,11 @@ export default {
       }).then((repsonse) => {
         const chat = this.$refs.chat
         chat.contentWindow.postMessage({
-          externalCommand: "login",
-          token: authToken,
+          externalCommand: "logout",
         }, "https://chat.tochka-remonta.site")
         chat.contentWindow.postMessage({
-          externalCommand: "logout",
+          externalCommand: "login",
+          token: authToken,
         }, "https://chat.tochka-remonta.site")
         chat.contentWindow.postMessage({
           externalCommand: "/channel/general",
