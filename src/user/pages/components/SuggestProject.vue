@@ -100,7 +100,7 @@ export default {
                 if (response?.data?.msg == "you joined to this project") {
                     this.callInviteAlert(p_id)
                 } else {
-
+                    this.$router.push({name: "userOutcomingSuggestions"})
                 }
             } catch(error) {
                 console.log("ERROR", error)
@@ -108,7 +108,10 @@ export default {
 
                 switch(msg) {
                     case 'request already sent':
-                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [
+                            {label: "OK", callback: () => this.isAlertOpened = false, style: 'secondary'},
+                            {style: "primary", callback: () => this.$router.push({ name: "userOutcomingSuggestions" }), label: "К предложению"},
+                        ])
                         break;
                 }
             }
@@ -123,8 +126,8 @@ export default {
             this.errorToAlert.title = "Встречное предложение!"
             this.errorToAlert.text = "Исполнитель уже предложил Вам сотрудничество по этому проекту. Примите его, чтобы начать работу."
             this.errorToAlert.buttons = [
-                {style: "secondary", callback: () => {this.isAlertOpened = false}, label: "Отмена"},
-                {style: "primary", callback: () => {this.$router.push(`/user/project/${p_id}`)}, label: "К предложению"},
+                {style: "secondary", callback: () => this.isAlertOpened = false, label: "Отмена"},
+                {style: "primary", callback: () => this.$router.push(`/user/project/${p_id}`), label: "К предложению"},
                 // {style: "primary", callback: () => {this.$router.push(`/user/project/${p_id}`)}, label: "Назначить исполнителем"},
             ]
             this.isAlertOpened = true

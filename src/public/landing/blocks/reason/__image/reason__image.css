@@ -1,0 +1,11 @@
+.reason__image{
+  width: calc(90/426*100%);
+  aspect-ratio: 1/1;
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}

@@ -1,0 +1,47 @@
+.footer {
+  margin-top: 70px;
+  background-color: #F5F5F5;
+  display: flex;
+  flex-direction: row;
+  gap: 20px 80px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.footer__link {
+  text-decoration: underline;
+  color: #ACACAC;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.footer__links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 60px;
+}
+
+.footer__appInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 60px;
+}
+
+.footer__appLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer__developer {
+  margin-left: auto;
+}
+
+.footer__logo {
+  width: 100px;
+}
+
+.footer__logo img {
+  width: 100%;
+}

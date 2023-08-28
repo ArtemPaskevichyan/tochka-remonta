@@ -419,12 +419,19 @@
   .makerPage__makerInfo {
     width: 100%;
   }
+  .makerPage__contactsButton {
+    width: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
   .makerPage__controls {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     gap: 8px;
   }
-  .makerPage__controls .button {
+  .makerPage__controls .button:not(.square) {
     width: 100%;
   }
   .makerPage__rating {

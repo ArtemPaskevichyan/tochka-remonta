@@ -550,11 +550,16 @@
       width: 100%;
     }
 
+    &__contactsButton {
+      width: 100%;
+      flex-direction: row;
+    }
+
     &__controls {
       flex-wrap: wrap;
       gap: 8px;
 
-      .button {
+      .button:not(.square) {
         width: 100%;
       }
     }

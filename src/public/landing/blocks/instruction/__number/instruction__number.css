@@ -1,0 +1,18 @@
+.instruction__number{
+  margin: 0;
+  position: absolute;
+  top: 35%;
+  left: -18px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 300px;
+  color: rgba(192, 192, 192, 0.2);
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  }

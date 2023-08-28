@@ -1,0 +1,10 @@
+.intro__link{
+  margin-top: auto;
+  text-decoration: none;
+  color: var(--c-theme-primary);
+  cursor: pointer;
+  font-size: var(--f-z-regular);
+  font-weight: var(--f-w-medium);
+}
+
+

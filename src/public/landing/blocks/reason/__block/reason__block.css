@@ -1,0 +1,11 @@
+.reason__block{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: calc(426/1400*100%);
+  aspect-ratio: 426/448;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  margin-right: 19px;
+}

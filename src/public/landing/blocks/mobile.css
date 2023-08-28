@@ -1,0 +1,166 @@
+@media screen and ( max-width: 1100px ) {
+  .root {
+    padding: 0;
+    --f-z-large: 34px; 
+    --f-z-medium: 22px;
+    --f-z-regular: 14px;
+  }
+
+  .blockTitle {
+    box-sizing: border-box;
+    padding: 0 20px;
+    line-height: 1.3em;
+    font-weight: var(--f-w-regular);
+  }
+
+  .cover {
+    border-radius: 0;
+    height: 500px;
+  }
+
+  .cover__content {
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .cover__title {
+    font-size: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
+
+  .cover__text {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
+
+  .cover__linkBar {
+    flex-wrap: wrap;
+    padding: 0 20px;
+    box-sizing: border-box;
+    row-gap: 10px;
+  }
+
+  .intro__text {
+    /* text-align: left; */
+  }
+
+  .instruction__text {
+    /* text-align: left; */
+  }
+
+  .instruction__grid {
+    box-sizing: border-box;
+    padding: 0 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .instruction__block {
+    max-width: 480px;
+  }
+
+  .instruction__illustration {
+    top: 35%;
+    left: 0;
+  }
+
+  .instruction__number {
+    z-index: 3;
+    color: #C0C0C0;
+    font-size: 100px;
+    left: unset;
+    top: unset;
+    bottom: 0;
+    right: 10px;
+  }
+
+  .instruction__link {
+    border-radius: 12px;
+  }
+
+  .advantages {
+    grid-template-columns: 1fr;
+    height: unset;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .advantages__illustration {
+    display: none;
+  }
+
+  .projects {
+    border-radius: 0;
+  }
+  
+  .projects__grid {
+    grid-template-rows: unset;
+    gap: 14px;
+    min-width: unset;
+    padding: 0 30%;
+  }
+
+  .projects__gridRow.ltr {
+    grid-template-columns: 1fr;
+  }
+
+  .projects__imageHolder.small {
+    display: none !important;
+  }
+
+  .projects__image_bigger1 {
+    aspect-ratio: 1/1;
+  }
+
+  .projects__gridRow.rtl {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .projects__block {
+    aspect-ratio: unset;
+    flex-direction: row;
+  }
+
+  .projects__rectangle {
+    height: calc(100% - 20px);
+    width: 1px;
+  }
+
+  .projects__months {
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .projects__sum {
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .ending {
+    width: 100%;
+    border-radius: 0;
+    height: 80vh;
+  }
+
+  .footer {
+    margin-top: 0;
+    flex-direction: column;
+  }
+
+  .header {
+    padding: 0 14px;
+  }
+}
+
+@media screen and ( max-width: 750px ) {
+  .projects__grid {
+    padding: 0 10%;
+  }
+}

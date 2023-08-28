@@ -1,0 +1,39 @@
+.projects__link{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 44px;
+  z-index: 2;
+  border-radius: 8px;
+
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 27px;
+  text-decoration: none;
+  margin: 30px auto;
+
+
+  color: #401F00;
+  background: #FFE7C3;
+
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.projects__link:hover {
+  opacity: 0.85;
+}
+

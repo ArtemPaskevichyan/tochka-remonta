@@ -278,13 +278,15 @@ export default {
 
         async setName() {
             try {
+                this.totalLoading = true
                 await this.viewModel.setName(this.name)
                 UserDataController.shared.updateData()
             
                 this.buttonStyle = 'disabled'
             } catch(e) {
                 console.log(e)
-                //
+            } finally {
+                this.totalLoading = false
             }
         },
 

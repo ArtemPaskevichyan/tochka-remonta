@@ -5,7 +5,7 @@
     <div class="outcomingSuggestions__list">
       <Suggestion v-for="s in suggestionsArray" :key="s.id" :to="s.to" :projectId="s.project_id" @deleted="deleteSuggestion(s.id)"/>
       <div class="outcomingSuggestions__caption" v-if="suggestionsArray?.length == 0">
-        Заявок, отпраленных вами не найдено
+        Заявок, отпраленных вами, не найдено
       </div>
     </div>
     <UITabBar :page="'Мои проекты'"/>

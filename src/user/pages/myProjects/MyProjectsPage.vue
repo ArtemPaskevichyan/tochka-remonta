@@ -7,7 +7,7 @@
                 Проекты, созданные вами, не найдены
             </div>
             <div class="myProjectsPage__pageHeader">
-                <UIButton :style="'primary'" @click="$router.push('/user/createProject')">Создать проект <i class="icon-plus inline-icon"></i></UIButton>
+                <UIButton :style="'primary'" @click="$router.push('/user/createProject')"><i class="icon-plus inline-icon m-r"></i> Создать проект</UIButton>
             </div>
 
             <div class="myProjectsPage__loader">

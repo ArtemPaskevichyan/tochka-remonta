@@ -1,0 +1,9 @@
+.projects__months{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 0 20px;
+}

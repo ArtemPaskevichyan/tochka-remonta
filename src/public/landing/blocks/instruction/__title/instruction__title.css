@@ -1,0 +1,12 @@
+.instruction__title{
+  margin: 0;
+  margin-top: calc(14/500*100%);
+  box-sizing: border-box;
+  padding: 0 20px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--f-z-medium);
+  line-height: 1.3em;
+  cursor: default;
+}

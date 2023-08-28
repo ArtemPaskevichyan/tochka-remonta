@@ -109,8 +109,9 @@ export default {
                 this.totalLoading = true
                 await this.viewModel.setAvatar(file)
                 UserDataController.shared.updateData()
-            } catch(e) {
                 //
+            } catch(e) {
+                console.log("LOADING AVATAR ERROR", e)
             } finally {
                 this.totalLoading = false
             }
@@ -126,13 +127,16 @@ export default {
 
         async setName() {
             try {
+                this.totalLoading = true
                 await this.viewModel.setName(this.name)
                 UserDataController.shared.updateData()
             
-                this.buttonStyle = 'disabled'
+               this.buttonStyle = 'disabled'
             } catch(e) {
                 console.log(e)
                 //
+            } finally {
+                this.totalLoading = false
             }
         },
     },

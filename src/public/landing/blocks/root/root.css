@@ -1,0 +1,73 @@
+.root {
+  max-width: 1280px;
+  margin: auto;
+  font-family: 'Manrope', 'Arial', 'Helvetica', sans-serif;
+  color: #262626;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  padding: 0 40px;
+
+  --m-section: 90px;
+  --m-base-title: 30px;
+
+  --c-theme-primary: #CD8C52;
+  --c-text-main: #262626;
+  --c-text-secondary: #676767;
+  
+  --f-z-large: 47px;
+  --f-z-medium: 30px;
+  --f-z-button-regular: 18px;
+  --f-z-regular: 16px;
+  --f-z-small: 12px;
+
+  --f-w-regular: 400;
+  --f-w-medium: 500;
+  --f-w-semibold: 600;
+
+  --nav-button-size: 44px;
+  --nav-button-background: #FFFDF7;
+  --nav-button-side-gap: 20px;
+}
+
+::selection {
+  background: #605848; /* Цвет фона */
+  color: #fff; /* Цвет текста */
+}
+
+img.fillContainer {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+body.landing img {
+  background-color: transparent;
+}
+
+.navButton {
+  background-color: var(--nav-button-background);
+  position: absolute;
+  width: var(--nav-button-size);
+  height: var(--nav-button-size);
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.navButton img {
+  height: 40%;
+}
+
+.navButton.left {
+  left: var(--nav-button-side-gap);
+}
+
+.navButton.right {
+  right: var(--nav-button-side-gap);
+}

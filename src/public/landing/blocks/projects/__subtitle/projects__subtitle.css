@@ -1,0 +1,10 @@
+.projects__subtitle{
+  margin: 0;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--f-z-regular);
+  line-height: 1.3em;
+  color: #676767;
+}
+

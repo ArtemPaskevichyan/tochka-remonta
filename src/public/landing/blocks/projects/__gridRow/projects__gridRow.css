@@ -1,0 +1,12 @@
+.projects__gridRow {
+  display: grid;
+  gap: 20px;
+}
+
+.projects__gridRow.ltr {
+  grid-template-columns: 2fr 1fr;
+}
+
+.projects__gridRow.rtl {
+  grid-template-columns: 1fr 2fr;
+}

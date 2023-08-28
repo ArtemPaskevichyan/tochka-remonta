@@ -1,0 +1,6 @@
+.instruction{
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  margin-top: var(--m-section);
+}

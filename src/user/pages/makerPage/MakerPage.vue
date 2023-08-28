@@ -15,7 +15,16 @@
                         <UIRating :rating="maker?.rating ?? 0"/>
                     </div>
                     <div class="makerPage__controls">
-                        <UIButton :style="maker?.avatar ? 'secondary' : 'disabled'" @click="smoothScrollTo('#MPContacts')">Контакты</UIButton>
+                        <span class="makerPage__contactsButton">
+                            <UIButton :style="maker?.avatar ? 'secondary' : 'disabled'" @click="smoothScrollTo('#MPContacts')">Контакты</UIButton>
+                            <UIButton
+                                :style="maker?.avatar ? 'secondary square' : 'disabeld'"
+                                title="Написать пользователю"
+                                @click="goToChat"
+                            >
+                                <i class="icon-chat"></i>
+                            </UIButton>
+                        </span>
                         <UIButton :style="maker?.avatar ? 'primary' : 'disabled'" @click="openSuggestModal">Предложить проект</UIButton>
                     </div>
                 </div>
@@ -75,6 +84,7 @@
             </div>
 
             <div class="makerPage__footer">
+                <UIButton :style="maker?.avatar ? 'secondary' : 'disabled'" @click="goToChat"><i class="icon-chat m-r"></i>Написать исполнителю</UIButton>
                 <UIButton :style="maker?.avatar ? 'primary' : 'disabled'" @click="openSuggestModal">Предложить сотрудничество</UIButton>
             </div>
         </div>
@@ -258,7 +268,11 @@ export default {
 
         async goToProject(id) {
             this.$router.push(await this.makerPageController.goToProject(id))
-        }
+        },
+
+        goToChat() {
+            this.$router.push({name: 'chat', query: {command: "go", value: `/direct/${this.uuid}`}})
+        },
     },
     props: {
         uuid: {

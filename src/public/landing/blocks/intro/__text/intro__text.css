@@ -1,0 +1,12 @@
+.intro__text{
+  margin: 0;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: var(--f-z-large);
+  line-height: 1.3em;
+  margin: auto;
+  margin-bottom: var(--m-base-title);
+  cursor: default;
+  text-align: center;
+}

@@ -1,0 +1,12 @@
+.advantages__block {
+  background-color: #F8F9F9;
+  border-radius: 20px;
+  height: calc(50% - 10px);
+  box-sizing: border-box;
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}

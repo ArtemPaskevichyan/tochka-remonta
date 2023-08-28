@@ -1,0 +1,6 @@
+.article__link {
+  font-size: var(--f-z-regular);
+  font-weight: var(--f-w-medium);
+  color: var(--c-theme-primary);
+  text-decoration: none;
+}

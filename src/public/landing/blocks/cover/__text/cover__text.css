@@ -1,0 +1,13 @@
+.cover__text{
+  max-width: 523px;
+  width: 100%;
+  font-family: Manrope;
+  font-size: var(--c-theme-primary);
+  font-weight: 500;
+  line-height: 27px;
+  z-index: 2;
+  margin: 0;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  cursor: default;
+}

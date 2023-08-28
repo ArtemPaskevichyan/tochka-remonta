@@ -1,0 +1,8 @@
+.article__info {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+  padding-top: 10px;
+  flex-grow: 1;
+}

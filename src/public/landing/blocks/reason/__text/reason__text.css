@@ -1,0 +1,11 @@
+.reason__text{
+  margin: 0;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 44px;
+  line-height: 60px;
+  margin: auto;
+  margin-bottom: 20px;
+  cursor: default;
+}

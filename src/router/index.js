@@ -12,6 +12,8 @@ import AccessDeniedPage from "@/public/pages/message/AccessDeniedPage.vue"
 import SEOArticlesList from "@/public/pages/SEOcreationPages/SEOArticlesList.vue"
 import SEOArticlesCreation from "@/public/pages/SEOcreationPages/SEOArticlesCreation.vue"
 import APIPage from "@/public/pages/APIpages/APIPage.vue"
+import ChatPage from "@/public/pages/chat/ChatPage.vue"
+import LandingPage from "@/public/landing/LandingPage.vue"
 
 import UserSearchPage from "@/user/pages/searchPage/SearchPage.vue"
 import CreateProjectPage from "@/user/pages/createProject/CreateProjectPage.vue"
@@ -42,6 +44,16 @@ import {UserDataController} from "@/helpers/UserDataController.js"
 
 const DEFALT_TITLE = "Точка ремонта"
 const routes = [
+  {
+    path: '/chat',
+    name: 'chat',
+    component: ChatPage,
+  },
+  {
+    path: '/',
+    name: 'index',
+    component: LandingPage,
+  },
   {
     path: '/test',
     name: 'test',

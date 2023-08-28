@@ -14,7 +14,7 @@
         <button class="header__dropdownMenuItem" @click="goTo('/search')">
             <i class="icon-search header__icon"></i> {{searchText}}
         </button>
-        <button class="header__dropdownMenuItem" @click="goTo('/test', true)">
+        <button class="header__dropdownMenuItem" @click="goTo('/chat', true)">
             <i class="icon-chat header__icon"></i> Чат
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/outcomingSuggestions')">

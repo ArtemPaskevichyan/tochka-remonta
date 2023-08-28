@@ -1,0 +1,10 @@
+.projects__block{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+

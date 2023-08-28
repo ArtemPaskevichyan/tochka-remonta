@@ -1,0 +1,8 @@
+.reason{
+  display: flex;
+  margin: auto;
+  margin-top: 60px;
+  width: calc(1400/1440*100%);
+  /* margin-left: calc(48/1440*100%); */
+  flex-direction: column;
+  }

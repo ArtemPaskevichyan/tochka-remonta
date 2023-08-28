@@ -1,0 +1,24 @@
+.projects__grid{
+  display: grid;
+  box-sizing: border-box;
+  padding: 0 20%;
+  display: -ms-grid;
+  /* width: calc(808/1400*100%); */
+  /* margin: auto; */
+  /* margin: 0 20%; */
+  /* aspect-ratio: 808/532; */
+  border-radius: 20px;
+  overflow: hidden;
+  /* grid-template-columns: repeat(3, 1fr); */
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  width: 100% !important;
+  
+  min-width: 650px;
+}
+
+.projects__grids {
+  width: 100%;
+}
+

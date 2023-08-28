@@ -1,0 +1,9 @@
+.article__subtitle{
+  margin: 0;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: var(--f-w-regular);
+  font-size: var(--f-z-regular);
+  line-height: 27px;
+  color: var(--c-text-secondary);
+}

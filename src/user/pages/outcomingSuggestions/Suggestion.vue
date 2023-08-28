@@ -1,21 +1,21 @@
 <template>
   <div class="ocSuggestion" :class="{skeleton: isLoading}">
     <div class="ocSuggestion__text">
-      Вы предложили <UILink v-if="maker?.uuid" :link="`/user/makerPage/${maker?.uuid}`">{{ maker?.firstname }}</UILink>
+      Вы предложили <UILink v-if="maker?.uuid" :link="`/user/makerPage/${maker?.uuid}`">{{ maker?.firstname.lenght > 0 ? maker?.firstname : maker?.uuid }}</UILink>
       роль исполнителя проекта <UILink v-if="project?.id" :link="`/user/project/${project?.id}`">{{ project?.title }}</UILink>
     </div>
     <div class="ocSuggestion__info">
       <div class="ocSuggestion__picture">
         <div class="ocSuggestion__image ocSuggestion__makerAvatar">
-          <img :src="avatarURL" alt="">
+          <img :src="avatarURL" alt="Maker avatar" @click="$router.push(`/user/makerPage/${maker?.uuid}`)">
         </div>
         <i class="icon-arrow-right"></i>
         <div class="ocSuggestion__image ocSuggestion__projectAvatar">
-          <img :src="imageURL" alt="">
+          <img :src="imageURL" alt="Project avatar" @click="$router.push(`/user/project/${project?.id}`)"> 
         </div>
       </div>
       <div class="ocSuggestion__controls">
-        <UIButton :style="'destructive'" @click="deleteRequest">Отозвать заявку</UIButton>
+        <UIButton :style="'destructive'" @click="deleteRequest">Отозвать предложение</UIButton>
       </div>
     </div>
   </div>

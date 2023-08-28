@@ -4,6 +4,10 @@ body {
   padding: 0;
   background-color: #FAFAFA;
 }
+body.landing {
+  background-color: white;
+  overflow: auto;
+}
 
 .mobileOnly {
   display: none;
@@ -15,6 +19,14 @@ body {
 
 img {
   background: #F2F2F2;
+}
+
+i.m-r {
+  margin-right: 0.6em;
+}
+
+i.m-l {
+  margin-left: 0.6em;
 }
 
 .caption {
@@ -1350,11 +1362,11 @@ img {
   height: 100%;
 }
 .galeryImage:active {
-  -webkit-transform: scale(0.95);
-          transform: scale(0.95);
+  -webkit-filter: brightness(0.8);
+          filter: brightness(0.8);
 }
 .galeryImage:hover:not(.active) {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 .galeryImage.active {
   -webkit-box-sizing: border-box;
@@ -1996,6 +2008,10 @@ img {
   -o-object-fit: contain;
      object-fit: contain;
   background-color: rgba(255, 255, 255, 0);
+}
+.header.clear {
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .tabBar {
@@ -3874,6 +3890,16 @@ img {
   color: #262626;
   font-weight: 600;
 }
+.makerPage__contactsButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  gap: 10px;
+}
 .makerPage__controls {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3882,8 +3908,8 @@ img {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   overflow: hidden;
   gap: 14px;
 }
@@ -3891,6 +3917,10 @@ img {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.makerPage__controls .button.square {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 .makerPage__achivementHolder {
   display: -webkit-box;
@@ -3972,6 +4002,7 @@ img {
       -ms-flex-pack: end;
           justify-content: flex-end;
   margin-bottom: 20px;
+  gap: 14px;
 }
 .makerPage__caption {
   color: #808080;
@@ -4398,6 +4429,8 @@ img {
   -ms-flex-negative: 0;
       flex-shrink: 0;
   overflow: hidden;
+  -webkit-transition: 0.3s opacity;
+  transition: 0.3s opacity;
 }
 .ocSuggestion__image img {
   width: 100%;
@@ -4407,6 +4440,10 @@ img {
   background-color: rgba(255, 255, 255, 0);
   -o-object-fit: cover;
      object-fit: cover;
+}
+.ocSuggestion__image:hover {
+  opacity: 0.8;
+  cursor: pointer;
 }
 .ocSuggestion__projectAvatar {
   aspect-ratio: 1/1;

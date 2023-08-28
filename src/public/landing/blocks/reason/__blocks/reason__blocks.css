@@ -1,0 +1,7 @@
+.reason__blocks{
+  display: flex;
+  background: #F2F2F2;
+  width: 100%;
+  aspect-ratio: 1400/500;
+  border-radius: 30px;
+}

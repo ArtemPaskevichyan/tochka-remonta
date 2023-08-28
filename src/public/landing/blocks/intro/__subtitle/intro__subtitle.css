@@ -1,0 +1,12 @@
+.intro__subtitle{
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: auto;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--f-z-regular);
+  line-height: 1.5em;
+  cursor: default;
+  color: #676767;
+}

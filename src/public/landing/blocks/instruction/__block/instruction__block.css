@@ -1,0 +1,21 @@
+.instruction__block{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: 100%;
+  aspect-ratio: 1/1;
+  box-sizing: context-box;
+  border-radius: 30px;
+  border: 1px solid #FFF6E8;
+  background: #FFF6E8;
+  overflow: hidden;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+}
+
+.instruction__block:hover {
+  transform: scale(1.02);
+}

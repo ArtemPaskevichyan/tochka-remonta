@@ -1,0 +1,14 @@
+.intro{
+  /* display: flex; */
+  width: 100%;
+  /* flex-direction: column; */
+  margin: 0 auto;
+  margin-top: var(--m-section);
+}
+
+.intro__navButton {
+  top: calc(50% - var(--nav-button-size) / 2 - 20px);
+}
+
+
+/* Чем вам поможет платформа? */

@@ -1,0 +1,13 @@
+.article__title {
+  margin: 0;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: var(--f-w-semibold);
+  font-size: var(--f-z-medium);
+  line-height: 1.3em;
+  color: #262626;
+  margin-bottom: 20px;
+}
+
+
+

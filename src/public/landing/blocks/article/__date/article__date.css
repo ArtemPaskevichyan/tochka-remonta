@@ -1,0 +1,5 @@
+.article__date {
+  font-size: var(--f-z-regular);
+  font-weight: var(--f-w-medium);
+  color: #BFBFBF;
+}

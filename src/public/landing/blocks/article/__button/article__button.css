@@ -1,0 +1,17 @@
+.article__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 300px;
+  box-sizing: border-box;
+  padding: 0 30px;
+  margin: 0 auto;
+  color: #401F00;
+  background-color: #FFE7C3;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: var(--f-z-button-regular);
+  font-weight: var(--f-w-medium);
+  text-decoration: none;
+}

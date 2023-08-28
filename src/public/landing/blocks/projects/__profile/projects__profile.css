@@ -1,0 +1,13 @@
+.projects__profile{
+  display: flex;
+  margin-top: 14px;
+  margin-left: 20px;
+  align-items: center;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 27px;
+}
+
+

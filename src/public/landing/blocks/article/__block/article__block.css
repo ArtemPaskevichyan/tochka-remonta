@@ -1,0 +1,14 @@
+.article__block{
+  text-decoration: none;
+  background: #F8F9F9;
+  border-radius: 20px;
+  overflow: hidden;
+  
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  min-width: 200px;
+  margin: 0 15px;
+}
+

@@ -1,0 +1,5 @@
+.advantages__title {
+  color: var(--c-text-main);
+  font-size: var(--f-z-medium);
+  font-weight: var(--f-w-semibold);
+}

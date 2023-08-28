@@ -1,0 +1,5 @@
+.cover__link_inline {
+  color: var(--c-theme-primary);
+  font-size: var(--f-z-small);
+  font-weight: var(--f-w-medium);
+}

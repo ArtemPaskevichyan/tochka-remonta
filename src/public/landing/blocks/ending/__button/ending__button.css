@@ -1,0 +1,14 @@
+.ending__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFE7C3;
+  color: #401F00;
+  height: 44px;
+  width: 300px;
+  border-radius: 8px;
+  font-size: var(--f-z-button-regular);
+  font-weight: var(--f-w-medium);
+  cursor: pointer;
+  text-decoration: none;
+}

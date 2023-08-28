@@ -1,0 +1,8 @@
+.advantages {
+  margin: 0 auto;
+  margin-top: var(--m-section);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  height: 80vh;
+}

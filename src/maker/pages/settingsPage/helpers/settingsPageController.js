@@ -1,6 +1,6 @@
 import { TokenHandler } from "@/helpers/TokenHandler";
 import axios from "axios";
-import { serverURL } from "@/preferenses";
+import { serverURL, chatURL } from "@/preferenses";
 import {createError, ERROR_CODES} from '@/helpers/ErrorMaker.js'
 import { UserDataController } from "@/helpers/UserDataController";
 
@@ -127,8 +127,8 @@ class SettingsPageController {
     }
 
     async setAvatar(image) {
-        var formData = new FormData()
-        formData.append('new_avatar', image)
+        const mFormData = new FormData()
+        mFormData.append('new_avatar', image)
 
         const token = await TokenHandler.shared.getToken()
         const config = {
@@ -136,15 +136,29 @@ class SettingsPageController {
                 'Authorization': 'Bearer ' + token
             }
         }
-        const URL = `${serverURL}/api/v1/auth/update_avatar`
-        await axios.post(URL, formData, config)
+
+        const aURL = `${serverURL}/api/v1/auth/get_chat_token`
+        const cAuthData = (await axios.get(aURL, config))?.data
+
+        const mURL = `${serverURL}/api/v1/auth/update_avatar`
+        const mAvatarRequest = axios.post(mURL, mFormData, config)
             .then((response) => {
                 console.log("RESP", response)
                 UserDataController.shared.updateData()
             })
-            .catch((error) => {
-                console.log("ERROR", error)
-            })
+        
+        const cURL = `${chatURL}/api/v1/users.setAvatar`
+        const cFormData = new FormData()
+        cFormData.append("image", image)
+        const cHeaders = {
+            "X-Auth-Token": cAuthData.authToken,
+            "X-User-Id": cAuthData.userId,
+        }
+        const cAvatarRequest = axios.post(cURL, cFormData, { headers: cHeaders })
+
+        await Promise.all([mAvatarRequest, cAvatarRequest])
+            .then(response => console.log("RESP", response))
+            .catch(error => { throw error })
     }
 
     async getAvatarURL() {
@@ -168,18 +182,30 @@ class SettingsPageController {
                 'Authorization': 'Bearer ' + token
             }
         }
-        const URL = `${serverURL}/api/v1/auth/update_user_data`
-        var model = {
+
+        const aURL = `${serverURL}/api/v1/auth/get_chat_token`
+        const cAuthData = (await axios.get(aURL, config))?.data
+
+        const mURL = `${serverURL}/api/v1/auth/update_user_data`
+        const model = {
             firstname: name,
         }
+        const mainName = axios.post(mURL, model, config)
 
-        await axios.post(URL, model, config)
-            .then((response) => {
-                console.log("RESP", response)
-            })
-            .catch((error) => {
-                console.log("ERROR", error)
-            })
+        const cURL = `${chatURL}/api/v1/users.updateOwnBasicInfo`
+        const cData = {
+            data: { name },
+        }
+        const cHeaders = {
+            "Content-type": "application/json",
+            "X-Auth-Token": cAuthData.authToken,
+            "X-User-Id": cAuthData.userId,
+        }
+        const cName = axios.post(cURL, cData, { headers: cHeaders })
+
+        await Promise.all([mainName, cName])
+            .then(response => console.log("RESPONSE", response))
+            .catch(error => console.log("ERROR", error))
     }
 
     async setDescription(description) {

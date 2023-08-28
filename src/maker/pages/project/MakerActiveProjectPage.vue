@@ -70,6 +70,11 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Действия</div>
                 <div class="projectSearchingPage__controls">
+                    <UIButton
+                        @click="$router.push({name: 'chat', query: {command: 'go', value: `/direct/${project.customer_uuid}`}})"
+                    >
+                        <i class="icon-chat m-r"></i>Написать заказщику
+                    </UIButton>
                     <UIButton @click="openCompletion">Завершить проект</UIButton>
                 </div>
             </div>

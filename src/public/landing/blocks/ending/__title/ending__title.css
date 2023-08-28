@@ -1,0 +1,8 @@
+.ending__title {
+  font-size: var(--f-z-large);
+  font-weight: var(--f-w-semibold);
+  color: #401F00;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0 20px;
+}

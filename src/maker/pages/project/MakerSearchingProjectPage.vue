@@ -45,9 +45,12 @@
 
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__actions">
-                    <UIButton :style="'primary'" @click="sendResponse">
-                        Откликнуться
+                    <UIButton :style="'secondary'"
+                        @click="$router.push({name: 'chat', query: {command: 'go', value: `/direct/${project.customer_uuid}`}})"
+                    >
+                        <i class="icon-chat m-r"></i>Написать заказчику
                     </UIButton>
+                    <UIButton :style="'primary'" @click="sendResponse">Откликнуться</UIButton>
                 </div>
             </div>
         </div>
@@ -129,7 +132,10 @@ export default {
                         this.callError("Действие невозможно", "Испонитель этого проекта уже назначен", [{label: "ОК", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
                         break;
                     case "request already sent":
-                        this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
+                        this.callError("Предложение существует", "Вы уже предложили свою роль исполнителя этого проекта", [
+                            {label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'},
+                            {style: "primary", callback: () => this.$router.push({ name: "makerOutcomingSuggestions" }), label: "К предложению"},
+                        ])
                         break;
                 }
             } finally {

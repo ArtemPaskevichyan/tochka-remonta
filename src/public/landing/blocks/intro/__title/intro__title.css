@@ -1,0 +1,15 @@
+.intro__title{
+  margin: 0;
+
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: var(--f-z-medium);
+  line-height: 1.3em;
+  cursor: default;
+}
+
+
+
+
+

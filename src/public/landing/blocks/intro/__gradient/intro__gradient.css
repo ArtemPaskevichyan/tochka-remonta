@@ -1,0 +1,15 @@
+.intro__gradient{
+  /* top: calc(380/638*100%); */
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* height: calc(100% * 258/638); */
+  z-index: 2;
+  box-sizing: border-box;
+  padding: 20px;
+  padding-top: 10px;
+}
+
+
+

@@ -1,0 +1,7 @@
+.projects__comment-section{
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 20px;
+  gap: 20px;
+}

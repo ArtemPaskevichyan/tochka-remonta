@@ -6,11 +6,11 @@
     </div>
     <div class="ocSuggestion__info">
       <div class="ocSuggestion__picture">
-        <div class="ocSuggestion__image ocSuggestion__makerAvatar">
+        <div class="ocSuggestion__image ocSuggestion__makerAvatar" @click="$router.push(`/user/makerPage/${maker?.uuid}`)">
           <img :src="avatarURL" alt="">
         </div>
         <i class="icon-arrow-right"></i>
-        <div class="ocSuggestion__image ocSuggestion__projectAvatar">
+        <div class="ocSuggestion__image ocSuggestion__projectAvatar" @click="$router.push(`/maker/project/${project?.id}`)">
           <img :src="imageURL" alt="">
         </div>
       </div>

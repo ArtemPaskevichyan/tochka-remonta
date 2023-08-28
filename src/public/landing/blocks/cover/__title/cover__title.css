@@ -1,0 +1,12 @@
+.cover__title {
+  margin: 0;
+  padding: 0;
+  color: #CD8C52;
+  width: 100%;
+  margin-top: auto;
+  text-transform: uppercase;
+  
+  font-family: 'Manrope';
+  font-size: 60px;
+  font-weight: bold;
+}

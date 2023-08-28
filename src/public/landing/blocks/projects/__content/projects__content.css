@@ -1,0 +1,15 @@
+.projects__content{
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0 20px;
+  padding-bottom: 10px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--f-z-regular);
+  line-height: 1.5em;
+  color: #676767;
+}
+
+
+

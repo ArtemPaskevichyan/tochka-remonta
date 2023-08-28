@@ -1,0 +1,13 @@
+.article{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 60px;
+  width: calc(1400/1440*100%);
+  aspect-ratio: 1400/732;
+  background: white;
+}
+
+.article__navButton {
+  top: calc(50% - var(--nav-button-size) / 2 - 80px);
+}

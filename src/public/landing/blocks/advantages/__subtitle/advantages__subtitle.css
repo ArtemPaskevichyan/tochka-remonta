@@ -1,0 +1,6 @@
+.advantages__subtitle {
+  font-size: var(--f-z-regular);
+  font-weight: var(--f-w-regular);
+  color: var(--c-text-secondary);
+  line-height: 1.5em;
+}
