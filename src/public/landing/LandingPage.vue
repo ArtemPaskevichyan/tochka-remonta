@@ -306,7 +306,7 @@ export default {
       introList: [
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "/landing/images/intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "src/public/landing/images/intro3.png", href: ""},
+        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "./images/intro3.png", href: ""},
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "src/public/landing/images/intro3.png", href: ""},
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "src/public/landing/images/intro3.png", href: ""},
       ],
@@ -372,7 +372,7 @@ export default {
       this.$router.push(`/${prefix}/${route}`)
     },
     getImgUrl(imageNameWithExtension) {
-      return new URL(`./assets/${imageNameWithExtension}`, import.meta.url).href;
+      return new URL(`./images/${imageNameWithExtension}`, import.meta.url).href;
     }
   },
   mounted() {
