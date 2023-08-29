@@ -382,7 +382,6 @@ export default {
       console.log(e)
     }
     document.addEventListener('scroll', event => {
-      console.log(window.scrollY)
       if (window.scrollY > 0) {
         this.$refs.header.classList.remove('clear')
         this.$refs.header.classList.add('scrolled')
