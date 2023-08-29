@@ -153,6 +153,7 @@ export default {
         this.ganttHelper.refresh([...this.tasks])
       }
 
+      this.changed = true
       this.ganttMessage = ""
     },
 
@@ -175,6 +176,7 @@ export default {
     removeTask(taskId) {
       let index = this.tasks.findIndex(e => e.id == taskId)
       this.tasks.splice(index, 1)
+      this.changed = true
       this.ganttHelper.refresh([...this.tasks])
     },
 
@@ -210,17 +212,15 @@ export default {
     },
 
     hasChanges() {
-      console.log("HC", this.tasks, this.tasks.length)
       if (this.tasks.length != this.tasksProp.length) return true
       for (let i in this.tasks) {
-        console.log(i,this.tasks[i], this.tasksProp[i])
         if (this.tasks[i].start != this.tasksProp[i].start || this.tasks[i].end != this.tasksProp[i].end) return true
       }
       return false
     },
 
     commitChanges() {
-      if (this.hasChanges()) {
+      if (this.hasChanges() || this.changed) {
         this.$emit("commit", {
           taskList: toRaw(this.tasks),
           changed: true,

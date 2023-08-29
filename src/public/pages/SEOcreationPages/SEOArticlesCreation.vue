@@ -1,5 +1,6 @@
 <template>
-  <div class="headerPage SEOArticleCreation">
+  <div class="headerPage SEOArticleCreation backgroundCard">
+    <SEOHeader/>
     <div class="titleText">
       Создание статьи
     </div>
@@ -7,6 +8,7 @@
     <UIImageLoader :title="'Фото статьи'" v-model:imageSrc="imageSrc" @fileLoaded="handleFile"/>
     <UIInput :placeholder="'Название статьи'" v-model:value="title"/>
     <UITextInput :placeholder="'Текст статьи...'" v-model:value="text"/>
+    <UIInput :placeholder="'Имя автора'" v-model:value="autor"/>
     <UIButton :style="'primary'" @click="createArticle">Добавить статью</UIButton>
   </div>
 </template>
@@ -16,17 +18,19 @@ import UIInput from "@/components/FormComponents/UIInput.vue";
 import UITextInput from '@/components/FormComponents/UITextInput.vue';
 import UIImageLoader from '@/components/FormComponents/ImageLoaders/UIImageLoader.vue';
 import UIButton from "@/components/Buttons/UIButton.vue";
+import SEOHeader from "./SEOHeader.vue";
 import { ArticlesController } from './helpers/articlesController.js'
 
 export default {
   components: {
-    UIInput, UIImageLoader, UITextInput, UIButton,
+    UIInput, UIImageLoader, UITextInput, UIButton, SEOHeader,
   },
   data() {
     return {
       viewController: new ArticlesController(),
       text: "",
       title: "",
+      autor: "",
       imageSrc: "",
       image: undefined,
     }

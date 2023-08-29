@@ -334,6 +334,10 @@ class ProjectController {
         }
     }
 
+    async updateTaskProgress({id, progress}) {
+        console.log(id, progress)
+    }
+
     async getProjectRating(id) {
         const URL = `${serverURL}/api/v1/projects/get_project_reviews?p_id=${id}`
 

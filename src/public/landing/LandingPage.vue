@@ -39,7 +39,7 @@
       <SwiperSlide v-for="(i, index) in introList" :key="index">
         <div class="intro__block">
           <div class="intro__imageHolder">
-            <img class="intro__image" :src="'src/public/landing/images/' + i.imageName">
+            <img class="intro__image" :src="'./images/' + i.imageName">
           </div>
           <div class="intro__gradient">
             <h3 class="intro__title">{{ i.title }}</h3>

@@ -3928,6 +3928,7 @@ i.m-l {
     box-sizing: border-box;
     padding: 20px 6px 6px 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 
     &__text {
         font-size: 20px;
@@ -4078,6 +4079,41 @@ i.m-l {
     padding: 20px;
     min-height: 80vh;
 }
+
+.SEOArticleCreation {
+    padding: 40px;
+    margin-top: 80px;
+
+    .imageLoader, .input, .textArea {
+        margin-bottom: 16px;
+    }
+
+    .imageLoader {
+        &__dropzone {
+            background-color: $element-background;
+            border-radius: 12px;
+            height: 300px;
+            aspect-ratio: 16/9;
+            width: unset;
+            margin: {
+                left: auto;
+                right: auto;
+            };
+        }
+    }
+
+    .textArea {
+        &__holder {
+            box-sizing: border-box;
+        }
+
+        textarea {
+            max-height: unset;
+            min-height: 40vh;
+        }
+    }
+}
+
 
 
 

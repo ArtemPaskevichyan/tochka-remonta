@@ -16,13 +16,16 @@ class GanttHelper {
     custom_popup_html: null
   }
   gantt = undefined
+  id = undefined
 
   createDiagram(id, tasks, options) {
     console.log("GANTT", id, tasks, options, Gantt.tasks)
+    this.id = id
     this.gantt = new Gantt(id, tasks, options ?? this.options)
   }
 
   refresh(tasks) {
+    console.log("GO REFRESH", tasks, this.gantt)
     // celarContainer()
     this.gantt.refresh(tasks)
     // this.gantt = new Gantt(id, tasks, options ?? this.options)
@@ -30,6 +33,12 @@ class GanttHelper {
 
   changeViewMode(mode) {
     this.gantt.change_view_mode(mode)
+  }
+
+  removeDiagram() {
+    const a = document.querySelector(".gantt-container")
+    a.remove()
+    console.log(a)
   }
 
   constructor(options) {

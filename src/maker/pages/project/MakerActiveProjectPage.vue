@@ -37,7 +37,7 @@
                     <UIButton id="editDiagramButton" :style="'default'" @click="editDiagram">Редактировать</UIButton>
                 </div>
                 <div class="projectSearchingPage__gantDiagram" :id="ganttId" :class="{skeleton: gantIsLoading}">
-                    <div v-if="gantTasksList?.length == 0" class="projectSearchingPage__gantDiagramMessage">{{ gantMessage }}</div>
+                    <div v-if="gantTasksList?.length == 0 && !shownNewDiagram || hasNewDiagram?.length == 0 && shownNewDiagram" class="projectSearchingPage__gantDiagramMessage">{{ gantMessage }}</div>
                 </div>
                 <div class="projectSearchingPage__gantFooter" v-if="hasNewDiagram && shownNewDiagram">
                     <div class="projectSearchingPage__caption">
@@ -73,7 +73,7 @@
                     <UIButton
                         @click="$router.push({name: 'chat', query: {command: 'go', value: `/direct/${project.customer_uuid}`}})"
                     >
-                        <i class="icon-chat m-r"></i>Написать заказщику
+                        <i class="icon-chat m-r"></i>Написать заказчику
                     </UIButton>
                     <UIButton @click="openCompletion">Завершить проект</UIButton>
                 </div>
@@ -269,7 +269,7 @@ export default {
             if (this.gantTasksList?.length > 0) {
                 this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
             } else {
-                this.gantMessage = "Похоже, вы еще не заполнил план работ"
+                this.gantMessage = "Похоже, вы еще не заполнили план работ"
             }
             // this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
         },
@@ -277,16 +277,23 @@ export default {
         async saveGanttTasks({taskList, changed}) {
             console.log(changed)
             if (changed) {
+                console.log("CHANGES")
                 try {
                     this.projectController.createDiagramNegotiation(taskList, this.project?.id, this.project?.customer_uuid)
                     this.isModalOpened = false
-                    this.$router.go()
                 } catch(e) {
                     console.log("ERROR", e)
                 }
             } else {
                 console.log("NO CHANGES")
+                for (let i in taskList) {
+                    if (this.gantTasksList[i].progress != taskList[i].progress) {
+                        this.projectController.updateTaskProgress(taskList[i])
+                    }
+                }
             }
+
+            // this.$router.go()
         },
 
         lookForNewDiagramm() {
@@ -301,7 +308,6 @@ export default {
                             .toISOString()
                             .split("T")[0]
                     }
-
                     this.hasNewDiagram = n.project_tasks
                     break
                 }
@@ -310,11 +316,29 @@ export default {
 
         showHideNewDiagram() {
             this.shownNewDiagram = !this.shownNewDiagram
-            
+            console.log(this.hasNewDiagram, this.gantTasksList)
+
             if (this.shownNewDiagram) {
-                this.gantHelper.refresh(this.hasNewDiagram)
+                if (this.gantTasksList?.length == 0) {
+                    if (this.hasNewDiagram?.length != 0) this.gantHelper.createDiagram('#' + this.ganttId, this.hasNewDiagram)
+                } else {
+                    if (this.hasNewDiagram?.length == 0) {
+                        this.gantHelper.removeDiagram()
+                    } else {
+                        this.gantHelper.refresh(this.hasNewDiagram)
+                    }
+                }
             } else {
-                this.gantHelper.refresh(this.gantTasksList)
+                if (this.hasNewDiagram?.length == 0) {
+                    if (this.gantTasksList?.length != 0) this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
+                } else {
+                    if (this.gantTasksList?.length == 0) {
+                        console.log("AAAA")
+                        this.gantHelper.removeDiagram()
+                    } else {
+                        this.gantHelper.refresh(this.gantTasksList)
+                    }
+                }
             }
         },
 

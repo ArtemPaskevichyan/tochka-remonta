@@ -1,7 +1,7 @@
 <template>
   <div class="ocSuggestion" :class="{skeleton: isLoading}">
     <div class="ocSuggestion__text">
-      Вы предложили <UILink v-if="maker?.uuid" :link="`/user/makerPage/${maker?.uuid}`">{{ maker?.firstname.lenght > 0 ? maker?.firstname : maker?.uuid }}</UILink>
+      Вы предложили <UILink v-if="maker?.uuid" :link="`/user/makerPage/${maker?.uuid}`">{{ maker?.firstname?.length > 0 ? maker?.firstname : maker?.uuid }}</UILink>
       роль исполнителя проекта <UILink v-if="project?.id" :link="`/user/project/${project?.id}`">{{ project?.title }}</UILink>
     </div>
     <div class="ocSuggestion__info">
@@ -61,6 +61,7 @@ export default {
       if (!this.to) return
       const URL = `${serverURL}/api/v1/auth/get_user_data?user_uuid=${this.to}`
       this.maker = (await axios.get(URL))?.data?.user
+      console.log(this.maker)
     },
 
     async getProjectInfo() {
