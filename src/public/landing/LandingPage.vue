@@ -150,10 +150,10 @@
       ">
         <div class="projects__gridRow ltr">
           <div class="projects__imageHolder large">
-            <img class="projects__image projects__image_bigger1" :src="'src/public/landing/images/' + r.imageName1">
+            <img class="projects__image projects__image_bigger1" :src="getImgUrl(r.imageName1)">
           </div>
           <div class="projects__imageHolder small">
-            <img class="projects__image small" :src="'src/public/landing/images/' + r.imageName2">
+            <img class="projects__image small" :src="getImgUrl(r.imageName2)">
           </div>
         </div>
   
@@ -212,7 +212,7 @@
         <SwiperSlide v-for="(a, index) in articlesList" :key="index">
           <div class="article__block">
             <div class="article__imageHolder">
-              <img :src="'src/public/landing/images/' + a.imageName" class="article__image">
+              <img :src="getImgUrl(a.imageName)" class="article__image">
             </div>
             <div class="article__info">
               <h2 class="article__title">{{ a.title }}</h2>
@@ -305,10 +305,10 @@ export default {
       introSwiper: undefined,
       introList: [
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "/landing/images/intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "./images/intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "src/public/landing/images/intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "src/public/landing/images/intro3.png", href: ""},
+        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
+        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
+        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
+        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
       ],
       reviewSwiper: undefined,
       reviewList: [
