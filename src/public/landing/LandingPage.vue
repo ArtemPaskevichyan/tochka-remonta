@@ -39,7 +39,7 @@
       <SwiperSlide v-for="(i, index) in introList" :key="index">
         <div class="intro__block">
           <div class="intro__imageHolder">
-            <img class="intro__image" :src="i.imageName">
+            <img class="intro__image" :src="getImgUrl(i.imageName)">
           </div>
           <div class="intro__gradient">
             <h3 class="intro__title">{{ i.title }}</h3>
@@ -304,7 +304,7 @@ export default {
       role: undefined,
       introSwiper: undefined,
       introList: [
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "/landing/images/intro3.png", href: ""},
+        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "/landing/images/intro3.png", href: ""},
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "src/public/landing/images/intro3.png", href: ""},
         {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "src/public/landing/images/intro3.png", href: ""},
@@ -371,6 +371,9 @@ export default {
       console.log(`/${prefix}/${route}`)
       this.$router.push(`/${prefix}/${route}`)
     },
+    getImgUrl(imageNameWithExtension) {
+      return new URL(`./assets/${imageNameWithExtension}`, import.meta.url).href;
+    }
   },
   mounted() {
     try {
@@ -385,7 +388,7 @@ export default {
     } catch(e) {
       
     }
-  }
+  },
 }
 </script>
 
