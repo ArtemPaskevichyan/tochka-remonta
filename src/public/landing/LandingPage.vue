@@ -378,16 +378,19 @@ export default {
   mounted() {
     try {
       this.role = JSON.parse(sessionStorage.getItem(UserDataController.sessionStorageKey)).role
-      document.addEventListener('scroll', event => {
-        if (window.scrollY > 0) {
-          this.$refs.header.classList.add('scrolled')
-        } else {
-          this.$refs.header.classList.remove('scrolled')
-        }
-      })
     } catch(e) {
-      
+      console.log(e)
     }
+    document.addEventListener('scroll', event => {
+      console.log(window.scrollY)
+      if (window.scrollY > 0) {
+        this.$refs.header.classList.remove('clear')
+        this.$refs.header.classList.add('scrolled')
+      } else {
+        this.$refs.header.classList.add('clear')
+        this.$refs.header.classList.remove('scrolled')
+      }
+    })
   },
 }
 </script>
