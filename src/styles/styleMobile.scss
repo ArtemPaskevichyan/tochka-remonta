@@ -1,5 +1,13 @@
 @import './stylePreferences.scss';
 
+@media screen and ( max-width: 1300px ) {
+  .SEOArticleListPage {
+    &__list {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
 @media screen and ( max-width: 1200px ) {
   .infoCard {
     min-height: 185px;
@@ -917,12 +925,66 @@
       font-size: 15px;
     }
   }
+
+  .SEOArticle {
+    height: 120px;
+
+    &__title {
+      font-size: 20px;
+      font-weight: 400;
+      -webkit-line-clamp: 1;
+    }
+    &__text {
+      font-size: 15px;
+    }
+
+    &__date {
+      font-size: 12px;
+    }
+  }
+
+  .SEOArticlePage {
+    margin-top: 80px;
+    padding: 20px;
+
+    &__title {
+      font-size: 32px;
+      font-weight: 400;
+    }
+
+    &__text {
+      font-size: 15px;
+    }
+
+    &__date, &__name {
+      font-size: 12px;
+    }
+  }
+
+  .SEOArticleCreation {
+    .imageLoader {
+      &__dropzone {
+        height: unset;
+        max-width: unset;
+        width: 100%;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 450px) {
   .registration {
     &__title {
       font-size: 25px;
+    }
+  }
+
+  .SEOArticle {
+    height: 84px;
+
+    &__text {
+      margin-top: 4px;
+      -webkit-line-clamp: 1;
     }
   }
 }

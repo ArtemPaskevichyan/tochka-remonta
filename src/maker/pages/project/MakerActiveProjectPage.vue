@@ -333,7 +333,6 @@ export default {
                     if (this.gantTasksList?.length != 0) this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
                 } else {
                     if (this.gantTasksList?.length == 0) {
-                        console.log("AAAA")
                         this.gantHelper.removeDiagram()
                     } else {
                         this.gantHelper.refresh(this.gantTasksList)

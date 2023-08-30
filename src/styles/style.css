@@ -3999,6 +3999,8 @@ i.m-l {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   margin-bottom: 20px;
   gap: 14px;
 }
@@ -4390,6 +4392,7 @@ i.m-l {
 .ocSuggestion__text {
   font-size: 20px;
   margin-bottom: 20px;
+  color: #262626;
 }
 .ocSuggestion__info {
   display: -webkit-box;
@@ -4551,9 +4554,98 @@ i.m-l {
   min-height: 80vh;
 }
 
+.SEOArticle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+  border-radius: 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 6px;
+  height: 160px;
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+.SEOArticle__image {
+  height: 100%;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+.SEOArticle__image img {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.SEOArticle__info {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0 10px 0 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.SEOArticle__title {
+  color: #262626;
+  font-size: 32px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.SEOArticle__text {
+  margin-top: 6px;
+  color: #808080;
+  font-size: 20px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.SEOArticle__date {
+  margin-top: auto;
+  margin-left: auto;
+  color: #C5C5C5;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.SEOArticleListPage__caption {
+  text-align: center;
+  color: #808080;
+  font-size: 20px;
+}
+.SEOArticleListPage__list {
+  margin: 0 auto;
+  max-width: 1440px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 20px 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
 .SEOArticleCreation {
   padding: 40px;
-  margin-top: 80px;
 }
 .SEOArticleCreation .addButton__holder {
   display: -webkit-box;
@@ -4572,6 +4664,7 @@ i.m-l {
   height: 300px;
   aspect-ratio: 16/9;
   width: unset;
+  max-width: 100%;
 }
 .SEOArticleCreation .textArea__holder {
   -webkit-box-sizing: border-box;
@@ -4580,4 +4673,64 @@ i.m-l {
 .SEOArticleCreation .textArea textarea {
   max-height: unset;
   min-height: 40vh;
+}
+
+.SEOArticlePage {
+  overflow: hidden;
+  padding: 40px;
+  margin-top: 80px;
+}
+.SEOArticlePage__title {
+  font-size: 51px;
+  font-weight: 600;
+  color: #262626;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.SEOArticlePage__image {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 14px;
+}
+.SEOArticlePage__image img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.SEOArticlePage__text {
+  font-size: 20px;
+  font-weight: 400;
+  color: #676767;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-top: 14px;
+}
+.SEOArticlePage__info {
+  margin-top: 14px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.SEOArticlePage__name {
+  font-size: 15px;
+  font-weight: 400;
+  color: #676767;
+}
+.SEOArticlePage__date {
+  font-size: 15px;
+  font-weight: 400;
+  color: #676767;
 }

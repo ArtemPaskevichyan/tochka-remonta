@@ -3,7 +3,7 @@
     <UIHeader/>
     <div class="titleText pageTitle">Исходящие заявки</div>
     <div class="outcomingSuggestions__list">
-      <Suggestion v-for="s in suggestionsArray" :key="s.id" :to="s.to" :projectId="s.project_id" :from="s.from" @deleted="deleteSuggestion(s.id)"/>
+      <Suggestion v-for="s in suggestionsArray" :key="s.id" :to="s.to" :projectId="s.project_id" :from="s.from" :suspense="s.suspense ?? false" @deleted="deleteSuggestion(s.id)"/>
       <div class="outcomingSuggestions__caption" v-if="suggestionsArray?.length == 0">
         Заявок, отпраленных вами не найдено
       </div>
@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      suggestionsArray: [{}, {}, {}],
+      suggestionsArray: [{suspense: true}, {suspense: true}, {suspense: true}],
       viewController: new OutcomingSuggestionsController()
     }
   },

@@ -181,3 +181,24 @@
 .skeleton.negotiation__date {
   color: transparent;
 }
+
+.skeleton.SEOArticle__title {
+  background-color: #262626;
+}
+.skeleton.SEOArticle__text {
+  background-color: #808080;
+}
+.skeleton.SEOArticle__date {
+  background-color: #C5C5C5;
+}
+.skeleton.SEOArticle__image {
+  background-color: #C5C5C5;
+  border-radius: 14px;
+}
+
+.skeleton.ocSuggestion__text {
+  background-color: #262626;
+}
+.skeleton.ocSuggestion__image {
+  background-color: #C5C5C5;
+}

@@ -1,21 +1,21 @@
 <template>
-  <div class="ocSuggestion" :class="{skeleton: isLoading}">
-    <div class="ocSuggestion__text">
+  <div class="ocSuggestion">
+    <div class="ocSuggestion__text" :class="{skeleton: isLoading || suspense}">
       Вы предложили <UILink v-if="maker?.uuid" :link="`/user/makerPage/${maker?.uuid}`">{{ maker?.firstname?.length > 0 ? maker?.firstname : maker?.uuid }}</UILink>
       роль исполнителя проекта <UILink v-if="project?.id" :link="`/user/project/${project?.id}`">{{ project?.title }}</UILink>
     </div>
     <div class="ocSuggestion__info">
       <div class="ocSuggestion__picture">
-        <div class="ocSuggestion__image ocSuggestion__makerAvatar">
+        <div class="ocSuggestion__image ocSuggestion__makerAvatar" :class="{skeleton: isLoading || suspense}">
           <img :src="avatarURL" alt="Maker avatar" @click="$router.push(`/user/makerPage/${maker?.uuid}`)">
         </div>
         <i class="icon-arrow-right"></i>
-        <div class="ocSuggestion__image ocSuggestion__projectAvatar">
+        <div class="ocSuggestion__image ocSuggestion__projectAvatar" :class="{skeleton: isLoading || suspense}">
           <img :src="imageURL" alt="Project avatar" @click="$router.push(`/user/project/${project?.id}`)"> 
         </div>
       </div>
       <div class="ocSuggestion__controls">
-        <UIButton :style="'destructive'" @click="deleteRequest">Отозвать предложение</UIButton>
+        <UIButton :style="isLoading || suspense ? 'disabled' : 'destructive'" @click="deleteRequest">Отозвать предложение</UIButton>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
+      isLoading: true,
       maker: undefined,
       project: undefined,
       avatarBaseURL: `${serverURL}/api/v1/auth/get_avatar?filename=`,
@@ -50,18 +50,21 @@ export default {
       type: String,
       required: true,
     },
+    suspense: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     async onMounted() {
-      this.getMakerInfo()
-      this.getProjectInfo()
+      Promise.all([this.getMakerInfo(), this.getProjectInfo()])
+        .then(_ => this.isLoading = false)
     },
 
     async getMakerInfo() {
       if (!this.to) return
       const URL = `${serverURL}/api/v1/auth/get_user_data?user_uuid=${this.to}`
       this.maker = (await axios.get(URL))?.data?.user
-      console.log(this.maker)
     },
 
     async getProjectInfo() {

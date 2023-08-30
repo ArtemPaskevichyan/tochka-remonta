@@ -1,21 +1,21 @@
 <template>
-  <div class="ocSuggestion" :class="{skeleton: isLoading}">
-    <div class="ocSuggestion__text">
+  <div class="ocSuggestion">
+    <div class="ocSuggestion__text" :class="{skeleton: isLoading || suspense}">
       Вы предложили себя на 
       роль исполнителя проекта <UILink v-if="project?.id" :link="`/maker/project/${project?.id}`">{{ project?.title }}</UILink>
     </div>
     <div class="ocSuggestion__info">
       <div class="ocSuggestion__picture">
-        <div class="ocSuggestion__image ocSuggestion__makerAvatar" @click="$router.push(`/user/makerPage/${maker?.uuid}`)">
+        <div :class="{skeleton: isLoading || suspense}" class="ocSuggestion__image ocSuggestion__makerAvatar" @click="$router.push(`/user/makerPage/${maker?.uuid}`)">
           <img :src="avatarURL" alt="">
         </div>
         <i class="icon-arrow-right"></i>
-        <div class="ocSuggestion__image ocSuggestion__projectAvatar" @click="$router.push(`/maker/project/${project?.id}`)">
+        <div :class="{skeleton: isLoading || suspense}" class="ocSuggestion__image ocSuggestion__projectAvatar" @click="$router.push(`/maker/project/${project?.id}`)">
           <img :src="imageURL" alt="">
         </div>
       </div>
       <div class="ocSuggestion__controls">
-        <UIButton :style="'destructive'" @click="deleteRequest">Отозвать заявку</UIButton>
+        <UIButton :style="isLoading || suspense ? 'disabled' : 'destructive'" @click="deleteRequest">Отозвать заявку</UIButton>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
+      isLoading: true,
       maker: undefined,
       project: undefined,
       avatarBaseURL: `${serverURL}/api/v1/auth/get_avatar?filename=`,
@@ -54,11 +54,15 @@ export default {
       type: String,
       required: true,
     },
+    suspense: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     async onMounted() {
-      this.getMakerInfo()
-      this.getProjectInfo()
+      Promise.all([this.getMakerInfo(), this.getProjectInfo()])
+        .then(_ => this.isLoading = false)
     },
 
     async getMakerInfo() {

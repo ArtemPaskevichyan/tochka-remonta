@@ -202,41 +202,46 @@
   <section class="article">
     <div class="article__blocks">
       <h2 class="article__text blockTitle">Полезные статьи о ремонте</h2>
-      <Swiper 
+      <Swiper
+        v-if="articlesList?.length > 0"
         :breakpoints="defaultBreakpoints"
+        :center-insufficient-slides="true"
         class="article__articles"
         @swiper="swiper => { articlesSwiper = swiper }"
       >
         <!-- Именование классов конечно не очень... а еще не спрашивай, почему обычный текст в блоках называется subtitle-->
         <!-- Начало секции -->
-        <SwiperSlide v-for="(a, index) in articlesList" :key="index">
+        <SwiperSlide v-for="a in articlesList" :key="a.id">
           <div class="article__block">
             <div class="article__imageHolder">
-              <img :src="getImgUrl(a.imageName)" class="article__image">
+              <img v-if="a?.images?.length > 0" :src="getArticleImage(a?.images[0])" class="article__image">
             </div>
             <div class="article__info">
               <h2 class="article__title">{{ a.title }}</h2>
-              <p class="article__subtitle">{{ a.text }}</p>
+              <p class="article__subtitle">{{ a.body }}</p>
               <div class="article__controls">
                 <div class="article__date">
-                  {{ a.date }}
+                  {{ getArticleDate(a.publishDate) }}
                 </div>
-                <a class="article__link" :href="a.href">
+                <router-link class="article__link" :to="'/seo/article/' + a.id">
                   Читать далее ->
-                </a>
+                </router-link>
               </div>
             </div>
           </div>
         </SwiperSlide>
-        <span class="navButton left article__navButton" @click="articleBackward">
-          <img src="./images/arrowLeft.png"/>
-        </span>
-        <span class="navButton right article__navButton" @click="articleForvard">
-          <img src="./images/arrowRight.png"/>
-        </span>
+        <span class="navButton left article__navButton" @click="reviewBackward">
+        <img src="./images/arrowLeft.png"/>
+      </span>
+      <span class="navButton right article__navButton" @click="reviewForvard">
+        <img src="./images/arrowRight.png"/>
+      </span>
       </Swiper>
+      <div v-else class="article__caption">
+        На данный момент статей не обнаружено
+      </div>
       <div class="article__buttonBlock">
-        <router-link class="article__button" to="/login">Читать больше статей</router-link>
+        <router-link class="article__button" to="/seo/articles">Читать больше статей</router-link>
       </div>
     </div>
   </section>
@@ -277,7 +282,7 @@
     <span @click="goToClassed('myProjects')" class="footer__link">
       Мои проекты
     </span>
-    <router-link to="/login" class="footer__link">
+    <router-link to="/seo/articles" class="footer__link">
       Блог
     </router-link>
   </div>
@@ -293,6 +298,9 @@
 import { Swiper, SwiperSlide } from "swiper/vue"
 import 'swiper/css'
 import { UserDataController } from "@/helpers/UserDataController";
+import axios from 'axios';
+import { serverURL } from "@/preferenses";
+import { convertDateToBase } from '@/helpers/DateConverter';
 
 export default {
   components: { 
@@ -319,12 +327,7 @@ export default {
       ],
       articlesSwiper: undefined,
       articlesList: [
-        {title: "Статья №1", text: "Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет...", date: "20.09.2020", href: "", imageName: "article_image.png"},
-        {title: "Статья №1", text: "Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет...", date: "20.09.2020", href: "", imageName: "article_image.png"},
-        {title: "Статья №1", text: "Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет...", date: "20.09.2020", href: "", imageName: "article_image.png"},
-        {title: "Статья №1", text: "Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет...", date: "20.09.2020", href: "", imageName: "article_image.png"},
-        {title: "Статья №1", text: "Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет...", date: "20.09.2020", href: "", imageName: "article_image.png"},
-        {title: "Статья №1", text: "Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет...", date: "20.09.2020", href: "", imageName: "article_image.png"},
+        // {title: "Статья №1", body: "Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет...", publishDate: "20.09.2020", id: "", images: ["article_image.png"]},
       ],
       defaultBreakpoints: {
         850: {
@@ -373,6 +376,18 @@ export default {
     },
     getImgUrl(imageNameWithExtension) {
       return new URL(`./images/${imageNameWithExtension}`, import.meta.url).href;
+    },
+    getArticles() {
+      axios.get(`${serverURL}/api/v1/blog/get_records`)
+        .then((response) => {
+          this.articlesList = response?.data?.records ?? []
+        })
+    },
+    getArticleImage(img) {
+      return `${serverURL}/api/v1/blog/get_image?filename=${img}`
+    },
+    getArticleDate(date) {
+      return convertDateToBase(date)
     }
   },
   mounted() {
@@ -381,6 +396,7 @@ export default {
     } catch(e) {
       console.log(e)
     }
+
     document.addEventListener('scroll', event => {
       if (window.scrollY > 0) {
         this.$refs.header.classList.remove('clear')
@@ -390,6 +406,8 @@ export default {
         this.$refs.header.classList.remove('scrolled')
       }
     })
+
+    this.getArticles()
   },
 }
 </script>

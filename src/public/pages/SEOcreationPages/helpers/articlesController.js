@@ -32,6 +32,10 @@ class ArticlesController {
         console.log("ERROR", error)
       })
   }
+
+  async getArticle(id) {
+    return (await axios.get(`${serverURL}/api/v1/blog/get_record?r_id=${id}`)).data?.record ?? {}
+  }
 }
 
 export { ArticlesController }

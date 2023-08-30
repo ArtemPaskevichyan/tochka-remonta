@@ -241,11 +241,28 @@ export default {
 
         showHideNewDiagram() {
             this.shownNewDiagram = !this.shownNewDiagram
-            
+            console.log(this.hasNewDiagram, this.gantTasksList)
+
             if (this.shownNewDiagram) {
-                this.gantHelper.refresh(this.hasNewDiagram)
+                if (this.gantTasksList?.length == 0) {
+                    if (this.hasNewDiagram?.length != 0) this.gantHelper.createDiagram('#' + this.ganttId, this.hasNewDiagram)
+                } else {
+                    if (this.hasNewDiagram?.length == 0) {
+                        this.gantHelper.removeDiagram()
+                    } else {
+                        this.gantHelper.refresh(this.hasNewDiagram)
+                    }
+                }
             } else {
-                this.gantHelper.refresh(this.gantTasksList)
+                if (this.hasNewDiagram?.length == 0) {
+                    if (this.gantTasksList?.length != 0) this.gantHelper.createDiagram('#' + this.ganttId, this.gantTasksList)
+                } else {
+                    if (this.gantTasksList?.length == 0) {
+                        this.gantHelper.removeDiagram()
+                    } else {
+                        this.gantHelper.refresh(this.gantTasksList)
+                    }
+                }
             }
         },
 

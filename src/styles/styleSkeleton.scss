@@ -213,3 +213,31 @@
 }
 
 
+.skeleton.SEOArticle {
+    &__title {
+        background-color: $primary-text-color;
+    }
+
+    &__text {
+        background-color: $placeholder-text-color;
+    }
+
+    &__date {
+        background-color: $light-text-color;
+    }
+
+    &__image {
+        background-color: $light-text-color;
+        border-radius: 14px;
+    }
+}
+
+.skeleton.ocSuggestion {
+    &__text {
+        background-color: $primary-text-color;
+    }
+
+    &__image {
+        background-color: $light-text-color;
+    }
+}

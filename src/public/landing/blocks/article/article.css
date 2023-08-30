@@ -11,3 +11,14 @@
 .article__navButton {
   top: calc(50% - var(--nav-button-size) / 2 - 80px);
 }
+
+.article__caption {
+  text-align: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  color: var(--c-text-secondary);
+  font-size: var(--f-z-regular);
+  font-weight: var(--f-w-regular);
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+}

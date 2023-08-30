@@ -1,3 +1,9 @@
+@media screen and (max-width: 1300px) {
+  .SEOArticleListPage__list {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+}
 @media screen and (max-width: 1200px) {
   .infoCard {
     min-height: 185px;
@@ -761,10 +767,50 @@
   .outcomingSuggestions__caption {
     font-size: 15px;
   }
+  .SEOArticle {
+    height: 120px;
+  }
+  .SEOArticle__title {
+    font-size: 20px;
+    font-weight: 400;
+    -webkit-line-clamp: 1;
+  }
+  .SEOArticle__text {
+    font-size: 15px;
+  }
+  .SEOArticle__date {
+    font-size: 12px;
+  }
+  .SEOArticlePage {
+    margin-top: 80px;
+    padding: 20px;
+  }
+  .SEOArticlePage__title {
+    font-size: 32px;
+    font-weight: 400;
+  }
+  .SEOArticlePage__text {
+    font-size: 15px;
+  }
+  .SEOArticlePage__date, .SEOArticlePage__name {
+    font-size: 12px;
+  }
+  .SEOArticleCreation .imageLoader__dropzone {
+    height: unset;
+    max-width: unset;
+    width: 100%;
+  }
 }
 @media screen and (max-width: 450px) {
   .registration__title {
     font-size: 25px;
+  }
+  .SEOArticle {
+    height: 84px;
+  }
+  .SEOArticle__text {
+    margin-top: 4px;
+    -webkit-line-clamp: 1;
   }
 }
 @media screen and (max-width: 372px) {

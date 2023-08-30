@@ -307,7 +307,7 @@ class ProjectController {
     }
 
     async getDiagramTasks(p_id) {
-        var token = await TokenHandler.shared.getToken()
+        const token = await TokenHandler.shared.getToken()
 
         const URL = `${serverURL}/api/v1/projects/get_project_tasks?p_id=${p_id}`
         const config = {
@@ -335,7 +335,15 @@ class ProjectController {
     }
 
     async updateTaskProgress({id, progress}) {
-        console.log(id, progress)
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const URL = `${serverURL}/api/v1/projects/update_task_progress?pt_id=${id}&progress=${progress}`
+        axios.post(URL, {}, config)
+            .catch(error => { console.log(error) })
     }
 
     async getProjectRating(id) {

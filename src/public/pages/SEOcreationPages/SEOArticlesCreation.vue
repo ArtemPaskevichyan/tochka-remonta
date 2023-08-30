@@ -1,29 +1,31 @@
 <template>
-  <div class="headerPage SEOArticleCreation backgroundCard">
+  <div class="headerPage">
     <SEOHeader/>
-    <div class="titleText">
+    
+    <div class="titleText pageTitle">
       Создание статьи
     </div>
-
-    <UIImageLoader :title="'Фото статьи'" v-model:imageSrc="imageSrc" @fileLoaded="handleFile"/>
-    <UIInput :placeholder="'Название статьи'" v-model:value="title"/>
-    <UITextInput :placeholder="'Текст статьи...'" v-model:value="text"/>
-    <div class="addButton__holder">
-      <UIButton class="addButton" :style="'primary'" @click="createArticle">Добавить статью</UIButton>
+    <div class="backgroundCard SEOArticleCreation">
+      <UIImageLoader :title="'Фото статьи'" v-model:imageSrc="imageSrc" @fileLoaded="handleFile"/>
+      <UIInput :placeholder="'Название статьи'" v-model:value="title"/>
+      <UITextInput :placeholder="'Текст статьи...'" v-model:value="text"/>
+      <div class="addButton__holder">
+        <UIButton class="addButton" :style="'primary'" @click="createArticle">Добавить статью</UIButton>
+      </div>
+      <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
+        <template v-slot:body>
+            <div class="alert__baseTitle" v-if="errorToAlert?.title">
+                {{errorToAlert?.title}}
+            </div>
+            <div class="alert__baseText" v-if="errorToAlert?.text">
+                {{errorToAlert?.text}}
+            </div>
+        </template>
+        <template v-slot:controls>
+            <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
+        </template>
+      </UIAlert>
     </div>
-    <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
-      <template v-slot:body>
-          <div class="alert__baseTitle" v-if="errorToAlert?.title">
-              {{errorToAlert?.title}}
-          </div>
-          <div class="alert__baseText" v-if="errorToAlert?.text">
-              {{errorToAlert?.text}}
-          </div>
-      </template>
-      <template v-slot:controls>
-          <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
-      </template>
-    </UIAlert>
   </div>
 </template>
 
