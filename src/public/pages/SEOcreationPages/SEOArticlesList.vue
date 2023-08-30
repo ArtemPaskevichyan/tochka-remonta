@@ -21,6 +21,7 @@
 
 <script>
 import SEOArticle from './SEOArticle.vue';
+// import SEOHeader from '.'
 import { ArticlesController } from "./helpers/articlesController.js"
 
 export default {

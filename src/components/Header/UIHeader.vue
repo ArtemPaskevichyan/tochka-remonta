@@ -44,7 +44,7 @@
                 <img class="mobileOnly" src="@/assets/images/shortLogo.png" alt="logo" width="30" height="32" @click="$router.push({name: role == 'Исполнитель' ? 'makerSearch' : 'userSearch'})">
             </div>
             <div class="header__location" :class="{skeleton: !isDataLoaded}" @click="openCitySelector">
-                {{ city ?? "Не определено" }}
+                <i class="icon-location"></i> {{ city ?? "Не определено" }}
             </div>
         </span>
         <div class="header__locationQuestion" ref="cityQuestion" v-if="showCityQuestion">

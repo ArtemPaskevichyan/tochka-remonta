@@ -1643,8 +1643,8 @@ i.m-l {
         color: $secondary-theme-color;
         font-size: 15px;
         font-weight: $font-medium;
-        text-decoration: underline;
-        text-transform: uppercase;
+        // text-decoration: underline;
+        // text-transform: uppercase;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -4084,6 +4084,11 @@ i.m-l {
     padding: 40px;
     margin-top: 80px;
 
+    .addButton__holder {
+        display: flex;
+        justify-content: flex-end;
+    }
+
     .imageLoader, .input, .textArea {
         margin-bottom: 16px;
     }
@@ -4095,10 +4100,6 @@ i.m-l {
             height: 300px;
             aspect-ratio: 16/9;
             width: unset;
-            margin: {
-                left: auto;
-                right: auto;
-            };
         }
     }
 

@@ -21,11 +21,11 @@
       <nav class="cover__navigation">
         <router-link class="cover__link_dark" to="/login">Найти исполнителя</router-link>
       </nav>
-      <nav class="cover__linkBar">
+      <!-- <nav class="cover__linkBar">
         <a href="#intro" class="cover__link_inline">Капитальный ремонт</a>
         <a href="#intro" class="cover__link_inline">Косметический ремонт</a>
         <a href="#intro" class="cover__link_inline">Дизайн проект</a>
-      </nav>
+      </nav> -->
     </div>
   </section> 
 

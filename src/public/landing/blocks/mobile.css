@@ -6,6 +6,10 @@
     --f-z-regular: 14px;
   }
 
+  .cover {
+    background: linear-gradient(73.91deg, #FFF6E8 0%, #FFECDA 100%);
+  }
+
   .blockTitle {
     box-sizing: border-box;
     padding: 0 20px;
