@@ -4,7 +4,6 @@ import { TokenHandler } from "./TokenHandler"
 import { createError, ERROR_CODES } from "@/helpers/ErrorMaker.js"
 import { AdressHelper } from "./AdressHelper"
 
-
 class UserDataController {
     static shared = new UserDataController()
     static sessionStorageKey = "userData"

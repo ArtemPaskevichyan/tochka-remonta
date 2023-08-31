@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="makerProfileCard__footer">
-                <UIButton :style="'primary'" class="desktopOnly" @click="$emit('suggest')">Предложить проект</UIButton>
+                <UIButton :style="'primary'" class="desktopOnly" @click="$emit('suggest')">Предложить сотрудничество</UIButton>
                 <UIButton :style="'primary'" class="mobileOnly" @click="$emit('goTo')">Перейти к исполнителю</UIButton>
             </div>
         </div>

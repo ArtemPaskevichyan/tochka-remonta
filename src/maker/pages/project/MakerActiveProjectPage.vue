@@ -222,6 +222,7 @@ export default {
             try {
                 this.isLoading = true
                 await this.projectController.setNegotiationDecision(this.negotiationModel?.id, false)
+                this.isModalOpened = false
             } catch(e) {
                 //
                 console.log(e)
@@ -293,7 +294,7 @@ export default {
                 }
             }
 
-            // this.$router.go()
+            this.$router.go()
         },
 
         lookForNewDiagramm() {

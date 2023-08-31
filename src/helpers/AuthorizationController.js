@@ -84,9 +84,9 @@ class AuthorizationController {
     }
 
     // sends login data for authorization. Sets tokens
-    async sendLogin(email, password, role) {
+    async sendLogin(email, password, _, rememberMe) {
         try {
-            this.validateData("log", email, role, password)
+            this.validateData("log", email, "", password)
         } catch(error) {
             throw error
         }
@@ -101,7 +101,7 @@ class AuthorizationController {
                 try {
                     var responseData = response?.data
                     if (!responseData) { createError(`Error with response data`, response?.status)}
-                    TokenHandler.shared.refreshToken = responseData.tokens.refresh_token
+                    if (rememberMe) TokenHandler.shared.refreshToken = responseData.tokens.refresh_token
                     TokenHandler.shared.token = responseData.tokens.token
                 } catch(e) {
                     console.log(e)

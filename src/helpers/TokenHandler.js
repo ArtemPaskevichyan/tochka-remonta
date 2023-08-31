@@ -75,7 +75,8 @@ class TokenHandler {
 
     clearData() {
         CookieHandler.shared.setCookie(TokenHandler.tokenCookieKey, '', {expires: new Date(Date.now() - 8000).toUTCString()})
-        CookieHandler.shared.setCookie(TokenHandler.refreshTokenCookieKey, '', {expires: new Date(Date.now() + 8000).toUTCString()})
+        CookieHandler.shared.setCookie(TokenHandler.refreshTokenCookieKey, '', {expires: new Date(Date.now() - 8000).toUTCString()})
+        
     }
 
     constructor() {

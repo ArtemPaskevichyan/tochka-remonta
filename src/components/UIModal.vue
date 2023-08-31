@@ -1,6 +1,6 @@
 <template>
-    <!-- <div class="modal" @click="close('clickOutside')"> -->
-    <div class="modal">
+    <div class="modal" @click="close('clickOutside')">
+    <!-- <div class="modal"> -->
         <div class="modal__content" @click.stop>
             <slot></slot>
             <button class="modal__button" @click="close">

@@ -17,6 +17,7 @@
             </div>
 
             <div class="login__buttonBlock">
+                <UICheckbox v-model:value="rememberMe" :style="'small'">Запомнить меня</UICheckbox>
                 <UIButton @click="sendLogin" class="login__mainButton" :style="buttonStyle">Далее</UIButton>
             </div>
 
@@ -55,12 +56,13 @@ import UILink from '@/components/FormComponents/UILink.vue';
 import UIButton from '@/components/Buttons/UIButton.vue'
 import UILoadingWall from '@/components/UILoadingWall.vue';
 import UIAlert from '@/components/UIAlert.vue';
+import UICheckbox from '@/components/FormComponents/UICheckbox.vue'
 
 import {AuthorizationController} from "@/helpers/AuthorizationController.js"
 
 export default {
     components: {
-        UISwitch, UIInput, UILink, UIButton, UILoadingWall, UIAlert,
+        UISwitch, UIInput, UILink, UIButton, UILoadingWall, UIAlert, UICheckbox,
     },
     data() {
         return {
@@ -69,7 +71,7 @@ export default {
                 {id: 1, title: "Сделаем ремонт"},
             ],
             selectionId: 0,
-            acceptPP: false,
+            rememberMe: true,
             authServices: [],
             email: "",
             password: "",
@@ -90,7 +92,7 @@ export default {
         async sendLogin() {
             try {
                 this.isLoading = true
-                await this.loginViewModel.sendLogin(this.email?.trim(), this.password, this.role)
+                await this.loginViewModel.sendLogin(this.email?.trim(), this.password, this.role, this.rememberMe)
                 this.$router.push(await this.loginViewModel.getAfterLoginURL())
                 console.log("ETERING")
             } catch(error) {

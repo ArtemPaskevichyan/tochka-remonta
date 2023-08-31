@@ -3999,6 +3999,10 @@ i.m-l {
         font-size: 20px;
         color: $placeholder-text-color;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
     }
 }
 
