@@ -9,4 +9,10 @@
   line-height: 1.5em;
   cursor: default;
   color: #676767;
+  margin-bottom: 10px;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

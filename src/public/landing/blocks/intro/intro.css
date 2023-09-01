@@ -7,7 +7,12 @@
 }
 
 .intro__navButton {
-  top: calc(50% - var(--nav-button-size) / 2 - 20px);
+  top: calc(50% - var(--nav-button-size) / 2 - 60px);
+}
+
+.intro__full {
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 

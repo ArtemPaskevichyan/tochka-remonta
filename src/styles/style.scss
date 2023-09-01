@@ -1537,6 +1537,16 @@ i.m-l {
             weight: $font-bold;
         }
     }
+
+    &__defaultText {
+        margin-top: 14px;
+        line-height: 1.5em;
+        color: $secondary-text-color;
+        font: {
+            size: 20px;
+            weight: $font-regular;
+        }
+    }
 }
 
 
@@ -1569,7 +1579,7 @@ i.m-l {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0.4);
+    // background-color: rgba(255, 255, 255, 0.4);
 
     &__spinnerHolder {
         height: 100px;
@@ -1619,6 +1629,36 @@ i.m-l {
             size: 8px;
             weight: $font-medium;
         }
+    }
+}
+
+.landing-header {
+    height: 50px;
+    background-color: white;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+
+    &__inner {
+        max-width: 1200px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &.clear {
+        box-shadow: none;
     }
 }
 
@@ -2976,6 +3016,8 @@ i.m-l {
     margin: 12px 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    text-overflow: ellipsis;
     gap: 16px;
     
     &__header {
@@ -3236,6 +3278,7 @@ i.m-l {
         display: grid;
         gap: 10px;
         grid-template-columns: auto auto;
+        overflow: hidden;
     }
 
     &__infoLeftPart {

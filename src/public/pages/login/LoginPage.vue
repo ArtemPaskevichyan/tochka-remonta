@@ -18,7 +18,7 @@
 
             <div class="login__buttonBlock">
                 <UICheckbox v-model:value="rememberMe" :style="'small'">Запомнить меня</UICheckbox>
-                <UIButton @click="sendLogin" class="login__mainButton" :style="buttonStyle">Далее</UIButton>
+                <UIButton @click="sendLogin" class="login__mainButton" :style="buttonStyle">Войти</UIButton>
             </div>
 
             <div class="login__servicesBlock">

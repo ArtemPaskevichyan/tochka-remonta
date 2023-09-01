@@ -1,23 +1,25 @@
 <template>
-<header class="header clear" ref="header">
-  <a class="header__logo">
-    <img class="desktopOnly" src="./images/Logo.png" alt="logo">
-    <img class="mobileOnly" src="./images/shortLogo.png" alt="logo">
-  </a>
-  <div class="header__controls">
-    <router-link class="header__controlsPrimaryButton header__controlButton" to="/login">
-      Войти
-    </router-link>
-    <router-link class="header__controlsLightButton header__controlButton" to="/registration">
-      Регистрация
-    </router-link>
+<header class="landing-header clear" ref="header">
+  <div class="landing-header__inner">
+    <a class="header__logo">
+      <img class="desktopOnly" src="./images/Logo.png" alt="logo">
+      <img class="mobileOnly" src="./images/shortLogo.png" alt="logo">
+    </a>
+    <div class="header__controls">
+      <router-link class="header__controlsPrimaryButton header__controlButton" to="/login">
+        Войти
+      </router-link>
+      <router-link class="header__controlsLightButton header__controlButton" to="/registration">
+        Регистрация
+      </router-link>
+    </div>
   </div>
 </header>
 <div class="root">
   <section class="cover">
     <div class="cover__content">
-      <h1 class="cover__title">Доверьте заботы профессионалам</h1>
-      <h2 class="cover__text">Платформа, которая поможет со всем, что нужно, для ремонта Вашей мечты</h2>
+      <h1 class="cover__title">Занимайтесь только приятными вещами</h1>
+      <h2 class="cover__text">Платформа поможет со всем, что необходимо для ремонта вашей мечты</h2>
       <nav class="cover__navigation">
         <router-link class="cover__link_dark" to="/login">Найти исполнителя</router-link>
       </nav>
@@ -34,6 +36,7 @@
     <Swiper
       :breakpoints="defaultBreakpoints"
       class="intro__blocks"
+      :center-insufficient-slides="true"
       @swiper="swiper => { introSwiper = swiper }"
     >
       <SwiperSlide v-for="(i, index) in introList" :key="index">
@@ -44,7 +47,7 @@
           <div class="intro__gradient">
             <h3 class="intro__title">{{ i.title }}</h3>
             <p class="intro__subtitle">{{ i.text }}</p>
-            <a class="intro__link">Подробнее об услуге -></a>
+            <span class="intro__link" @click="callModal(i.title, i.text)">Подробнее об услуге -></span>
           </div>
         </div>
       </SwiperSlide>
@@ -65,7 +68,7 @@
         <h3 class="instruction__title">Создайте проект</h3>
         <p class="instruction__subtitle">Заполните простую анкету и опишите идею ремонта Вашей мечты</p>
         <p class="instruction__number">1</p>
-        <img class="instruction__illustration" src="./images/mask_group.png">
+        <img class="instruction__illustration" src="./images/create.png">
       </div>
           <!-- -->
 
@@ -73,21 +76,21 @@
         <h3 class="instruction__title">Выберите исполнителя</h3>
         <p class="instruction__subtitle">Найдите подходящего вам профессионала, опираясь на отзывы пользователей и выполненные ранее проекты</p>
         <p class="instruction__number">2</p>
-        <img class="instruction__illustration" src="./images/mask_group.png">
+        <img class="instruction__illustration" src="./images/look.png">
       </div>
 
       <div class="instruction__block">
         <h3 class="instruction__title">Наблюдайте за ходом работ</h3>
         <p class="instruction__subtitle">Согласуйте план-график работ с подрядчиком и наблюдайте за прогрессом дистанционно. Принимайте отчеты в конце каждого этапа в чат</p>
         <p class="instruction__number">3</p>
-        <img class="instruction__illustration" src="./images/mask_group.png">
+        <img class="instruction__illustration" src="./images/progress.png">
       </div>
 
       <div class="instruction__block">
         <h3 class="instruction__title">Примите результат</h3>
         <p class="instruction__subtitle">Завершите проект, подписав автоматически собранные документы и наслаждайтесь Вашим уникальным ремонтом!</p>
         <p class="instruction__number">4</p>
-        <img class="instruction__illustration" src="./images/mask_group.png">
+        <img class="instruction__illustration" src="./images/complete.png">
       </div>
     </div>
     <router-link class="instruction__link" to="/login">Начать работу</router-link>
@@ -103,7 +106,7 @@
           Безопасные сделки
         </div>
         <div class="advantages__subtitle">
-          Не бойтесь за безопасность проведения финансовых операций. Проводя переводы при помощи встроенных инструментов платформы, вы можете быть уверены, что средства дойдут до исполнителя и работа будет выполнена в срок.
+          Все финансовые операции на платформе защищены, осуществляя их при помощи встроенных инструментов, вы можете быть уверены, что средства дойдут до исполнителя и работа будет выполнена в срок.
         </div>
       </div>
       <div class="advantages__block">
@@ -291,6 +294,12 @@
       Контакты разработчиков
     </a>
   </div>
+  <UIModal v-model:isOpened="isModalOpened" v-if="isModalOpened">
+    <div class="intro__full">
+      <div class="modal__defaultTitle">{{ modalModel.title }}</div>
+      <div class="modal__defaultText">{{ modalModel.text }}</div>
+    </div>
+  </UIModal>
 </footer>
 </template>
 
@@ -301,29 +310,29 @@ import { UserDataController } from "@/helpers/UserDataController";
 import axios from 'axios';
 import { serverURL } from "@/preferenses";
 import { convertDateToBase } from '@/helpers/DateConverter';
+import UIModal from "@/components/UIModal.vue";
 
 export default {
   components: { 
     Swiper,
     SwiperSlide,
+    UIModal,
   },
   data() {
     return {
       role: undefined,
       introSwiper: undefined,
       introList: [
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
-        {title: "Контроль выполнения работ", text: "Наблюдайте за ходом работ дистанционно. Узнавайте о прогрессе выполнения из плана графика, согласованного с исполнителем", imageName: "intro3.png", href: ""},
+        {title: "Поиск исполнителя", text: "На платформе вы с легкостью можете подобрать того самого подрядчика, который сможет воплотить в ремонте все ваши пожелания и мечты. Точка ремонта предоставляет 2 варианта поиска: ленивый и активный. Вы можете использовать оба способа, можете выбрать только один. Ленивый поиск предполагает создание “проекта” т.е. размещение объявления о необходимости ремонтных работ и описание объекта, далее, на ваше объявление будут откликаться подрядчики и вы сможете выбрать, того, который больше всего вам подходит. Активный поиск же предполагает самостоятельный поиск подрядчика при помощи системы фильтрации.", imageName: "search.jpg", href: ""},
+        {title: "Контроль за выполнением работ", text: "Платформа предоставляет возможность наблюдать за выполнением работ, не выходя из дома. Процесс взаимодействия с подрядчиком обязует его регулярно высылать вам отчет о проделанных работах, согласовывать каждый новый этап. Если вы хотите повысить качество итогового ремонта вы также можете воспользоваться специальной услугой по контролю за выполнением работ. Тогда на ваш объект регулярно будет выезжать наш сотрудник, обладающий необходимыми знаниями и навыками, который будет следить за соблюдением техники выполнения работ и убедится в их конечном качестве. При обнаружении любого рода ошибок или нарушений, он проследит за их немедленным устранением.", imageName: "control.jpg", href: ""},
+        {title: "Капитальный ремонт", text: "Платформа поможет подобрать вам специалистов, обладающих всеми необходимыми навыками для проведения капитальных ремонтных работ: от смены планировки до установки декоративных конструкций. С дизайн проектом для ремонта вашей мечты вам может помочь команда специалистов нашей платформы, не первый год занимающейся созданием уникальных дизайн проектов и воплощением их в 3D пространстве.", imageName: "kapital.jpg", href: ""},
+        {title: "Косметический ремонт", text: "Платформа поможет подобрать вам специалистов, обладающих всеми необходимыми навыками для проведения косметических ремонтных работ. А с дизайн проектом для ремонта вашей мечты, вам может помочь команда специалистов нашей платформы, не первый год занимающейся созданием уникальных дизайн проектов и воплощением их в 3D пространстве.", imageName: "cosmetic.jpg", href: ""},
       ],
       reviewSwiper: undefined,
       reviewList: [
-        {time: "4 Месяца", coast: "600 000", name: "Александр", comment: "Выполнили все максимально качественно и в кратчайшие сроки. Быстро договаривались о всех нюансах, исполнитель оперативно отвечает", imageName1: "projects_image1.png", imageName2: "main_desktop.png"},
-        {time: "4 Месяца", coast: "600 000", name: "Александр", comment: "Выполнили все максимально качественно и в кратчайшие сроки. Быстро договаривались о всех нюансах, исполнитель оперативно отвечает", imageName1: "projects_image1.png", imageName2: "main_desktop.png"},
-        {time: "4 Месяца", coast: "600 000", name: "Александр", comment: "Выполнили все максимально качественно и в кратчайшие сроки. Быстро договаривались о всех нюансах, исполнитель оперативно отвечает", imageName1: "projects_image1.png", imageName2: "main_desktop.png"},
-        {time: "4 Месяца", coast: "600 000", name: "Александр", comment: "Выполнили все максимально качественно и в кратчайшие сроки. Быстро договаривались о всех нюансах, исполнитель оперативно отвечает", imageName1: "projects_image1.png", imageName2: "main_desktop.png"},
+        {time: "6 Месяцев", coast: "4 800 000", name: "Вячеслав", comment: "команду мастеров нам подобрали действительно отличную. Ребята отработали все деньги и сделали потрясающий ремонт, по ходу дела работа шла открыто без конфликтов и недопониманий. Советую)", imageName1: "project11.jpg", imageName2: "project12.jpg"},
+        {time: "4 Месяца", coast: "1 200 000", name: "Лев", comment: "Ремонт хороший, команда справилась с поставленной задачей даже несколько опередив сроки.", imageName1: "project21.jpg", imageName2: "project22.jpg"},
+        {time: "3 Месяца", coast: "900 000", name: "Анна", comment: "Это был мой первый опыт ремонта. Сотрудники платформы помогли мне с дизайн проектом и с оформлением всех юридических вопросов, что сильно ускорило и упростило процесс. Ремонтом я довольна!", imageName1: "project31.jpg", imageName2: "project32.jpg"},
       ],
       articlesSwiper: undefined,
       articlesList: [
@@ -343,10 +352,18 @@ export default {
           slidesPerGroup: 1,
         }
       },
+      modalModel: {
+        title: "",
+        text: "",
+      },
+      isModalOpened: false,
     }
   },
   beforeCreate() {
     document.body.className = "landing"
+  },
+  unmounted() {
+    document.body.className = ""
   },
   methods: {
     introForvard() {
@@ -388,6 +405,11 @@ export default {
     },
     getArticleDate(date) {
       return convertDateToBase(date)
+    },
+    callModal(title, text) {
+      this.modalModel.title = title
+      this.modalModel.text = text
+      this.isModalOpened = true
     }
   },
   mounted() {

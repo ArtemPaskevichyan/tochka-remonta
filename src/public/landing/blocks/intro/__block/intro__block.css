@@ -13,6 +13,8 @@
 
   min-width: 200px;
   margin: 0 15px;
+  align-self: stretch;
+  min-height: 60vh;
 
   display: flex;
   flex-direction: column;

@@ -10,5 +10,5 @@
 
 .projects__imageHolder.large {
   width: 100%;
-  /* aspect-ratio: 2/1; */
+  aspect-ratio: 2/1;
 }

@@ -68,7 +68,10 @@
   }
 
   .instruction__illustration {
-    top: 35%;
+    width: 100%;
+    bottom: 0;
+    top: unset;
+    height: unset;
     left: 0;
   }
 
@@ -116,9 +119,12 @@
     display: none !important;
   }
 
-  .projects__image_bigger1 {
+  .projects__imageHolder.large {
     aspect-ratio: 1/1;
   }
+  /* .projects__image_bigger1 {
+    aspect-ratio: 1/1;
+  } */
 
   .projects__gridRow.rtl {
     grid-template-columns: 1fr;

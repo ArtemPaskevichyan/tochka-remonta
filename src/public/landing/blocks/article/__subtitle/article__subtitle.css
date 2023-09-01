@@ -6,4 +6,9 @@
   font-size: var(--f-z-regular);
   line-height: 27px;
   color: var(--c-text-secondary);
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

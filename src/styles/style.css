@@ -1588,6 +1588,13 @@ i.m-l {
   font-size: 51px;
   font-weight: 600;
 }
+.modal__defaultText {
+  margin-top: 14px;
+  line-height: 1.5em;
+  color: #676767;
+  font-size: 20px;
+  font-weight: 400;
+}
 
 @-webkit-keyframes loadingSpin {
   0% {
@@ -1635,7 +1642,6 @@ i.m-l {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: rgba(255, 255, 255, 0.4);
 }
 .loadingWall__spinnerHolder {
   height: 100px;
@@ -1702,6 +1708,52 @@ i.m-l {
           box-sizing: border-box;
   font-size: 8px;
   font-weight: 500;
+}
+
+.landing-header {
+  height: 50px;
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  box-sizing: border-box;
+  padding: 0 20px;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+.landing-header__inner {
+  max-width: 1200px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.landing-header.clear {
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .header {
@@ -3270,6 +3322,8 @@ i.m-l {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  overflow: hidden;
+  text-overflow: ellipsis;
   gap: 16px;
 }
 .makerResponse__header {
@@ -3599,6 +3653,7 @@ i.m-l {
   gap: 10px;
   -ms-grid-columns: auto 10px auto;
   grid-template-columns: auto auto;
+  overflow: hidden;
 }
 .makerProfileCard__infoLeftPart {
   display: -webkit-box;
