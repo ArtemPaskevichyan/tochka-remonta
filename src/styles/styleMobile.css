@@ -226,8 +226,8 @@
     font-size: 32px;
     font-weight: 400;
   }
-  .modal__deafultText {
-    font-size: 16px;
+  .modal__defaultText {
+    font-size: 15px;
   }
   .alert__content {
     width: 95vw;
