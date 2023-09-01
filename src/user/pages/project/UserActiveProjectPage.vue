@@ -28,7 +28,7 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">План работы</div>
                 <div class="projectSearchingPage__gantDiagram" :id="ganttId" :class="{skeleton: gantIsLoading}">
-                    <div v-if="gantTasksList?.length == 0" class="projectSearchingPage__gantDiagramMessage">{{ gantMessage }}</div>
+                    <div v-if="gantTasksList?.length == 0 && !shownNewDiagram || hasNewDiagram?.length == 0 && shownNewDiagram" class="projectSearchingPage__gantDiagramMessage">{{ gantMessage }}</div>
                 </div>
                 <div class="projectSearchingPage__gantFooter" v-if="hasNewDiagram && shownNewDiagram">
                     <div class="projectSearchingPage__caption">
