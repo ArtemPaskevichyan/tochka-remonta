@@ -153,9 +153,6 @@ export default {
         }
     },
     watch: {
-        searchText: function() {
-            // this.searchSuggestions = this.searchText.length > 0 ? [this.searchText, this.searchText, this.searchText] : []
-        },
     },
     mounted() {
         this.goSearch()

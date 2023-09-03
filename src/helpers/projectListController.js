@@ -85,9 +85,9 @@ class ProjectListController {
         if (data.hostDocs) {
             formData.append('projectdoc', data.hostDocs)
         }
-        if (data.designProject) {
-            formData.append('projectdoc', data.designProject)
-        }
+        // if (data.designProject) {
+        //     formData.append('projectdoc', data.designProject)
+        // }
         formData.append('description', 'Проект создан')
         const eventConfig = {
             headers: {

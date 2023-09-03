@@ -1,0 +1,91 @@
+<template>
+  <div class="fileLoader">
+    <div class="fileLoader__title">
+      {{ title }}
+    </div>
+    <input type="file" ref="input" :accept="accept" @change="fetchFile" />
+    <div class="fileLoader__inner">
+      <UIButton
+        v-if="!fileName"
+        @click="$refs.input.click()"
+        class="fileLoader__button"
+        >Выбрать файл</UIButton
+      >
+      <div v-else class="fileLoader__fileInfo">
+        <span class="fileLoader__fileName">{{ fileName ?? "" }}</span>
+        <span class="fileLoader__controls">
+          <UIButton
+            @click="watchFile"
+            class="fileLoader__destructive"
+            :style="'square default'"
+            ><i class="icon-eye"></i
+          ></UIButton>
+          <UIButton
+            @click="clearFile"
+            class="fileLoader__destructive"
+            :style="'destructive'"
+            >Удалить</UIButton
+          >
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import UIButton from "@/components/Buttons/UIButton.vue";
+
+export default {
+  components: {
+    UIButton,
+  },
+  data() {
+    return {
+      file: undefined,
+      fileName: undefined,
+      inputId: this._uid + "-input",
+      fileLink: undefined,
+    };
+  },
+  props: {
+    title: String,
+    accept: Array,
+    preview: Boolean,
+    loadedFile: Object,
+  },
+  methods: {
+    fetchFile(event) {
+      try {
+        this.$emit("fileLoaded", event.target.files[0]);
+        this.file = event.target.files[0];
+        this.fileName = event.target.files[0].name;
+        this.fileLink = window.URL.createObjectURL(this.file);
+      } catch (e) {
+        this.$emit("error", e);
+      }
+    },
+    clearFile() {
+      this.file = undefined;
+      this.fileName = undefined;
+      this.fileLink = undefined;
+      this.$refs("input").value = null;
+      this.$emit("cleared");
+    },
+    watchFile() {
+      if (this.file) window.open(this.fileLink, "_blank");
+    },
+  },
+  mounted() {
+    if (this.loadedFile) {
+      this.fileLink = this.loadedFile.link;
+      this.fileName = this.loadedFile.name;
+    }
+  },
+  watch: {
+    loadedFile: function () {
+      this.fileLink = this.loadedFile.link;
+      this.fileName = this.loadedFile.name;
+    },
+  },
+};
+</script>

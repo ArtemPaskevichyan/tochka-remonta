@@ -59,12 +59,18 @@
                 <div class="projectSearchingPage__blockTitle">Денежные потоки</div>
             </div> -->
 
-            <div class="projectSearchingPage__block">
+            <!-- <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Фото архив</div>
                 <div class="projectSearchingPage__photos">
                     <GaleryImage :src="imgName ? srcBase+imgName : ''" :key="index" v-for="(imgName, index) in eventImageNames" @click="chose(index)"/>
                 </div>
                 <UIButton class="projectSearchingPage__photosButton" :style="'primary'" @click="createEvent">Загрузить событие</UIButton>
+            </div> -->
+
+            <div class="projectSearchingPage__block">
+                <div class="projectSearchingPage__blockTitle">Загрузка файлов</div>
+                <UIFileLoader :title="'Документы о правах собственности'" :watch="true" @fileLoaded="hostLoaded" :loadedFile="hostDocs"/>
+                <UIFileLoader :title="'Дизайн проект'" :watch="true" @fileLoaded="designLoaded" :loadedFile="designDocs"/>
             </div>
 
             <div class="projectSearchingPage__block">
@@ -134,6 +140,7 @@ import { UserDataController } from '@/helpers/UserDataController';
 
 import { GanttHelper } from '@/helpers/GanttHelper';
 import UIAlert from "@/components/UIAlert.vue";
+import UIFileLoader from "@/components/FormComponents/UIFileLoader.vue";
 
 export default {
     components: {
@@ -141,7 +148,7 @@ export default {
         Negotiation, NegotiationView, Event, GaleryImage, UIModal,
         ProjectPhotosView, CompleteProjectForMaker, EventCreation,
         NegotiationCreation, GanttDiagramEditor, UINotificationIndicatiorHolder,
-        NegotiationList, EventList, UIAlert,
+        NegotiationList, EventList, UIAlert, UIFileLoader,
     },
     data() {
         return {
@@ -166,6 +173,8 @@ export default {
                 title: "",
                 text: "",
             },
+            hostDocs: undefined,
+            designDocs: undefined,
         }
     },
     methods: {
@@ -384,6 +393,50 @@ export default {
             this.errorToAlert.buttons = buttons
         },
 
+        async hostLoaded(file) {
+            try {
+                this.isLoading = true
+                await this.projectController.createFileEvent("Документы о правах собственности загружены", file, this.project?.id)
+                this.$emit('eventCreated')
+            } catch(e) {
+                console.log(e)
+                //
+            } finally {
+                this.isLoading = false
+            }
+        },
+
+        async designLoaded(file) {
+            try {
+                this.isLoading = true
+                await this.projectController.createFileEvent("Дизайн-проект загружен", file, this.project?.id)
+                this.$emit('eventCreated')
+            } catch(e) {
+                console.log(e)
+                //
+            } finally {
+                this.isLoading = false
+            }
+        },
+
+        getLoadedFiles() {
+            for (let e of this.eventList) {
+                if (e.description == "Документы о правах собственности загружены") {
+                    try {
+                        this.hostDocs = {
+                            name: e?.photos[0]?.filename
+                        }
+                    } catch(e) {
+                        console.log(e)
+                    }
+                }
+            }
+        },
+
+        getFileLink(filename) {
+            return ""
+        },
+
         async onMounted() {
             this.isLoading = true
             var uuid = (await UserDataController.shared.getData()).uuid
@@ -395,6 +448,7 @@ export default {
             }
             this.isLoading = false
             this.getNegotiations()
+            this.getLoadedFiles()
             this.loadDiagram()
         }
     },
@@ -421,6 +475,9 @@ export default {
             if (!this.project?.id) { return }
 
             this.getNegotiations()
+        },
+        eventList: function() {
+            this.getLoadedFiles()
         }
     },
     mounted() {

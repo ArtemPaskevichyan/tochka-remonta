@@ -280,6 +280,9 @@ i.m-l {
       -ms-flex-align: center;
           align-items: center;
 }
+.registration__title, .login__title {
+  margin-bottom: 40px;
+}
 .registration__switchHolder, .login__switchHolder {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -780,9 +783,6 @@ i.m-l {
 .fileLoader__inner {
   margin-top: 10px;
 }
-.fileLoader__destructive {
-  margin-left: 14px;
-}
 .fileLoader__fileInfo {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -808,6 +808,17 @@ i.m-l {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.fileLoader__controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-left: 14px;
 }
 .fileLoader input {
   display: none;
@@ -3136,6 +3147,9 @@ i.m-l {
   font-size: 20px;
   font-weight: 400;
   color: #808080;
+}
+.projectSearchingPage .fileLoader {
+  margin-top: 20px;
 }
 
 .ganttEditor {

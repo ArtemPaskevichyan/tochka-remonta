@@ -5,7 +5,7 @@
         <div class="titleText pageTitle">Добавление проекта</div>
         <div class="createProject backgroundCard">
             <div class="createProject__content" id="CPTitle">
-                <div class="createProject__item">
+                <div class="createProject__item" id="CPTitle">
                     <UIInput :placeholder="'Название'" :title="'Название проекта'" v-model:value="title" :class="{error: titleError}"></UIInput>
                 </div>
                 <div class="createProject__item" id="CPSquare">
@@ -13,7 +13,25 @@
                     :suffix="'М²'" :size="'short'" :class="{error: squareError}"></UIParamInput>
                 </div>
                 <div class="createProject__item" id="CPTypeOfNew">
-                    <UISelect :title="'Возраст дома'" v-model:value="typeOfNew" :selectArray="typesOfNew" :class="{error: typeOfNewError}"></UISelect>
+                    <UISelect :title="'Вид объекта'" v-model:value="typeOfNew" :selectArray="typesOfNew" :class="{error: typeOfNewError}"></UISelect>
+                </div>
+                <div class="createProject__item" id="CPTypeOfRepair">
+                    <UISelect :title="'Вид ремонта'" v-model:value="typeOfRepair" :selectArray="typesOfRepair" :class="{error: typeOfNewError}"></UISelect>
+                </div>
+                <div class="createProject__item" id="CPTypeOfWork">
+                    <UISelect :title="'Вид работы'" v-model:value="typeOfWork" :selectArray="typesOfWork" :class="{error: typeOfNewError}"></UISelect>
+                </div>
+                <div class="createProject__item" id="CPChoisesOfWalls">
+                    <UIMultiChoise v-model:selectionData="choisesOfWalls" :title="'Покрытие стен'" :foldable="true"/>
+                </div>
+                <div class="createProject__item" id="CPChoisesOfFloor">
+                    <UIMultiChoise v-model:selectionData="choisesOfFloor" :title="'Напольное покрытие'" :foldable="true"/>
+                </div>
+                <div class="createProject__item" id="CPChoisesOfTop">
+                    <UIMultiChoise v-model:selectionData="choisesOfTop" :title="'Потолок'" :foldable="true"/>
+                </div>
+                <div class="createProject__item" id="CPChoisesOfNetworks">
+                    <UIMultiChoise v-model:selectionData="choisesOfNetworks" :title="'Инженерные сети'" :foldable="true"/>
                 </div>
                 <div class="createProject__item" id="CPTypeOfHouse">
                     <UISelect :title="'Тип дома'" v-model:value="typeOfHouse" :selectArray="typesOfHouse" :class="{error: typeOfHouseError}"></UISelect>
@@ -40,9 +58,9 @@
                 <div class="createProject__item" id="CPHasDesign">
                     <UICheckbox v-model:value="hasDesignProject" :class="{error: hasDesignProjectError}">Есть дизайн проект</UICheckbox>
                 </div>
-                <div class="createProject__item" id="CPHostDocs">
+                <!-- <div class="createProject__item" id="CPHostDocs">
                     <UIFileLoader :title="'Загрузка документов о правах собственности'" @fileLoaded="hostDocsLoaded" @cleared="hostDocsDeleted" :class="{error: hostDocsError}"></UIFileLoader>
-                </div>
+                </div> -->
                 <div class="createProject__item" id="CPDescription">
                     <UITextInput :title="'Описание'" :placeholder="'Описание проекта'" v-model:value="description" :class="{error: descriptionError}"></UITextInput>
                 </div>
@@ -56,7 +74,7 @@
             </div>
         </div>
     </div>
-    <UILoadingWall v-if="isLoading"/>
+    <UIProgressLoading v-if="isLoading" :status="uploadProgressStatus" v-model:progress="uploadProgress"></UIProgressLoading>
 </template>
 
 <script>
@@ -70,12 +88,15 @@ import UIRangeInput from '@/components/FormComponents/UIRangeInput.vue';
 import GaleryImage from '@/components/FormComponents/ImageLoaders/GaleryImage.vue';
 import UIGaleryLoader from '@/components/FormComponents/ImageLoaders/UIGaleryLoader.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
+import UIMultiChoise from '@/components/FormComponents/UIMultiChoise.vue';
 
 import SetReview from '@/components/Supports/SetReview.vue';
-import UIHeader from '@/components/Header/UIHeader.vue'
+import UIHeader from '@/components/Header/UIHeader.vue';
 import UITabBar from '@/components/UITabBar.vue';
-import UILoadingWall from '@/components/UILoadingWall.vue'
+import UILoadingWall from '@/components/UILoadingWall.vue';
+import UIProgressLoading from '@/components/UIProgressLoading.vue';
 import { AdressHelper } from '@/helpers/AdressHelper';
+import { UserDataController } from '@/helpers/UserDataController';
 import {ProjectListController} from "@/helpers/projectListController.js"
 import { ERROR_CODES } from '@/helpers/ErrorMaker';
 
@@ -85,7 +106,7 @@ export default {
         UIInput, UISelect, UIHeader, UIParamInput, UICheckbox,
         UIFileLoader, UITextInput, UIRangeInput, GaleryImage,
         UIGaleryLoader, UIButton, UILoadingWall, SetReview,
-        UITabBar,
+        UITabBar, UIMultiChoise, UIProgressLoading, 
     },
     data() {
         return {
@@ -95,7 +116,9 @@ export default {
             adress: "",
             adressId: "user_createProject_Adress",
             typeOfHouse: 0,
-            square: '',
+            square: "",
+            typeOfWork: 0,
+            typeOfRepair: 0,
             typeOfNew: 0,
             typeOfStart: 0,
             hasDesignProject: false,
@@ -104,10 +127,20 @@ export default {
             hostDocs: undefined,
             designProject: undefined,
             imageList: [],
-            description: '',
+            description: "",
+
             typesOfNew: [
                 {id: 0, label: "Вторичка"},
-                {id: 1, label: "Новостройка"}
+                {id: 1, label: "Новостройка"},
+            ],
+            typesOfWork: [
+                {id: 0, label: "Только черновые"},
+                {id: 1, label: "Только чистовые"},
+                {id: 2, label: "Комплекс"},
+            ],
+            typesOfRepair: [
+                {id: 0, label: "Под ключ"},
+                {id: 1, label: "Частичный"},
             ],
             typesOfStart: [
                 {id: 0, label: "В ближайшую неделю", offset: 7},
@@ -116,12 +149,44 @@ export default {
             ],
             typesOfHouse: [
                 {id: 0, label: "Квартира"},
-                {id: 1, label: "Дом"}
+                {id: 1, label: "Дом"},
+            ],
+
+            choisesOfWalls: [
+                {id: 0, label: "Обои", active: false},
+                {id: 1, label: "Обои под покраску", active: false},
+                {id: 2, label: "Покраска", active: false},
+                {id: 3, label: "Декоративная штукатурка", active: false},
+                {id: 4, label: "Плитка", active: false},
+                {id: 5, label: "Другое", active: false},
+            ],
+            choisesOfFloor: [
+                {id: 0, label: "Ламинат", active: false},
+                {id: 1, label: "Линолиум", active: false},
+                {id: 2, label: "Кварцвинил", active: false},
+                {id: 3, label: "Плитка", active: false},
+                {id: 4, label: "Паркет", active: false},
+                {id: 5, label: "Инженерная доска", active: false},
+                {id: 6, label: "Другое", active: false},
+            ],
+            choisesOfTop: [
+                {id: 0, label: "Натяжной", active: false},
+                {id: 1, label: "ГКЛ (Гибсокартоновый лист)", active: false},
+                {id: 2, label: "Побелка", active: false},
+                {id: 3, label: "Другое", active: false},
+            ],
+            choisesOfNetworks: [
+                {id: 0, label: "Электрика", active: false},
+                {id: 1, label: "Сантехника", active: false},
+                {id: 2, label: "Климототехника", active: false},
+                {id: 3, label: "Другое", active: false},
             ],
             costStartConfig: {placeholder: '100000', prefix: 'от', suffix: '₽'},
             costEndConfig: {placeholder: '150000', prefix: 'до', suffix: '₽'},
+
             reviewText: "",
             reviewRating: undefined,
+            reviewError: false,
 
             cityError: false,
             titleError: false,
@@ -136,9 +201,13 @@ export default {
             hostDocsError: false,
             imageListError: false,
             descriptionError: false,
-            reviewError: false,
-
+            uploadProgress: 0,
+            uploadProgressStatus: "",
             isLoading: false,
+            choiseOfTopError: false,
+            choiseOfFloorError: false,
+            choiseOfNetworksError: false,
+            choiseOfWallsError: false,
         }
     },
     methods: {
@@ -183,17 +252,21 @@ export default {
                     square_meters: this.square,
                     start_date: this.typesOfStart.find(i => i.id == this.typeOfStart),
                     title: this.title,
+                    ceiling: this.getCeiling,
+                    engineering_networks: this.getEngineeringNetworks,
+                    floor_covering: this.getFloorCovering,
+                    wall_covering: this.getWallCovering,
                     // imageModel: {id: Number, file: File, scr: String}
                     imageList: this.imageList,
                     hostDocs: this.hostDocs,
-                    designProject: this.designProject
+                    // designProject: this.designProject
                 }
 
                 let review = {
                     text: this.reviewText,
                     rating: this.reviewRating,
                 }
-                await this.viewModel.createProject(data, review)
+                await this.viewModel.createProject(data, review, this)
                 this.$router.push("/maker/myProjects")
             } catch(e) {
                 console.log(e.message, e.code)
@@ -255,6 +328,22 @@ export default {
                     case 449:
                         alert(e.message)
                         break;
+                    case ERROR_CODES.CPVCeiligFailed:
+                        this.choiseOfTopError = true,
+                        this.smoothScrollTo("#CPChoisesOfTop")
+                        break;
+                    case ERROR_CODES.CPVNetworksFailed:
+                        this.choiseOfNetworksError = true,
+                        this.smoothScrollTo("#CPChoisesOfNetworks")
+                        break;
+                    case ERROR_CODES.CPVFloorsFailed:
+                        this.choiseOfFloorError = true,
+                        this.smoothScrollTo("#CPChoisesOfFloor")
+                        break;
+                    case ERROR_CODES.CPVWallsFailed:
+                        this.choiseOfWallsError = true,
+                        this.smoothScrollTo("#CPChoisesOfWalls")
+                        break;
                     default:
                         alert(e.message)
                         break;
@@ -289,19 +378,68 @@ export default {
         imageList() {
             this.imageListError = false
         },
-        descriptionError() {
+        description() {
             this.descriptionError = false
         },
         reviewText() {
             this.reviewError = false
-        }
+        },
+        choisesOfFloor: {
+            deep: true,
+            handler() { this.choiseOfFloorError = false },
+        },
+        choisesOfTop: {
+            deep: true,
+            handler() { this.choiseOfTopError = false },
+        },
+        choisesOfWalls: {
+            deep: true,
+            handler() { this.choiseOfWallsError = false },
+        },
+        choisesOfNetworks: {
+            deep: true,
+            handler() { this.choiseOfNetworksError = false },
+        },
     },
     mounted() {
         AdressHelper.shared.addToYMAP(this.adressId, (data) => {
-            console.log("CALLBACK", data)
             this.adress = data
         })
+        UserDataController.shared.getData()
+            .then((response) => {
+                this.city = response.city
+            })
     },
+    computed: {
+        getCeiling() {
+            let filteredList = []
+            for (let e of this.choisesOfTop) {
+                if (e.active) filteredList.push(e.label)
+            }
+            return filteredList
+        },
+        getFloorCovering() {
+            let filteredList = []
+            for (let e of this.choisesOfFloor) {
+                if (e.active) filteredList.push(e.label)
+            }
+            return filteredList
+        },
+        getEngineeringNetworks() {
+            let filteredList = []
+            for (let e of this.choisesOfNetworks) {
+                if (e.active) filteredList.push(e.label)
+            }
+            return filteredList
+        },
+        getWallCovering() {
+            let filteredList = []
+            for (let e of this.choisesOfWalls) {
+                if (e.active) filteredList.push(e.label)
+            }
+            return filteredList
+        }
+    }
 }
 </script>
 

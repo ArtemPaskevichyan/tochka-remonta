@@ -40,7 +40,6 @@ class ProjectController {
             if (array.date) {
                 array = [array]
             }
-            array?.reverse()
             return array ?? []
         } catch(e) {
             throw e
@@ -214,7 +213,7 @@ class ProjectController {
     }
 
     async createEvent(data, id) {
-        var token = await TokenHandler.shared.getToken()
+        const token = await TokenHandler.shared.getToken()
         const URL = `${serverURL}/api/v1/projects/create_event?p_id=${id}`
         const config = {
             headers: {
@@ -222,9 +221,31 @@ class ProjectController {
             }
         }
 
-        var formData = new FormData()
+        let formData = new FormData()
         formData.append('projectphoto', data?.image)
         formData.append('description', data?.text)
+
+        await axios.post(URL, formData, config)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+            })
+    }
+
+    async createFileEvent(description, file, id) {
+        const token = await TokenHandler.shared.getToken()
+        const URL = `${serverURL}/api/v1/projects/create_event?p_id=${id}`
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        let formData = new FormData()
+        formData.append('projectdoc', file)
+        formData.append('description', description)
 
         await axios.post(URL, formData, config)
             .then((response) => {

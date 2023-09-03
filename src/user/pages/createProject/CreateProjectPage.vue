@@ -58,9 +58,9 @@
                 <div class="createProject__item" id="CPHasDesign">
                     <UICheckbox v-model:value="hasDesignProject" :class="{error: hasDesignProjectError}">Есть дизайн проект</UICheckbox>
                 </div>
-                <div class="createProject__item" id="CPHostDocs">
+                <!-- <div class="createProject__item" id="CPHostDocs">
                     <UIFileLoader :title="'Загрузка документов о правах собственности'" @fileLoaded="hostDocsLoaded" @cleared="hostDocsDeleted" :class="{error: hostDocsError}"></UIFileLoader>
-                </div>
+                </div> -->
                 <div class="createProject__item" id="CPDescription">
                     <UITextInput :title="'Описание'" :placeholder="'Описание проекта'" v-model:value="description" :class="{error: descriptionError}"></UITextInput>
                 </div>
@@ -250,7 +250,7 @@ export default {
                     // imageModel: {id: Number, file: File, scr: String}
                     imageList: this.imageList,
                     hostDocs: this.hostDocs,
-                    designProject: this.designProject
+                    // designProject: this.designProject
                 }
                 await this.viewModel.createProject(data, undefined, this)
                 this.$router.push("/user/myProjects")

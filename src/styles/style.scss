@@ -254,6 +254,10 @@ i.m-l {
         align-items: center;
     }
 
+    &__title {
+        margin-bottom: 40px;
+    }
+
     &__switchHolder {
         display: flex;
         flex-direction: row;
@@ -753,9 +757,9 @@ i.m-l {
         margin-top: 10px;
     }
 
-    &__destructive {
-        margin-left: 14px;
-    }
+    // &__destructive {
+    //     margin-left: 14px;
+    // }
 
     &__fileInfo {
         box-sizing: border-box;
@@ -777,6 +781,13 @@ i.m-l {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    &__controls {
+        display: flex;
+        gap: 10px;
+        flex-direction: row;
+        margin-left: 14px;
     }
 
     input {
@@ -2852,6 +2863,10 @@ i.m-l {
         font-size: 20px;
         font-weight: $font-regular;
         color: $placeholder-text-color;
+    }
+
+    .fileLoader {
+        margin-top: 20px;
     }
 }
 

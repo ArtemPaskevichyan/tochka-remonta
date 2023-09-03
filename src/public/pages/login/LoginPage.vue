@@ -1,10 +1,10 @@
 <template>
     <div class="login authorizationHolder">
-        <div class="authorizationHolder__titleBlock">
-            <div class="titleText">Вход в аккаунт</div>
-        </div>
         
         <div class="authorizationHolder__content">
+            <div class="authorizationHolder__titleBlock login__title">
+                <div class="titleText">Вход в аккаунт</div>
+            </div>
             <div class="login__formBlock">
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" :class="{error: emailError}"
                 v-model:value="email" :style="'small'" :role="'email'"></UIInput>
