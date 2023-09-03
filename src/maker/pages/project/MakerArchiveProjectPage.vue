@@ -160,6 +160,7 @@ export default {
                 //
             } finally {
                 this.isReviewLoading = false
+                this.getProjectRating()
             }
         },
         async getMaker() {
@@ -205,7 +206,6 @@ export default {
     mounted() {
         this.getMaker()
         this.getReview()
-        this.getProjectRating()
     }
 }
 </script>

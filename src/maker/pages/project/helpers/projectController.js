@@ -342,7 +342,7 @@ class ProjectController {
             }
         }
         const URL = `${serverURL}/api/v1/projects/update_task_progress?pt_id=${id}&progress=${progress}`
-        axios.post(URL, {}, config)
+        return axios.post(URL, {}, config)
             .catch(error => { console.log(error) })
     }
 

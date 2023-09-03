@@ -3,10 +3,18 @@
     <UIHeader/>
     <div class="titleText pageTitle">Исходящие заявки</div>
     <div class="outcomingSuggestions__list">
-      <Suggestion v-for="s in suggestionsArray" :key="s.id" :to="s.to" :projectId="s.project_id" :from="s.from" :suspense="s.suspense ?? false" @deleted="deleteSuggestion(s.id)"/>
+      <Suggestion
+        v-for="s in suggestionsArray"
+        :key="s?.id"
+        :to="s?.to"
+        :projectId="s?.project_id"
+        :from="s?.from"
+        :suspense="s.suspense ?? false"
+        @deleted="deleteSuggestion(s?.id)"
+      />
       <div class="outcomingSuggestions__caption" v-if="suggestionsArray?.length == 0">
         Заявок, отпраленных вами не найдено
-        <UIButton :style="'primary'" @click="$router.push('/maker/search')"><i class="icon-search inline-icon m-r"></i>Искать проекты</UIButton>
+        <UIButton :style="'primary'" @click="$router.push('/maker/search')"><i class="icon-search inline-icon m-r"></i>Поиск проектов</UIButton>
       </div>
     </div>
     <UITabBar :page="'Мои проекты'"/>
@@ -22,7 +30,7 @@ import UIButton from "@/components/Buttons/UIButton.vue";
 
 export default {
   components: {
-    Suggestion, UIHeader, UITabBar, UIButton,
+    Suggestion, UIHeader, UIButton,
   },
   data() {
     return {
@@ -38,7 +46,7 @@ export default {
       } catch(e) {
         console.log("ERROR", e)
       } finally {
-
+        console.log("SDF")
       }
     },
 

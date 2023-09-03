@@ -120,13 +120,14 @@ export default {
     addTask() {
       let start, end;
       if (!this.tasks || this.tasks?.length == 0) {
-        let dateNow = new Date();
-        start = dateNow.toISOString().split("T")[0];
+        const dateNow = new Date();
+        const dateToday = new Date(dateNow.setDate(dateNow.getDate() + 1))
+        start = dateToday.toISOString().split("T")[0];
 
-        let dateInAWeek = new Date(dateNow.setDate(dateNow.getDate() + 7))
+        const dateInAWeek = new Date(dateNow.setDate(dateNow.getDate() + 7))
         end = dateInAWeek.toISOString().split("T")[0];
 
-        let task = {
+        const task = {
           id: String(this.generatedTaskId),
           name: "Название",
           start: start,
@@ -137,11 +138,11 @@ export default {
         this.tasks.push(task)
         this.ganttHelper.createDiagram("#" + this.ganttId, this.tasks)
       } else {
-        let lastTask = this.tasks[this.tasks.length - 1]
+        const lastTask = this.tasks[this.tasks.length - 1]
           start = lastTask.start
           end = lastTask.end
 
-          let task = {
+          const task = {
           id: String(this.generatedTaskId),
           name: "Название",
           start: start,
@@ -164,8 +165,10 @@ export default {
     dateChange(task, start, end) {
       let taskInList = this.tasks.find(e => e.id == task.id)
 
-      taskInList.start = new Date(Date.parse(start)).toISOString().split("T")[0]
+      taskInList.start = new Date(Date.parse(start) + 86400000).toISOString().split("T")[0]
       taskInList.end = new Date(Date.parse(end)).toISOString().split("T")[0]
+
+      console.log(this.tasks, Date.parse(start) + 1, end)
     },
 
     progressChange(task, progress) {

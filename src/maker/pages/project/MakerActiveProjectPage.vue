@@ -92,6 +92,20 @@
         <EventList v-if="modalContentType == 'evt_l'" :eventList="eventList"/>
     </UIModal>
 
+    <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
+        <template v-slot:body>
+            <div class="alert__baseTitle" v-if="errorToAlert?.title">
+                {{errorToAlert?.title}}
+            </div>
+            <div class="alert__baseText" v-if="errorToAlert?.text">
+                {{errorToAlert?.text}}
+            </div>
+        </template>
+        <template v-slot:controls>
+            <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
+        </template>
+    </UIAlert>
+
     <UILoadingWall v-if="isLoading"/>
 </template> 
 
@@ -119,6 +133,7 @@ import { serverURL } from '@/preferenses';
 import { UserDataController } from '@/helpers/UserDataController';
 
 import { GanttHelper } from '@/helpers/GanttHelper';
+import UIAlert from "@/components/UIAlert.vue";
 
 export default {
     components: {
@@ -126,7 +141,7 @@ export default {
         Negotiation, NegotiationView, Event, GaleryImage, UIModal,
         ProjectPhotosView, CompleteProjectForMaker, EventCreation,
         NegotiationCreation, GanttDiagramEditor, UINotificationIndicatiorHolder,
-        NegotiationList, EventList,
+        NegotiationList, EventList, UIAlert,
     },
     data() {
         return {
@@ -145,6 +160,12 @@ export default {
             gantTasksList: [],
             hasNewDiagram: false,
             shownNewDiagram: false,
+            isAlertOpened: false,
+            errorToAlert: {
+                buttons: [],
+                title: "",
+                text: "",
+            },
         }
     },
     methods: {
@@ -280,21 +301,36 @@ export default {
             if (changed) {
                 console.log("CHANGES")
                 try {
-                    this.projectController.createDiagramNegotiation(taskList, this.project?.id, this.project?.customer_uuid)
+                    this.isLoading = true
+                    await this.projectController.createDiagramNegotiation(taskList, this.project?.id, this.project?.customer_uuid)
                     this.isModalOpened = false
+                    this.$router.go()
                 } catch(e) {
                     console.log("ERROR", e)
+                } finally {
+                    this.isLoading = false
                 }
             } else {
                 console.log("NO CHANGES")
+                let awaitList = []
                 for (let i in taskList) {
                     if (this.gantTasksList[i].progress != taskList[i].progress) {
-                        this.projectController.updateTaskProgress(taskList[i])
+                        awaitList.push(this.projectController.updateTaskProgress(taskList[i]))
                     }
                 }
+                try {
+                    this.isLoading = true
+                    await Promise.all(awaitList)
+                    this.$router.go()
+                } catch(e) {
+                    this.callAlert(
+                        "Непредвиденная ошибка",
+                        "Данные плана не сохранились, попробуйте создать его снова позже",
+                        [{style: "secondary", label: "OK", callback: () => {this.$router.go()}}])
+                } finally {
+                    this.isLoading = false
+                }
             }
-
-            this.$router.go()
         },
 
         lookForNewDiagramm() {
@@ -340,6 +376,12 @@ export default {
                     }
                 }
             }
+        },
+        callAlert(title, text, buttons) {
+            this.isAlertOpened = true
+            this.errorToAlert.title = title
+            this.errorToAlert.text = text
+            this.errorToAlert.buttons = buttons
         },
 
         async onMounted() {

@@ -160,6 +160,7 @@ export default {
                 //
             } finally {
                 this.isReviewLoading = false
+                this.getProjectRating()
             }
         },
 
@@ -210,7 +211,6 @@ export default {
     mounted() {
         this.getMaker()
         this.getReview(this.project?.id)
-        this.getProjectRating()
     }
 }
 </script>

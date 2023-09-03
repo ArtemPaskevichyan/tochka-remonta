@@ -46,7 +46,7 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__actions">
                     <UIButton :style="'destructive'" @click="deleteProject">Удалить</UIButton>
-                    <UIButton :style="'default'" @click="editProject">Редактировать</UIButton>
+                    <!-- <UIButton :style="'default'" @click="editProject">Редактировать</UIButton> -->
                 </div>
             </div>
 

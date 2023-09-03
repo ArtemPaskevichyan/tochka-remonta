@@ -6,9 +6,9 @@
             <SuggestionsCard v-for="(s, index) in suggestions" :key="index" :projectId="s.id" :imageName="s.main_picture"
             :title="s.title" :description="s.description" :price="s.planned_budget_up" @accept="acceptSuggestion(s.sId, s.id)"/>
         </div>
-        <div class="suggestionsPage__caption" v-if="suggestions?.length != 0">
+        <div class="suggestionsPage__caption" v-if="suggestions?.length == 0">
             Никто ещё не предложил вам проект для сотрудничества
-            <UIButton :style="'primary'" @click="$router.push('/maker/search')"><i class="icon-search inline-icon m-r"></i>Искать проекты</UIButton>
+            <UIButton :style="'primary'" @click="$router.push('/maker/search')"><i class="icon-search inline-icon m-r"></i>Поиск проектов</UIButton>
         </div>
     </div>
 

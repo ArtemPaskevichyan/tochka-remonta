@@ -28,6 +28,7 @@ class GanttHelper {
     console.log("GO REFRESH", tasks, this.gantt)
     // celarContainer()
     this.gantt.refresh(tasks)
+    console.log("REFRESH END", tasks, this.gantt)
     // this.gantt = new Gantt(id, tasks, options ?? this.options)
   }
 
