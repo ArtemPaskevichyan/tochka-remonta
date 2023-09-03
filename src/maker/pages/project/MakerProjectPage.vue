@@ -17,7 +17,7 @@ import MakerSearchingProjectPage from "./MakerSearchingProjectPage.vue"
 import MakerActiveProjectPage from "@/maker/pages/project/MakerActiveProjectPage.vue"
 import MakerArchiveProjectPage from "@/maker/pages/project/MakerArchiveProjectPage.vue"
 import UILoadingWall from '@/components/UILoadingWall.vue'
-import {ProjectController} from '@/maker/pages/project/helpers/projectController.js'
+import { ProjectController } from '@/maker/pages/project/helpers/projectController.js'
 import { UserDataController } from "@/helpers/UserDataController"
 
 export default {

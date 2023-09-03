@@ -17,7 +17,7 @@ class MakerPageController {
     }
 
     async getProjects(uuid) {
-        return (await axios.get(`${serverURL}/api/v1/projects/get_user_project_list?user_uuid=${uuid}`))?.data?.project_list?.filter(p => p.status == 'archive') ?? []
+        return (await axios.get(`${serverURL}/api/v1/projects/get_user_project_list?user_uuid=${uuid}&status=archive`))?.data?.project_list ?? []
     }
 
     async getReviews(uuid) {

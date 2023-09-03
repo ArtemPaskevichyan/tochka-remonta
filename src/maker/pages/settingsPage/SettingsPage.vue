@@ -1,5 +1,5 @@
 <template>
-       <UIModal v-if="isAddSocialModalOpened" v-model:isOpened="isAddSocialModalOpened">
+    <UIModal v-if="isAddSocialModalOpened" v-model:isOpened="isAddSocialModalOpened">
         <div class="settingsPage__addSocialModal">
             <div class="settingsPage__title">Добавление канала связи</div>
             <UIInput v-model:value="newSocialTitle" :title="'Название канала'" :placeholder="'Социальная сеть/телефон'" class="settingsPage__addSocialModalInput"/>
@@ -10,8 +10,9 @@
 
     <UILoadingWall v-if="totalLoading"/>
 
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
         <UIHeader/>
+        <UITabBar :page="'Профиль'"/>
         <div class="titleText pageTitle">Настройки профиля</div>
         <div class="backgroundCard settingsPage-maker">
             <div class="settingsPage__title">Основная информация</div>
@@ -95,6 +96,7 @@
 
 <script>
 import UIHeader from '@/components/Header/UIHeader.vue';
+import UITabBar from '@/components/UITabBar.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIInput from '@/components/FormComponents/UIInput.vue';
 import UIImageLoader from '@/components/FormComponents/ImageLoaders/UIImageLoader.vue'
@@ -112,7 +114,7 @@ import {SettingsPageController, ADDRESS_SOCIAL_TITLE} from '@/maker/pages/settin
 export default {
     components: {
         UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall,
-        UITextInput, UIRating, UIAchievment,
+        UITextInput, UIRating, UIAchievment, UITabBar,
     },
 
     data() {

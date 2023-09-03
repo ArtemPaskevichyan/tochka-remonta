@@ -1,6 +1,7 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
         <UIHeader/>
+        <UITabBar :page="'Поиск'"/>
         <div class="titleText pageTitle searchPage__title">Проекты</div>
         <UISearchBar class="searchPage__searchBar" v-model:suggestions="searchSuggestions" :placeholder="'Найти проект'"
         v-model:text="searchText" @chosen="searchChosen" @search="goSearch"/>
@@ -16,16 +17,16 @@
 </template>
 
 <script>
+import UITabBar from '@/components/UITabBar.vue';
 import UIHeader from '@/components/Header/UIHeader.vue';
 import UISearchBar from '@/components/UISearchBar.vue';
 import ForMakerProjectCard from '@/components/ProjectCards/ForMakerProjectCard.vue';
 
 import { SearchPageController } from "@/maker/pages/searchPage/helpers/searchPageController.js"
-import { UserDataController } from '@/helpers/UserDataController';
 
 export default {
     components: {
-        UIHeader, UISearchBar, ForMakerProjectCard,
+        UIHeader, UISearchBar, ForMakerProjectCard, UITabBar,
     },
     data() {
         return {

@@ -322,6 +322,9 @@
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .settingsPage-maker {
+    padding: 20px;
+  }
   .settingsPage__title {
     font-size: 20px;
     font-weight: 400;
@@ -331,6 +334,9 @@
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+  }
+  .settingsPage__block:last-child {
+    margin-bottom: 0;
   }
   .settingsPage__imageHolder {
     width: 180px;
@@ -368,13 +374,18 @@
     font-size: 15px !important;
   }
   .settingsPage__controlsFooter {
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
+    width: 100%;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 0 20px;
+  }
+  .settingsPage__controlsFooter .button {
+    width: 100%;
   }
   .submitPhonePage {
     padding: 40px 20px;
@@ -463,6 +474,9 @@
   .makerPage__footer {
     margin-top: 30px;
     margin-bottom: 0;
+  }
+  .makerPage__footer .button {
+    width: 100%;
   }
   .suggestProject {
     padding: 20px;

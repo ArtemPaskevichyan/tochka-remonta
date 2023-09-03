@@ -1,6 +1,7 @@
 <template>
-    <div class="headerPage">
+    <div class="headerPage tabBarPage">
         <UIHeader/>
+        <UITabBar :page="'Мои проекты'"/>
         <div class="titleText pageTitle">Предложенные мне проекты</div>
         <div class="suggestionsPage">
             <SuggestionsCard v-for="(s, index) in suggestions" :key="index" :projectId="s.id" :imageName="s.main_picture"
@@ -29,6 +30,7 @@
 
 <script>
 import UIHeader from '@/components/Header/UIHeader.vue'
+import UITabBar from '@/components/UITabBar.vue';
 import SuggestionsCard from './SuggestionsCard.vue';
 import { SuggestionsController } from "./helpers/suggestionsController.js"
 import UIAlert from '@/components/UIAlert.vue';
@@ -36,7 +38,7 @@ import UIButton from '@/components/Buttons/UIButton.vue';
 
 export default {
     components: {
-        UIHeader, SuggestionsCard, UIAlert, UIButton,
+        UIHeader, SuggestionsCard, UIAlert, UIButton, UITabBar,
     },
     data() {
         return {

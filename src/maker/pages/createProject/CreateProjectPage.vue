@@ -1,6 +1,7 @@
 <template>
-    <div class="headerPage">
-        <UIHeader></UIHeader>
+    <div class="headerPage tabBarPage">
+        <UIHeader/>
+        <UITabBar :page="'Новый проект'"/>
         <div class="titleText pageTitle">Добавление проекта</div>
         <div class="createProject backgroundCard">
             <div class="createProject__content" id="CPTitle">
@@ -72,6 +73,7 @@ import UIButton from '@/components/Buttons/UIButton.vue';
 
 import SetReview from '@/components/Supports/SetReview.vue';
 import UIHeader from '@/components/Header/UIHeader.vue'
+import UITabBar from '@/components/UITabBar.vue';
 import UILoadingWall from '@/components/UILoadingWall.vue'
 import { AdressHelper } from '@/helpers/AdressHelper';
 import {ProjectListController} from "@/helpers/projectListController.js"
@@ -83,6 +85,7 @@ export default {
         UIInput, UISelect, UIHeader, UIParamInput, UICheckbox,
         UIFileLoader, UITextInput, UIRangeInput, GaleryImage,
         UIGaleryLoader, UIButton, UILoadingWall, SetReview,
+        UITabBar,
     },
     data() {
         return {

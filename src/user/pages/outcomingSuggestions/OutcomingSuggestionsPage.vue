@@ -1,6 +1,7 @@
 <template>
   <div class="headerPage outcomingSuggestions tabBarPage">
     <UIHeader/>
+    <UITabBar :page="'Мои проекты'"/>
     <div class="titleText pageTitle">Исходящие заявки</div>
     <div class="outcomingSuggestions__list">
       <Suggestion

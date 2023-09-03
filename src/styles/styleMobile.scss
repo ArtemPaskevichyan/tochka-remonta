@@ -449,6 +449,12 @@
     padding: 20px;
     flex-direction: column;
 
+    &-maker {
+      padding: 20px;
+
+
+    }
+
     &__title {
       font: {
         size: 20px;
@@ -458,6 +464,10 @@
 
     &__block:not(.settingsPage__achivements) {
       flex-direction: column;
+    }
+
+    &__block:last-child {
+      margin-bottom: 0;
     }
 
     &__imageHolder {
@@ -497,8 +507,15 @@
     }
 
     &__controlsFooter {
-      width: max-content;
+      width: 100%;
       flex-direction: column;
+      margin: 0;
+      box-sizing: border-box;
+      padding: 0 20px;
+
+      .button {
+        width: 100%;
+      }
     }
   }
 
@@ -599,6 +616,10 @@
     &__footer {
       margin-top: 30px;
       margin-bottom: 0;
+
+      .button {
+        width: 100%;
+      }
     }
   }
 
