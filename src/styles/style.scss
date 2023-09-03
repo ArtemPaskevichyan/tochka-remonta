@@ -290,7 +290,7 @@ i.m-l {
     &__loginBlock {
         margin-top: auto;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         font-size: 15px;
     }
 
@@ -2592,6 +2592,12 @@ i.m-l {
         }
     }
 
+    &__cost {
+        input {
+            width: unset;
+        }
+    }
+
     &__controlsFooter {
         width: 60%;
         gap: 14px;
@@ -3370,6 +3376,8 @@ i.m-l {
     &__footer {
         display: flex;
         justify-content: flex-end;
+        flex-direction: column;
+        gap: 6px;
     }
 
     &__projects {
@@ -3435,6 +3443,10 @@ i.m-l {
 
     &__projectButton {
         width: 100%;
+    }
+
+    &__cost {
+        color: $secondary-text-color;
     }
 }
 

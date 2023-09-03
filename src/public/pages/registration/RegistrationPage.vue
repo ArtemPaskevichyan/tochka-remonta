@@ -27,6 +27,9 @@
                         Компания, занимающаяся ремонтыми или строительными работами
                     </template>
                 </RoleSelectItem>
+                <div class="registration__loginBlock">
+                    <span>Уже есть аккаунт?  <UILink :size="'small'" :link="'/login'">Войти</UILink></span>
+                </div>
             </div>
             <div class="registration__formBlock" v-show="currentPage == 1">
                 <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'" :class="{error: emailError}" 
@@ -57,9 +60,9 @@
             </div>
         </div>
 
-        <div class="registration__loginBlock">
+        <!-- <div class="registration__loginBlock">
             <span>Уже есть аккаунт?  <UILink :size="'small'" :link="'/login'">Войти</UILink></span>
-        </div>
+        </div> -->
     </div>
 
     <UILoadingWall v-if="isLoading"></UILoadingWall>

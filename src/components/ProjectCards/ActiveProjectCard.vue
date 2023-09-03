@@ -3,7 +3,6 @@
         <template v-slot:body>
             <div class="activeProject__body">
                 <UIProgressBar class="activeProject__progress" :title="'Прогресс выполнения'" :value="progress"/>
-                Текущий статус: {{ status }}
             </div>
         </template>
         <template v-slot:button>

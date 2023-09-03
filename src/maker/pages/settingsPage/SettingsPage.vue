@@ -66,6 +66,12 @@
                 <UIButton :style="descriptionButtonStyle" @click="setDescription">Сохранить</UIButton>
             </div>
 
+            <div class="settingsPage__title">Стоимость работ</div>
+            <div class="settingsPage__block settingsPage__descriptionBlock">
+                <UIParamInput class="settingsPage__cost" :placeholder="'1000000'" v-model:value="cost" :suffix="'₽/М²'" :class="{error: costError}"/>
+                <UIButton :style="costButtonStyle" @click="setCost">Сохранить</UIButton>
+            </div>
+
             <div class="settingsPage__title">Достижения</div>
             <div class="settingsPage__block settingsPage__achivements">
                 <div class="makerPage__achivement" v-for="(a, index) in achivesList" :key="index" :class="{skeleton: isAchivementsLoading}">
@@ -105,16 +111,18 @@ import UILoadingWall from '@/components/UILoadingWall.vue';
 import UITextInput from '@/components/FormComponents/UITextInput.vue';
 import UIRating from '@/components/FormComponents/UIRating.vue';
 import UIAchievment from '@/components/UIAchievment.vue';
+import UIParamInput from '@/components/FormComponents/UIParamInput.vue';
 
 import { AdressHelper } from '@/helpers/AdressHelper.js'
 import {UserDataController} from '@/helpers/UserDataController.js'
-import {SettingsPageController, ADDRESS_SOCIAL_TITLE} from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
+import { SettingsPageController, ADDRESS_SOCIAL_TITLE } from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
+
 
 
 export default {
     components: {
         UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall,
-        UITextInput, UIRating, UIAchievment, UITabBar,
+        UITextInput, UIRating, UIAchievment, UITabBar, UIParamInput,
     },
 
     data() {
@@ -155,6 +163,9 @@ export default {
             map: undefined,
             mapId: "__adressMap__",
             mapErrorMessage: "Загрузка карты...",
+            cost: "",
+            costButtonStyle: "disabled",
+            costError: false,
         }
     },
     methods: {
@@ -183,6 +194,9 @@ export default {
             this.email = data?.email
             this.isNumberApproved = Boolean(data?.phone)
             this.number = data?.phone
+
+            this.cost = data?.square_meter_cost
+            if (this.cost == 0) this.cost = ""
 
             const oneDay = 24 * 60 * 60 * 1000
             this.time = Math.max(Math.round((new Date(Date.now() - Date.parse(data?.registration_date))) / oneDay), 1)
@@ -262,7 +276,7 @@ export default {
             try {
                 this.totalLoading = true
                 await this.viewModel.setAvatar(file)
-                UserDataController.shared.updateData()
+                await UserDataController.shared.updateData()
             } catch(e) {
                 //
             } finally {
@@ -282,7 +296,7 @@ export default {
             try {
                 this.totalLoading = true
                 await this.viewModel.setName(this.name)
-                UserDataController.shared.updateData()
+                await UserDataController.shared.updateData()
             
                 this.buttonStyle = 'disabled'
             } catch(e) {
@@ -377,6 +391,20 @@ export default {
             }
         },
 
+        async setCost() {
+            try {
+                this.isLoading = true
+                await this.viewModel.setCost(this.cost)
+                await UserDataController.shared.updateData()
+
+                this.costButtonStyle = 'disabled'
+            } catch(e) {
+                if (e.message == "NaN") this.costError = true
+            } finally {
+                this.isLoading = false
+            }
+        },
+
         switchSocialHidden(index) {
             if (this.isSocialsLoading) { return }
             this.socialsList[index].show = !this.socialsList[index].show
@@ -402,6 +430,7 @@ export default {
                 this.buttonStyle = 'disabled'
                 this.descriptionButtonStyle = 'disabled'
                 this.previewButtonStyle = 'default'
+                this.costButtonStyle = 'disabled'
             })
         this.getSocials()
             .then(() => {
@@ -421,6 +450,11 @@ export default {
         description: function() {
             this.descriptionButtonStyle = 'default'
         },
+        cost: function() {
+            this.costButtonStyle = 'default'
+            this.costError = false
+        }
+
     }
 }
 </script>

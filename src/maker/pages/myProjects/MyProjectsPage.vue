@@ -40,6 +40,7 @@
                     :key="proj.id"
                     :status="'Поиск исполнителя'"
                     :responses="0"
+                    :description="proj.description ?? 'Нет описания'"
                     :imageName="proj.main_picture"
                     @action="$router.push('/maker/project/' + String(proj.id))"
                 />

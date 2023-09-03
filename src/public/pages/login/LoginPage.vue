@@ -12,7 +12,7 @@
                 v-model:value="password" :role="'password'" :style="'small'"></UIInput>
                 <div class="login__links">
                     <UILink :size="'small'" :link="'/forgotPassword'">Забыли пароль?</UILink>
-                    <UILink :size="'small'" :link="'/registration'">Регистрация</UILink>
+                    <UILink :size="'small'" :link="'/registration'">Еще нет аккаунта?</UILink>
                 </div>
             </div>
 

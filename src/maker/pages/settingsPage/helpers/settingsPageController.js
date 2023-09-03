@@ -208,6 +208,23 @@ class SettingsPageController {
             .catch(error => console.log("ERROR", error))
     }
 
+    async setCost(cost) {
+        cost = Number(cost)
+        if (isNaN(cost)) throw new Error("NaN")
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
+        const URL = `${serverURL}/api/v1/auth/update_user_data`
+        const model = {
+            square_meter_cost: cost,
+        }
+
+        await axios.post(URL, model, config)
+    }
+
     async setDescription(description) {
         const token = await TokenHandler.shared.getToken()
         const config = {

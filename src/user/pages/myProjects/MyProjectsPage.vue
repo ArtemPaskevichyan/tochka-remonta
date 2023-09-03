@@ -42,6 +42,7 @@
                     :status="'Поиск исполнителя'"
                     :responses="0"
                     :imageName="proj.main_picture"
+                    :description="proj.description ?? 'Нет описания'"
                     @action="$router.push('/user/project/' + String(proj.id))"
                 />
 

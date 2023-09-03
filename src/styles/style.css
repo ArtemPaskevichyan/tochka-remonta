@@ -327,9 +327,9 @@ i.m-l {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   font-size: 15px;
 }
 .registration__mainButton, .login__mainButton {
@@ -2842,6 +2842,9 @@ i.m-l {
 .settingsPage__descriptionBlock .button {
   margin-top: 14px;
 }
+.settingsPage__cost input {
+  width: unset;
+}
 .settingsPage__controlsFooter {
   width: 60%;
   gap: 14px;
@@ -3768,6 +3771,11 @@ i.m-l {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 6px;
 }
 .makerProfileCard__projects {
   width: calc(50% - var(--pojectsGap) / 2);
@@ -3829,6 +3837,9 @@ i.m-l {
 }
 .makerProfileCard__projectButton {
   width: 100%;
+}
+.makerProfileCard__cost {
+  color: #676767;
 }
 
 .suggestProject {

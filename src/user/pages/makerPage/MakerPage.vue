@@ -58,6 +58,10 @@
                 </div>
             </div>
 
+            <div class="makerPage__description baseText" :class="{skeleton: isMakerLoading, makerPage__caption: !maker?.description}">
+                Стоимость работ: {{ maker.square_meter_cost }} ₽/М²
+            </div>
+
             <div class="makerPage__block">
                 <div class="makerPage__blockTitle">Отзывы</div>
                 <Review class="makerPage__review" :model="r" v-for="(r, index) in reviews" :key="index" :isLoading="isReviewsLoading"/>
