@@ -48,6 +48,7 @@ export default {
             searchSuggestions: [],
             viewModel: new SearchPageController(),
             projectList: [],
+            projectInitialList: [],
             offset: 0,
             LIMIT: 10,
             filters: {
@@ -77,11 +78,12 @@ export default {
             this.searchSuggestions = []
         },
         goSearch() {
-            
+            this.projectList = this.projectInitialList.filter(p => p.title.toLowerCase().includes(this.searchText.toLowerCase()))
         },
         async getProjectsList() {
             var model = {status: 'search'}
             this.projectList = await this.viewModel.getProjectsByFilters(this.offset, this.LIMIT, model)
+            this.projectInitialList = [...this.projectList]
         },
         setFilters() {
             this.realFiltersList = {}

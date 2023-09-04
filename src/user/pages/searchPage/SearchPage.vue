@@ -51,11 +51,12 @@ export default {
             isSuggestOpened: false,
             makerUUIDList: [],
             makerList: [{}, {}, {}],
+            makerInitialList: [],
             filters: {
                 average_check: [
-                    {id: 0, label: "до 50 000 ₽", active: false, value: 50000},
-                    {id: 1, label: "до 100 000 ₽", active: false, value: 100000},
-                    {id: 2, label: "до 200 000 ₽", active: false, value: 200000},
+                    {id: 0, label: "до 15 000 ₽", active: false, value: 15000},
+                    {id: 1, label: "до 30 000 ₽", active: false, value: 30000},
+                    {id: 2, label: "до 60 000 ₽", active: false, value: 60000},
                 ],
                 completed_projects: [
                     {id: 0, label: "от 10", active: false, value: 10},
@@ -91,10 +92,12 @@ export default {
             } finally {
                 this.isDataLoading = false
             }
+            this.makerList = this.makerInitialList.filter(p => p.title.toLowerCase().includes(this.searchText.toLowerCase()))
         },
 
         async fetchDataFromMakerList() {
             this.makerList = [...Array(this.makerUUIDList?.length)].map(e=>{})
+            this.makerInitialList = [...this.makerList]
             for (let i = 0; i < this.makerUUIDList?.length; i++) {
                 const uuid = this.makerUUIDList[i]
                 this.viewController.getDataOfMaker(uuid)
