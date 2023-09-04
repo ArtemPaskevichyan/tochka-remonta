@@ -378,6 +378,18 @@ class ProjectController {
 
         return (await axios.get(URL))?.data?.user
     }
+
+    async getEventFile(filename) {
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const URL = `${serverURL}/api/v1/projects/get_event_document?filename=${filename}`
+        console.log("GO GET", URL)
+        return axios.get(URL, config)
+    }
 }
 
 export { ProjectController }

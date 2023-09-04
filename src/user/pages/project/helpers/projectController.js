@@ -65,6 +65,28 @@ class ProjectController {
         }
     }
 
+    async createFileEvent(description, file, id) {
+        const token = await TokenHandler.shared.getToken()
+        const URL = `${serverURL}/api/v1/projects/create_event?p_id=${id}`
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        let formData = new FormData()
+        formData.append('projectdoc', file)
+        formData.append('description', description)
+
+        await axios.post(URL, formData, config)
+            .then((response) => {
+                console.log("RESP", response)
+            })
+            .catch((error) => {
+                console.log("ERROR", error)
+            })
+    }
+
     async deleteProject(id) {
         if (!confirm("Проект будет удалён")) { return false }
 
@@ -280,6 +302,18 @@ class ProjectController {
             console.log("ERROR", error)
             throw error
         }
+    }
+
+    async getEventFile(filename) {
+        const token = await TokenHandler.shared.getToken()
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const URL = `${serverURL}/api/v1/projects/get_event_document?filename=${filename}`
+        console.log("GO GET", URL)
+        return axios.get(URL, config)
     }
 }
 

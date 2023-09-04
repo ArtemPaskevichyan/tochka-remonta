@@ -34,6 +34,7 @@ export default {
         title: String,
         accept: Array,
         preview: Boolean,
+        isLoading: Boolean,
     },
     methods: {
         fetchFile(event) {

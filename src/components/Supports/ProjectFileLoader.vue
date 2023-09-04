@@ -6,13 +6,13 @@
     <input type="file" ref="input" :accept="accept" @change="fetchFile" />
     <div class="fileLoader__inner">
       <UIButton
-        v-if="!fileName"
+        v-if="!fileName  && !isLoading"
         @click="$refs.input.click()"
         class="fileLoader__button"
         >Выбрать файл</UIButton
       >
       <div v-else class="fileLoader__fileInfo">
-        <span class="fileLoader__fileName">{{ fileName ?? "" }}</span>
+        <span class="fileLoader__fileName">{{  !isLoading ? fileName : "Документ загружается..."  }}</span>
         <span class="fileLoader__controls">
           <UIButton
             @click="watchFile"
@@ -20,12 +20,12 @@
             :style="'square default'"
             ><i class="icon-eye"></i
           ></UIButton>
-          <UIButton
+          <!-- <UIButton
             @click="clearFile"
             class="fileLoader__destructive"
             :style="'destructive'"
             >Удалить</UIButton
-          >
+          > -->
         </span>
       </div>
     </div>
@@ -52,6 +52,10 @@ export default {
     accept: Array,
     preview: Boolean,
     loadedFile: Object,
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     fetchFile(event) {
@@ -72,7 +76,7 @@ export default {
       this.$emit("cleared");
     },
     watchFile() {
-      if (this.file) window.open(this.fileLink, "_blank");
+      if (this.fileLink) window.open(this.fileLink, "_blank");
     },
   },
   mounted() {

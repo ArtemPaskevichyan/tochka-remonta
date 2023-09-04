@@ -46,12 +46,18 @@
                 </div>
             </div>
 
-            <div class="projectSearchingPage__block">
+            <!-- <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Фото архив</div>
                 <div class="projectSearchingPage__photos">
                     <GaleryImage :src="imgName ? srcBase+imgName : ''" :key="index" v-for="(imgName, index) in eventImageNames" @click="chose(index)"/>
                 </div>
                 <UIButton class="projectSearchingPage__photosButton" :style="'primary'" @click="openPhotos">Смотреть галерею</UIButton>
+            </div> -->
+
+            <div class="projectSearchingPage__block">
+                <div class="projectSearchingPage__blockTitle">Загрузка файлов</div>
+                <ProjectFileLoader :title="'Документы о правах собственности'" :watch="true" @fileLoaded="hostLoaded" :loadedFile="hostDocs" v-model:isLoading="hostLoading"/>
+                <ProjectFileLoader :title="'Дизайн проект'" :watch="true" @fileLoaded="designLoaded" :loadedFile="designDocs" v-model:isLoading="designLoading"/>
             </div>
 
             <div class="projectSearchingPage__block">
@@ -97,6 +103,7 @@ import { serverURL } from '@/preferenses';
 import { UserDataController } from '@/helpers/UserDataController.js'
 
 import { GanttHelper } from '@/helpers/GanttHelper';
+import ProjectFileLoader from "@/components/Supports/ProjectFileLoader.vue"
 
 
 export default {
@@ -104,7 +111,7 @@ export default {
         UIGalery, UIHeader, UILink, UIButton, UILoadingWall,
         Negotiation, NegotiationView, Event, GaleryImage, UIModal,
         ProjectPhotosView, CompleteProject, UINotificationIndicatiorHolder,
-        NegotiationList, EventList,
+        NegotiationList, EventList, ProjectFileLoader,
     },
     data() {
         return {
@@ -122,6 +129,10 @@ export default {
             gantIsLoading: true,
             hasNewDiagram: false,
             shownNewDiagram: false,
+            hostDocs: undefined,
+            hostLoading: false,
+            designDocs: undefined,
+            designLoading: false,
         }
     },
     methods: {
@@ -266,6 +277,76 @@ export default {
             }
         },
 
+        async hostLoaded(file) {
+            try {
+                this.isLoading = true
+                await this.projectController.createFileEvent("Документы о правах собственности загружены", file, this.project?.id)
+                this.$emit('eventCreated')
+            } catch(e) {
+                console.log(e)
+                //
+            } finally {
+                this.isLoading = false
+            }
+        },
+
+        async designLoaded(file) {
+            try {
+                this.isLoading = true
+                await this.projectController.createFileEvent("Дизайн-проект загружен", file, this.project?.id)
+                this.$emit('eventCreated')
+            } catch(e) {
+                console.log(e)
+                //
+            } finally {
+                this.isLoading = false
+            }
+        },
+
+        async getLoadedFiles() {
+            for (let e of this.eventList) {
+                if (e.description == "Документы о правах собственности загружены") {
+                    const filename = e?.documents[0]?.filename
+                    this.hostLoading = true
+                    this.projectController.getEventFile(filename)
+                        .then((response) => {
+                            const fileData = response.data
+                            const file = new File([fileData], filename + '.pdf', { type: 'application/pdf' });
+                            this.hostDocs = {
+                                name: filename,
+                                link: URL.createObjectURL(file),
+                            }
+                        })
+                        .catch((error) => {
+                            console.log("FILE ERROR", error)
+                        })
+                        .finally(() => {
+                            this.hostLoading = false
+                        })
+                }
+                if (e.description == "Дизайн-проект загружен") {
+                    console.log("DESIGN LOADED")
+                    const filename = e?.documents[0]?.filename
+                    this.designLoading = true
+                    this.projectController.getEventFile(filename)
+                        .then((response) => {
+                            const fileData = response.data
+                            const file = new File([fileData], filename + '.pdf', { type: 'application/pdf' });
+                            this.designDocs = {
+                                name: filename,
+                                link: URL.createObjectURL(file),
+                            }
+                        })
+                        .catch((error) => {
+                            console.log("FILE ERROR", error)
+                        })
+                        .finally(() => {
+                            this.designLoading = false
+                        })
+                }
+            }
+        },
+
         async onMounted() {
             this.isLoading = true
             var uuid = (await UserDataController.shared.getData()).uuid
@@ -277,6 +358,7 @@ export default {
             }
             this.isLoading = false
             this.getNegotiations()
+            this.getLoadedFiles()
             this.loadDiagram()
         }
     },
@@ -303,7 +385,10 @@ export default {
             if (!this.project?.id) { return }
 
             this.getNegotiations()
-        }
+        },
+        eventList: function() {
+            this.getLoadedFiles()
+        },
     },
     mounted() {
         this.onMounted()

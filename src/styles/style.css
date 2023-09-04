@@ -282,6 +282,7 @@ i.m-l {
 }
 .registration__title, .login__title {
   margin-bottom: 40px;
+  white-space: nowrap;
 }
 .registration__switchHolder, .login__switchHolder {
   display: -webkit-box;
