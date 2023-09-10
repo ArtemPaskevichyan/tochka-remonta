@@ -36,8 +36,10 @@ class GanttHelper {
     this.gantt.change_view_mode(mode)
   }
 
-  removeDiagram() {
-    const a = document.querySelector(".gantt-container")
+  removeDiagram(parentId) {
+    let parent = document
+    if (parentId) { parent = document.querySelector(parentId) }
+    const a = parent.querySelector(".gantt-container")
     a.remove()
     console.log(a)
   }

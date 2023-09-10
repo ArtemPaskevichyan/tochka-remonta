@@ -99,7 +99,7 @@
 
 .skeleton.settingsPage {
     &__adressMap {
-        color: initial;
+        color: $secondary-text-color;
         background-color: lightgrey;
     }
 }
@@ -178,7 +178,7 @@
         background-color: $secondary-text-color;
     }
     &__map {
-        color: initial;
+        color: $secondary-text-color;
         background-color: lightgrey;
     }
 }

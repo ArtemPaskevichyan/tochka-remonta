@@ -18,7 +18,7 @@
                         <span class="makerPage__contactsButton">
                             <UIButton :style="maker?.avatar ? 'secondary' : 'disabled'" @click="smoothScrollTo('#MPContacts')">Контакты</UIButton>
                             <UIButton
-                                :style="maker?.avatar ? 'secondary square' : 'disabeld'"
+                                :style="maker?.avatar ? 'secondary square' : 'disabeld square'"
                                 title="Написать пользователю"
                                 @click="goToChat"
                             >
@@ -45,7 +45,7 @@
             <div class="makerPage__block">
                 <div class="makerPage__blockTitle">Описание</div>
                 <div class="makerPage__description baseText" :class="{skeleton: isMakerLoading, makerPage__caption: !maker?.description}">
-                    {{ maker?.description ?? "Исполнитель не оставил о себе описание"}}
+                    {{ maker?.description?.length > 0 ? maker?.description : "Исполнитель не оставил о себе описание" }}
                 </div>
             </div>
 
@@ -58,8 +58,8 @@
                 </div>
             </div>
 
-            <div class="makerPage__description baseText" :class="{skeleton: isMakerLoading, makerPage__caption: !maker?.description}">
-                Стоимость работ: {{ maker.square_meter_cost }} ₽/М²
+            <div v-if="maker?.square_meter_cost > 0" class="makerPage__description baseText" :class="{skeleton: isMakerLoading, makerPage__caption: !maker?.description}">
+                Стоимость работ: {{ parseFloat(maker.square_meter_cost).toLocaleString('ru') }} ₽/М²
             </div>
 
             <div class="makerPage__block">
@@ -75,13 +75,13 @@
                 <div class="makerPage__contactsBlock">
                     <div class="makerPage__contacts">
                         <div class="makerPage__contact baseText" v-for="(c, index) in contacts" :key="index" :class="{skeleton: isContactsLoading}">
-                            {{c.title}} : {{c.value}}
+                            <img v-if="c.iconSrc" class="makerPage__contactIcon" :src="c.iconSrc">{{c.title}} :<a v-if="c.href" :href="c.href">{{c.value}}</a> <span v-else>{{c.value}}</span>
                         </div>
                         <div class="makerPage__caption" v-if="!contacts || contacts.length == 0">
                             Исполнитель не добавил каналы связи
                         </div>
                     </div>
-                    <div class="makerPage__map" :class="{skeleton: !map}" :id="mapId">
+                    <div class="makerPage__map" :class="{skeleton: mapIsLoading}" :id="mapId">
                         {{ mapErrorMessage }}
                     </div>
                 </div>
@@ -109,7 +109,7 @@ import SuggestProject from '@/user/pages/components/SuggestProject.vue'
 import UIModal from '@/components/UIModal.vue'
 import UIButton from '@/components/Buttons/UIButton.vue'
 import UIRating from '@/components/FormComponents/UIRating.vue'
-import { serverURL } from '@/preferenses.js'
+import { serverURL, socialsArray } from '@/preferenses.js'
 import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue'
 import Review from '@/components/Supports/Review.vue'
 import UIAchievment from '@/components/UIAchievment.vue'
@@ -142,6 +142,7 @@ export default {
             map: undefined,
             mapId: "__adressMap__",
             mapErrorMessage: "Загрузка карты...",
+            mapIsLoading: true,
         }
     },
     methods: {
@@ -150,8 +151,9 @@ export default {
                 this.isMakerLoading = true
                 this.maker = await this.makerPageController.getData(this.uuid)
                 this.maker.rating = await this.makerPageController.getRating(this.uuid)
+                console.log(this.maker)
             } catch(e) {
-                //
+                console.log(e)
             } finally {
                 this.isMakerLoading = false
             }
@@ -218,33 +220,52 @@ export default {
             try {
                 this.isContactsLoading = true
                 const contactsRaw = await this.makerPageController.getContacts(this.uuid)
+                let adressIsFound = false
 
                 this.contacts = []
                 for (let c of contactsRaw) {
                     if (c.Entity == ADDRESS_SOCIAL_TITLE) {
-                        let address = c.contact_list[0].value
+                        let address = c.contact_list[(c.contact_list?.length ?? 1) - 1].value
                         if (!address || address.length == 0) {
                             this.mapErrorMessage = "Испольнитель некорректно указал адрес"
                             this.map = true
                             continue
                         }
 
-                        this.contacts.push({title: "Адрес", value: c.contact_list[(c.contact_list?.length ?? 1) - 1].value, id: c.id})
+                        this.contacts.push({
+                            title: "Адрес",
+                            value: c.contact_list[(c.contact_list?.length ?? 1) - 1].value,
+                            id: c.id
+                        })
+
+                        adressIsFound = true
                         this.getMapForAddress(address)
                         continue
                     }
 
-                    let contactNew = {}
-                    contactNew.id = c.id
-                    contactNew.title = c.Entity
-                    contactNew.value = c.contact_list.map(v => v.value).join(", ")
+                    let contactNew = {
+                        id: c.id,
+                        title: c.Entity,
+                        value: c.contact_list.map(v => v.value).join(", "),
+                    }
+
+                    for (let social of socialsArray) {
+                        if (social.name == contactNew.title) { 
+                            contactNew.iconSrc = new URL("../../../assets/images/" + social.imageName, import.meta.url).href;
+                            contactNew.href = social.hrefBuilder(contactNew.value)
+                            break;
+                        }
+                    }
 
                     this.contacts.push(contactNew)
                 }
+
+                if (!adressIsFound) this.mapErrorMessage = "Исполнитель ещё не добавил адрес"
             } catch(e) {
                 //
             } finally {
                 this.isContactsLoading = false
+                this.mapIsLoading = false
             }
         },
 
@@ -255,7 +276,7 @@ export default {
                     this.map = response
                 })
                 .catch((error) => {
-                    console.log("ERROROROROOR", error)
+                    console.log("MAP ERROR", error)
                 })
         },
 

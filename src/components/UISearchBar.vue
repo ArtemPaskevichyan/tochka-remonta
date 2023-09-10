@@ -4,10 +4,10 @@
             <input type="text" :placeholder="placeholder" v-model="innerText">
             <UIButton class="searchBar__inlineSearchButton" :style="'square primary'" @click="search"><i class="icon-search"></i></UIButton>
             <div class="searchBar__dropdown" v-if="suggestions?.length > 0">
-            <div class="searchBar__dropdownItem" :key="index" v-for="(s, index) in suggestions" @click="choseItem(index)">
-                {{s}}
+                <div class="searchBar__dropdownItem" :key="index" v-for="(s, index) in suggestions" @click="choseItem(index)">
+                    {{s}}
+                </div>
             </div>
-        </div>
         </div>
         <UIButton class="searchBar__searchButton" :style="'primary'" @click="search">Поиск</UIButton>
         <UINotificationIndicatiorHolder :amount="filtersCount" :displayZero="false">

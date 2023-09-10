@@ -30,7 +30,7 @@ class NotificationController {
             .then((response) => {
                 
             })
-            .error((error) => {
+            .catch((error) => {
                 console.log("ERROR NV", error)
             })
     }

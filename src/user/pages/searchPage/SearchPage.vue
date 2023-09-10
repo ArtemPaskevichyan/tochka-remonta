@@ -85,24 +85,21 @@ export default {
             try {
                 this.isDataLoading = true
                 this.makerUUIDList = await this.viewController.getMakersList(this.realFiltersList)
-                this.makerUUIDList = this.makerUUIDList.map(i => i.uuid)
+                console.log("FRESH ", this.makerUUIDList)
                 this.fetchDataFromMakerList()
             } catch(e) {
                 //
             } finally {
                 this.isDataLoading = false
             }
-            this.makerList = this.makerInitialList.filter(p => p.title.toLowerCase().includes(this.searchText.toLowerCase()))
         },
 
         async fetchDataFromMakerList() {
-            this.makerList = [...Array(this.makerUUIDList?.length)].map(e=>{})
-            this.makerInitialList = [...this.makerList]
+            this.makerList = [...Array(this.makerUUIDList?.length)]
             for (let i = 0; i < this.makerUUIDList?.length; i++) {
-                const uuid = this.makerUUIDList[i]
+                const uuid = this.makerUUIDList[i].uuid
                 this.viewController.getDataOfMaker(uuid)
                     .then((response) => {
-                        console.log(this.makerList, i)
                         this.makerList[i] = response?.data?.user
                         this.makerList[i].isReady = true
                     })

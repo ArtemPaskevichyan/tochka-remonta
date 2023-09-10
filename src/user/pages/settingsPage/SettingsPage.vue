@@ -17,7 +17,6 @@
                     <UIButton :style="buttonStyle" @click="setName">Сохранить</UIButton>
                 </div>
                 <div class="settingsPage__stats baseText">
-                    UUID пользователя: <span class="baseText__value" :class="{skeleton: isLoading}">{{uuid}}</span><br/>
                     Email: <span class="baseText__value" :class="{skeleton: isLoading}">{{email}}</span><br/>
                     Роль: <span class="baseText__value" :class="{skeleton: isLoading}">{{role}}</span><br/>
                     На платформе: <span class="baseText__value" :class="{skeleton: isLoading}">{{time}}</span> {{ daysAdding }} <br/>

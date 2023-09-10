@@ -370,8 +370,8 @@
   .settingsPage__socialCaption {
     font-size: 15px;
   }
-  .settingsPage__socialItem span {
-    font-size: 15px !important;
+  .settingsPage__socialItem {
+    font-size: 15px;
   }
   .settingsPage__controlsFooter {
     width: 100%;
@@ -608,6 +608,9 @@
             flex-direction: column;
   }
   .projectSearchingPage__gantFooter .button {
+    width: 100%;
+  }
+  .projectSearchingPage__gantFooter .notificationIndicatorHolder {
     width: 100%;
   }
   .makerResponse {

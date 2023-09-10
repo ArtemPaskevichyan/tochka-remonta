@@ -28,11 +28,7 @@
                 </span><br>
                 <span class="projectSearchingPage__parameterTitle">Стоимость: </span>
                 <span class="projectSearchingPage__parameterValue" :class="{skeleton: !hasProject}">
-                    {{(project?.planned_budget_down + ' — ' + project?.planned_budget_up + ' ₽') ?? "some skeleton budget"}}
-                </span><br>
-                <span class="projectSearchingPage__parameterTitle">Исполнитель: </span>
-                <span class="projectSearchingPage__parameterValue" :class="{skeleton: !hasProject}">
-                   {{ project?.contractor_uuid ?? "Не найден" }}
+                    {{( parseFloat(project?.final_cost).toLocaleString('ru') + ' ₽') ?? "some skeleton budget"}}
                 </span><br>
             </div>
 
@@ -194,6 +190,9 @@ export default {
         openSuggestModal() {
             this.isSuggestModalShown = true
         },
+        goToMaker() {
+            this.$router.push('/user/makerPage/' + this.project?.contractor_uuid)
+        }
     },
     watch: {
         project: function() {

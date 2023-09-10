@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="makerProfileCard__footer">
-                <span v-if="model?.square_meter_cost != 0" class="makerProfileCard__cost baseText">{{ model?.square_meter_cost }} ₽/М²</span>
+                <span v-if="model?.square_meter_cost != 0" class="makerProfileCard__cost baseText">{{ parseFloat(model?.square_meter_cost).toLocaleString('ru') }} ₽/М²</span>
                 <UIButton :style="'primary'" class="desktopOnly" @click="$emit('suggest')">Предложить сотрудничество</UIButton>
                 <UIButton :style="'primary'" class="mobileOnly" @click="$emit('goTo')">Перейти к исполнителю</UIButton>
             </div>

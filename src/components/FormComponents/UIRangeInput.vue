@@ -4,28 +4,28 @@
             {{ title }}
         </div>
         <div class="rangeCheck__holder">
-            <UIParamInput 
-            v-model:value="innerStartValue" :size="'short'"
+            <UICleaveInput 
+            v-model:value="innerStartValue" :size="'short'" :role="role"
             :placeholder="startInput.placeholder ? startInput.placeholder : undefined"
             :prefix="startInput.prefix ? startInput.prefix : undefined"
             :suffix="startInput.suffix ? startInput.suffix : undefined">
-            </UIParamInput>
-            <UIParamInput 
-            v-model:value="innerEndValue" :size="'short'"
+            </UICleaveInput>
+            <UICleaveInput 
+            v-model:value="innerEndValue" :size="'short'" :role="role"
             :placeholder="endInput.placeholder ? endInput.placeholder : undefined"
             :prefix="endInput.prefix ? endInput.prefix : undefined"
             :suffix="endInput.suffix ? endInput.suffix : undefined">
-            </UIParamInput>
+            </UICleaveInput>
         </div>
     </div>
 </template>
 
 <script>
-import UIParamInput from "./UIParamInput.vue"
+import UICleaveInput from "./UICleaveInput.vue"
 
 export default {
     components: {
-        UIParamInput,
+        UICleaveInput,
     },
     data() {
         return {
@@ -36,20 +36,24 @@ export default {
     props: {
         title: String,
         startInput: {
-            title: Object,
+            type: Object,
             required: true,
         },
         endInput: {
-            title: Object,
+            type: Object,
             required: true,
         },
         startValue: {
-            title: String,
+            type: String,
             required: true,
         },
         endValue: {
-            title: String,
+            type: String,
             required: true,
+        },
+        role: {
+            type: String,
+            default: 'number',
         },
     },
     watch: {

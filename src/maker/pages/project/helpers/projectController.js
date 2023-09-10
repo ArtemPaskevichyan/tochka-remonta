@@ -137,7 +137,6 @@ class ProjectController {
             const response = await axios.get(URL, config)
             console.log('NEG RESP', response)
             if (response.data.n_list) {
-                response.data.n_list.reverse()
                 return response.data.n_list
             } else {
                 return []

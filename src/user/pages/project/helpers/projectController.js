@@ -40,7 +40,6 @@ class ProjectController {
             if (array.date) {
                 array = [array]
             }
-            array?.reverse()
             return array ?? []
         } catch(e) {
             throw e
@@ -160,7 +159,6 @@ class ProjectController {
         try {
             const response = await axios.get(URL, config)
             if (response.data.n_list) {
-                response.data.n_list.reverse()
                 return response.data.n_list
             } else {
                 return []

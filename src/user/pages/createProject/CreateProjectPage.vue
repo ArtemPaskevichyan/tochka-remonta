@@ -9,8 +9,8 @@
                     <UIInput :placeholder="'Название'" :title="'Название проекта'" v-model:value="title" :class="{error: titleError}"></UIInput>
                 </div>
                 <div class="createProject__item" id="CPSquare">
-                    <UIParamInput :placeholder="'60'" :title="'Квадратура'" v-model:value="square"
-                    :suffix="'М²'" :size="'short'" :class="{error: squareError}"></UIParamInput>
+                    <UICleaveInput :placeholder="'60'" :title="'Квадратура'" v-model:value="square"
+                    :suffix="'М²'" :size="'short'" :class="{error: squareError}" :role="'positiveNumber'"/>
                 </div>
                 <div class="createProject__item" id="CPTypeOfNew">
                     <UISelect :title="'Вид объекта'" v-model:value="typeOfNew" :selectArray="typesOfNew" :class="{error: typeOfNewError}"></UISelect>
@@ -88,6 +88,7 @@ import GaleryImage from '@/components/FormComponents/ImageLoaders/GaleryImage.vu
 import UIGaleryLoader from '@/components/FormComponents/ImageLoaders/UIGaleryLoader.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIMultiChoise from '@/components/FormComponents/UIMultiChoise.vue';
+import UICleaveInput from '@/components/FormComponents/UICleaveInput.vue';
 
 import UITabBar from '@/components/UITabBar.vue';
 import UIHeader from '@/components/Header/UIHeader.vue'
@@ -104,7 +105,7 @@ export default {
         UIInput, UISelect, UIHeader, UIParamInput, UICheckbox,
         UIFileLoader, UITextInput, UIRangeInput, GaleryImage,
         UIGaleryLoader, UIButton, UILoadingWall, UIMultiChoise,
-        UIProgressLoading, UITabBar,
+        UIProgressLoading, UITabBar, UICleaveInput,
     },
     data() {
         return {
@@ -179,8 +180,8 @@ export default {
                 {id: 2, label: "Климототехника", active: false},
                 {id: 3, label: "Другое", active: false},
             ],
-            costStartConfig: {placeholder: '100000', prefix: 'от', suffix: '₽'},
-            costEndConfig: {placeholder: '150000', prefix: 'до', suffix: '₽'},
+            costStartConfig: {placeholder: '100 000', prefix: 'от', suffix: '₽'},
+            costEndConfig: {placeholder: '150 000', prefix: 'до', suffix: '₽'},
 
             cityError: false,
             titleError: false,

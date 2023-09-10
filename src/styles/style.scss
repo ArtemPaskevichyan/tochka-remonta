@@ -33,6 +33,10 @@ i.m-l {
     margin-left: 0.6em;
 }
 
+.inlineCounter {
+    margin-left: 0.3em;
+}
+
 .caption {
     color: $light-text-color
 }
@@ -297,6 +301,10 @@ i.m-l {
         display: flex;
         justify-content: center;
         font-size: 15px;
+
+        .right {
+            justify-content: flex-end;
+        }
     }
 
     &__mainButton {
@@ -407,7 +415,7 @@ i.m-l {
     }
 
     &.error {
-        .input__holder {
+        .input__holder, .cleave {
             background-color: $error-red;
         }
     }
@@ -459,6 +467,42 @@ i.m-l {
         border: none;
         background: none;
         cursor: pointer;
+    }
+
+    &__dropdown {
+        position: absolute;
+        display: flex;
+        top: 100%;
+        left: 0px;
+        right: 0px;
+        flex-direction: column;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        z-index: 3; 
+    }
+
+    &__dropdownItem {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        height: 44px;
+        text-align: left;
+        padding: 0 20px;
+        box-sizing: border-box;
+        color: $primary-text-color;
+        font: {
+            family: $default-font-family;
+            size: 20px;
+            weight: $font-medium;
+        }
+        cursor: pointer;
+        &:hover {
+            background-color: $element-background;
+        }
     }
 }
 
@@ -690,7 +734,7 @@ i.m-l {
         width: 100%;
         align-items: center;
 
-        input {
+        input, .cleave {
             height: 44px;
             width: 100%;
             background: none;
@@ -728,7 +772,7 @@ i.m-l {
         &.short {
             width: initial;
 
-            input {
+            input, .cleave {
                 width: 150px;
             }
         }
@@ -740,7 +784,7 @@ i.m-l {
     }
 
     &.error {
-        input {
+        input, .cleave {
             background-color: $error-red;
         }
     }
@@ -2503,13 +2547,26 @@ i.m-l {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        color: $secondary-text-color;
+        font-size: 20px;
 
         span:not(.settingsPage__socialSplitter) {
             margin: 0;
             color: $secondary-text-color;
             font: {
-                size: 20px;
+                size: inherit;
                 weight: $font-regular;
+            }
+        }
+
+        a {
+            color: inherit;
+            text-decoration: underline;
+            transition: 0.3s all;
+            font-size: inherit;
+
+            &:hover {
+                color: $primary-theme-color;
             }
         }
     }
@@ -2549,12 +2606,27 @@ i.m-l {
         }
     }
 
+    &__socialIcon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: unset;
+        margin-right: 10px;
+    }
+
+    &__socialInfo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
     &__addSocialModal {
         padding: 20px;
         box-sizing: border-box;
 
         &Input {
             margin-top: 18px;
+            position: relative;
         }
 
         &Button {
@@ -2591,9 +2663,10 @@ i.m-l {
         display: flex;
         justify-content: center;
         align-items: center;
+        text-align: center;
         min-height: 300px;
         width: 100%;
-        color: $secondary-text-color;
+        color: $light-text-color;
     }
 
     &__descriptionBlock {
@@ -2620,6 +2693,22 @@ i.m-l {
         flex-direction: row;
         max-width: 1100px;
         flex-wrap: wrap;
+    }
+
+    &__fullnessBlock {
+        display: flex;
+        flex-direction: column;
+
+        p {
+            margin: 20px 0;
+
+            &.warning {
+                border-radius: 12px;
+                background-color: $light-yellow;
+                border: 1px dashed $default-yellow;
+                padding: 12px 20px;
+            }
+        }
     }
 }
 
@@ -2764,7 +2853,7 @@ i.m-l {
     }
 
     &__gantDiagramMessage {
-        height: 400px;
+        height: 250px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -2793,6 +2882,7 @@ i.m-l {
         flex-direction: row;
         justify-content: flex-start;
         gap: 14px;
+        margin-top: 20px;
 
         .button {
             overflow: hidden;
@@ -2882,7 +2972,7 @@ i.m-l {
         display: flex;
         flex-direction: row;
         width: 100%;
-        max-height: 60vh;
+        max-height: 50vh;
         font-size: 16px;
         border-top: 1px $element-background solid;
         border-bottom: 1px $element-background solid;
@@ -2933,7 +3023,7 @@ i.m-l {
         overflow: hidden;
 
         &.opened {
-            max-height: 257px;
+            max-height: 300px;
 
             .ganttEditor__taskControlls {
                 display: flex;
@@ -2972,7 +3062,11 @@ i.m-l {
 
         input {
             border: none;
-            background: none;
+            // background: none;
+            background-color: $element-background;
+            padding: 4px 8px;
+            border-radius: 6px;
+            box-sizing: border-box;
             outline: none;
             width: 100%;
             font: {
@@ -2983,7 +3077,7 @@ i.m-l {
 
         &.opened {
             padding: 10px 14px;
-            height: 100%;
+            height: 300px;
             flex-direction: column;
         }
     }
@@ -3004,8 +3098,79 @@ i.m-l {
         padding: 0 14px;
         height: 60px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
+    }
+
+    &__questionButton {
+        border: none;
+        background: none;
+        color: white;
+        background-color: $grey-color;
+        cursor: pointer;
+        border-radius: 50%;
+        font-size: 20px;
+        font-weight: $font-medium;
+        position: relative;
+        --size: 30px;
+        height: var(--size);
+        width: var(--size);
+        transition: 0.3s all, 0s filter;
+
+        &:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+            // animation: none !important;
+        }
+
+        &:active {
+            filter: brightness(0.95);
+        }
+
+        @keyframes springJump {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-12px);}
+        }
+
+        &.active {
+            animation: springJump 1.3s 0.3s ease-in-out 3;
+        }
+    }
+
+    &__instruction {
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    &__instructionBlock {
+        margin-top: 60px;
+    }
+
+    &__instructionBlockTitle {
+        color: $primary-text-color;
+    }
+
+    &__instructionBlockText {
+        color: $secondary-text-color;
+    }
+
+    &__instructionImageHolder {
+        width: 80%;
+        overflow: hidden;
+        margin: 20px auto;
+        margin-left: 0;
+        border-radius: 14px;
+        border: 1px solid $element-background;
+        display: flex;
+
+        img {
+            min-width: 100%;
+            min-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 }
 
@@ -3640,6 +3805,32 @@ i.m-l {
 
     &__contact {
         color: $secondary-text-color;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        a {
+            margin-left: 0.2em;
+            color: inherit;
+            text-decoration: underline;
+            transition: 0.3s all;
+
+            &:hover {
+                color: $primary-theme-color;
+            }
+        }
+
+        span {
+            margin-left: 0.2em;
+        }
+    }
+
+    &__contactIcon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: unset;
+        margin-right: 10px;
     }
 
     &__map {
@@ -3651,7 +3842,8 @@ i.m-l {
         display: flex;
         justify-content: center;
         align-items: center;
-        color: $secondary-text-color;
+        text-align: center;
+        color: $light-text-color;
     }
 
     &__footer {

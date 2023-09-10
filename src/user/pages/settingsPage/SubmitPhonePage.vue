@@ -6,7 +6,7 @@
         <div class="backgroundCard submitPhonePage">
             <div class="submitPhonePage__content">
                 <div class="submitPhonePage__inputBlock">
-                    <UIInput v-model:value="number" :title="'Номер телефона'" :placeholder="'+7 (xxx) xxx xx-xx'"/>
+                    <UICleaveInput v-model:value="number" :title="'Номер телефона'" :placeholder="'+7 (xxx) xxx xx-xx'" :role="'phone'"/>
                     <UIButton @click="call" :style="numberButtonStyle">Позвонить</UIButton>
                 </div>
                 <div class="submitPhonePage__text baseText">
@@ -30,11 +30,12 @@ import UIButton from '@/components/Buttons/UIButton.vue'
 import {SettingsPageController} from '@/user/pages/settingsPage/helpers/settingsPageController.js'
 import {ERROR_CODES} from '@/helpers/ErrorMaker.js'
 import UILoadingWall from '@/components/UILoadingWall.vue'
+import UICleaveInput from "@/components/FormComponents/UICleaveInput.vue";
 
 
 export default {
     components: {
-        UIInput, UIHeader, UIButton, UILoadingWall, UITabBar,
+        UIInput, UIHeader, UIButton, UILoadingWall, UITabBar, UICleaveInput,
     },
     data() {
         return {
@@ -54,7 +55,7 @@ export default {
 
             try {
                 this.isLoading = true
-                await this.viewModel.callAPhone(this.number)
+                await this.viewModel.callAPhone(this.number.slice(1))
                 this.onSubmitting = true
             } catch(e) {
                 switch (e.code) {

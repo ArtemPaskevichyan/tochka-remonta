@@ -1,8 +1,15 @@
 <template>
     <UIModal v-if="isAddSocialModalOpened" v-model:isOpened="isAddSocialModalOpened">
-        <div class="settingsPage__addSocialModal">
+        <div class="settingsPage__addSocialModal" ref="modalContent">
             <div class="settingsPage__title">Добавление канала связи</div>
-            <UIInput v-model:value="newSocialTitle" :title="'Название канала'" :placeholder="'Социальная сеть/телефон'" class="settingsPage__addSocialModalInput"/>
+            <div class="settingsPage__addSocialModalInput" @click.stop>
+                <UIInput v-model:value="newSocialTitle" :title="'Название канала'" :placeholder="'Социальная сеть/телефон'" @enterPressed="submitEnter"/>
+                <div class="input__dropdown" v-if="contactsSuggestions?.length > 0">
+                    <div class="input__dropdownItem" :key="index" v-for="(s, index) in contactsSuggestions" @click="choseItem(index)">
+                        {{s}}
+                    </div>
+                </div>
+            </div>
             <UIInput v-model:value="newSocialValue" :title="'Контент'" :placeholder="'Ссылка/номер телефона'" class="settingsPage__addSocialModalInput"/>
             <UIButton class="settingsPage__addSocialModalButton" :style="'primary'" @click="addSocial">Добавить</UIButton>
         </div>
@@ -29,7 +36,6 @@
                         <UIButton :style="buttonStyle" @click="setName">Сохранить</UIButton>
                     </div>
                     <div class="settingsPage__stats baseText">
-                        UUID пользователя: <span class="baseText__value" :class="{skeleton: isLoading}">{{uuid}}</span><br/>
                         Email: <span class="baseText__value" :class="{skeleton: isLoading}">{{email}}</span><br/>
                         Роль: <span class="baseText__value" :class="{skeleton: isLoading}">{{role}}</span><br/>
                         На платформе: <span class="baseText__value" :class="{skeleton: isLoading}">{{time}}</span> {{daysAdding}}<br/>
@@ -41,6 +47,12 @@
                         <UIButton :style="'default'" v-if="number && isNumberApproved" @click="$router.push('/user/submitPhonePage')">Изменить</UIButton>
                         <UIButton :style="'default'" v-else @click="$router.push('/user/submitPhonePage')">Подтвердить</UIButton>
                     </div>
+                    <div class="settingsPage__fullnessBlock">
+                        <UIProgressBar :title="'Заполненность профиля'" :value="profileFillProgress"/>
+                        <p class="baseText" :class="{warning: profileFillProgress < fullnessBarrier}" v-if="profileFillProgress < 100">
+                            Чтобы пользоваться всеми возможностями платформы, заполенность вашего профиля должна составлять не менее {{ fullnessBarrier }}%
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -49,8 +61,8 @@
                 <div class="settingsPage__socials">
                     <div v-for="(s, index) in socialsList" :key="index" class="settingsPage__socialItem" :class="{hidden: !s.show, skeleton: isSocialsLoading}">
                         <div class="settingsPage__socialInfo">
-                            <span>{{s.title}}</span><span class="settingsPage__socialSplitter">: </span><span>{{s.value}}</span>
-                        </div>   
+                            <img class="settingsPage__socialIcon" v-if="s.iconSrc" :src="s.iconSrc"/><span>{{s.title}}</span><span class="settingsPage__socialSplitter">: </span><a v-if="s.href" :href="s.href">{{ s.value }}</a><span v-else>{{s.value}}</span>
+                        </div>
                         <div class="settingsPage__socialControls">
                             <UIButton @click="deleteSocial(index)" :style="'square destructive'"><i class="icon-cross inline-icon"></i></UIButton>
                         </div>
@@ -68,7 +80,7 @@
 
             <div class="settingsPage__title">Стоимость работ</div>
             <div class="settingsPage__block settingsPage__descriptionBlock">
-                <UIParamInput class="settingsPage__cost" :placeholder="'1000000'" v-model:value="cost" :suffix="'₽/М²'" :class="{error: costError}"/>
+                <UICleaveInput class="settingsPage__cost" :placeholder="'1 000 000'" v-model:value="cost" :suffix="'₽/М²'" :class="{error: costError}" :role="'positiveNumber'" :size="'short'"/>
                 <UIButton :style="costButtonStyle" @click="setCost">Сохранить</UIButton>
             </div>
 
@@ -88,7 +100,7 @@
                     <UIInput class="adressHolder" v-model:value="adress" :placeholder="'Адресс компании'" :idOfInput="adressId"/>
                     <UIButton :style="adressButtonStyle" @click="saveAdress">Сохранить</UIButton>
                 </div>
-                <div class="settingsPage__adressMap" :id="mapId" :class="{skeleton: !map}">
+                <div class="settingsPage__adressMap" :id="mapId" :class="{skeleton: mapIsLoading}">
                     {{mapErrorMessage}}
                 </div>
             </div>
@@ -112,17 +124,21 @@ import UITextInput from '@/components/FormComponents/UITextInput.vue';
 import UIRating from '@/components/FormComponents/UIRating.vue';
 import UIAchievment from '@/components/UIAchievment.vue';
 import UIParamInput from '@/components/FormComponents/UIParamInput.vue';
+import UICleaveInput from "@/components/FormComponents/UICleaveInput.vue";
 
 import { AdressHelper } from '@/helpers/AdressHelper.js'
-import {UserDataController} from '@/helpers/UserDataController.js'
+import { UserDataController } from '@/helpers/UserDataController.js'
 import { SettingsPageController, ADDRESS_SOCIAL_TITLE } from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
+import { socialsArray } from '@/preferenses.js'
+import UIProgressBar from "@/components/UIProgressBar.vue";
 
 
 
 export default {
     components: {
         UIHeader, UIButton, UIInput, UIImageLoader, UIModal, UILoadingWall,
-        UITextInput, UIRating, UIAchievment, UITabBar, UIParamInput,
+        UITextInput, UIRating, UIAchievment, UITabBar, UIParamInput, UICleaveInput,
+        UIProgressBar,
     },
 
     data() {
@@ -161,11 +177,15 @@ export default {
             viewModel: new SettingsPageController(),
             rating: 0,
             map: undefined,
+            mapIsLoading: true,
             mapId: "__adressMap__",
             mapErrorMessage: "Загрузка карты...",
             cost: "",
             costButtonStyle: "disabled",
             costError: false,
+            contactsSuggestions: [],
+            profileFillProgress: 0,
+            fullnessBarrier: 70,
         }
     },
     methods: {
@@ -193,6 +213,7 @@ export default {
             this.projectsCount = data?.projectsCount
             this.email = data?.email
             this.isNumberApproved = Boolean(data?.phone)
+            this.profileFillProgress = data?.profileFullness
             this.number = data?.phone
 
             this.cost = data?.square_meter_cost
@@ -210,39 +231,54 @@ export default {
             try {
                 this.isSocialsLoading = true
                 const socialsRaw = await this.viewModel.getSocials()
+                let adressIsFound = false
 
                 this.socialsList = []
                 for (let s of socialsRaw) {
                     if (s.Entity == ADDRESS_SOCIAL_TITLE) {
                         this.getAddress(s)
+                        adressIsFound = true
                         continue
                     }
 
-                    let socialNew = {}
-                    socialNew.id = s.id
-                    socialNew.title = s.Entity
-                    socialNew.value = s.contact_list[0].value
-                    socialNew.show = true
+                    let socialNew = {
+                        id: s.id,
+                        title: s.Entity,
+                        value: s.contact_list[0].value,
+                        show: true,
+                    }
+
+                    for (let social of socialsArray) {
+                        if (social.name == socialNew.title) { 
+                            socialNew.iconSrc = new URL("../../../assets/images/" + social.imageName, import.meta.url).href;
+                            socialNew.href = social.hrefBuilder(String(socialNew.value))
+                            break;
+                        }
+                    }
 
                     this.socialsList.push(socialNew)
                 }
+
+                if (!adressIsFound) this.mapErrorMessage = "Исполнитель ещё не добавил адрес"
             } catch(e) {
                 console.log(e)
             } finally {
                 this.isSocialsLoading = false
                 this.adressButtonStyle = 'disabled'
+                this.mapIsLoading = false
             }
         },
 
         async addSocial() {
             try {
                 this.totalLoading = true
-                this.socialsList.push({
-                    title: this.newSocialTitle,
-                    value: this.newSocialValue,
-                    show: true,
-                })
+                // this.socialsList.push({
+                //     title: this.newSocialTitle,
+                //     value: this.newSocialValue,
+                //     show: true,
+                // })
                 await this.viewModel.addSocial(this.newSocialTitle, this.newSocialValue)
+                await this.getSocials()
             } catch(e) {
                 //
             } finally {
@@ -318,33 +354,39 @@ export default {
             }
         },
 
-        async getAddress(s) {
-            this.adress = s.contact_list[(s.contact_list?.length ?? 1) - 1].value
-            this.adressContact.id = s.id
-            this.adressContact.value = this.adress
-            this.mapErrorMessage = ""
+        async getAddress(s, forceGet=false) {
+            if (!forceGet) {
+                this.adress = s.contact_list[(s.contact_list?.length ?? 1) - 1].value
+                this.adressContact.id = s.id
+                this.adressContact.value = this.adress
+                this.mapErrorMessage = ""
+            }
             AdressHelper.shared.getMapByAdress(this.mapId, this.adress, this.map)
                 .then((response) => {
                     this.map = response
                 })
                 .catch((error) => {
-                    console.log("ERROROROROOR", error)
+                    this.mapErrorMessage = "Указан некорректный адрес"
+                    if (this.adress == "") {
+                        this.mapErrorMessage = "Указан пустой адрес"
+                    }
+                    console.log("ERROR", error)
                 })
         },
 
         async saveAdress() {
             try {
-                console.log(this.adress)
                 AdressHelper.shared.getMapByAdress(this.mapId, this.adress, this.map)
                     .then((response) => {
                         this.mapErrorMessage = ""
                         this.map = response
                     })
                     .catch((error) => {
-                        console.log("ERROROROROOR", error)
+                        console.log("ERROR", error)
                     })
-                await this.removeAdress()
+                await this.removeAdress()  // to not duplicate adress contact
                 await this.viewModel.saveAdress(this.adress)
+                await getAddress("", true)
             } catch(e) {
                 //
             } finally {
@@ -410,6 +452,31 @@ export default {
             this.socialsList[index].show = !this.socialsList[index].show
         },
 
+        choseItem(index) {
+            this.newSocialTitle = this.contactsSuggestions[index]
+            setTimeout(() => { this.contactsSuggestions = [] }, 10)
+            
+        },
+
+        getSuggestions() {
+            this.$refs.modalContent.removeEventListener('click', this.clickOutsideHandler)
+            this.$refs.modalContent.addEventListener('click', this.clickOutsideHandler, { once: true })
+
+            const someOfKeysHas = (key) => { return key.includes(this.newSocialTitle.toLocaleLowerCase()) }
+            const exists = (src) => { return src.keywords.some(someOfKeysHas) }
+
+            this.contactsSuggestions = socialsArray.filter(exists).map(e => e.name)
+        },
+
+        submitEnter(inputElement) {
+            this.contactsSuggestions = []
+            inputElement.target.blur()
+        },
+
+        clickOutsideHandler() {
+            this.contactsSuggestions = []
+        },
+        
     },
     computed: {
         daysAdding() {
@@ -453,8 +520,17 @@ export default {
         cost: function() {
             this.costButtonStyle = 'default'
             this.costError = false
+        },
+        newSocialTitle: function() {
+            this.getSuggestions()
+        },
+    },
+    beforeUnmount() {
+        try {
+            this.$refs.modalContent.removeEventListener('click', this.clickOutsideHandler)
+        } catch(e) {
+            console.log(e)
         }
-
     }
 }
 </script>

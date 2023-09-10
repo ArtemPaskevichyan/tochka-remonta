@@ -23,8 +23,9 @@ const ERROR_CODES = {
     CPVNetworksFailed: 451,
     CPVFloorsFailed: 452,
     CPVWallsFailed: 453,
+    CPVFinalCostFailed: 454,
 
-    PSVNumberFailed: 454,
+    PSVNumberFailed: 455,
 
     jsonParsingFailed: 540,
     privacyPolicyError: 541,
@@ -34,14 +35,10 @@ const ERROR_CODES = {
     serverDataFail: 521,
 }
 
-function createError(message, code, coreError) {
+function createError(message, code) {
     var error = Error()
     error.message = message
     error.code = code
-
-    if (code == ERROR_CODES.serverDataFail) {
-    }
-
     return error
 }
 export { createError, ERROR_CODES }

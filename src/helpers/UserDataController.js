@@ -122,6 +122,32 @@ class UserDataController {
         }
     }
 
+    async getFromMeRequestsCount() {
+        const token = await TokenHandler.shared.getToken()
+        if (!token) { return }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const URL = `${serverURL}/api/v1/projects/outgoing_requests`
+
+        return (await axios.get(URL, config))?.data?.count ?? 0
+    }
+
+    async getToMeRequestsCount() {
+        const token = await TokenHandler.shared.getToken()
+        if (!token) { return }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const URL = `${serverURL}/api/v1/projects/incoming_requests`
+
+        return (await axios.get(URL, config))?.data?.count ?? 0
+    }
+
     clearData() {
         sessionStorage.removeItem(UserDataController.sessionStorageKey)
     }

@@ -8,32 +8,54 @@ class ProjectListController {
     async createProject(data, review, delegate) {
         if (delegate) delegate.uploadProgressStatus = "Обработка данных..."
         try {
-            this.validateData(data)
-            if (review && !review.text) { throw createError("REVIEW TEXT ERROR", ERROR_CODES.CPVRTextFailed)}
-            if (review && isNaN(Number(review.rating))) { throw createError("REVIEW RATING ERROR", ERROR_CODES.CPVRRatingFailed) }
+            if (!review) this.validateDataUser(data)
+            else this.validateDataMaker(data, review)
+            
         } catch(error) {
             throw error
         }
 
-        var token = await TokenHandler.shared.getToken()
-        var model = {
-            "address": data.address,
-            "city": data.city,
-            "description": data.description,
-            "design_project_exists": data.design_project_exists,
-            "house_type": data.house_type.label,
-            "is_new_building": data.is_new_building,
-            "planned_budget_down": Number(data.planned_budget_down),
-            "planned_budget_up": Number(data.planned_budget_up),
-            "repair_type": data.repair_type,
-            "square_meters": Number(data.square_meters),
-            "start_date": new Date(Date.now() + data.start_date.offset * 86400000),
-            "title": data.title,
-            "ceiling": data.ceiling,
-            "engineering_networks": data.engineering_networks,
-            "floor_covering": data.floor_covering,
-            "wall_covering": data.wall_covering,
+        let token = await TokenHandler.shared.getToken()
+        let model
+        if (!review) {
+            model = {
+                "address": data.address,
+                "city": data.city,
+                "description": data.description,
+                "design_project_exists": data.design_project_exists,
+                "house_type": data.house_type.label,
+                "is_new_building": data.is_new_building,
+                "planned_budget_down": Number(data.planned_budget_down),
+                "planned_budget_up": Number(data.planned_budget_up),
+                "repair_type": data.repair_type,
+                "square_meters": Number(data.square_meters),
+                "start_date": new Date(Date.now() + data.start_date.offset * 86400000),
+                "title": data.title,
+                "ceiling": data.ceiling,
+                "engineering_networks": data.engineering_networks,
+                "floor_covering": data.floor_covering,
+                "wall_covering": data.wall_covering,
+            }
+        } else {
+            model = {
+                "address": data.address,
+                "city": data.city,
+                "description": data.description,
+                "house_type": data.house_type.label,
+                "is_new_building": data.is_new_building,
+                "final_cost": Number(data.final_cost),
+                "repair_type": data.repair_type,
+                "square_meters": Number(data.square_meters),
+                "start_date": new Date(data.start_date.slice(4, 8), Number(data.start_date.slice(2, 4)) - 1, data.start_date.slice(0, 2)),
+                "end_date": new Date(data.end_date.slice(4, 8), Number(data.end_date.slice(2, 4)) - 1, data.end_date.slice(0, 2)),
+                "title": data.title,
+                "ceiling": data.ceiling,
+                "engineering_networks": data.engineering_networks,
+                "floor_covering": data.floor_covering,
+                "wall_covering": data.wall_covering,
+            }
         }
+        
 
         let pushTopUploadProgress
         let uploadProgress = [0, 0, 0, 0, 0]
@@ -143,7 +165,7 @@ class ProjectListController {
         }
         
         // stage4
-        const completeProjectURL = `${serverURL}/api/v1/projects/complete_project?p_id=${projectId}&stars=${review.rating}`
+        const completeProjectURL = `${serverURL}/api/v1/projects/complete_project?p_id=${projectId}&stars=${review.rating}&set_final_date=false`
         const completeProjectConfig = {
             headers: {
                 "Authorization": "Bearer " + token,
@@ -225,8 +247,7 @@ class ProjectListController {
         return (await axios.get(URL))?.data?.stars
     }
 
-    validateData(data) {
-        console.log("DATA", data)
+    validateDataUser(data) {
         if (!data.address) { throw createError("Address Error", ERROR_CODES.CPVAddressFailed)}
         if (!data.city) { throw createError("City Error", ERROR_CODES.CPVCityFailed) }
         if (!data.description) { throw createError("Description Error", ERROR_CODES.CPVDescriptionFailed) }
@@ -245,6 +266,28 @@ class ProjectListController {
         if (!(Array.isArray(data.engineering_networks) && data.engineering_networks.length != 0)) { throw createError("Engineering Networks Error", ERROR_CODES.CPVNetworksFailed) }
         if (!(Array.isArray(data.floor_covering) && data.floor_covering.length != 0)) { throw createError("Floor Covering Error", ERROR_CODES.CPVFloorsFailed) }
         if (!(Array.isArray(data.wall_covering) && data.wall_covering.length != 0)) { throw createError("Wall Covering Error", ERROR_CODES.CPVWallsFailed) }
+    }
+
+    validateDataMaker(data, review) {
+        if (!data.final_cost) { throw createError("Empty final cost", ERROR_CODES.CPVFinalCostFailed) }
+        if (!data.address) { throw createError("Address Error", ERROR_CODES.CPVAddressFailed)}
+        if (!data.city) { throw createError("City Error", ERROR_CODES.CPVCityFailed) }
+        if (!data.description) { throw createError("Description Error", ERROR_CODES.CPVDescriptionFailed) }
+        if (data.design_project_exists == undefined) { throw createError("Design Project Error", ERROR_CODES.CPVDesignProjectFailed) }
+        if (!data.house_type) { throw createError("House Type Error", ERROR_CODES.CPVHouseTypeFailed) }
+        if (data.is_new_building == undefined) { throw createError("New Building Error", ERROR_CODES.CPVNewBuildingFailed) }
+        if (!data.repair_type) { throw createError("Repair Type Error", ERROR_CODES.CPVRepairTypeFailed) }
+        if (!data.square_meters || isNaN(Number(data.square_meters))) { throw createError("Square Error", ERROR_CODES.CPVSquareFailed) }
+        if (!data.start_date) { throw createError("Strat Date Error", ERROR_CODES.CPVStartDateFailed) }
+        if (!data.end_date) { throw createError("Strat Date Error", ERROR_CODES.CPVStartDateFailed) }
+        if (!data.title) { throw createError("Title Error", ERROR_CODES.CPVTitleFailed) }
+        if (!data.imageList || data.imageList?.length == 0) { throw createError("No images pinned", ERROR_CODES.CPVImageListFailed)}
+        if (!(Array.isArray(data.ceiling) && data.ceiling.length != 0)) { throw createError("Ceiling Error", ERROR_CODES.CPVCeiligFailed) }
+        if (!(Array.isArray(data.engineering_networks) && data.engineering_networks.length != 0)) { throw createError("Engineering Networks Error", ERROR_CODES.CPVNetworksFailed) }
+        if (!(Array.isArray(data.floor_covering) && data.floor_covering.length != 0)) { throw createError("Floor Covering Error", ERROR_CODES.CPVFloorsFailed) }
+        if (!(Array.isArray(data.wall_covering) && data.wall_covering.length != 0)) { throw createError("Wall Covering Error", ERROR_CODES.CPVWallsFailed) }
+        if (review && !review.text) { throw createError("REVIEW TEXT ERROR", ERROR_CODES.CPVRTextFailed)}
+        if (review && isNaN(Number(review.rating))) { throw createError("REVIEW RATING ERROR", ERROR_CODES.CPVRRatingFailed) }
     }
 }
 

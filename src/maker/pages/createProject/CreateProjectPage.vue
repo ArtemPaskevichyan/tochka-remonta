@@ -9,8 +9,8 @@
                     <UIInput :placeholder="'Название'" :title="'Название проекта'" v-model:value="title" :class="{error: titleError}"></UIInput>
                 </div>
                 <div class="createProject__item" id="CPSquare">
-                    <UIParamInput :placeholder="'60'" :title="'Квадратура'" v-model:value="square"
-                    :suffix="'М²'" :size="'short'" :class="{error: squareError}"></UIParamInput>
+                    <UICleaveInput :placeholder="'60'" :title="'Квадратура'" v-model:value="square"
+                    :suffix="'М²'" :size="'short'" :class="{error: squareError}" :role="'positiveNumber'"/>
                 </div>
                 <div class="createProject__item" id="CPTypeOfNew">
                     <UISelect :title="'Вид объекта'" v-model:value="typeOfNew" :selectArray="typesOfNew" :class="{error: typeOfNewError}"></UISelect>
@@ -43,9 +43,24 @@
                     <UIInput class="adressHolder" :placeholder="'Адрес объекта'" :title="'Область, город, улица, дом'" v-model:value="adress" :class="{error: adressError}" :idOfInput="adressId"></UIInput>
                 </div>
                 <div class="createProject__item" id="CPStartDate">
-                    <UISelect :title="'Когда хотите начать'" v-model:value="typeOfStart" :selectArray="typesOfStart" :class="{error: typeOfStartError}"></UISelect>
+                    <UIRangeInput
+                    v-model:startValue="dateStart"
+                    v-model:endValue="dateEnd"
+                    :startInput="dateStartConfig"
+                    :endInput="dateEndConfig"
+                    :title="'Дата начала/конца работ'"
+                    :class="{error: dateStartError}"
+                    :role="'date'"
+                />
                 </div>
-                <div class="createProject__item" id="CPParamInput">
+                <!-- <div class="createProject__item" id="CPStartDate">
+                    <UISelect :title="'Когда хотите начать'" v-model:value="typeOfStart" :selectArray="typesOfStart" :class="{error: typeOfStartError}"></UISelect>
+                </div> -->
+                <div class="createProject__item" id="CPCost">
+                    <UICleaveInput :title="'Стоимость'" v-model:value="cost" :suffix="'₽'"
+                    :role="'positiveNumber'" :placeholder="'1 000 000'" :size="'short'" :class="{error: costError}"/>
+                </div>
+                <!-- <div class="createProject__item" id="CPParamInput">
                     <UIRangeInput
                     v-model:startValue="costStartValue"
                     v-model:endValue="costEndValue"
@@ -54,10 +69,10 @@
                     :title="'Стоимость'"
                     :class="{error: costStartValueError || costEndValueError}">
                     </UIRangeInput>
-                </div>
-                <div class="createProject__item" id="CPHasDesign">
+                </div> -->
+                <!-- <div class="createProject__item" id="CPHasDesign">
                     <UICheckbox v-model:value="hasDesignProject" :class="{error: hasDesignProjectError}">Есть дизайн проект</UICheckbox>
-                </div>
+                </div> -->
                 <!-- <div class="createProject__item" id="CPHostDocs">
                     <UIFileLoader :title="'Загрузка документов о правах собственности'" @fileLoaded="hostDocsLoaded" @cleared="hostDocsDeleted" :class="{error: hostDocsError}"></UIFileLoader>
                 </div> -->
@@ -89,6 +104,7 @@ import GaleryImage from '@/components/FormComponents/ImageLoaders/GaleryImage.vu
 import UIGaleryLoader from '@/components/FormComponents/ImageLoaders/UIGaleryLoader.vue';
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UIMultiChoise from '@/components/FormComponents/UIMultiChoise.vue';
+import UICleaveInput from '@/components/FormComponents/UICleaveInput.vue';
 
 import SetReview from '@/components/Supports/SetReview.vue';
 import UIHeader from '@/components/Header/UIHeader.vue';
@@ -106,7 +122,7 @@ export default {
         UIInput, UISelect, UIHeader, UIParamInput, UICheckbox,
         UIFileLoader, UITextInput, UIRangeInput, GaleryImage,
         UIGaleryLoader, UIButton, UILoadingWall, SetReview,
-        UITabBar, UIMultiChoise, UIProgressLoading, 
+        UITabBar, UIMultiChoise, UIProgressLoading, UICleaveInput,
     },
     data() {
         return {
@@ -122,8 +138,11 @@ export default {
             typeOfNew: 0,
             typeOfStart: 0,
             hasDesignProject: false,
-            costStartValue: '',
-            costEndValue: '',
+            cost: '',
+            dateStart: '',
+            dateEnd: '',
+            // costStartValue: '',
+            // costEndValue: '',
             hostDocs: undefined,
             designProject: undefined,
             imageList: [],
@@ -181,8 +200,8 @@ export default {
                 {id: 2, label: "Климототехника", active: false},
                 {id: 3, label: "Другое", active: false},
             ],
-            costStartConfig: {placeholder: '100000', prefix: 'от', suffix: '₽'},
-            costEndConfig: {placeholder: '150000', prefix: 'до', suffix: '₽'},
+            dateStartConfig: { placeholder: 'ДД/ММ/ГГГГ', prefix: 'Начали' },
+            dateEndConfig: { placeholder: 'ДД/ММ/ГГГГ', prefix: 'Закончили' },
 
             reviewText: "",
             reviewRating: undefined,
@@ -196,8 +215,6 @@ export default {
             typeOfNewError: false,
             typeOfStartError: false,
             hasDesignProjectError: false,
-            costStartValueError: false,
-            costEndValueError: false,
             hostDocsError: false,
             imageListError: false,
             descriptionError: false,
@@ -208,6 +225,9 @@ export default {
             choiseOfFloorError: false,
             choiseOfNetworksError: false,
             choiseOfWallsError: false,
+            dateStartError: false,
+            costError: false,
+
         }
     },
     methods: {
@@ -228,8 +248,7 @@ export default {
         },
 
         smoothScrollTo(selector) {
-            // document.querySelector(selector).scrollIntoView({behavior: 'smooth', block: 'center', duration: 200,})
-
+            console.log(selector)
             $([document.documentElement, document.body]).animate({
                 scrollTop: $(selector).offset().top - 200
             }, 350);
@@ -246,11 +265,13 @@ export default {
                     design_project_exists: this.hasDesignProject,
                     house_type: this.typesOfHouse.find(i => i.id == this.typeOfHouse),
                     is_new_building: this.typeOfNew == 0 ? false : true,
-                    planned_budget_down: this.costStartValue,
-                    planned_budget_up: this.costEndValue,
+                    // planned_budget_down: this.costStartValue,
+                    // planned_budget_up: this.costEndValue,
                     repair_type: "string",
                     square_meters: this.square,
-                    start_date: this.typesOfStart.find(i => i.id == this.typeOfStart),
+                    // start_date: this.typesOfStart.find(i => i.id == this.typeOfStart),
+                    start_date: String(this.dateStart),
+                    end_date: String(this.dateEnd),
                     title: this.title,
                     ceiling: this.getCeiling,
                     engineering_networks: this.getEngineeringNetworks,
@@ -259,6 +280,8 @@ export default {
                     // imageModel: {id: Number, file: File, scr: String}
                     imageList: this.imageList,
                     hostDocs: this.hostDocs,
+                    final_cost: this.cost,
+
                     // designProject: this.designProject
                 }
 
@@ -269,7 +292,7 @@ export default {
                 await this.viewModel.createProject(data, review, this)
                 this.$router.push("/maker/myProjects")
             } catch(e) {
-                console.log(e.message, e.code)
+                console.log(e.message, e.code, e.lineNumber, e.fileName)
                 switch (e.code) {
                     case ERROR_CODES.CPVAddressFailed:
                         this.adressError = true
@@ -295,23 +318,19 @@ export default {
                         this.typeOfNewError = true
                         this.smoothScrollTo("#CPTypeOfNew")
                         break;
-                    case ERROR_CODES.CPVPlanedBudgetDownFailed:
-                        this.costStartValueError = true
-                        this.smoothScrollTo("#CPParamInput")
-                        break;
-                    case ERROR_CODES.CPVPlanedBudgetUpFailed:
-                        this.costEndValueError = true
-                        this.smoothScrollTo("#CPParamInput")
+                    case ERROR_CODES.CPVFinalCostFailed:
+                        this.costError = true
+                        this.smoothScrollTo("#CPCost")
                         break;
                     case ERROR_CODES.CPVRepairTypeFailed:
-                        this.smoothScrollTo("#CPParamInput")
+                        this.smoothScrollTo("#CPTypeOfRepair")
                         break;
                     case ERROR_CODES.CPVSquareFailed:
                         this.squareError = true
                         this.smoothScrollTo("#CPSquare")
                         break;
                     case ERROR_CODES.CPVStartDateFailed:
-                        this.typeOfStartError = true
+                        this.dateStartError = true
                         this.smoothScrollTo("#CPStartDate")
                         break;
                     case ERROR_CODES.CPVTitleFailed:
@@ -351,7 +370,22 @@ export default {
             } finally {
                 this.isLoading = false
             }
-        }
+        },
+
+        fillRandomly() {
+            this.adress = "Moscow"
+            this.city = "Москва"
+            this.description = "Some description"
+            this.square = "60"
+            this.dateStart = "30092004"
+            this.dateEnd = "30092005"
+            this.title = "TEST PROJECT"
+            this.getCeiling = this.choisesOfTop[0].label
+            this.getEngineeringNetworks = this.choisesOfNetworks[0].label
+            this.getFloorCovering = this.choisesOfFloor[0].label
+            this.getWallCovering = this.choisesOfWalls[0].label
+            this.cost = "1000000"
+        },
     },
     watch: {
         city() {
@@ -365,12 +399,6 @@ export default {
         },
         square() {
             this.squareError = false
-        },
-        costStartValue() {
-            this.costStartValueError = false
-        },
-        costEndValue() {
-            this.costEndValueError = false
         },
         hostDocs() {
             this.hostDocsError = false
@@ -400,6 +428,15 @@ export default {
             deep: true,
             handler() { this.choiseOfNetworksError = false },
         },
+        dateStart() {
+            this.dateStartError = false
+        },
+        dateEnd() {
+            this.dateStartError = false
+        },
+        cost() {
+            this.costError = false
+        }
     },
     mounted() {
         AdressHelper.shared.addToYMAP(this.adressId, (data) => {
@@ -409,6 +446,7 @@ export default {
             .then((response) => {
                 this.city = response.city
             })
+        this.fillRandomly()
     },
     computed: {
         getCeiling() {

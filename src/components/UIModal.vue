@@ -25,7 +25,7 @@ export default {
         closeOnClickOutside: {
             default: true,
             type: Boolean,
-        }
+        },
     },
     methods: {
         close(closer) {

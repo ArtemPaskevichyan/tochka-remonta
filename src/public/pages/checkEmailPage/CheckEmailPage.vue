@@ -16,7 +16,7 @@
             </div>
         </div> 
 
-        <div class="registration__loginBlock">
+        <div class="registration__loginBlock left">
             <span>Уже подтвердили?  <UILink :size="'small'" :link="'/login'">Войти</UILink></span>
         </div>
     </div>

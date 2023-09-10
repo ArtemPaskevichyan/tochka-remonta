@@ -10,7 +10,7 @@
                         Согласования
                         <UIButton :style="'primary'" @click="createNegotiation">Создать</UIButton>
                     </div>
-                    <span class="link" @click="openNegotiationList">
+                    <span class="link" @click="openNegotiationList" v-if="negotiations?.length > 3">
                         все {{negotiations?.length}}
                     </span>
                 </div>
@@ -22,7 +22,7 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">
                     События
-                    <span class="link" @click="openEventList">
+                    <span class="link" @click="openEventList" v-if="eventList?.length > 3">
                         все {{eventList?.length}}
                     </span>
                 </div>
@@ -75,19 +75,19 @@
 
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Действия</div>
+                <div class="projectSearchingPage__caption">Завершить проект может только заказчик. Если у вас возникли недопонимания с заказчиком или есть иные причины, по которым он не может завершить проект, обратитесь к медиатору</div>
                 <div class="projectSearchingPage__controls">
                     <UIButton
                         @click="$router.push({name: 'chat', query: {command: 'go', value: `/direct/${project.customer_uuid}`}})"
                     >
                         <i class="icon-chat m-r"></i>Написать заказчику
                     </UIButton>
-                    <UIButton @click="openCompletion">Завершить проект</UIButton>
                 </div>
             </div>
         </div>
     </div>
 
-    <UIModal v-if="isModalOpened" v-model:isOpened="isModalOpened">
+    <UIModal v-if="isModalOpened" v-model:isOpened="isModalOpened" :closeOnClickOutside="modalContentType != 'e_dia'">
         <NegotiationView v-if="modalContentType == 'neg'" :model="negotiationModel" :watchOnly="true"/>
         <EventCreation v-if="modalContentType == 'evt_c'" @load="handleEventCreation"/>
         <NegotiationCreation v-if="modalContentType == 'neg_c'" @send="handleNegotiationCreation"/>

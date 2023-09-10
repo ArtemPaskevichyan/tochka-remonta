@@ -9,7 +9,7 @@
             </div>
         </div>
         <button class="header__dropdownMenuItem" @click="goTo('/myProjects')">
-            <i class="icon-cards header__icon"></i> Мои проекты<span v-if="countOfProjects > 0" style="margin-left: 0.3em;">({{countOfProjects}})</span>
+            <i class="icon-cards header__icon"></i> Мои проекты<span v-if="countOfProjects > 0" class="inlineCounter">({{countOfProjects}})</span>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/search')">
             <i class="icon-search header__icon"></i> {{searchText}}
@@ -18,13 +18,13 @@
             <i class="icon-chat header__icon"></i> Чат
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/outcomingSuggestions')">
-            <i class="icon-person-up header__icon"></i> Мои заявки
+            <i class="icon-person-up header__icon"></i> Отправленные мной<span v-if="countOfFromMeRequests > 0" class="inlineCounter">({{countOfFromMeRequests}})</span>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/notifications')">
             <i class="icon-bell header__icon"></i> Уведомления <UINotificationCounter class="header__dropdownNotificationCounter" :count="notificationCount" v-if="notificationCount > 0"></UINotificationCounter>
         </button>
         <button class="header__dropdownMenuItem" @click="goTo('/suggestions')" v-if="role == 'Исполнитель'">
-            <i class="icon-person-plus header__icon"></i>Предложенные мне
+            <i class="icon-person-plus header__icon"></i>Предложенные мне<span v-if="countOfToMeRequests > 0" class="inlineCounter">({{countOfToMeRequests}})</span>
         </button>
         <button class="header__dropdownMenuItem" @click="goToSettings">
             <i class="icon-gear header__icon"></i> Настройки профиля
@@ -98,6 +98,8 @@ export default {
             role: "Не определена",
             countOfProjects: 0,
             countOfNotifications: 0,
+            countOfFromMeRequests: 0,
+            countOfToMeRequests: 0,
             isDataLoaded: false,
             notificationCount: 0,
             profileFillProgress: 0,
@@ -125,29 +127,24 @@ export default {
 
         async fetchData() {
             this.isDataLoaded = false
-
             let data = await UserDataController.shared.getData()
 
             this.email = data.email
-            if (data.role == "customer") {
-                this.role = "Заказчик"
-            } else if (data.role == "contractor") {
-                this.role = "Исполнитель"
-            }
+
+            if (data.role == "customer") this.role = "Заказчик"
+            else if (data.role == "contractor") this.role = "Исполнитель"
+
             this.avatarSrc = data.avatar?.length > 0 ? this.baseAvatarSrc + data.avatar : defaultAvatar
             this.isDataLoaded = true
             this.countOfProjects = data.projectsCount
             this.profileFillProgress = data.profileFullness
-            UserDataController.shared.getNotificationsCount()
-                .then((response) => {
-                    this.notificationCount = response
-                })
-                .catch((error) => {
-                    console.log("ERROR WITH NOTIFICATIONS", error)
-                })
             this.city = data.city
+
+            this.getNotificationsCount()
+            this.getFromMeRequestsCount()
+            if (this.role == "Исполнитель") this.getToMeRequestsCount()
             
-            this.setupItems()
+            this.setupDropdownMenuLabels()
             this.beforeShowCityQuestion()
         },
 
@@ -169,10 +166,10 @@ export default {
             else this.$router.push({name: "userSettingsPage"})
         },
         
-        setupItems() {
+        setupDropdownMenuLabels() {
             if (this.role == "Исполнитель") {
                 this.searchText = "Поиск проектов"
-                this.createText = "Добавить проект"
+                this.createText = "Архивный проект"
             } else if (this.role == "Заказчик") {
                 this.searchText = "Поиск исполнителей"
                 this.createText = "Создать проект"
@@ -195,7 +192,6 @@ export default {
             this.showHideCityQuestion()
 
             this.timer = setTimeout(() => {
-                // console.log(this)
                 this.$refs.cityQuestion.classList.add("hidding")
                 setTimeout(() => {
                     this.submitCityQuestion()
@@ -219,6 +215,36 @@ export default {
             this.showCityQuestion = false
             this.isCitySelectorOpened = true
         },
+
+        getNotificationsCount() {
+            UserDataController.shared.getNotificationsCount()
+                .then((response) => {
+                    this.notificationCount = response
+                })
+                .catch((error) => {
+                    console.log("ERROR WITH NOTIFICATIONS", error)
+                })
+        },
+
+        getFromMeRequestsCount() {
+            UserDataController.shared.getFromMeRequestsCount()
+                .then((response) => {
+                    this.countOfFromMeRequests = response
+                })
+                .catch((error) => {
+                    console.log("FROM ME REQS ERROR", error)
+                })
+        },
+
+        getToMeRequestsCount() {
+            UserDataController.shared.getToMeRequestsCount()
+                .then((response) => {
+                    this.countOfToMeRequests = response
+                })
+                .catch((error) => {
+                    console.log("TO ME REQS ERROR", error)
+                })
+        }
     },
     mounted() {
         this.fetchData()

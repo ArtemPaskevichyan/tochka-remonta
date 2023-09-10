@@ -6,7 +6,7 @@
             <UIGalery :imageNames="imageNames" :orientation="'h'"/>
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Согласование ключевых вопросов
-                    <span class="link" @click="openNegotiationList">
+                    <span class="link" @click="openNegotiationList" v-if="negotiations?.length > 3">
                         все {{negotiations?.length}}
                     </span>
                 </div>
@@ -17,7 +17,7 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">
                     События
-                    <span class="link" @click="openEventList">
+                    <span class="link" @click="openEventList" v-if="eventList?.length > 3">
                         все {{eventList?.length}}
                     </span>
                 </div>
@@ -34,6 +34,7 @@
                     <div class="projectSearchingPage__caption">
                         Предложенный измененный план график
                     </div>
+                    <UIButton class="inline" :style="'primary'" @click="negotiationAllowed('', newDiagramNegotiationId)">Одобрить</UIButton>
                     <UIButton :style="'default'" @click="showHideNewDiagram">Показать нынешний график</UIButton>
                 </div>
                 <div class="projectSearchingPage__gantFooter" v-else-if="hasNewDiagram && !shownNewDiagram">
@@ -129,6 +130,7 @@ export default {
             gantIsLoading: true,
             hasNewDiagram: false,
             shownNewDiagram: false,
+            newDiagramNegotiationId: undefined,
             hostDocs: undefined,
             hostLoading: false,
             designDocs: undefined,
@@ -180,12 +182,12 @@ export default {
                 this.$router.go()
             }
         },
-        async negotiationAllowed(text) {
+        async negotiationAllowed(text, id) {
             if (!confirm("Вы уверены, что хотите согласовать это заявление с исполнителем?")) { return }
 
             try {
                 this.isLoading = true
-                await this.projectController.setNegotiationDecision(this.negotiationModel?.id, true, text)
+                await this.projectController.setNegotiationDecision(id ? id : this.negotiationModel?.id, true, text)
                 this.isModalOpened = false
             } catch(e) {
                 //
@@ -196,6 +198,7 @@ export default {
                 this.$router.go()
             }
         },
+
         async completeProject(model) {
             if (!confirm("Вы уверены, что хотите завершить выполнение проекта?")) { return }
 
@@ -245,6 +248,7 @@ export default {
                     }
 
                     this.hasNewDiagram = n.project_tasks
+                    this.newDiagramNegotiationId = n.id
                     break
                 }
             }
