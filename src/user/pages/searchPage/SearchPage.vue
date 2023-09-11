@@ -2,6 +2,14 @@
     <div class="headerPage tabBarPage">
         <UIHeader/>
         <UITabBar :page="'Поиск'"/>
+        <div class="searchPage__header">
+            <div class="warning searchPage__warning" v-if="!profileFilledEnough">
+                Чтобы пользоваться всеми возможностями платформы, настройте профиль. Заполните данные о себе, чтобы уровень заполненности составлял не менее {{ fullnessBarrier }}%. Это необходимо для безопасности вашей работы на платформе.
+                <div class="searchPage__warningButton">
+                    <UIButton :style="'default'" @click="$router.push('/user/settingsPage')">Настроить профиль</UIButton>
+                </div>
+            </div>
+        </div>
         <div class="titleText pageTitle searchPage__title">Исполнители</div>
         <UISearchBar class="searchPage__searchBar" v-model:suggestions="searchSuggestions" :placeholder="'Найти компанию'" :ref="'searchBar'"
         v-model:text="searchText" :filtersCount="filtersCount" @chosen="searchChosen" @search="goSearch" @filtersHasBeenOpened="prepareFilters">
@@ -32,6 +40,9 @@ import MakerProfileCard from '@/components/Supports/makerProfileCard/MakerProfil
 import { SearchingController } from '@/user/pages/searchPage/helpers/serchingController.js'
 import UIModal from '@/components/UIModal.vue';
 import SuggestProject from '@/user/pages/components/SuggestProject.vue';
+import { userProfileFullnessLimit } from '@/preferenses';
+import { UserDataController } from "@/helpers/UserDataController.js";
+
 
 import UIInput from '@/components/FormComponents/UIInput.vue';
 import UIMultiChoise from "@/components/FormComponents/UIMultiChoise.vue";
@@ -41,7 +52,7 @@ export default {
     components: {
         UIHeader, UITabBar, UISearchBar, MakerProfileCard,
         UIModal, SuggestProject, UIInput, UIButton,
-        UIMultiChoise,
+        UIMultiChoise
     },
     data() {
         return {
@@ -74,6 +85,8 @@ export default {
             realFiltersList: {},
             viewController: new SearchingController(),
             makerToSuggest: undefined,
+            fullnessBarrier: userProfileFullnessLimit,
+            profileFilledEnough: true,
         }
     },
     methods: {
@@ -118,23 +131,7 @@ export default {
             this.$router.push('/user/makerPage/' + maker.uuid)
         },
 
-        prepareFilters() {
-            // When filters window is opened copies inUse filters
-            // console.log("j", this.realFiltersList)
-            // for (var i in this.realFiltersList) {
-            //     if (!this.realFiltersList[i]) {continue}
-            //     this.filters[i] = this.realFiltersList[i]
-            // }
-        },
-
         setFilters() {
-            // Make filters in use, then searches
-            // for (var i in this.filters) {
-            //     if (this.filters[i].length == 0) { this.realFiltersList[i] = undefined; continue }
-            //     const num = Number(this.filters[i])
-            //     if (isNaN(num) || num == 0) { this.realFiltersList[i] = undefined; continue }
-            //     this.realFiltersList[i] = num
-            // }
             this.realFiltersList = {}
             for (let key in this.filters) {
                 let value = this.filters[key]
@@ -150,12 +147,21 @@ export default {
                 if (i.active) return i.value
             }
             return undefined
+        },
+
+        async getProfileFillness() {
+            UserDataController.shared.profileFilledEnough()
+                .then((response) => {
+                    console.log(response)
+                    this.profileFilledEnough = response
+                })
         }
     },
     watch: {
     },
     mounted() {
         this.goSearch()
+        this.getProfileFillness()
     },
     computed: {
         filtersToSearch: function() {

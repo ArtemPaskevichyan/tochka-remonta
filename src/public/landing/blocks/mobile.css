@@ -153,6 +153,10 @@
     padding: 10px;
   }
 
+  .projects__comment-section {
+    aspect-ratio: unset;
+  }
+
   .ending {
     width: 100%;
     border-radius: 0;

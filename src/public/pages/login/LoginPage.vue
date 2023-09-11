@@ -66,11 +66,6 @@ export default {
     },
     data() {
         return {
-            selectionData: [
-                {id: 0, title: "Ищу ремонт"},
-                {id: 1, title: "Сделаем ремонт"},
-            ],
-            selectionId: 0,
             rememberMe: true,
             authServices: [],
             email: "",
@@ -94,9 +89,7 @@ export default {
                 this.isLoading = true
                 await this.loginViewModel.sendLogin(this.email?.trim(), this.password, this.role, this.rememberMe)
                 this.$router.push(await this.loginViewModel.getAfterLoginURL())
-                console.log("ETERING")
             } catch(error) {
-                console.log("COMMING ERROR", error)
                 switch(error?.message) {
                     case "email or password is empty":
                         this.callError("Не заполненные поля", "Не все поля заполнены, проверьте заполненность почты и праолей", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
@@ -147,16 +140,6 @@ export default {
         },
     },
     computed: {
-        role: function() {
-            switch (this.selectionId) {
-                case 0:
-                    return "customer"
-                case 1:
-                    return "contractor"
-                default:
-                    return undefined
-            }
-        },
         buttonStyle: function() {
             return (this.email == '' || this.password == '') ? 'disabled' : 'primary'
         },

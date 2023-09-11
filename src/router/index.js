@@ -12,6 +12,7 @@ import AccessDeniedPage from "@/public/pages/message/AccessDeniedPage.vue"
 import SEOArticlesList from "@/public/pages/SEOcreationPages/SEOArticlesList.vue"
 import SEOArticlesCreation from "@/public/pages/SEOcreationPages/SEOArticlesCreation.vue"
 import SEOArticlePage from "@/public/pages/SEOcreationPages/SEOArticlePage.vue"
+import SEOLoginPage from "@/public/pages/SEOcreationPages/SEOLoginPage.vue"
 import APIPage from "@/public/pages/APIpages/APIPage.vue"
 import ChatPage from "@/public/pages/chat/ChatPage.vue"
 import LandingPage from "@/public/landing/LandingPage.vue"
@@ -120,6 +121,11 @@ const routes = [
     name: 'article',
     component: SEOArticlePage,
     props: true,
+  },
+  {
+    path: '/seo/login',
+    name: 'seoLogin',
+    component: SEOLoginPage,
   },
   {
     path: '/documentation/:page?',

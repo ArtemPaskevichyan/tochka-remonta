@@ -10,10 +10,10 @@ class ArticlesController {
     return response?.data?.records ?? []
   }
 
-  async addArticle({text, title, image}) {
-    const token = await TokenHandler.shared.getToken()
+  async addArticle({text, title, image, author}) {
+    const token = TokenHandler.shared.getSEOtoken()
 
-    const URL = `${serverURL}/api/v1/blog/add_record?title=${title}&body=${text}`
+    const URL = `${serverURL}/api/v1/blog/add_record?title=${title}&body=${text}&author=${author}`
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -24,13 +24,7 @@ class ArticlesController {
       formData.append('file', image)
     }
 
-    await axios.post(URL, formData, config)
-      .then((response) => {
-        console.log("RESP", response)
-      })
-      .catch((error) => {
-        console.log("ERROR", error)
-      })
+    return await axios.post(URL, formData, config)
   }
 
   async getArticle(id) {

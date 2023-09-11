@@ -3,6 +3,12 @@
 const serverURL = "https://api.tochka-remonta.site";
 const chatURL = "https://chat.tochka-remonta.site";
 
+const userProfileFullnessLimit = 80;
+const makerProfileFullnessLimit = 80;
+
+// const userProfileFullnessLimit = 10;
+// const makerProfileFullnessLimit = 10;
+
 const socialsArray = [
   {
     name: "WhatsApp",
@@ -36,4 +42,10 @@ const socialsArray = [
   },
 ];
 
-export { serverURL, chatURL, socialsArray };
+export {
+  serverURL,
+  chatURL,
+  socialsArray,
+  userProfileFullnessLimit,
+  makerProfileFullnessLimit
+};

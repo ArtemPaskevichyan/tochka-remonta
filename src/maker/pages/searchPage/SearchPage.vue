@@ -2,6 +2,14 @@
     <div class="headerPage tabBarPage">
         <UIHeader/>
         <UITabBar :page="'Поиск'"/>
+        <div class="searchPage__header">
+            <div class="warning searchPage__warning" v-if="!profileFilledEnough">
+                Чтобы пользоваться всеми возможностями платформы, настройте профиль. Заполните данные о себе, чтобы уровень заполненности составлял не менее {{ fullnessBarrier }}%. Это необходимо для безопасности вашей работы на платформе.
+                <div class="searchPage__warningButton">
+                    <UIButton :style="'default'" @click="$router.push('/user/settingsPage')">Настроить профиль</UIButton>
+                </div>
+            </div>
+        </div>
         <div class="titleText pageTitle searchPage__title">Проекты</div>
         <UISearchBar class="searchPage__searchBar" v-model:suggestions="searchSuggestions" :placeholder="'Найти проект'" :ref="'searchBar'"
         v-model:text="searchText" :filtersCount="filtersCount" @chosen="searchChosen" @search="goSearch" @filtersHasBeenOpened="prepareFilters">
@@ -32,7 +40,9 @@ import UITabBar from '@/components/UITabBar.vue';
 import UIHeader from '@/components/Header/UIHeader.vue';
 import UISearchBar from '@/components/UISearchBar.vue';
 import ForMakerProjectCard from '@/components/ProjectCards/ForMakerProjectCard.vue';
+import { userProfileFullnessLimit } from '@/preferenses';
 
+import { UserDataController } from '@/helpers/UserDataController';
 import { SearchPageController } from "@/maker/pages/searchPage/helpers/searchPageController.js"
 import UIMultiChoise from "@/components/FormComponents/UIMultiChoise.vue";
 import UIButton from '@/components/Buttons/UIButton.vue';
@@ -71,6 +81,8 @@ export default {
                 role: undefined,
             },
             realFiltersList: {},
+            fullnessBarrier: userProfileFullnessLimit,
+            profileFilledEnough: true,
         }
     },
     methods: {
@@ -95,10 +107,18 @@ export default {
             this.$refs.searchBar.showHideFilters()
             this.goSearch()
         },
+        async getProfileFillness() {
+            UserDataController.shared.profileFilledEnough()
+                .then((response) => {
+                    console.log(response)
+                    this.profileFilledEnough = response
+                })
+        }
     },
     mounted() {
         this.getProjectsList()
         this.goSearch()
+        this.getProfileFillness()
     },
     watch: {
     },

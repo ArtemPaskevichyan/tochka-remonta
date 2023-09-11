@@ -13,7 +13,7 @@
 
     <div class="SEOArticlePage__info">
       <div class="SEOArticlePage__name">
-        {{ authorName?.length > 0 ? authorName : model?.user_uuid }}
+        {{ model.author }}
       </div>
       <div class="SEOArticlePage__date">
         {{ getDate(model?.publishDate) }}
@@ -28,8 +28,6 @@ import { ArticlesController } from "./helpers/articlesController";
 import { convertDateToBase } from '@/helpers/DateConverter';
 import SEOHeader from "./SEOHeader.vue";
 
-import axios from 'axios';
-
 export default {
   components: {
     SEOHeader,
@@ -38,7 +36,6 @@ export default {
     return {
       articleController: new ArticlesController(),
       model: {},
-      authorName: "",
     }
   },
   props: {
@@ -51,11 +48,6 @@ export default {
     async onMounted() {
       try {
         this.model = await this.articleController.getArticle(this.id)
-        console.log(this.model)
-        axios.get(`${serverURL}/api/v1/auth/get_user_data?user_uuid=${this.model?.user_uuid}`)
-          .then((response) => {
-            this.authorName = response?.data?.user?.firstname ?? ""
-          })
       } catch(e) {
         console.log(e)
       }

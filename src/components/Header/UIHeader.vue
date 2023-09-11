@@ -29,7 +29,7 @@
         <button class="header__dropdownMenuItem" @click="goToSettings">
             <i class="icon-gear header__icon"></i> Настройки профиля
         </button>
-        <button class="header__dropdownMenuItem primary" @click="goTo('/createProject')">
+        <button class="header__dropdownMenuItem primary" @click="goTo('/createProject')" :class="{ disabled: limitedUser }">
             <i class="icon-plus header__icon"></i> {{createText}}
         </button>
         <div class="header__dropdownMenuItem hight">
@@ -79,7 +79,7 @@ import UINotificationCounter from "../NotificationIndicator/UINotificationCounte
 import UIProgressBar from "../UIProgressBar.vue"
 
 import { UserDataController } from "@/helpers/UserDataController.js"
-import { serverURL } from "@/preferenses"
+import { serverURL, userProfileFullnessLimit, makerProfileFullnessLimit } from "@/preferenses"
 import { CityController } from "./CityController.js"
 import defaultAvatar from "@/assets/images/profileIcon.png"
 import UIModal from '@/components/UIModal.vue'
@@ -157,6 +157,8 @@ export default {
             } else if (this.role == "Исполнитель") {
                 p = "/maker" + p
             }
+
+            if (this.limitedUser && path == "/createProject") return;
             this.$router.push(p);
         },
 
@@ -248,6 +250,11 @@ export default {
     },
     mounted() {
         this.fetchData()
+    },
+    computed: {
+        limitedUser() {
+            return !(this.profileFillProgress > (this.role == "Исполнитель" ? makerProfileFullnessLimit : userProfileFullnessLimit))
+        }
     },
     unmounted() {
         try {

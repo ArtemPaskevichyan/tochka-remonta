@@ -68,7 +68,7 @@
 
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
                 Проекты, созданные вами, не найдены
-                <UIButton @click="$router.push('/maker/createProject')" :style="'primary'">Добавить проект <i class="icon-plus inline-icon"></i></UIButton>
+                <UIButton @click="$router.push('/maker/createProject')" :style="'primary'"  v-if="profileFilledEnough">Добавить проект <i class="icon-plus inline-icon"></i></UIButton>
             </div>
         </div>
     </div>
@@ -83,6 +83,7 @@ import UILoadingSpinner from "@/components/UILoadingSpinner.vue"
 import UIButton from '@/components/Buttons/UIButton.vue';
 import UILink from '@/components/FormComponents/UILink.vue';
 
+import { UserDataController } from "@/helpers/UserDataController.js";
 import SearchingProjectCard from  '@/components/ProjectCards/SearchingProjectCard.vue'
 import ActiveProjectCard from '@/components/ProjectCards/ActiveProjectCard.vue';
 import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue';
@@ -98,6 +99,7 @@ export default {
             viewModel: new ProjectListController(),
             dataArray: [],
             countOfSuggestoins: 0,
+            profileFilledEnough: false,
         }
     },
     methods: {
@@ -123,9 +125,18 @@ export default {
                 this.isLoading = false
             }
         },
+
+        async getProfileFillness() {
+            UserDataController.shared.profileFilledEnough()
+                .then((response) => {
+                    console.log(response)
+                    this.profileFilledEnough = response
+                })
+        }
     },
     mounted() {
         this.fetchProjects()
+        this.getProfileFillness()
     },
     computed: {
         activeList: function() {
@@ -139,7 +150,7 @@ export default {
         completedList: function() {
             return this.dataArray?.filter(i => i.status == "archive") ?? []
             //
-        }
+        },
     }
 }
 </script>

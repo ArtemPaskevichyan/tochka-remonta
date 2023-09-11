@@ -9,9 +9,11 @@
       <UIImageLoader :title="'Фото статьи'" v-model:imageSrc="imageSrc" @fileLoaded="handleFile"/>
       <UIInput :placeholder="'Название статьи'" v-model:value="title"/>
       <UITextInput :placeholder="'Текст статьи...'" v-model:value="text"/>
+      <UIInput :placeholder="'Имя автора'" v-model:value="author"/>
       <div class="addButton__holder">
         <UIButton class="addButton" :style="'primary'" @click="createArticle">Добавить статью</UIButton>
       </div>
+
       <UIAlert v-if="isAlertOpened" v-model:isOpened="isAlertOpened">
         <template v-slot:body>
             <div class="alert__baseTitle" v-if="errorToAlert?.title">
@@ -25,6 +27,8 @@
             <UIButton :style="b?.style" @click="b?.callback" :key="index" v-for="(b, index) in errorToAlert?.buttons">{{ b?.label }}</UIButton>
         </template>
       </UIAlert>
+
+      <UILoadingWall v-if="isLoading"/>
     </div>
   </div>
 </template>
@@ -37,10 +41,11 @@ import UIButton from "@/components/Buttons/UIButton.vue";
 import SEOHeader from "./SEOHeader.vue";
 import { ArticlesController } from './helpers/articlesController.js'
 import UIAlert from "@/components/UIAlert.vue";
+import UILoadingWall from '@/components/UILoadingWall.vue';
 
 export default {
   components: {
-    UIInput, UIImageLoader, UITextInput, UIButton, SEOHeader, UIAlert,
+    UIInput, UIImageLoader, UITextInput, UIButton, SEOHeader, UIAlert, UILoadingWall,
   },
   data() {
     return {
@@ -48,8 +53,10 @@ export default {
       text: "",
       title: "",
       imageSrc: "",
+      author: "",
       image: undefined,
       isAlertOpened: false,
+      isLoading: false,
       errorToAlert: {
         buttons: [],
         title: "",
@@ -62,17 +69,37 @@ export default {
       this.image = file
     },
     async createArticle() {
-      this.viewController.addArticle({
-        text: this.text,
-        title: this.title,
-        image: this.image,
-      })
-        .then((response) => {
-          console.log("RESP", response)
+      try {
+        this.isLoading = true
+        const resp = await this.viewController.addArticle({
+          text: this.text,
+          title: this.title,
+          image: this.image,
+          author: this.author,
         })
-        .catch((error) => {
-          console.log("ERROR", error)
-        })
+        console.log("RESP", resp)
+        this.$router.push("/seo/articles")
+      } catch(e) {
+        switch (e?.response?.data?.msg) {
+          case "empty fields":
+            this.callError("Пустые поля", "Заполните название статьи, ее текст и имя автора, чтобы опубликовать её", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+            break;
+          case "access denied":
+            this.$router.push("/seo/login")
+            break;
+          case "database error":
+            this.callError("Ошибка сервера", "На сайте возникла непредвиденная ошибка, повторите попытку позже", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+            break;
+          case "error with upload files":
+            this.callError("Некорректные файлы", "В загруженных вами файлах обнаружена ошибка. Вероятнее всего, ваш файл весит слишком много", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+            break;
+          default:
+            this.callError("Непредвиденная ошибка", "На сайте возникла непредвиденная ошибка, повторите попытку позже", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+            break;
+        }
+      } finally {
+        this.isLoading = false
+      }
     },
     callError(title, text, buttons) {
       this.isAlertOpened = true
@@ -81,7 +108,6 @@ export default {
       this.errorToAlert.buttons = buttons
     },
   },
-  
 }
 </script>
 

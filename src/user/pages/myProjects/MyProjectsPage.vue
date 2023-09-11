@@ -6,7 +6,7 @@
             <div class="myProjectsPage__placeholder" v-if="dataArray.length <= 0">
                 Проекты, созданные вами, не найдены
             </div>
-            <div class="myProjectsPage__pageHeader">
+            <div class="myProjectsPage__pageHeader" v-if="profileFilledEnough">
                 <UIButton :style="'primary'" @click="$router.push('/user/createProject')"><i class="icon-plus inline-icon m-r"></i> Создать проект</UIButton>
             </div>
 
@@ -82,6 +82,7 @@ import UILink from '@/components/FormComponents/UILink.vue';
 import SearchingProjectCard from  '@/components/ProjectCards/SearchingProjectCard.vue'
 import ActiveProjectCard from '@/components/ProjectCards/ActiveProjectCard.vue';
 import ArchiveProjectCard from '@/components/ProjectCards/ArchiveProjectCard.vue';
+import { UserDataController } from "@/helpers/UserDataController.js";
 
 export default {
     components: {
@@ -94,6 +95,7 @@ export default {
             viewModel: new ProjectListController(),
             dataArray: [],
             countOfSuggestoins: 0,
+            profileFilledEnough: false,
         }
     },
     methods: {
@@ -119,9 +121,17 @@ export default {
                 this.isLoading = false
             }
         },
+
+        async getProfileFillness() {
+            UserDataController.shared.profileFilledEnough()
+                .then((response) => {
+                    this.profileFilledEnough = response
+                })
+        }
     },
     mounted() {
         this.fetchProjects()
+        this.getProfileFillness()
     },
     computed: {
         activeList: function() {
@@ -135,7 +145,7 @@ export default {
         completedList: function() {
             return this.dataArray.filter(i => i.status == "archive")
             //
-        }
+        },
     }
 }
 </script>

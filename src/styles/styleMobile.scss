@@ -57,6 +57,12 @@
     padding: 40px;
   }
 
+  .login {
+    &__title {
+      white-space: unset;
+    }
+  }
+
   .galery {
     &__baseImage {
       height: 100%;
@@ -136,6 +142,10 @@
       width: unset;
       min-width: unset;
     }
+  }
+
+  .warning {
+    font-size: 15px;
   }
 
   .header {
@@ -408,6 +418,11 @@
         left: var(--sideMargin);
         right: var(--sideMargin);
       }
+    }
+
+    &__warning {
+      margin: 0 20px;
+      margin-top: 25px;
     }
   }
 

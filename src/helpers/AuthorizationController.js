@@ -114,6 +114,29 @@ class AuthorizationController {
             })
     }
 
+    // sends login data for authorization in SEO pages, to have access for creating SEO Articles
+    async sendSEOLogin(email, password) {
+        const url = `${serverURL}/api/v1/blog/login`
+        const data = JSON.stringify({
+            "username": email,
+            "password": password,
+        })
+        await axios.post(url, data)
+            .then((response) => {
+                try {
+                    console.log(response)
+                    TokenHandler.shared.SEOtoken = response?.data?.token
+                } catch(e) {
+                    console.log(e)
+                    throw createError(e, ERROR_CODES.serverDataFail)
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                throw error
+            })
+    }
+
     // Sends email with password recovery link with key
     async sendPasswordRecovery(email) {
         try {

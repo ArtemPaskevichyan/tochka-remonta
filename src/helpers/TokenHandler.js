@@ -6,11 +6,17 @@ import { serverURL } from "../preferenses.js"
 class TokenHandler {
     static tokenCookieKey = "token"
     static refreshTokenCookieKey = "refresh_token"
+    static SEOtokenCookieKey = "SEO_token"
+    static SEOrefreshTokenCookieKey = "SEO_refresh_token"
 
     static shared = new TokenHandler();
 
     set token(newValue) {
         CookieHandler.shared.setCookie(TokenHandler.tokenCookieKey, newValue, {expires: new Date(Date.now() + 86400000).toUTCString()})
+    }
+
+    set SEOtoken(newValue) {
+        CookieHandler.shared.setCookie(TokenHandler.SEOtokenCookieKey, newValue, {expires: new Date(Date.now() + 86400000).toUTCString()})
     }
 
     get refreshToken() {
@@ -22,6 +28,7 @@ class TokenHandler {
         }
         return refreshToken
     }
+
     set refreshToken(newValue) {
         CookieHandler.shared.setCookie(TokenHandler.refreshTokenCookieKey, newValue, {expires: new Date(Date.now() + 2073600000).toUTCString()})
     }
@@ -32,6 +39,18 @@ class TokenHandler {
             await TokenHandler.shared.updateToken()
             return
         }
+    }
+
+    checkSEOToken() {
+        var SEOtoken = CookieHandler.shared.getCookie(TokenHandler.tokenCookieKey)
+        if (!SEOtoken) {
+            window.location.href = "/seo/login"
+        }
+    }
+
+    getSEOtoken() {
+        this.checkSEOToken()
+        return CookieHandler.shared.getCookie(TokenHandler.SEOtokenCookieKey)
     }
 
     async getToken() {
@@ -76,10 +95,8 @@ class TokenHandler {
     clearData() {
         CookieHandler.shared.setCookie(TokenHandler.tokenCookieKey, '', {expires: new Date(Date.now() - 8000).toUTCString()})
         CookieHandler.shared.setCookie(TokenHandler.refreshTokenCookieKey, '', {expires: new Date(Date.now() - 8000).toUTCString()})
-        
-    }
-
-    constructor() {
+        CookieHandler.shared.setCookie(TokenHandler.SEOtokenCookieKey, '', {expires: new Date(Date.now() - 8000).toUTCString()})
+        CookieHandler.shared.setCookie(TokenHandler.SEOrefreshTokenCookieKey, '', {expires: new Date(Date.now() - 8000).toUTCString()})
     }
 }
 

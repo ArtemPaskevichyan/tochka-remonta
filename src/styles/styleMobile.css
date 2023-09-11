@@ -38,6 +38,9 @@
   .createProject {
     padding: 40px;
   }
+  .login__title {
+    white-space: unset;
+  }
   .galery__baseImage {
     height: 100%;
     min-height: 200px;
@@ -108,6 +111,9 @@
   .authorizationHolder__content {
     width: unset;
     min-width: unset;
+  }
+  .warning {
+    font-size: 15px;
   }
   .header {
     --paddingHorizontal: 20px;
@@ -293,6 +299,10 @@
     --sideMargin: 14px;
     margin-left: var(--sideMargin);
     margin-right: var(--sideMargin);
+  }
+  .searchPage__warning {
+    margin: 0 20px;
+    margin-top: 25px;
   }
   .myProjectsPage {
     width: 100%;

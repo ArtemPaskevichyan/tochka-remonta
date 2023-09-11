@@ -4,7 +4,7 @@
       <div class="tabBar__page"
       :class="{active: tab.active}"
       v-for="tab in tabs" :key="tab.id"
-      @click="$router.push({name: tab.destination})"
+      @click="goToPage(tab.destination)"
       >
         <div class="tabBar__icon">
           <i :class="tab.iconClass"></i>
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       isLoaded: false,
+      profileFilledEnough: false,
       tabs: [],
     }
   },
@@ -63,9 +64,23 @@ export default {
           break
         }
       }
+    },
+
+    goToPage(destination) {
+      if (!this.profileFilledEnough) return
+      this.$router.push({name: destination})
+    },
+
+    async getProfileFillness() {
+        UserDataController.shared.profileFilledEnough()
+            .then((response) => {
+                console.log(response)
+                this.profileFilledEnough = response
+            })
     }
   },
   mounted() {
+    this.getProfileFillness()
     this.onMounted()
   },
 }

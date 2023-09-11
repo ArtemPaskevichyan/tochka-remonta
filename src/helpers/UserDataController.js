@@ -1,5 +1,5 @@
 import axios from "axios"
-import {serverURL} from "@/preferenses.js"
+import { serverURL, userProfileFullnessLimit, makerProfileFullnessLimit } from "@/preferenses.js"
 import { TokenHandler } from "./TokenHandler"
 import { createError, ERROR_CODES } from "@/helpers/ErrorMaker.js"
 import { AdressHelper } from "./AdressHelper"
@@ -148,22 +148,23 @@ class UserDataController {
         return (await axios.get(URL, config))?.data?.count ?? 0
     }
 
+    async profileFilledEnough() {
+        const data = await this.getData()
+        return (data?.profileFullness > (data?.role == "contractor" ? makerProfileFullnessLimit : userProfileFullnessLimit))
+    }
+
     clearData() {
         sessionStorage.removeItem(UserDataController.sessionStorageKey)
     }
     
     exit() {
-        var submition = confirm('Вы точно хотите выйти из аккаунта?')
+        let submition = confirm('Вы точно хотите выйти из аккаунта?')
         if (!submition) { return }
 
         TokenHandler.shared.clearData()
         this.clearData()
 
         window.location.href = "/login"
-    }
-
-    constructor() {
-
     }
 }
 
