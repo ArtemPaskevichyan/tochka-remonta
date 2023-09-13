@@ -4,30 +4,29 @@ import { serverURL } from "@/preferenses"
 
 
 class SearchPageController {
-    async getProjectsByFilters(offset=0, limit=10, filtersModel) {
-        var token = await TokenHandler.shared.getToken()
+    async getProjectsByFilters(filters) {
+        const token = await TokenHandler.shared.getToken()
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }
+        const URL = `${serverURL}/api/v1/projects/search_projects`
+        const parameters = {
+            status: "search",
+        }
 
-        //
-        var URL = `${serverURL}/api/v1/projects/get_project_list?offset=${offset}&limit=${limit}`
-        if (filtersModel?.city) { URL += "&city=" + filtersModel?.city }
-        if (filtersModel?.status) { URL += "&status=" + filtersModel?.status }
-        var projects = []
+        for (let i in filters) {
+            if (filters[i] == undefined) { continue }
+            parameters[i] = filters[i]
+        }
 
-        await axios.get(URL, config)
-            .then((response) => {
-                console.log("RESP", response)
-                projects = response?.data?.project_list
-            })
-            .catch((error) => {
-                console.log("ERROR", error)
-            })
-        
-        return projects ?? []
+        console.log("FILTERS", parameters)
+
+        const response = await axios.post(URL, parameters, config)
+        const projects = response?.data?.projects ?? []
+        console.log("PROJECTS", response)
+        return projects
     }
 }
 

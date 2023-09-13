@@ -11,20 +11,17 @@ class SearchingController {
             }
         }
         const URL = `${serverURL}/api/v1/projects/search_users`
-        var parameters = {
+        const parameters = {
             role: "contractor",
         }
 
-        for (var i in filters) {
+        for (let i in filters) {
             if (filters[i] == undefined) {continue}
             parameters[i] = filters[i]
         }
 
-        console.log("PP", parameters)
-
         const response = await axios.post(URL, parameters, config)
-        console.log("RESP", response)
-        var array = response?.data?.users ?? []
+        const array = response?.data?.users ?? []
         return array
     }
 

@@ -31,7 +31,6 @@ export default {
     },
     computed: {
         date: function() {
-            console.log(this.model)
             return new Date(this.model?.date).toISOString().slice(0,10).replace(/-/g,".");
         }
     }

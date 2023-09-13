@@ -94,7 +94,6 @@ i.m-l {
     color: $primary-text-color;
 
     &.shortened {
-        display: table;
         margin-left: auto;
         margin-right: auto;
     }
@@ -802,6 +801,7 @@ i.m-l {
 
 .fileLoader {
     &__title {
+        color: $primary-text-color;
         font: {
             size: 20px;
             weight: $font-regular;
@@ -826,13 +826,19 @@ i.m-l {
         align-items: center;
         justify-content: space-between;
         flex-wrap: nowrap;
+        height: 52px;
         font: {
             weight: $font-regular;
             size: 20px;
         }
+
+        &:not(:last-child) {
+            margin-bottom: 10px;
+        }
     }
 
     &__fileName {
+        color: $primary-text-color;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -2166,6 +2172,7 @@ i.m-l {
         flex-direction: column;
         animation: filtersApperance 0.3s 1;
         gap: 25px;
+        margin-bottom: 50px;
 
         .input__title {
             font-weight: $font-medium;
@@ -2896,6 +2903,7 @@ i.m-l {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
+        flex-wrap: wrap;
         gap: 14px;
         margin-top: 20px;
 

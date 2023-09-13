@@ -11,8 +11,17 @@
             </div>
         </div>
         <div class="titleText pageTitle searchPage__title">Исполнители</div>
-        <UISearchBar class="searchPage__searchBar" v-model:suggestions="searchSuggestions" :placeholder="'Найти компанию'" :ref="'searchBar'"
-        v-model:text="searchText" :filtersCount="filtersCount" @chosen="searchChosen" @search="goSearch" @filtersHasBeenOpened="prepareFilters">
+        <UISearchBar
+            class="searchPage__searchBar"
+            v-model:suggestions="searchSuggestions"
+            :placeholder="'Найти компанию'"
+            :ref="'searchBar'"
+            v-model:text="searchText"
+            :filtersCount="filtersCount"
+            @chosen="searchChosen"
+            @search="goSearch"
+            @filtersHasBeenOpened="prepareFilters"
+        >
             <template v-slot:filterContent>
                 <UIMultiChoise :title="'Проектов выполнено'" :foldable="true" :single="true" v-model:selectionData="filters.completed_projects"/>
                 <UIMultiChoise :title="'Средний чек (за М²)'" :foldable="true" :single="true" v-model:selectionData="filters.average_check"/>
@@ -97,28 +106,13 @@ export default {
         async goSearch() {
             try {
                 this.isDataLoading = true
-                this.makerUUIDList = await this.viewController.getMakersList(this.realFiltersList)
-                console.log("FRESH ", this.makerUUIDList)
-                this.fetchDataFromMakerList()
+                this.makerList = await this.viewController.getMakersList(this.realFiltersList)
+                this.makerList = this.makerList.filter(e => e.firstname?.toLowerCase().includes(this.searchText.toLowerCase()))
             } catch(e) {
+                console.log("ERROR", e)
                 //
             } finally {
                 this.isDataLoading = false
-            }
-        },
-
-        async fetchDataFromMakerList() {
-            this.makerList = [...Array(this.makerUUIDList?.length)]
-            for (let i = 0; i < this.makerUUIDList?.length; i++) {
-                const uuid = this.makerUUIDList[i].uuid
-                this.viewController.getDataOfMaker(uuid)
-                    .then((response) => {
-                        this.makerList[i] = response?.data?.user
-                        this.makerList[i].isReady = true
-                    })
-                    .catch((error) => {
-                        //
-                    })
             }
         },
 
@@ -156,8 +150,6 @@ export default {
                     this.profileFilledEnough = response
                 })
         }
-    },
-    watch: {
     },
     mounted() {
         this.goSearch()

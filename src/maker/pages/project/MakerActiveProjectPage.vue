@@ -27,7 +27,7 @@
                     </span>
                 </div>
                 <!-- <Event v-for="e in eventList?.slice(-3)" :key="e.id" :model="e"/> -->
-                <Event v-for="e in eventList" :key="e.id" :model="e"/>
+                <Event v-for="e in eventList?.slice(0, 3)" :key="e.id" :model="e"/>
                 <div class="projectSearchingPage__caption" v-if="eventList?.length == 0">Событий пока нет</div>
             </div>
 
@@ -71,6 +71,7 @@
                 <div class="projectSearchingPage__blockTitle">Загрузка файлов</div>
                 <ProjectFileLoader :title="'Документы о правах собственности'" :watch="true" @fileLoaded="hostLoaded" :loadedFile="hostDocs" v-model:isLoading="hostLoading"/>
                 <ProjectFileLoader :title="'Дизайн проект'" :watch="true" @fileLoaded="designLoaded" :loadedFile="designDocs" v-model:isLoading="designLoading"/>
+                <ProjectMultipleFileLoader :title="'Документ подряда и приложения'" :watch="true" @filesLoaded="dealLoaded" :loadedFiles="dealDocs" v-model:isLoading="dealLoading"/>
             </div>
 
             <div class="projectSearchingPage__block">
@@ -142,6 +143,8 @@ import { GanttHelper } from '@/helpers/GanttHelper';
 import UIAlert from "@/components/UIAlert.vue";
 import UIFileLoader from "@/components/FormComponents/UIFileLoader.vue";
 import ProjectFileLoader from "@/components/Supports/ProjectFileLoader.vue"
+import ProjectMultipleFileLoader from '@/components/Supports/ProjectMultipleFileLoader.vue';
+
 
 export default {
     components: {
@@ -150,6 +153,7 @@ export default {
         ProjectPhotosView, CompleteProjectForMaker, EventCreation,
         NegotiationCreation, GanttDiagramEditor, UINotificationIndicatiorHolder,
         NegotiationList, EventList, UIAlert, UIFileLoader, ProjectFileLoader,
+        ProjectMultipleFileLoader,
     },
     data() {
         return {
@@ -178,6 +182,8 @@ export default {
             hostLoading: false,
             designDocs: undefined,
             designLoading: false,
+            dealDocs: [],
+            dealLoading: false,
         }
     },
     methods: {
@@ -423,46 +429,88 @@ export default {
         },
 
         async getLoadedFiles() {
+            let hostFlag = true
+            let designFlag = true
+            let dealFlag = true
             for (let e of this.eventList) {
-                if (e.description == "Документы о правах собственности загружены") {
-                    const filename = e?.documents[0]?.filename
-                    this.hostLoading = true
-                    this.projectController.getEventFile(filename)
-                        .then((response) => {
-                            const fileData = response.data
-                            const file = new File([fileData], filename + '.pdf', { type: 'application/pdf' });
-                            this.hostDocs = {
-                                name: filename,
-                                link: URL.createObjectURL(file),
-                            }
-                        })
-                        .catch((error) => {
-                            console.log("FILE ERROR", error)
-                        })
-                        .finally(() => {
-                            this.hostLoading = false
-                        })
+                if (e.description == "Документы о правах собственности загружены" && hostFlag) {
+                    this.hostDocsEventHandler(e)
+                    hostFlag = false
                 }
-                if (e.description == "Дизайн-проект загружен") {
-                    const filename = e?.documents[0]?.filename
-                    this.designLoading = true
-                    this.projectController.getEventFile(filename)
-                        .then((response) => {
-                            const fileData = response.data
-                            const file = new File([fileData], filename + '.pdf', { type: 'application/pdf' });
-                            this.designDocs = {
-                                name: filename,
-                                link: URL.createObjectURL(file),
-                            }
-                        })
-                        .catch((error) => {
-                            console.log("FILE ERROR", error)
-                        })
-                        .finally(() => {
-                            this.designLoading = false
-                        })
+                if (e.description == "Дизайн-проект загружен" && designFlag) {
+                    this.designDocsEventHandler(e)
+                    designFlag = false
+                }
+                if (e.description == "Договор подряда загружен" && dealFlag) {
+                    this.dealDocsEventHandler(e)
+                    dealFlag = false
                 }
             }
+        },
+
+        async hostDocsEventHandler(e) {
+            if (!e?.documents) return
+                const filename = e?.documents[0]?.filename
+                this.hostLoading = true
+                this.projectController.getEventFile(filename)
+                    .then((response) => {
+                        const fileData = response.data
+                        const file = new File([fileData], filename + '.pdf', { type: 'application/pdf' });
+                        this.hostDocs = {
+                            name: filename,
+                            link: URL.createObjectURL(file),
+                        }
+                    })
+                    .catch((error) => {
+                        console.log("FILE ERROR", error)
+                    })
+                    .finally(() => {
+                        this.hostLoading = false
+                    })
+        },
+
+        async designDocsEventHandler(e) {
+            if (!e?.documents) return
+                const filename = e?.documents[0]?.filename
+                this.designLoading = true
+                this.projectController.getEventFile(filename)
+                    .then((response) => {
+                        const fileData = response.data
+                        const file = new File([fileData], filename + '.pdf', { type: 'application/pdf' });
+                        this.designDocs = {
+                            name: filename,
+                            link: URL.createObjectURL(file),
+                        }
+                    })
+                    .catch((error) => {
+                        console.log("FILE ERROR", error)
+                    })
+                    .finally(() => {
+                        this.designLoading = false
+                    })
+        },
+
+        async dealDocsEventHandler(e) {
+            if (!e?.documents) return
+                const files = e?.documents
+                this.dealLoading = true
+                let counter = 0
+                for (let f of files) { 
+                    this.projectController.getEventFile(f?.filename)
+                        .then((response) => {
+                            const fileData = response.data
+                            const file = new File([fileData], f?.filename + '.pdf', { type: 'application/pdf' });
+                            this.dealDocs.push({
+                                name: f?.filename,
+                                link: URL.createObjectURL(file),
+                            })
+
+                            counter++;
+                            if (counter == files.length) {
+                                this.dealLoading = false
+                            }
+                        })
+                }
         },
 
         async onMounted() {

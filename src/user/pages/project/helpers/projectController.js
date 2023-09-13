@@ -64,7 +64,7 @@ class ProjectController {
         }
     }
 
-    async createFileEvent(description, file, id) {
+    async createFileEvent(description, files, id) {
         const token = await TokenHandler.shared.getToken()
         const URL = `${serverURL}/api/v1/projects/create_event?p_id=${id}`
         const config = {
@@ -74,8 +74,10 @@ class ProjectController {
         }
 
         let formData = new FormData()
-        formData.append('projectdoc', file)
+        for (let i = 0; i < files.length; i++) { formData.append('projectdoc', files[i]) }
         formData.append('description', description)
+
+        console.log(formData)
 
         await axios.post(URL, formData, config)
             .then((response) => {
@@ -305,12 +307,13 @@ class ProjectController {
     async getEventFile(filename) {
         const token = await TokenHandler.shared.getToken()
         const config = {
+            responseType: 'blob',
             headers: {
+                Accept: 'application/pdf',
                 Authorization: `Bearer ${token}`
             }
         }
         const URL = `${serverURL}/api/v1/projects/get_event_document?filename=${filename}`
-        console.log("GO GET", URL)
         return axios.get(URL, config)
     }
 }

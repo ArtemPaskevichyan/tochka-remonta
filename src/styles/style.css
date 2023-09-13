@@ -79,7 +79,6 @@ i.m-l {
   color: #262626;
 }
 .pageTitle.shortened {
-  display: table;
   margin-left: auto;
   margin-right: auto;
 }
@@ -840,6 +839,7 @@ i.m-l {
 }
 
 .fileLoader__title {
+  color: #262626;
   font-size: 20px;
   font-weight: 400;
 }
@@ -864,10 +864,15 @@ i.m-l {
           justify-content: space-between;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
+  height: 52px;
   font-weight: 400;
   font-size: 20px;
 }
+.fileLoader__fileInfo:not(:last-child) {
+  margin-bottom: 10px;
+}
 .fileLoader__fileName {
+  color: #262626;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2379,6 +2384,7 @@ i.m-l {
   -webkit-animation: filtersApperance 0.3s 1;
           animation: filtersApperance 0.3s 1;
   gap: 25px;
+  margin-bottom: 50px;
 }
 .searchBar__filter .input__title {
   font-weight: 500;
@@ -3180,6 +3186,8 @@ i.m-l {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 14px;
   margin-top: 20px;
 }

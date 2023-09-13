@@ -11,17 +11,26 @@
             </div>
         </div>
         <div class="titleText pageTitle searchPage__title">Проекты</div>
-        <UISearchBar class="searchPage__searchBar" v-model:suggestions="searchSuggestions" :placeholder="'Найти проект'" :ref="'searchBar'"
-        v-model:text="searchText" :filtersCount="filtersCount" @chosen="searchChosen" @search="goSearch" @filtersHasBeenOpened="prepareFilters">
+        <UISearchBar
+            class="searchPage__searchBar"
+            v-model:suggestions="searchSuggestions"
+            :placeholder="'Найти проект'"
+            :ref="'searchBar'"
+            v-model:text="searchText"
+            :filtersCount="filtersCount"
+            @chosen="searchChosen"
+            @search="goSearch"
+            @filtersHasBeenOpened="prepareFilters"
+        >
             <template v-slot:filterContent>
-                <UIMultiChoise :title="'Вид объекта'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
-                <UIMultiChoise :title="'Вид ремонта'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
-                <UIMultiChoise :title="'Вид работы'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
-                <UIMultiChoise :title="'Покрытие стен'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
-                <UIMultiChoise :title="'Напольное покрытие'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
-                <UIMultiChoise :title="'Потолок'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
-                <UIMultiChoise :title="'Инженерные сети'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
-                <UIMultiChoise :title="'Тип дома'" :foldable="true" v-model:selectionData="filters.completed_projects"/>
+                <UIMultiChoise :title="'Вид объекта'" :single="true" :foldable="true" v-model:selectionData="filters.is_new_building"/>
+                <UIMultiChoise :title="'Вид ремонта'" :single="true" :foldable="true" v-model:selectionData="filters.repair_type"/>
+                <UIMultiChoise :title="'Вид работы'" :single="true" :foldable="true" v-model:selectionData="filters.job_type"/>
+                <UIMultiChoise :title="'Покрытие стен'" :foldable="true" v-model:selectionData="filters.wall_covering"/>
+                <UIMultiChoise :title="'Напольное покрытие'" :foldable="true" v-model:selectionData="filters.floor_covering"/>
+                <UIMultiChoise :title="'Потолок'" :foldable="true" v-model:selectionData="filters.ceiling"/>
+                <UIMultiChoise :title="'Инженерные сети'" :foldable="true" v-model:selectionData="filters.engineering_networks"/>
+                <UIMultiChoise :title="'Тип дома'" :single="true" :foldable="true" v-model:selectionData="filters.house_type"/>
                 <UIButton :style="'primary'" @click="setFilters">Применить</UIButton>
             </template>
         </UISearchBar>
@@ -62,20 +71,51 @@ export default {
             offset: 0,
             LIMIT: 10,
             filters: {
-                average_check: [
-                    {id: 0, label: "до 50 000 ₽", active: false, value: 50000},
-                    {id: 1, label: "до 100 000 ₽", active: false, value: 100000},
-                    {id: 2, label: "до 200 000 ₽", active: false, value: 200000},
+                is_new_building: [
+                    {id: 0, label: "Вторичка", active: false, value: false},
+                    {id: 1, label: "Новостройка", active: false, value: true},
                 ],
-                completed_projects: [
-                    {id: 0, label: "от 10", active: false, value: 10},
-                    {id: 1, label: "от 20", active: false, value: 20},
-                    {id: 2, label: "от 50", active: false, value: 50},
+                repair_type: [
+                    {id: 0, label: "Под ключ", active: false, value: "Под ключ"},
+                    {id: 1, label: "Частичный", active: false, value: "Частичный"},
                 ],
-                rating: [
-                    {id: 0, label: "3.0+", active: false, value: 3},
-                    {id: 1, label: "4.0+", active: false, value: 4},
-                    {id: 2, label: "5.0+", active: false, value: 5},
+                job_type: [
+                    {id: 0, label: "Только черновые", active: false, value: "Только черновые"},
+                    {id: 1, label: "Только чистовые", active: false, value: "Только чистовые"},
+                    {id: 2, label: "Комплекс", active: false, value: "Комплекс"},
+                ],
+                house_type: [
+                    {id: 0, label: "Квартира", active: false, value: "Квартира"},
+                    {id: 1, label: "Дом", active: false, value: "Дом"},
+                ],
+                wall_covering: [
+                    {id: 0, label: "Обои", active: false, value: "Обои"},
+                    {id: 1, label: "Покраска", active: false, value: "Покраска"},
+                    {id: 2, label: "Плитка", active: false, value: "Плитка"},
+                    {id: 3, label: "Обои под покраску", active: false, value: "Обои под покраску"},
+                    {id: 4, label: "Декоративная штукатурка", active: false, value: "Декоративная штукатурка"},
+                    {id: 5, label: "Другое", active: false, value: "Другое"},
+                ],
+                floor_covering: [
+                    {id: 0, label: "Ламинат", active: false, value: "Ламинат"},
+                    {id: 1, label: "Кварцвинил", active: false, value: "Кварцвинил"},
+                    {id: 2, label: "Паркет", active: false, value: "Паркет"},
+                    {id: 3, label: "Линолиум", active: false, value: "Линолиум"},
+                    {id: 4, label: "Плитка", active: false, value: "Плитка"},
+                    {id: 5, label: "Инженерная доска", active: false, value: "Инженерная доска"},
+                    {id: 6, label: "Другое", active: false, value: "Другое"},
+                ],
+                ceiling: [
+                    {id: 0, label: "Натяжной", active: false, value: "Натяжной"},
+                    {id: 1, label: "Побелка", active: false, value: "Побелка"},
+                    {id: 2, label: "ГКЛ (Гибсокартоновый лист)", active: false, value: "ГКЛ (Гибсокартоновый лист)"},
+                    {id: 3, label: "Другое", active: false, value: "Другое"},
+                ],
+                engineering_networks: [
+                    {id: 0, label: "Электрика", active: false, value: "Электрика"},
+                    {id: 1, label: "Климототехника", active: false, value: "Климототехника"},
+                    {id: 2, label: "Сантехника", active: false, value: "Сантехника"},
+                    {id: 3, label: "Другое", active: false, value: "Другое"},
                 ],
                 city: "",
                 role: undefined,
@@ -89,13 +129,17 @@ export default {
         searchChosen(index) {
             this.searchSuggestions = []
         },
-        goSearch() {
-            this.projectList = this.projectInitialList.filter(p => p.title.toLowerCase().includes(this.searchText.toLowerCase()))
-        },
-        async getProjectsList() {
-            var model = {status: 'search'}
-            this.projectList = await this.viewModel.getProjectsByFilters(this.offset, this.LIMIT, model)
-            this.projectInitialList = [...this.projectList]
+        async goSearch() {
+            try {
+                this.isDataLoading = true
+                this.projectList = await this.viewModel.getProjectsByFilters(this.realFiltersList)
+                this.projectList = this.projectList.filter(p => p.title?.toLowerCase().includes(this.searchText.toLowerCase()))
+            } catch(e) {
+                console.log("ERROR", e)
+                //
+            } finally {
+                this.isDataLoading = false
+            }
         },
         setFilters() {
             this.realFiltersList = {}
@@ -113,14 +157,32 @@ export default {
                     console.log(response)
                     this.profileFilledEnough = response
                 })
-        }
+        },
+        getActiveFrom(filterParameter) {
+            let count = 0; 
+            let result;
+            for (let i of filterParameter) {
+                if (i.active) {
+                    if (count == 0) {
+                        result = i.value
+                        count += 1
+                    }
+                    else if (count == 1) {
+                        result = [result]
+                        result.push(i.value)
+                        count += 1
+                    } else {
+                        result.push(i.value)
+                        count += 1
+                    }
+                }
+            }
+            return result
+        },
     },
     mounted() {
-        this.getProjectsList()
         this.goSearch()
         this.getProfileFillness()
-    },
-    watch: {
     },
     computed: {
         filtersToSearch: function() {

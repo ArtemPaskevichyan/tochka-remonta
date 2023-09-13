@@ -5,29 +5,26 @@
     </div>
     <input type="file" ref="input" :accept="accept" @change="fetchFile" />
     <div class="fileLoader__inner">
-      <UIButton
-        v-if="!fileName  && !isLoading"
-        @click="$refs.input.click()"
-        class="fileLoader__button"
-        >Выбрать файл</UIButton
-      >
-      <div v-else class="fileLoader__fileInfo">
-        <span class="fileLoader__fileName">{{  !isLoading ? fileName : "Документ загружается..."  }}</span>
+      <div class="fileLoader__fileInfo">
+        <span class="fileLoader__fileName" :class="{skeleton: isLoading}">{{  !isLoading ? fileName : "Документ загружается..."  }}</span>
         <span class="fileLoader__controls">
           <UIButton
             @click="watchFile"
             class="fileLoader__destructive"
             :style="'square default'"
-            ><i class="icon-eye"></i
-          ></UIButton>
-          <!-- <UIButton
-            @click="clearFile"
-            class="fileLoader__destructive"
-            :style="'destructive'"
-            >Удалить</UIButton
-          > -->
+            v-if="!isLoading"
+          >
+            <i class="icon-eye"></i>
+          </UIButton>
         </span>
       </div>
+      <UIButton
+        v-if="!isLoading"
+        @click="$refs.input.click()"
+        class="fileLoader__button"
+      >
+        Выбрать файл
+      </UIButton>
     </div>
   </div>
 </template>
@@ -60,10 +57,10 @@ export default {
   methods: {
     fetchFile(event) {
       try {
-        this.$emit("fileLoaded", event.target.files[0]);
         this.file = event.target.files[0];
         this.fileName = event.target.files[0].name;
         this.fileLink = window.URL.createObjectURL(this.file);
+        this.$emit("fileLoaded", event.target.files[0]);
       } catch (e) {
         this.$emit("error", e);
       }

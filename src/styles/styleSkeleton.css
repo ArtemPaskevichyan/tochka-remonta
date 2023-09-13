@@ -202,3 +202,7 @@
 .skeleton.ocSuggestion__image {
   background-color: #C5C5C5;
 }
+
+.skeleton.fileLoader__fileName {
+  color: #262626;
+}

@@ -49,7 +49,7 @@
                     </div>
                     <div class="settingsPage__fullnessBlock">
                         <UIProgressBar :title="'Заполненность профиля'" :value="profileFillProgress"/>
-                        <p class="baseText" :class="{warning: profileFillProgress < fullnessBarrier}" v-if="profileFillProgress < 100">
+                        <p class="baseText" :class="{warning: profileFillProgress < fullnessBarrier}" v-if="profileFillProgress < fullnessBarrier">
                             Чтобы пользоваться всеми возможностями платформы, заполенность вашего профиля должна составлять не менее {{ fullnessBarrier }}%
                         </p>
                     </div>
@@ -131,6 +131,7 @@ import { UserDataController } from '@/helpers/UserDataController.js'
 import { SettingsPageController, ADDRESS_SOCIAL_TITLE } from '@/maker/pages/settingsPage/helpers/settingsPageController.js'
 import { socialsArray } from '@/preferenses.js'
 import UIProgressBar from "@/components/UIProgressBar.vue";
+import { makerProfileFullnessLimit } from "@/preferenses";
 
 
 
@@ -185,7 +186,7 @@ export default {
             costError: false,
             contactsSuggestions: [],
             profileFillProgress: 0,
-            fullnessBarrier: 70,
+            fullnessBarrier: makerProfileFullnessLimit,
         }
     },
     methods: {
