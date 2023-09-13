@@ -42,7 +42,7 @@ class TokenHandler {
     }
 
     checkSEOToken() {
-        var SEOtoken = CookieHandler.shared.getCookie(TokenHandler.tokenCookieKey)
+        var SEOtoken = CookieHandler.shared.getCookie(TokenHandler.SEOtokenCookieKey)
         if (!SEOtoken) {
             window.location.href = "/seo/login"
         }

@@ -16,6 +16,7 @@ import SEOLoginPage from "@/public/pages/SEOcreationPages/SEOLoginPage.vue"
 import APIPage from "@/public/pages/APIpages/APIPage.vue"
 import ChatPage from "@/public/pages/chat/ChatPage.vue"
 import LandingPage from "@/public/landing/LandingPage.vue"
+import PrivacyPolicy from "@/public/pages/privacyPolicy/PrivacyPolicy.vue"
 
 import UserSearchPage from "@/user/pages/searchPage/SearchPage.vue"
 import CreateProjectPage from "@/user/pages/createProject/CreateProjectPage.vue"
@@ -135,6 +136,11 @@ const routes = [
     meta: {
       title: "API Документация",
     }
+  },
+  {
+    path: '/privacyPolicy',
+    name: 'privacyPolicy',
+    component: PrivacyPolicy,
   },
 
   {

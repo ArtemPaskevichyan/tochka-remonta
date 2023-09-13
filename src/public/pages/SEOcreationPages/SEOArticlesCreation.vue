@@ -80,6 +80,7 @@ export default {
         console.log("RESP", resp)
         this.$router.push("/seo/articles")
       } catch(e) {
+        console.log("Error", e)
         switch (e?.response?.data?.msg) {
           case "empty fields":
             this.callError("Пустые поля", "Заполните название статьи, ее текст и имя автора, чтобы опубликовать её", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
@@ -93,6 +94,8 @@ export default {
           case "error with upload files":
             this.callError("Некорректные файлы", "В загруженных вами файлах обнаружена ошибка. Вероятнее всего, ваш файл весит слишком много", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
             break;
+          case "Invalid or expired JWT":
+            // this.$router.push("/seo/login")
           default:
             this.callError("Непредвиденная ошибка", "На сайте возникла непредвиденная ошибка, повторите попытку позже", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
             break;

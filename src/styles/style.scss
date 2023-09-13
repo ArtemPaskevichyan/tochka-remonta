@@ -4567,7 +4567,29 @@ i.m-l {
     }
 }
 
+.privacyPolicy {
+    padding: 20px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 auto;
 
+    &__point {
+        margin-top: 60px;
+
+        p {
+            margin: 20px 0;
+            color: $secondary-text-color;
+            font-size: 20px;
+            font-weight: $font-regular;
+        }
+    }
+
+    &__title {
+        color: $primary-text-color;
+        font-size: 32px;
+        font-weight: $font-medium;
+    }
+}
 
 
 

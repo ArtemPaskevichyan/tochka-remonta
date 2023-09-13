@@ -830,6 +830,15 @@
     max-width: unset;
     width: 100%;
   }
+  .privacyPolicy {
+    width: 100%;
+  }
+  .privacyPolicy__point p {
+    font-size: 15px;
+  }
+  .privacyPolicy__title {
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 450px) {
   .registration__title {

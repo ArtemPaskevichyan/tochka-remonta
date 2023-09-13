@@ -1010,6 +1010,20 @@
       }
     }
   }
+
+  .privacyPolicy {
+    width: 100%;
+
+    &__point {
+      p {
+          font-size: 15px;
+      }
+    }
+
+    &__title {
+        font-size: 20px;
+    }
+}
 }
 
 @media screen and (max-width: 450px) {
