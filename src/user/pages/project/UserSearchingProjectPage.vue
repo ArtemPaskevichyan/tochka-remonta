@@ -53,9 +53,9 @@
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">
                     Отклики
-                    <UILink :class="{skeleton: !hasProject}" :size="'small'" :link="`/user/projectResponses/${project?.id ?? 'none'}`">
+                    <!-- <UILink :class="{skeleton: !hasProject}" :size="'small'" :link="`/user/projectResponses/${project?.id ?? 'none'}`">
                         Все отклики
-                    </UILink>
+                    </UILink> -->
                 </div>
                 <div class="projectSearchingPage__caption" v-if="listOfResponses?.length == 0 || !listOfResponses">
                     Пока никто не откликнулся на ваш проект

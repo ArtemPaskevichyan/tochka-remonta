@@ -95,7 +95,7 @@ export default {
             this.callError("Некорректные файлы", "В загруженных вами файлах обнаружена ошибка. Вероятнее всего, ваш файл весит слишком много", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
             break;
           case "Invalid or expired JWT":
-            // this.$router.push("/seo/login")
+            this.$router.push("/seo/login")
           default:
             this.callError("Непредвиденная ошибка", "На сайте возникла непредвиденная ошибка, повторите попытку позже", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
             break;
@@ -111,6 +111,9 @@ export default {
       this.errorToAlert.buttons = buttons
     },
   },
+  mounted() {
+    this.viewController.checkToken()
+  }
 }
 </script>
 

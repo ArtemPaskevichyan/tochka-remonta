@@ -3574,7 +3574,7 @@ i.m-l {
 .makerResponse {
   background-color: #fff;
   width: 100%;
-  height: 190px;
+  min-height: 190px;
   border-radius: 14px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
