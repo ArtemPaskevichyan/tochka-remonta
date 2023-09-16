@@ -407,7 +407,7 @@ export default {
         async hostLoaded(file) {
             try {
                 this.isLoading = true
-                await this.projectController.createFileEvent("Документы о правах собственности загружены", file, this.project?.id)
+                await this.projectController.createFileEvent("Документы о правах собственности загружены", [file], this.project?.id)
                 this.$emit('eventCreated')
             } catch(e) {
                 console.log(e)
@@ -420,7 +420,20 @@ export default {
         async designLoaded(file) {
             try {
                 this.isLoading = true
-                await this.projectController.createFileEvent("Дизайн-проект загружен", file, this.project?.id)
+                await this.projectController.createFileEvent("Дизайн-проект загружен", [file], this.project?.id)
+                this.$emit('eventCreated')
+            } catch(e) {
+                console.log(e)
+                //
+            } finally {
+                this.isLoading = false
+            }
+        },
+
+        async dealLoaded(files) {
+            try {
+                this.isLoading = true
+                await this.projectController.createFileEvent("Договор подряда загружен", files, this.project?.id)
                 this.$emit('eventCreated')
             } catch(e) {
                 console.log(e)

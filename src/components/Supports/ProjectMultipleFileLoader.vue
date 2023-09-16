@@ -62,6 +62,7 @@ export default {
   methods: {
     fetchFile(event) {
       try {
+        this.files = []
         for (let f of event.target.files) {
           console.log(this.files)
           let file = {

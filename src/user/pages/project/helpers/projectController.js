@@ -77,8 +77,6 @@ class ProjectController {
         for (let i = 0; i < files.length; i++) { formData.append('projectdoc', files[i]) }
         formData.append('description', description)
 
-        console.log(formData)
-
         await axios.post(URL, formData, config)
             .then((response) => {
                 console.log("RESP", response)
