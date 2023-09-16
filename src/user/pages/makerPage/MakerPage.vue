@@ -251,7 +251,7 @@ export default {
 
                     for (let social of socialsArray) {
                         if (social.name == contactNew.title) { 
-                            contactNew.iconSrc = new URL("../../../../src/assets/images/" + social.imageName, import.meta.url).href;
+                            contactNew.iconSrc = new URL("./images/" + social.imageName, import.meta.url).href;
                             contactNew.href = social.hrefBuilder(contactNew.value)
                             break;
                         }
