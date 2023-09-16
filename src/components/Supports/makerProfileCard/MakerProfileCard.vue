@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="makerProfileCard__footer">
-                <span v-if="model?.square_meter_cost != 0" class="makerProfileCard__cost baseText">{{ parseFloat(model?.square_meter_cost).toLocaleString('ru') }} ₽/М²</span>
+                <span v-if="this.cost != 0" class="makerProfileCard__cost baseText">{{ parseFloat(String(cost)).toLocaleString('ru') }} ₽/М²</span>
                 <UIButton :style="'primary'" class="desktopOnly" @click="$emit('suggest')">Предложить сотрудничество</UIButton>
                 <UIButton :style="'primary'" class="mobileOnly" @click="$emit('goTo')">Перейти к исполнителю</UIButton>
             </div>
@@ -82,6 +82,8 @@ export default {
             rating: 0,
             // projectsCount: 10,
             projects: [{}, {}, {}],
+            avatarName: "",
+            cost: 0,
             avatarBaseURL: `${serverURL}/api/v1/auth/get_avatar?filename=`,
             imageBaseURL: `${serverURL}/api/v1/projects/get_event_photo?filename=`,
             achivements: [{}, {}, {}],
@@ -120,10 +122,23 @@ export default {
             this.achivements = await this.makerDataController.getAchivements(this?.model?.uuid)
             this.isAchivementsLoading = false
         },
+        async getModelAdditionalData() {
+            this.makerDataController.getUserData(this?.model?.uuid)
+                .then((response) => {
+                    console.log("RESP", response)
+                    this.cost = response?.data?.user?.square_meter_cost ?? 0
+                    this.avatarName = response?.data?.user?.avatar ?? undefined
+                    console.log(response?.data?.user, this.cost, this.avatarName)
+                })
+                .catch((error) => {
+                    console.log("ERROR", error)
+                })
+        },
         onModelLoaded() {
             this.getRating()
             this.getProjects()
             this.getAchivements()
+            this.getModelAdditionalData()
         },
     },
     watch: {
@@ -162,7 +177,7 @@ export default {
             }
         },
         avatarSrc: function() {
-            return this.avatarBaseURL + this.model?.avatar
+            return this.avatarBaseURL + this.avatarName
         },
         imageSrc: function() {
             return this.imageBaseURL + this.image

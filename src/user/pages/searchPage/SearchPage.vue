@@ -107,6 +107,7 @@ export default {
             try {
                 this.isDataLoading = true
                 this.makerList = await this.viewController.getMakersList(this.realFiltersList)
+                console.log(this.makerList)
                 this.makerList = this.makerList.filter(e => e.firstname?.toLowerCase().includes(this.searchText.toLowerCase()))
             } catch(e) {
                 console.log("ERROR", e)
@@ -146,7 +147,6 @@ export default {
         async getProfileFillness() {
             UserDataController.shared.profileFilledEnough()
                 .then((response) => {
-                    console.log(response)
                     this.profileFilledEnough = response
                 })
         }

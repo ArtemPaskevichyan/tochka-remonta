@@ -3918,8 +3918,10 @@ i.m-l {
   display: -ms-grid;
   display: grid;
   gap: 10px;
-  -ms-grid-columns: auto 10px auto;
-  grid-template-columns: auto auto;
+  -ms-grid-columns: auto 10px -webkit-min-content;
+  -ms-grid-columns: auto 10px min-content;
+  grid-template-columns: auto -webkit-min-content;
+  grid-template-columns: auto min-content;
   overflow: hidden;
 }
 .makerProfileCard__infoLeftPart {
@@ -4301,19 +4303,8 @@ i.m-l {
 }
 .makerPage__contact {
   color: #676767;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 .makerPage__contact a {
-  margin-left: 0.2em;
   color: inherit;
   text-decoration: underline;
   -webkit-transition: 0.3s all;
@@ -4326,7 +4317,8 @@ i.m-l {
   margin-left: 0.2em;
 }
 .makerPage__contactIcon {
-  display: inline-block;
+  position: relative;
+  top: 0.1em;
   width: 20px;
   height: 20px;
   background-color: unset;

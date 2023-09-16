@@ -80,7 +80,7 @@
 
             <div class="settingsPage__title">Стоимость работ</div>
             <div class="settingsPage__block settingsPage__descriptionBlock">
-                <UICleaveInput class="settingsPage__cost" :placeholder="'1 000 000'" v-model:value="cost" :suffix="'₽/М²'" :class="{error: costError}" :role="'positiveNumber'" :size="'short'"/>
+                <UICleaveInput class="settingsPage__cost" :placeholder="'1 000 000'" v-model:value="cost" :suffix="'₽/М²'" :class="{error: costError}" :role="'positiveInt'" :size="'short'"/>
                 <UIButton :style="costButtonStyle" @click="setCost">Сохранить</UIButton>
             </div>
 

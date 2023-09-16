@@ -74,7 +74,6 @@ export default {
     async getProfileFillness() {
         UserDataController.shared.profileFilledEnough()
             .then((response) => {
-                console.log(response)
                 this.profileFilledEnough = response
             })
     }

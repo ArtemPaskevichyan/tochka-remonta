@@ -26,12 +26,12 @@ export default {
   },
   methods: {
     async onMounted() {
-      await axios.post("https://chat.tochka-remonta.site/api/v1/login")
-      .then((repsonse) => {
-      })
-      .catch((error) => {
-        console.log("CHAT LOGIN ERROR", error)
-      })
+      // await axios.post("https://chat.tochka-remonta.site/api/v1/login", {}, {})
+      // .then((repsonse) => {
+      // })
+      // .catch((error) => {
+      //   console.log("CHAT LOGIN ERROR", error)
+      // })
       await this.commands()
       this.handleCommands()
     },
@@ -45,8 +45,7 @@ export default {
       }
       const URL = `${serverURL}/api/v1/auth/get_chat_token`
       const response = await axios.get(URL, config)
-
-      console.log(response)
+  
       return response?.data?.authToken
     },
 
@@ -64,7 +63,6 @@ export default {
         // chat.contentWindow.postMessage({
         //   externalCommand: "logout",
         // }, "https://chat.tochka-remonta.site")
-        console.log("Stage 1")
         chat.contentWindow.postMessage({
           externalCommand: "login-with-token",
           token: authToken,
@@ -76,7 +74,6 @@ export default {
     },
 
     handleCommands() {
-      console.log("Stage 2")
       const command = this.$route.query.command
       const chat = this.$refs.chat
 
@@ -90,12 +87,10 @@ export default {
           break;
       }
 
-      console.log(message)
       chat.contentWindow.postMessage(message, "https://chat.tochka-remonta.site")
     }
   },
   mounted() {
-    console.log(this.$route, this.$props)
     this.onMounted()
   }
 }

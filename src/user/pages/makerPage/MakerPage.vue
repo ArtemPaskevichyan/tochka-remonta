@@ -75,7 +75,7 @@
                 <div class="makerPage__contactsBlock">
                     <div class="makerPage__contacts">
                         <div class="makerPage__contact baseText" v-for="(c, index) in contacts" :key="index" :class="{skeleton: isContactsLoading}">
-                            <img v-if="c.iconSrc" class="makerPage__contactIcon" :src="c.iconSrc">{{c.title}} :<a v-if="c.href" :href="c.href">{{c.value}}</a> <span v-else>{{c.value}}</span>
+                            <img v-if="c.iconSrc" class="makerPage__contactIcon" :src="c.iconSrc">{{c.title}}: <a v-if="c.href" :href="c.href">{{c.value}}</a> <span v-else>{{c.value}}</span>
                         </div>
                         <div class="makerPage__caption" v-if="!contacts || contacts.length == 0">
                             Исполнитель не добавил каналы связи
@@ -251,7 +251,7 @@ export default {
 
                     for (let social of socialsArray) {
                         if (social.name == contactNew.title) { 
-                            contactNew.iconSrc = new URL("../../../assets/images/" + social.imageName, import.meta.url).href;
+                            contactNew.iconSrc = new URL("../../../../src/assets/images/" + social.imageName, import.meta.url).href;
                             contactNew.href = social.hrefBuilder(contactNew.value)
                             break;
                         }

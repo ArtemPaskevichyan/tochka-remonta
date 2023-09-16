@@ -84,6 +84,13 @@ export default {
           delimiter: ' ',
           numeralPositiveOnly: true,
         },
+        "positiveInt": {
+          numeral: true,
+          numeralDecimalMark: '',
+          numeralThousandsGroupStyle: '',
+          delimiter: '',
+          numeralPositiveOnly: true,
+        },
         "phone": {
           numericOnly: true,
           prefix: '+7',

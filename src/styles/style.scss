@@ -3508,7 +3508,7 @@ i.m-l {
         flex-grow: 1;
         display: grid;
         gap: 10px;
-        grid-template-columns: auto auto;
+        grid-template-columns: auto min-content;
         overflow: hidden;
     }
 
@@ -3841,12 +3841,8 @@ i.m-l {
 
     &__contact {
         color: $secondary-text-color;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
 
         a {
-            margin-left: 0.2em;
             color: inherit;
             text-decoration: underline;
             transition: 0.3s all;
@@ -3862,7 +3858,8 @@ i.m-l {
     }
 
     &__contactIcon {
-        display: inline-block;
+        position: relative;
+        top: 0.1em;
         width: 20px;
         height: 20px;
         background-color: unset;

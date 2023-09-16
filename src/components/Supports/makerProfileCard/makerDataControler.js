@@ -15,7 +15,6 @@ class MakerDataController {
         await axios.get(URL)
             .then((response) => {
                 projectList = response?.data?.project_list
-                console.log("PLIST", response)
             })
             .catch((error) => {
                 console.log("ERROR", uuid, error)
@@ -30,6 +29,10 @@ class MakerDataController {
 
     async getAchivements(uuid) {
         return (await axios.get(`${serverURL}/api/v1/projects/get_user_achievements?user_uuid=${uuid}`))?.data?.achievements ?? []
+    }
+
+    getUserData(uuid) {
+        return axios.get(`${serverURL}/api/v1/auth/get_user_data?user_uuid=${uuid}`)
     }
 }
 

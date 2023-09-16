@@ -76,7 +76,9 @@
 
             <div class="projectSearchingPage__block">
                 <div class="projectSearchingPage__blockTitle">Действия</div>
-                <div class="projectSearchingPage__caption">Завершить проект может только заказчик. Если у вас возникли недопонимания с заказчиком или есть иные причины, по которым он не может завершить проект, обратитесь к медиатору</div>
+                <div class="projectSearchingPage__caption">
+                    Завершить проект может только заказчик. Если у вас возникли недопонимания с заказчиком или есть иные причины, по которым он не может завершить проект, обратитесь к медиатору
+                </div>
                 <div class="projectSearchingPage__controls">
                     <UIButton
                         @click="$router.push({name: 'chat', query: {command: 'go', value: `/direct/${project.customer_uuid}`}})"

@@ -481,6 +481,9 @@
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .makerPage__contactIcon {
+    top: 0.3em;
+  }
   .makerPage__footer {
     margin-top: 30px;
     margin-bottom: 0;
