@@ -88,6 +88,7 @@ export default {
             imageBaseURL: `${serverURL}/api/v1/projects/get_event_photo?filename=`,
             achivements: [{}, {}, {}],
             isAchivementsLoading: true,
+            description: undefined,
         }
     },
     props: {
@@ -128,7 +129,7 @@ export default {
                     console.log("RESP", response)
                     this.cost = response?.data?.user?.square_meter_cost ?? 0
                     this.avatarName = response?.data?.user?.avatar ?? undefined
-                    console.log(response?.data?.user, this.cost, this.avatarName)
+                    this.description = response?.data?.user?.description ?? "Описания нет"
                 })
                 .catch((error) => {
                     console.log("ERROR", error)
