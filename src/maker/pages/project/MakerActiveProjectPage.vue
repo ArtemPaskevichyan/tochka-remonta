@@ -1,7 +1,7 @@
 <template>
     <div class="headerPage">
         <UIHeader/>
-        <span class="titleText pageTitle shortened" :class="{skeleton: !hasProject}">{{ project?.title ?? 'Название проекта'}}</span>
+        <div class="titleText pageTitle" :class="{skeleton: !hasProject}">{{ project?.title ?? 'Название проекта'}}</div>
         <div class="projectSearchingPage backgroundCard">
             <UIGalery :imageNames="imageNames" :orientation="'h'"/>
             <div class="projectSearchingPage__block">
