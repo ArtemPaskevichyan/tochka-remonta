@@ -26,12 +26,12 @@ export default {
   },
   methods: {
     async onMounted() {
-      // await axios.post("https://chat.tochka-remonta.site/api/v1/login", {}, {})
-      // .then((repsonse) => {
-      // })
-      // .catch((error) => {
-      //   console.log("CHAT LOGIN ERROR", error)
-      // })
+      await axios.post("https://chat.tochka-remonta.site/api/v1/login", {}, {})
+      .then((repsonse) => {
+      })
+      .catch((error) => {
+        console.log("CHAT LOGIN ERROR", error)
+      })
       await this.commands()
       this.handleCommands()
     },
