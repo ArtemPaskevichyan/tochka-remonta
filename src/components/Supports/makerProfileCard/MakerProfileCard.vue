@@ -11,8 +11,8 @@
                             <UIRating :rating="rating"/>
                         </div>
                     </div>
-                    <div class="makerProfileCard__text baseText" :class="{skeleton: !model?.description}">
-                        {{ (!model?.description || model?.description?.length == 0) ? "Some description here" : model.description }}
+                    <div class="makerProfileCard__text baseText" :class="{skeleton: !description}">
+                        {{ (!description || description?.length == 0) ? "Some description here" : description }}
                     </div>
                 </div>
 
