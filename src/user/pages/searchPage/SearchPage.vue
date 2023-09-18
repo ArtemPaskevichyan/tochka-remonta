@@ -108,7 +108,7 @@ export default {
                 this.isDataLoading = true
                 this.makerList = await this.viewController.getMakersList(this.realFiltersList)
                 console.log(this.makerList)
-                this.makerList = this.makerList.filter(e => e.firstname?.toLowerCase().includes(this.searchText.toLowerCase()))
+                this.makerList = this.makerList.filter(e => e.firstname?.toLowerCase().includes(this.searchText.toLowerCase()) && e.firstname?.length != 0)
             } catch(e) {
                 console.log("ERROR", e)
                 //

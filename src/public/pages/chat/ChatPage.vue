@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     async onMounted() {
-      await axios.post("https://chat.tochka-remonta.site/api/v1/login", {}, {})
+      await axios.post("https://chat.tochka-remonta.site/api/v1/login")
       .then((repsonse) => {
       })
       .catch((error) => {
@@ -45,7 +45,8 @@ export default {
       }
       const URL = `${serverURL}/api/v1/auth/get_chat_token`
       const response = await axios.get(URL, config)
-  
+      
+      console.log(response)
       return response?.data?.authToken
     },
 
@@ -60,9 +61,9 @@ export default {
       }
 
       const chat = this.$refs.chat
-        // chat.contentWindow.postMessage({
-        //   externalCommand: "logout",
-        // }, "https://chat.tochka-remonta.site")
+        chat.contentWindow.postMessage({
+          externalCommand: "logout",
+        }, "https://chat.tochka-remonta.site")
         chat.contentWindow.postMessage({
           externalCommand: "login-with-token",
           token: authToken,
