@@ -32,7 +32,7 @@ class ArticlesController {
   }
 
   checkToken() {
-    TokenHandler.shared.checkSEOtoken()
+    TokenHandler.shared.checkSEOToken()
   }
 }
 

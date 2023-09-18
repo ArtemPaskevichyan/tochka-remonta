@@ -6,7 +6,7 @@
             <div class="warning searchPage__warning" v-if="!profileFilledEnough">
                 Чтобы пользоваться всеми возможностями платформы, настройте профиль. Заполните данные о себе, чтобы уровень заполненности составлял не менее {{ fullnessBarrier }}%. Это необходимо для безопасности вашей работы на платформе.
                 <div class="searchPage__warningButton">
-                    <UIButton :style="'default'" @click="$router.push('/user/settingsPage')">Настроить профиль</UIButton>
+                    <UIButton :style="'default'" @click="$router.push('/maker/settingsPage')">Настроить профиль</UIButton>
                 </div>
             </div>
         </div>

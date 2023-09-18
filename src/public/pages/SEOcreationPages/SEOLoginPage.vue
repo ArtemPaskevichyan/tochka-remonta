@@ -6,7 +6,7 @@
                 <div class="titleText">Вход в аккаунт SEO</div>
             </div>
             <div class="login__formBlock">
-                <UIInput :title="'Email'" :placeholder="'myemail@mail.ru'"
+                <UIInput :title="'Логин'"
                 v-model:value="email" :style="'small'" :role="'email'"></UIInput>
                 <UIInput class="lastInput" :title="'Пароль'" :placeholder="'⦁⦁⦁⦁⦁⦁⦁⦁⦁⦁'"
                 v-model:value="password" :role="'password'" :style="'small'"></UIInput>
