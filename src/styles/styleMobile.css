@@ -626,6 +626,9 @@
   .projectSearchingPage__gantFooter .notificationIndicatorHolder {
     width: 100%;
   }
+  .projectSearchingPage__gantControls {
+    width: 100%;
+  }
   .makerResponse {
     height: unset;
     padding: 14px;

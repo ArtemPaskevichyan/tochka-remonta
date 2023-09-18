@@ -30,7 +30,7 @@
             </div>
             <div class="makerProfileCard__footer">
                 <span v-if="this.cost != 0" class="makerProfileCard__cost baseText">{{ parseFloat(String(cost)).toLocaleString('ru') }} ₽/М²</span>
-                <UIButton :style="'primary'" class="desktopOnly" @click="$emit('suggest')">Предложить сотрудничество</UIButton>
+                <UIButton :style="'primary'" class="desktopOnly" @click="$emit('suggest', model)">Предложить сотрудничество</UIButton>
                 <UIButton :style="'primary'" class="mobileOnly" @click="$emit('goTo')">Перейти к исполнителю</UIButton>
             </div>
         </div>
@@ -130,6 +130,7 @@ export default {
                     this.cost = response?.data?.user?.square_meter_cost ?? 0
                     this.avatarName = response?.data?.user?.avatar ?? undefined
                     this.description = response?.data?.user?.description ?? "Описания нет"
+                    this.model.avatar = this.avatarName
                 })
                 .catch((error) => {
                     console.log("ERROR", error)

@@ -251,7 +251,7 @@ export default {
 
                     for (let social of socialsArray) {
                         if (social.name == socialNew.title) { 
-                            socialNew.iconSrc = new URL("../../../assets/images/" + social.imageName, import.meta.url).href;
+                            socialNew.iconSrc = new URL(`../../../assets/images/${social.imageName}`, import.meta.url).href;
                             socialNew.href = social.hrefBuilder(String(socialNew.value))
                             break;
                         }

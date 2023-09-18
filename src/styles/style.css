@@ -3278,6 +3278,12 @@ i.m-l {
 .projectSearchingPage .fileLoader {
   margin-top: 20px;
 }
+.projectSearchingPage__gantControls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 14px;
+}
 
 .ganttEditor {
   -webkit-box-sizing: border-box;
@@ -3638,6 +3644,8 @@ i.m-l {
       -ms-flex-direction: row;
           flex-direction: row;
   gap: 14px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .negotiation {

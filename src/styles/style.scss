@@ -2982,6 +2982,11 @@ i.m-l {
     .fileLoader {
         margin-top: 20px;
     }
+
+    &__gantControls {
+        display: flex;
+        gap: 14px;
+    }
 }
 
 .ganttEditor {
@@ -3285,6 +3290,7 @@ i.m-l {
         justify-content: flex-end;
         flex-direction: row;
         gap: 14px;
+        flex-wrap: wrap;
     }
 }
 

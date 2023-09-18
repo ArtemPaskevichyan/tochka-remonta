@@ -1,7 +1,7 @@
 <template>
     <div class="headerPage">
         <UIHeader/>
-        <span class="titleText pageTitle shortened" :class="{skeleton: !hasProject}">{{ project?.title ?? 'Название проекта'}}</span>
+        <div class="titleText pageTitle shortened" :class="{skeleton: !hasProject}">{{ project?.title ?? 'Название проекта'}}</div>
         <div class="projectSearchingPage backgroundCard">
             <UIGalery :imageNames="imageNames" :orientation="'h'"/>
             <div class="projectSearchingPage__block">
@@ -122,7 +122,7 @@ export default {
                 } else if (response?.data?.msg == "request already sent") {
                     this.callError("Предложение существует", "Вы уже предложили исполнителю этот проект", [{label: "OK", callback: () => {this.isAlertOpened = false}, style: 'secondary'}])
                 } else {
-                    this.$router.push("/maker/myProjects")
+                    this.$router.push("/maker/outcomingSuggestions")
                 }
             } catch(error) {
                 let dataMsg = error?.response?.data?.msg ?? error.message

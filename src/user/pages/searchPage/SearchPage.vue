@@ -30,7 +30,7 @@
             </template>
         </UISearchBar>
         <MakerProfileCard class="searchPage__card" v-for="(m, index) in makerList" :model="m" :key="index"
-        @goTo="goTo(m)" @suggest="seggestTo(m)" @ratingSetten="rating => m.rating = rating"/>
+        @goTo="goTo(m)" @suggest="seggestTo" @ratingSetten="rating => m.rating = rating"/>
         <div class="searchPage__caption" v-if="makerList?.length == 0">
             Исполнители{{filtersCount > 0 ? ' с такими параметрами ' : ' '}}не найдены 
         </div>

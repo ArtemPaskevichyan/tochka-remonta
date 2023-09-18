@@ -34,7 +34,10 @@
                     <div class="projectSearchingPage__caption">
                         Предложенный измененный план график
                     </div>
-                    <UIButton class="inline" :style="'primary'" @click="negotiationAllowed('', newDiagramNegotiationId)">Одобрить</UIButton>
+                    <span class="projectSearchingPage__gantControls">
+                        <UIButton class="inline" :style="'secondary'" @click="openNegotiationById(newDiagramNegotiationId)">Отклонить</UIButton>
+                        <UIButton class="inline" :style="'primary'" @click="negotiationAllowed('', newDiagramNegotiationId)">Одобрить</UIButton>
+                    </span>
                     <UIButton :style="'default'" @click="showHideNewDiagram">Показать нынешний график</UIButton>
                 </div>
                 <div class="projectSearchingPage__gantFooter" v-else-if="hasNewDiagram && !shownNewDiagram">
@@ -153,6 +156,14 @@ export default {
             this.modalContentType = 'neg'
             this.isModalOpened = true
             this.negotiationModel = n
+        },
+        openNegotiationById(id) {
+            const model = this.negotiations.find(n => n?.id == id)
+            if (!model) return
+            console.log(model)
+            this.modalContentType = 'neg'
+            this.isModalOpened = true
+            this.negotiationModel = model
         },
         openPhotos() {
             this.modalContentType = 'pts'

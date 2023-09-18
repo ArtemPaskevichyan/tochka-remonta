@@ -135,6 +135,7 @@ export default {
     },
     computed: {
         avatarURL: function() {
+            console.log(this.makerModel)
             return this.makerModel?.avatar ? this.avatarBaseURL + this.makerModel?.avatar : ''
         }
     },
