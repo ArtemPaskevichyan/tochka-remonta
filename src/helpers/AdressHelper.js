@@ -1,4 +1,6 @@
 import { toRaw } from 'vue'
+import { yandexAPIKey } from "@/preferenses.js"
+import axios from 'axios'
 
 class AdressHelper {
     suggestWaiters = []
@@ -92,13 +94,35 @@ class AdressHelper {
         };
         
         script.id = 'ymaps'
-        script.src = "https://api-maps.yandex.ru/2.1/?apikey=030a546e-afae-4059-976b-10de250d380d&lang=ru_RU&load=SuggestView,geolocation,geocode,Map"
+        script.src = `https://api-maps.yandex.ru/2.1/?apikey=${yandexAPIKey}&lang=ru_RU&load=SuggestView,geolocation,geocode,Map`
         document.head.append(script);
     }
 
     async getMapFor(adress, size, zoom, mark) {
 
         const URL = `https://static-maps.yandex.ru/1.x/?ll=${geoLat},${geoLan}&z=${zoom}&pt=${geoLat},${geoLan},${mark.style}${mark.color}${mark.size}$size=${size.width},${size.height}`
+    }
+
+    createBinding(elementId, callback) {
+        const input = document.querySelector("#" + elementId)
+        input.addEventListener("input", (event) => {
+            this.getSuggestions(event.target.value)
+                .then((suggestions) => {
+                    callback(suggestions)
+                })
+                .catch((error) => {
+                    console.log("ERROR", error)
+                })
+        })
+    }
+
+    async getSuggestions(text) {
+        const URL = `https://suggest-maps.yandex.ru/v1/suggest?apikey=${yandexAPIKey}&text=${text}&types=geo&attrs=uri`
+        const resp = await axios.get(URL)
+        console.log(resp, text)
+        let suggestions = resp?.data?.results?.map(e => e?.subtitle?.text + ", " + e?.title?.text)
+
+        return suggestions ?? []
     }
 }
 

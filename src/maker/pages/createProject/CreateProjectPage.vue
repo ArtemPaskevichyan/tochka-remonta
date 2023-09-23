@@ -40,7 +40,14 @@
                     <UIInput :placeholder="'Город'" :title="'Город'" v-model:value="city" :class="{error: cityError}"></UIInput>
                 </div>
                 <div class="createProject__item" id="CPAdress">
-                    <UIInput class="adressHolder" :placeholder="'Адрес объекта'" :title="'Область, город, улица, дом'" v-model:value="adress" :class="{error: adressError}" :idOfInput="adressId"></UIInput>
+                    <div class="settingsPage__addSocialModalInput" @click.stop>
+                        <UIInput class="adressHolder" :placeholder="'Адрес объекта'" :title="'Область, город, улица, дом'" v-model:value="adress" :class="{error: adressError}" :idOfInput="adressId"></UIInput>
+                        <div class="input__dropdown" v-if="adressSuggestions?.length > 0">
+                            <div class="input__dropdownItem" :key="index" v-for="(s, index) in adressSuggestions" @click="choseAdressItem(index)">
+                                {{s}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="createProject__item" id="CPStartDate">
                     <UIRangeInput
@@ -227,7 +234,8 @@ export default {
             choiseOfWallsError: false,
             dateStartError: false,
             costError: false,
-
+            adressSuggestions: [],
+            adressSuggestionsOldValue: [],
         }
     },
     methods: {
@@ -386,6 +394,15 @@ export default {
             this.getWallCovering = this.choisesOfWalls[0].label
             this.cost = "1000000"
         },
+
+        closeAdress() {
+            this.adressSuggestions = []
+        },
+
+        choseAdressItem(index) {
+            this.adress = this.adressSuggestions[index]
+            this.closeAdress()
+        }
     },
     watch: {
         city() {
@@ -436,17 +453,26 @@ export default {
         },
         cost() {
             this.costError = false
+        },
+        adressSuggestions() {
+            if (this.adressSuggestionsOldValue.length == 0) {
+                document.body.addEventListener("click", this.closeAdress, { once: true })
+            }
+            if (this.adressSuggestions.length == 0) {
+                document.body.removeEventListener("click", this.closeAdress)
+            }
+
+            this.adressSuggestionsOldValue = this.adressSuggestions
         }
     },
     mounted() {
-        AdressHelper.shared.addToYMAP(this.adressId, (data) => {
-            this.adress = data
+        AdressHelper.shared.createBinding(this.adressId, (suggestions) => {
+            this.adressSuggestions = suggestions
         })
         UserDataController.shared.getData()
             .then((response) => {
                 this.city = response.city
             })
-        this.fillRandomly()
     },
     computed: {
         getCeiling() {
@@ -476,6 +502,13 @@ export default {
                 if (e.active) filteredList.push(e.label)
             }
             return filteredList
+        }
+    },
+    beforeUnmount() {
+        try {
+            document.body.removeEventListener("click", this.closeAdress)
+        } catch(e) {
+            console.log(e)
         }
     }
 }

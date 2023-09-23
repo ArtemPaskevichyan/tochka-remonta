@@ -97,7 +97,14 @@
             <div class="settingsPage__title">Адрес компании</div>
             <div class="settingsPage__block settingsPage__block-adressBlock">
                 <div class="settingsPage__adressInfo">
-                    <UIInput class="adressHolder" v-model:value="adress" :placeholder="'Адресс компании'" :idOfInput="adressId"/>
+                    <div class="settingsPage__addSocialModalInput" @click.stop>
+                        <UIInput class="adressHolder" :placeholder="'Адрес объекта'" :title="'Область, город, улица, дом'" v-model:value="adress" :class="{error: adressError}" :idOfInput="adressId"></UIInput>
+                        <div class="input__dropdown" v-if="adressSuggestions?.length > 0">
+                            <div class="input__dropdownItem" :key="index" v-for="(s, index) in adressSuggestions" @click="choseAdressItem(index)">
+                                {{s}}
+                            </div>
+                        </div>
+                    </div>
                     <UIButton :style="adressButtonStyle" @click="saveAdress">Сохранить</UIButton>
                 </div>
                 <div class="settingsPage__adressMap" :id="mapId" :class="{skeleton: mapIsLoading}">
@@ -187,6 +194,8 @@ export default {
             contactsSuggestions: [],
             profileFillProgress: 0,
             fullnessBarrier: makerProfileFullnessLimit,
+            adressSuggestions: [],
+            adressSuggestionsOldValue: [],
         }
     },
     methods: {
@@ -478,6 +487,14 @@ export default {
             this.contactsSuggestions = []
         },
         
+        closeAdress() {
+            this.adressSuggestions = []
+        },
+
+        choseAdressItem(index) {
+            this.adress = this.adressSuggestions[index]
+            this.closeAdress()
+        }
     },
     computed: {
         daysAdding() {
@@ -504,8 +521,8 @@ export default {
             .then(() => {
                 this.adressButtonStyle = 'disabled'
             })
-        AdressHelper.shared.addToYMAP(this.adressId, (data) => {
-            this.adress = data
+        AdressHelper.shared.createBinding(this.adressId, (suggestions) => {
+            this.adressSuggestions = suggestions
         })
     },
     watch: {
@@ -525,10 +542,21 @@ export default {
         newSocialTitle: function() {
             this.getSuggestions()
         },
+        adressSuggestions() {
+            if (this.adressSuggestionsOldValue.length == 0) {
+                document.body.addEventListener("click", this.closeAdress, { once: true })
+            }
+            if (this.adressSuggestions.length == 0) {
+                document.body.removeEventListener("click", this.closeAdress)
+            }
+
+            this.adressSuggestionsOldValue = this.adressSuggestions
+        },
     },
     beforeUnmount() {
         try {
             this.$refs.modalContent.removeEventListener('click', this.clickOutsideHandler)
+            document.body.removeEventListener("click", this.closeAdress)
         } catch(e) {
             console.log(e)
         }

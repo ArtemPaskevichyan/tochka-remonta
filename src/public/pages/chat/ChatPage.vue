@@ -32,7 +32,7 @@ export default {
       .catch((error) => {
         console.log("CHAT LOGIN ERROR", error)
       })
-      await this.commands()
+      // await this.commands()
       this.handleCommands()
     },
 
@@ -61,17 +61,17 @@ export default {
       }
 
       const chat = this.$refs.chat
-        chat.contentWindow.postMessage({
-          externalCommand: "logout",
-        }, "https://chat.tochka-remonta.site")
+      try {
+        // chat.contentWindow.postMessage({
+        //   externalCommand: "logout",
+        // }, "https://chat.tochka-remonta.site")
         chat.contentWindow.postMessage({
           externalCommand: "login-with-token",
           token: authToken,
         }, "https://chat.tochka-remonta.site")
-        // chat.contentWindow.postMessage({
-        //   externalCommand: "go",
-        //   path: "/channel/general",
-        // }, "https://chat.tochka-remonta.site")
+      } catch(e) {
+        console.log("COMMANDS ERROR", e)
+      }
     },
 
     handleCommands() {

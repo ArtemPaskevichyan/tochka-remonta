@@ -163,6 +163,9 @@
   .input input {
     font-size: 15px;
   }
+  .input__dropdownItem {
+    font-size: 15px;
+  }
   .paramInput input {
     font-size: 15px;
   }
