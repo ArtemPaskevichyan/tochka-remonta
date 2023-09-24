@@ -120,7 +120,9 @@ class AdressHelper {
         const URL = `https://suggest-maps.yandex.ru/v1/suggest?apikey=${yandexAPIKey}&text=${text}&types=geo&attrs=uri`
         const resp = await axios.get(URL)
         console.log(resp, text)
-        let suggestions = resp?.data?.results?.map(e => e?.subtitle?.text + ", " + e?.title?.text)
+        let suggestions = resp?.data?.results?.map(e => {
+            return e?.subtitle?.text !== undefined ? e?.subtitle?.text + ", " + e?.title?.text : e?.title?.text
+        })
 
         return suggestions ?? []
     }

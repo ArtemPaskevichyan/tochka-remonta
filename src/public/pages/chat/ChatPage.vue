@@ -32,7 +32,7 @@ export default {
       .catch((error) => {
         console.log("CHAT LOGIN ERROR", error)
       })
-      // await this.commands()
+      await this.iframeConfigCommands()
       this.handleCommands()
     },
 
@@ -50,7 +50,7 @@ export default {
       return response?.data?.authToken
     },
 
-    async commands() {
+    async iframeConfigCommands() {
       let authToken
       try {
         authToken = await this.getAuthToken()
