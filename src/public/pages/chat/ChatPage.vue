@@ -54,7 +54,9 @@ export default {
       let authToken
       try {
         authToken = await this.getAuthToken()
+        alert(authToken)
       } catch(e) {
+        alert(e)
         console.log("ERROR CHAT", e)
         this.$router.push("/login")
         return

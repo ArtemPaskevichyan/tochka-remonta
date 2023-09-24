@@ -95,6 +95,7 @@ class AdressHelper {
         
         script.id = 'ymaps'
         script.src = `https://api-maps.yandex.ru/2.1/?apikey=${yandexAPIKey}&lang=ru_RU&load=SuggestView,geolocation,geocode,Map`
+        console.log("SSRC", script.src)
         document.head.append(script);
     }
 
