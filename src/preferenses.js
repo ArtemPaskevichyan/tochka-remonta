@@ -1,13 +1,11 @@
-// const serverURL = 'https://VUE_SERVER_URL'
-// const serverURL = 'https://VUE_CHAT_URL'
+
 const serverURL = "https://api.tochka-remonta.site";
 const chatURL = "https://chat.tochka-remonta.site";
 
 const userProfileFullnessLimit = 80;
 const makerProfileFullnessLimit = 80;
 
-// const yandexAPIKey = "VUE_YANDEX_API_KEY"
-const yandexAPIKey = "030a546e-afae-4059-976b-10de250d380d"
+const yandexAPIKey = "VUE_YANDEX_API_KEY"
 
 // const userProfileFullnessLimit = 10;
 // const makerProfileFullnessLimit = 10;
