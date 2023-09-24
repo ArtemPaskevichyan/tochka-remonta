@@ -54,26 +54,20 @@ export default {
       let authToken
       try {
         authToken = await this.getAuthToken()
-        alert(authToken)
       } catch(e) {
-        alert(e)
         console.log("ERROR CHAT", e)
         this.$router.push("/login")
         return
       }
 
       const chat = this.$refs.chat
-      try {
-        // chat.contentWindow.postMessage({
-        //   externalCommand: "logout",
-        // }, "https://chat.tochka-remonta.site")
-        chat.contentWindow.postMessage({
-          externalCommand: "login-with-token",
-          token: authToken,
-        }, "https://chat.tochka-remonta.site")
-      } catch(e) {
-        console.log("COMMANDS ERROR", e)
-      }
+      // chat.contentWindow.postMessage({
+      //   externalCommand: "logout",
+      // }, "https://chat.tochka-remonta.site")
+      chat.contentWindow.postMessage({
+        externalCommand: "login-with-token",
+        token: authToken,
+      }, "https://chat.tochka-remonta.site")
     },
 
     handleCommands() {
