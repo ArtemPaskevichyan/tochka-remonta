@@ -22,18 +22,30 @@ export default {
     UIHeader,
   },
   data() {
-    return {}
+    return {
+      iframeLoaded: false,
+    }
   },
   methods: {
     async onMounted() {
+      console.log("MOUNTED")
       await axios.post("https://chat.tochka-remonta.site/api/v1/login")
       .then((repsonse) => {
       })
       .catch((error) => {
         console.log("CHAT LOGIN ERROR", error)
       })
-      await this.iframeConfigCommands()
-      this.handleCommands()
+
+      if (!this.iframeLoaded) {
+        this.$refs.chat.onload = () => {
+          this.iframeLoaded = true
+          this.iframeConfigCommands() 
+          this.handleCommands()
+        }
+      } else {
+        this.iframeConfigCommands() 
+        this.handleCommands()
+      }
     },
 
     async getAuthToken() {
@@ -88,6 +100,9 @@ export default {
     }
   },
   mounted() {
+    this.$refs.chat.onload = () => {
+      this.iframeLoaded = true
+    }
     this.onMounted()
   }
 }

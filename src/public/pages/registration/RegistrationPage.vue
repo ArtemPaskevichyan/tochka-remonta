@@ -5,7 +5,6 @@
             <div class="largeText registration__subtitle">Регистрация</div>
         </div>
 
-        
         <div class="authorizationHolder__content registration">
             <AuthorizationPagination class="registration__pagination" v-model:currentPageIndex="currentPage" :paginationList="paginationData"/>
             <div class="registration__formBlock" v-show="currentPage == 0">
@@ -93,6 +92,7 @@ import UIAlert from '@/components/UIAlert.vue';
 
 import {AuthorizationController} from "@/helpers/AuthorizationController.js"
 import { createError, ERROR_CODES} from "@/helpers/ErrorMaker.js"
+import { Timer } from "@/helpers/Timer.js"
 
 export default {
     components: {
@@ -158,6 +158,12 @@ export default {
                     case "Passwords doesn't match":
                         this.passwordError = true
                         this.callError("Пароли не совпадают", "Введённые пароли не совпадают, проверьте введённые данные", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])
+                        break;
+                    case "verification code sended":
+                        Timer.shared.setTimer(120)
+                        this.$router.push({ name: "checkEmail", params: {
+                            email: this.email,
+                        }})
                         break;
                     default:
                         this.callError("Обнаружена ошибка", error?.message + ". Повторите попытку входа позже", [{label: "OK", style: 'secondary', callback: () => {this.isAlertOpened = false}}])

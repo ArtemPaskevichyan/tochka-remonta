@@ -224,7 +224,6 @@ class AuthorizationController {
     async getAfterLoginURL() {
         const token = await TokenHandler.shared.getToken()
         const model = TokenHandler.shared.parseJwt(token)
-        console.log("GETAFTERLOGINURL", model)
         switch (model?.role) {
             case "customer":
                 return '/user/search'
